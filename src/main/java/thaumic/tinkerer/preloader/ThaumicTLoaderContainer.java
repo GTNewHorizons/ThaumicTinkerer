@@ -5,6 +5,7 @@ import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 /**
  * Created by Katrina on 06/04/14.
  */
+@MCVersion( "1.7.10" )
 public class ThaumicTLoaderContainer extends DummyModContainer implements IFMLLoadingPlugin {
 
     public static Logger logger = LogManager.getLogger("TTinkers");
@@ -61,7 +63,7 @@ public class ThaumicTLoaderContainer extends DummyModContainer implements IFMLLo
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[]{"thaumic.tinkerer.preloader.AccessTransformer"};
+        return null;
     }
 
     @Override
@@ -81,6 +83,6 @@ public class ThaumicTLoaderContainer extends DummyModContainer implements IFMLLo
 
     @Override
     public String getAccessTransformerClass() {
-        return "thaumic.tinkerer.preloader.AccessTransformer";
+        return null;
     }
 }
