@@ -8,6 +8,7 @@ ttmisc.connector.interffail=Can't bind a Transvector Interface to another.
 ttmisc.connector.dislfail=Can't bind a Transvector Dislocator to another.
 ttmisc.connector.notpresent=The Transvector Block isn't present.
 ttmisc.connector.toofar=The Transvector Block of origin is too far away.
+ttmisc.connector.notconnected=This Transvector Block is not connected to anything.
 ttmisc.golemconnector.set=Connector Set!
 ttmisc.golemconnector.complete=Binding Complete!
 ttmisc.golemconnector.notinterf=The connector is not linked to a Golem Connector Block
@@ -207,8 +208,8 @@ item.Wand.ICHOR.cap=Ichorium Adorned
 item.Wand.ICHORCLOTH.rod=Ichor Woven Silverwood
 
 # RESEARCH
-ttresearch.prefix=[TT] 
-ttresearch.prefix.kami=[TTKami] 
+ttresearch.prefix=[TT]
+ttresearch.prefix.kami=[TTKami]
 tc.research_category.TT_ENCHANTING=Enchanting
 tc.research_category.TT_CATEGORY=Thaumic Tinkering
 
@@ -217,7 +218,7 @@ ttresearch.name.PERIPHERALS=Computercraft Peripherals
 ttresearch.lore.PERIPHERALS=When technology meets magic
 ttresearch.page.PERIPHERALS.0=Thaumic Tinkerer allows for some of the blocks that it adds, alongside some vanilla Thaumcraft blocks, to be used as ComputerCraft peripherals.<BR><BR>For convenience sake, the method documentation for these peripherals is in an external webpage. Pressing ENTER right now will take you to it.<BR><BR>Sadly, this does not work on some systems. If that is the case, type in "vazkii.us/tt/docs.php" in your browser.
 # Note: For people who localize the mod. If you have custom documentation, feel free to include in your PR a
-# link to it and the short URL (see above) you want for it on my website and I'll add it. 
+# link to it and the short URL (see above) you want for it on my website and I'll add it.
 ttresearch.webpage.peripherals=https://github.com/Vazkii/ThaumicTinkerer/wiki/Peripheral-Documentation
 ttcomputer.dissipator=Dissipating
 # -- ASPECT ANALYZER
@@ -250,7 +251,7 @@ ttresearch.page.GOLEM_CONNECTOR.1=In order to bind a Connector to a golem, you n
 ttresearch.page.GOLEM_CONNECTOR.2=It's also possible, by right clicking this block with any other to camouflage it as the block held. To remove to cover, simply right click on the camouflaged block with an empty hand.
 ttresearch.page.GOLEM_CONNECTOR.3=<BR><BR>For convenience sake, the method documentation for this block is in an external webpage. Pressing ENTER right now will take you to it.<BR><BR>Sadly, this does not work on some systems. If that is the case, type in "vazkii.us/tt/docs.php" in your browser.
 # Note: For people who localize the mod. If you have custom documentation, feel free to include in your PR a
-# link to it and the short URL (see above) you want for it on my website and I'll add it. 
+# link to it and the short URL (see above) you want for it on my website and I'll add it.
 ttresearch.webpage.peripherals=https://github.com/Vazkii/ThaumicTinkerer/wiki/Peripheral-Documentation
 
 # -- GASEOUS ILLUMINAE

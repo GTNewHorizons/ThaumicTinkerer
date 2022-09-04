@@ -104,66 +104,73 @@ public class ItemConnector extends ItemBase {
     }
 
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
-        if (par3World.isRemote)
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int argX, int argY, int argZ, int par7, float par8, float par9, float par10) {
+        if (world.isRemote)
             return false;
 
-        TileEntity tile = par3World.getTileEntity(par4, par5, par6);
+        TileEntity tile = world.getTileEntity(argX, argY, argZ);
 
-        if (getY(par1ItemStack) == -1) {
+        if (getY(stack) == -1) {
             if (tile != null && (tile instanceof TileTransvector || tile instanceof TileGolemConnector)) {
-                setX(par1ItemStack, par4);
-                setY(par1ItemStack, par5);
-                setZ(par1ItemStack, par6);
+                setX(stack, argX);
+                setY(stack, argY);
+                setZ(stack, argZ);
 
-                if (par3World.isRemote)
-                    par2EntityPlayer.swingItem();
+                if (world.isRemote)
+                    player.swingItem();
 
-                playSound(par3World, par4, par5, par6);
+                playSound(world, argX, argY, argZ);
                 if (tile instanceof TileTransvector)
-                    par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.set"));
+                    player.addChatMessage(new ChatComponentTranslation("ttmisc.connector.set"));
                 else
-                    par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.golemconnector.set"));
+                    player.addChatMessage(new ChatComponentTranslation("ttmisc.golemconnector.set"));
             } else
-                par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notinterf"));
+                player.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notinterf"));
         } else {
-            int x = getX(par1ItemStack);
-            int y = getY(par1ItemStack);
-            int z = getZ(par1ItemStack);
+            int x = getX(stack);
+            int y = getY(stack);
+            int z = getZ(stack);
 
-            TileEntity tile1 = par3World.getTileEntity(x, y, z);
+            TileEntity tile1 = world.getTileEntity(x, y, z);
             if (tile1 == null || !(tile1 instanceof TileTransvector)) {
-                setY(par1ItemStack, -1);
+                setY(stack, -1);
 
-                par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notpresent"));
+                player.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notpresent"));
             } else {
                 TileTransvector trans = (TileTransvector) tile1;
 
                 if (tile != null && tile1 instanceof TileTransvectorInterface && tile instanceof TileTransvectorInterface) {
-                    par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.interffail"));
+                    TileTransvector transNew = (TileTransvector) tile;
+                    TileEntity connectedTo =  transNew.getTile();
+                    if(connectedTo == null){
+                        player.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notconnected"));
+                        return true;
+                    }else{
+                        argX = connectedTo.xCoord;
+                        argY = connectedTo.yCoord;
+                        argZ = connectedTo.zCoord;
+                    }
+                }
+
+                if (Math.abs(x - argX) > trans.getMaxDistance() || Math.abs(y - argY) > trans.getMaxDistance() || Math.abs(z - argZ) > trans.getMaxDistance()) {
+                    player.addChatMessage(new ChatComponentTranslation("ttmisc.connector.toofar"));
                     return true;
                 }
 
-                if (Math.abs(x - par4) > trans.getMaxDistance() || Math.abs(y - par5) > trans.getMaxDistance() || Math.abs(z - par6) > trans.getMaxDistance()) {
-                    par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.toofar"));
-                    return true;
-                }
+                trans.x = argX;
+                trans.y = argY;
+                trans.z = argZ;
 
-                trans.x = par4;
-                trans.y = par5;
-                trans.z = par6;
+                setY(stack, -1);
 
-                setY(par1ItemStack, -1);
-
-                playSound(par3World, par4, par5, par6);
-                par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.complete"));
-                par3World.markBlockForUpdate(trans.x, trans.y, trans.z);
+                playSound(world, argX, argY, argZ);
+                player.addChatMessage(new ChatComponentTranslation("ttmisc.connector.complete"));
+                world.markBlockForUpdate(trans.x, trans.y, trans.z);
             }
         }
 
         return true;
     }
-
     @Override
     public boolean itemInteractionForEntity(ItemStack par1ItemStack,
                                             EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase) {
