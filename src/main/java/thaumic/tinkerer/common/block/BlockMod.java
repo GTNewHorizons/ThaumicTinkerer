@@ -16,6 +16,7 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,14 +26,11 @@ import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.registry.ITTinkererBlock;
 
-import java.util.ArrayList;
-
 public abstract class BlockMod extends Block implements ITTinkererBlock {
 
     public BlockMod(Material par2Material) {
         super(par2Material);
-        if (registerInCreative())
-            setCreativeTab(ModCreativeTab.INSTANCE);
+        if (registerInCreative()) setCreativeTab(ModCreativeTab.INSTANCE);
     }
 
     @Override

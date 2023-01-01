@@ -16,6 +16,7 @@ package thaumic.tinkerer.common.item.kami.tool;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemSpade;
@@ -35,8 +36,6 @@ import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererArcaneRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 public class ItemIchorShovel extends ItemSpade implements ITTinkererItem {
 
@@ -89,9 +88,17 @@ public class ItemIchorShovel extends ItemSpade implements ITTinkererItem {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHOR_SHOVEL, LibResearch.KEY_ICHOR_TOOLS, new ItemStack(this), new AspectList().add(Aspect.EARTH, 75),
-                " I ", " R ", " R ",
-                'R', new ItemStack(ConfigItems.itemWandRod, 1, 2),
-                'I', new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_ICHOR_SHOVEL,
+                LibResearch.KEY_ICHOR_TOOLS,
+                new ItemStack(this),
+                new AspectList().add(Aspect.EARTH, 75),
+                " I ",
+                " R ",
+                " R ",
+                'R',
+                new ItemStack(ConfigItems.itemWandRod, 1, 2),
+                'I',
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2));
     }
 }

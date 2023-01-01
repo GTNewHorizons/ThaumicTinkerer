@@ -24,5 +24,4 @@ public class Tuple4Int {
         this.i3 = i3;
         this.i4 = i4;
     }
-
 }

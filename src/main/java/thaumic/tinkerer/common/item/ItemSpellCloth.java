@@ -16,6 +16,7 @@ package thaumic.tinkerer.common.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.*;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -35,8 +36,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.awt.*;
-
 public class ItemSpellCloth extends ItemBase {
 
     public ItemSpellCloth() {
@@ -44,9 +43,13 @@ public class ItemSpellCloth extends ItemBase {
         setMaxDamage(LibFeatures.SPELL_CLOTH_USES);
         setMaxStackSize(1);
         setNoRepair();
-        IRecipe recipe=new SpellClothRecipe(this);
+        IRecipe recipe = new SpellClothRecipe(this);
         CraftingManager.getInstance().getRecipeList().add(recipe);
-        RecipeSorter.register("ttinkers:spellcloth",SpellClothRecipe.class, RecipeSorter.Category.SHAPELESS,"after:minecraft:shapeless");
+        RecipeSorter.register(
+                "ttinkers:spellcloth",
+                SpellClothRecipe.class,
+                RecipeSorter.Category.SHAPELESS,
+                "after:minecraft:shapeless");
     }
 
     @Override
@@ -57,22 +60,36 @@ public class ItemSpellCloth extends ItemBase {
     @Override
     public IRegisterableResearch getResearchItem() {
 
-        IRegisterableResearch research = (TTResearchItem) new TTResearchItem(LibResearch.KEY_SPELL_CLOTH, new AspectList().add(Aspect.MAGIC, 2).add(Aspect.CLOTH, 1), 3, 2, 2, new ItemStack(this)).setParentsHidden("ENCHFABRIC")
+        IRegisterableResearch research = (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_SPELL_CLOTH,
+                        new AspectList().add(Aspect.MAGIC, 2).add(Aspect.CLOTH, 1),
+                        3,
+                        2,
+                        2,
+                        new ItemStack(this))
+                .setParentsHidden("ENCHFABRIC")
                 .setPages(new ResearchPage("0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_SPELL_CLOTH));
         return research;
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_SPELL_CLOTH, new ItemStack(this), new ItemStack(ConfigItems.itemResource, 0, 7), new AspectList().add(Aspect.MAGIC, 10).add(Aspect.ENTROPY, 6).add(Aspect.EXCHANGE, 4));
-
+        return new ThaumicTinkererCrucibleRecipe(
+                LibResearch.KEY_SPELL_CLOTH,
+                new ItemStack(this),
+                new ItemStack(ConfigItems.itemResource, 0, 7),
+                new AspectList().add(Aspect.MAGIC, 10).add(Aspect.ENTROPY, 6).add(Aspect.EXCHANGE, 4));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
-        return Color.HSBtoRGB(0.75F, ((float) par1ItemStack.getMaxDamage() - (float) par1ItemStack.getItemDamage()) / par1ItemStack.getMaxDamage() * 0.5F, 1F);
+        return Color.HSBtoRGB(
+                0.75F,
+                ((float) par1ItemStack.getMaxDamage() - (float) par1ItemStack.getItemDamage())
+                        / par1ItemStack.getMaxDamage()
+                        * 0.5F,
+                1F);
     }
 
     @Override

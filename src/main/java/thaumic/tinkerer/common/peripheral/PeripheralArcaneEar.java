@@ -12,7 +12,6 @@
  *
  * File Created @ [Dec 11, 2013, 9:41:49 PM (GMT)]
  */
-
 package thaumic.tinkerer.common.peripheral;
 
 import dan200.computercraft.api.lua.ILuaContext;
@@ -35,13 +34,13 @@ public class PeripheralArcaneEar implements IPeripheral {
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"getNote", "setNote"};
+        return new String[] {"getNote", "setNote"};
     }
 
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) {
         if (method == 0) {
-            return new Object[]{ear.note};
+            return new Object[] {ear.note};
         } else {
             ear.note = (byte) ((Double) arguments[0]).doubleValue();
 
@@ -64,6 +63,4 @@ public class PeripheralArcaneEar implements IPeripheral {
 
         return this.equals((Object) other);
     }
-
 }
-

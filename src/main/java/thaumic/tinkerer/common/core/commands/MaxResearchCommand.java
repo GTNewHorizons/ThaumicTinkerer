@@ -29,7 +29,6 @@ public class MaxResearchCommand extends CommandBase {
             }
             player.addChatComponentMessage(new ChatComponentText("Added 99 research to all aspects"));
         }
-
     }
 
     @Override
@@ -41,5 +40,4 @@ public class MaxResearchCommand extends CommandBase {
     public int compareTo(Object o) {
         return 0;
     }
-
 }

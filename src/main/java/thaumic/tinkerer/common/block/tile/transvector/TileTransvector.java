@@ -51,16 +51,18 @@ public abstract class TileTransvector extends TileCamo {
         y = cmp.getInteger(TAG_Y_TARGET);
         z = cmp.getInteger(TAG_Z_TARGET);
         cheaty = cmp.getBoolean(TAG_CHEATY_MODE);
-
     }
 
     public final TileEntity getTile() {
-        if (!worldObj.blockExists(x, y, z))
-            return null;
+        if (!worldObj.blockExists(x, y, z)) return null;
 
         TileEntity tile = worldObj.getTileEntity(x, y, z);
 
-        if (tile == null && tileRequiredAtLink() || (Math.abs(x - xCoord) > getMaxDistance() || Math.abs(y - yCoord) > getMaxDistance() || Math.abs(z - zCoord) > getMaxDistance()) && !cheaty) {
+        if (tile == null && tileRequiredAtLink()
+                || (Math.abs(x - xCoord) > getMaxDistance()
+                                || Math.abs(y - yCoord) > getMaxDistance()
+                                || Math.abs(z - zCoord) > getMaxDistance())
+                        && !cheaty) {
             y = -1;
             return null;
         }
@@ -73,5 +75,4 @@ public abstract class TileTransvector extends TileCamo {
     boolean tileRequiredAtLink() {
         return !cheaty;
     }
-
 }

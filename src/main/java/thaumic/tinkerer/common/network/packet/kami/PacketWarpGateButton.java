@@ -21,7 +21,8 @@ import io.netty.buffer.ByteBuf;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
 import thaumic.tinkerer.common.network.packet.PacketTile;
 
-public class PacketWarpGateButton extends PacketTile<TileWarpGate> implements IMessageHandler<PacketWarpGateButton, IMessage> {
+public class PacketWarpGateButton extends PacketTile<TileWarpGate>
+        implements IMessageHandler<PacketWarpGateButton, IMessage> {
 
     private static final long serialVersionUID = 1497188581985763661L;
     boolean locked;

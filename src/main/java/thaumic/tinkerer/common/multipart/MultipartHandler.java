@@ -33,16 +33,18 @@ public class MultipartHandler {
         registerMultipartMetadataLine(ConfigBlocks.blockCosmeticOpaque, 1);
         registerMultipartMetadataLine(ConfigBlocks.blockCosmeticSolid, 7);
         registerMultipartMetadataLine(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 2);
-        //new RegisterBlockPart(ConfigBlocks.blockCandle, PartCandle.class, ConfigBlocks.blockCandle.getUnlocalizedName()).init();
-        //(new RegisterBlockPart(ConfigBlocks.blockAiry, PartNitor.class, ConfigBlocks.blockAiry.getUnlocalizedName())).init();
+        // new RegisterBlockPart(ConfigBlocks.blockCandle, PartCandle.class,
+        // ConfigBlocks.blockCandle.getUnlocalizedName()).init();
+        // (new RegisterBlockPart(ConfigBlocks.blockAiry, PartNitor.class,
+        // ConfigBlocks.blockAiry.getUnlocalizedName())).init();
     }
 
     private static void registerMultipartMetadataLine(Block block, int maxMeta) {
-        for (int i = 0; i < maxMeta; i++)
-            registerMultipart(block, i);
+        for (int i = 0; i < maxMeta; i++) registerMultipart(block, i);
     }
 
     private static void registerMultipart(Block block, int meta) {
-        MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(block, meta), block.getUnlocalizedName() + (meta == 0 ? "" : "_" + meta));
+        MicroMaterialRegistry.registerMaterial(
+                new BlockMicroMaterial(block, meta), block.getUnlocalizedName() + (meta == 0 ? "" : "_" + meta));
     }
 }

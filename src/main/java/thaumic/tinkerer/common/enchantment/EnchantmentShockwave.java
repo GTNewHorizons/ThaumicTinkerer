@@ -14,12 +14,15 @@ public class EnchantmentShockwave extends EnchantmentMod {
     @Override
     public boolean canApply(ItemStack p_92089_1_) {
 
-        return (p_92089_1_.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemGemBoots.class)) ? false : super.canApply(p_92089_1_);
-
+        return (p_92089_1_.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemGemBoots.class))
+                ? false
+                : super.canApply(p_92089_1_);
     }
 
     @Override
     public boolean canApplyTogether(Enchantment par1Enchantment) {
-        return par1Enchantment.effectId != Enchantment.featherFalling.effectId && par1Enchantment.effectId != ModEnchantments.slowFall.effectId && super.canApplyTogether(par1Enchantment);
+        return par1Enchantment.effectId != Enchantment.featherFalling.effectId
+                && par1Enchantment.effectId != ModEnchantments.slowFall.effectId
+                && super.canApplyTogether(par1Enchantment);
     }
 }

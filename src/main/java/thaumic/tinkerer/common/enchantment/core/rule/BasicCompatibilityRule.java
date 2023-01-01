@@ -14,10 +14,9 @@
  */
 package thaumic.tinkerer.common.enchantment.core.rule;
 
+import java.util.List;
 import net.minecraft.enchantment.Enchantment;
 import thaumic.tinkerer.common.enchantment.core.IEnchantmentRule;
-
-import java.util.List;
 
 public class BasicCompatibilityRule implements IEnchantmentRule {
 
@@ -31,5 +30,4 @@ public class BasicCompatibilityRule implements IEnchantmentRule {
     public boolean cantApplyAlongside(List<Integer> enchantments) {
         return enchantments.contains(illegal.effectId);
     }
-
 }

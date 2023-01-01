@@ -13,7 +13,8 @@ public enum EnumGolemCores {
     CoreButcher((byte) 9, "item.ItemGolemCore.9.name"),
     CoreSorting((byte) 10, "item.ItemGolemCore.10.name"),
     CoreFishing((byte) 11, "item.ItemGolemCore.11.name"),
-    CoreBlank((byte) 100, "item.ItemGolemCore.100.name"),;
+    CoreBlank((byte) 100, "item.ItemGolemCore.100.name"),
+    ;
 
     private String name;
     private byte coreByte;

@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
@@ -29,9 +31,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import thaumic.tinkerer.common.block.tile.TileCamo;
-
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class BlockCamo extends BlockModContainer<TileCamo> {
 
@@ -49,8 +48,7 @@ public abstract class BlockCamo extends BlockModContainer<TileCamo> {
         if (tile instanceof TileCamo) {
             TileCamo camo = (TileCamo) tile;
             Block block = camo.camo;
-            if (block != null && isValidRenderType(block.getRenderType()))
-                return block.getIcon(side, camo.camoMeta);
+            if (block != null && isValidRenderType(block.getRenderType())) return block.getIcon(side, camo.camoMeta);
         }
 
         return getIconFromSideAfterCheck(tile, meta, side);
@@ -61,7 +59,16 @@ public abstract class BlockCamo extends BlockModContainer<TileCamo> {
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityPlayer par5EntityPlayer,
+            int par6,
+            float par7,
+            float par8,
+            float par9) {
         TileEntity tile = par1World.getTileEntity(par2, par3, par4);
 
         if (tile instanceof TileCamo) {
@@ -79,8 +86,10 @@ public abstract class BlockCamo extends BlockModContainer<TileCamo> {
                     }
 
                     block = Block.getBlockFromItem(currentStack.getItem());
-                    if (block == null || !isValidRenderType(block.getRenderType()) || block instanceof BlockCamo || block.getMaterial() == Material.air)
-                        doChange = false;
+                    if (block == null
+                            || !isValidRenderType(block.getRenderType())
+                            || block instanceof BlockCamo
+                            || block.getMaterial() == Material.air) doChange = false;
                 }
             }
 
@@ -135,7 +144,6 @@ public abstract class BlockCamo extends BlockModContainer<TileCamo> {
             Block block = camo.camo;
             if (block != null)
                 return block instanceof BlockCamo ? 0xFFFFFF : block.colorMultiplier(par1World, par2, par3, par4);
-
         }
         return 0xFFFFFF;
     }

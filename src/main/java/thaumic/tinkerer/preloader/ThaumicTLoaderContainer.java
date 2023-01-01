@@ -6,16 +6,15 @@ import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.Arrays;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Katrina on 06/04/14.
  */
-@MCVersion( "1.7.10" )
+@MCVersion("1.7.10")
 public class ThaumicTLoaderContainer extends DummyModContainer implements IFMLLoadingPlugin {
 
     public static Logger logger = LogManager.getLogger("TTinkers");
@@ -77,9 +76,7 @@ public class ThaumicTLoaderContainer extends DummyModContainer implements IFMLLo
     }
 
     @Override
-    public void injectData(Map<String, Object> data) {
-
-    }
+    public void injectData(Map<String, Object> data) {}
 
     @Override
     public String getAccessTransformerClass() {

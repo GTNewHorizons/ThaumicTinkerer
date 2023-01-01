@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.client.render.tile;
 
+import java.awt.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -29,8 +30,6 @@ import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.client.model.ModelRepairer;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
-
-import java.awt.*;
 
 public class RenderTileRepairer extends TileEntitySpecialRenderer {
 
@@ -85,7 +84,8 @@ public class RenderTileRepairer extends TileEntitySpecialRenderer {
                     float f1 = icon.getMaxU();
                     float f2 = icon.getMinV();
                     float f3 = icon.getMaxV();
-                    ItemRenderer.renderItemIn2D(Tessellator.instance, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 1F / 16F);
+                    ItemRenderer.renderItemIn2D(
+                            Tessellator.instance, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 1F / 16F);
                     GL11.glColor3f(1F, 1F, 1F);
                 }
                 renderPass++;
@@ -131,5 +131,4 @@ public class RenderTileRepairer extends TileEntitySpecialRenderer {
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }
-
 }

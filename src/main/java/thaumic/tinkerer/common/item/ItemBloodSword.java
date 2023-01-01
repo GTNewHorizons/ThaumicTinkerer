@@ -19,6 +19,7 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -57,8 +58,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.ArrayList;
-
 public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkererItem {
 
     private static final int DAMAGE = 10;
@@ -79,7 +78,9 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
 
     @Override
     public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-        return (stack.stackTagCompound != null && stack.stackTagCompound.getInteger("Activated") == 1) ? activeIcon : itemIcon;
+        return (stack.stackTagCompound != null && stack.stackTagCompound.getInteger("Activated") == 1)
+                ? activeIcon
+                : itemIcon;
     }
 
     @Override
@@ -92,13 +93,22 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
     @Override
     public Multimap getItemAttributeModifiers() {
         Multimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", DAMAGE, 0));
-        multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 0.25, 1));
+        multimap.put(
+                SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+                new AttributeModifier(field_111210_e, "Weapon modifier", DAMAGE, 0));
+        multimap.put(
+                SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
+                new AttributeModifier(field_111210_e, "Weapon modifier", 0.25, 1));
         return multimap;
     }
 
     public void addDrops(LivingDropsEvent event, ItemStack dropStack) {
-        EntityItem entityitem = new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, dropStack);
+        EntityItem entityitem = new EntityItem(
+                event.entityLiving.worldObj,
+                event.entityLiving.posX,
+                event.entityLiving.posY,
+                event.entityLiving.posZ,
+                dropStack);
         entityitem.delayBeforeCanPickup = 10;
         event.drops.add(entityitem);
     }
@@ -109,14 +119,17 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
 
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             ItemStack stack = player.getCurrentEquippedItem();
-            if (stack != null && stack.getItem() == this && stack.stackTagCompound != null && stack.stackTagCompound.getInteger("Activated") == 1) {
+            if (stack != null
+                    && stack.getItem() == this
+                    && stack.stackTagCompound != null
+                    && stack.stackTagCompound.getInteger("Activated") == 1) {
                 Aspect[] aspects = EnumMobAspect.getAspectsForEntity(event.entity);
-                //ScanResult sr=new ScanResult((byte)2,0,0,event.entity,"");
-                //AspectList as=ScanManager.getScanAspects(sr,event.entity.worldObj);
-                //if(as!=null && as.size()!=0){
+                // ScanResult sr=new ScanResult((byte)2,0,0,event.entity,"");
+                // AspectList as=ScanManager.getScanAspects(sr,event.entity.worldObj);
+                // if(as!=null && as.size()!=0){
                 if (aspects != null) {
                     event.drops.removeAll(event.drops);
-                    //for(Aspect a:as.getAspects()){
+                    // for(Aspect a:as.getAspects()){
                     for (Aspect a : aspects) {
                         addDrops(event, ItemMobAspect.getStackFromAspect(a));
                     }
@@ -127,15 +140,12 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
 
     @SubscribeEvent
     public void onDamageTaken(LivingAttackEvent event) {
-        if(event.entity==null)
-            return;
+        if (event.entity == null) return;
 
-        if (event.entity.worldObj.isRemote)
-            return;
+        if (event.entity.worldObj.isRemote) return;
 
         boolean handle = handleNext == 0;
-        if (!handle)
-            handleNext--;
+        if (!handle) handleNext--;
 
         if (event.entityLiving instanceof EntityPlayer && handle) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
@@ -153,15 +163,13 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
             if (source != null && source instanceof EntityLivingBase) {
                 EntityLivingBase attacker = (EntityLivingBase) source;
                 ItemStack itemInUse = attacker.getHeldItem();
-                if (itemInUse != null && itemInUse.getItem() == this)
-                    attacker.attackEntityFrom(DamageSource.magic, 2);
+                if (itemInUse != null && itemInUse.getItem() == this) attacker.attackEntityFrom(DamageSource.magic, 2);
             }
         }
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World par2World,
-                                      EntityPlayer par3EntityPlayer) {
+    public ItemStack onItemRightClick(ItemStack stack, World par2World, EntityPlayer par3EntityPlayer) {
 
         ItemStack cache = super.onItemRightClick(stack, par2World, par3EntityPlayer);
         if (par3EntityPlayer.isSneaking() && !par2World.isRemote) {
@@ -169,10 +177,12 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 stack.stackTagCompound = new NBTTagCompound();
             }
             if (stack.stackTagCompound.getInteger("Activated") == 0) {
-                par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.bloodSword.activateEssentiaHarvest"));
+                par3EntityPlayer.addChatMessage(
+                        new ChatComponentTranslation("ttmisc.bloodSword.activateEssentiaHarvest"));
                 stack.stackTagCompound.setInteger("Activated", 1);
             } else {
-                par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.bloodSword.deactivateEssentiaHarvest"));
+                par3EntityPlayer.addChatMessage(
+                        new ChatComponentTranslation("ttmisc.bloodSword.deactivateEssentiaHarvest"));
                 stack.stackTagCompound.setInteger("Activated", 0);
             }
         }
@@ -201,15 +211,43 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_BLOOD_SWORD, new AspectList().add(Aspect.HUNGER, 2).add(Aspect.WEAPON, 1).add(Aspect.FLESH, 1).add(Aspect.SOUL, 1), -4, 6, 3, new ItemStack(this)).setWarp(1).setParents(LibResearch.KEY_CLEANSING_TALISMAN)
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_BLOOD_SWORD), new ResearchPage("1")).setSecondary();
-
+        return (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_BLOOD_SWORD,
+                        new AspectList()
+                                .add(Aspect.HUNGER, 2)
+                                .add(Aspect.WEAPON, 1)
+                                .add(Aspect.FLESH, 1)
+                                .add(Aspect.SOUL, 1),
+                        -4,
+                        6,
+                        3,
+                        new ItemStack(this))
+                .setWarp(1)
+                .setParents(LibResearch.KEY_CLEANSING_TALISMAN)
+                .setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_BLOOD_SWORD),
+                        new ResearchPage("1"))
+                .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_BLOOD_SWORD, new ItemStack(this), 6, new AspectList().add(Aspect.HUNGER, 20).add(Aspect.DARKNESS, 5).add(Aspect.SOUL, 10).add(Aspect.MAN, 6), new ItemStack(ConfigItems.itemSwordThaumium),
-                new ItemStack(Items.rotten_flesh), new ItemStack(Items.porkchop), new ItemStack(Items.beef), new ItemStack(Items.bone), new ItemStack(Items.diamond), new ItemStack(Items.ghast_tear));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_BLOOD_SWORD,
+                new ItemStack(this),
+                6,
+                new AspectList()
+                        .add(Aspect.HUNGER, 20)
+                        .add(Aspect.DARKNESS, 5)
+                        .add(Aspect.SOUL, 10)
+                        .add(Aspect.MAN, 6),
+                new ItemStack(ConfigItems.itemSwordThaumium),
+                new ItemStack(Items.rotten_flesh),
+                new ItemStack(Items.porkchop),
+                new ItemStack(Items.beef),
+                new ItemStack(Items.bone),
+                new ItemStack(Items.diamond),
+                new ItemStack(Items.ghast_tear));
     }
 }

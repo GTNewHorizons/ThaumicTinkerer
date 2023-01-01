@@ -44,14 +44,25 @@ public class RenderTileMagnet extends TileEntitySpecialRenderer {
         GL11.glColor4f(1F, 1F, 1F, 1F);
         GL11.glTranslatef((float) x, (float) y, (float) z);
         boolean blue = tileentity.getWorldObj() == null || (tileentity.getBlockMetadata() & 1) == 0;
-        boolean mob = tileentity.getWorldObj() == null ? RenderTileMagnet.mob : (tileentity.getBlockMetadata() & 2) == 2;
+        boolean mob =
+                tileentity.getWorldObj() == null ? RenderTileMagnet.mob : (tileentity.getBlockMetadata() & 2) == 2;
 
-        ClientHelper.minecraft().renderEngine.bindTexture(mob ? blue ? blueMob : redMob : blue ? RenderTileMagnet.blue : red);
+        ClientHelper.minecraft()
+                .renderEngine
+                .bindTexture(mob ? blue ? blueMob : redMob : blue ? RenderTileMagnet.blue : red);
 
         int redstone = 0;
         if (tileentity.getWorldObj() != null) {
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-                redstone = Math.max(redstone, tileentity.getWorldObj().getIndirectPowerLevelTo(tileentity.xCoord + dir.offsetX, tileentity.yCoord + dir.offsetY, tileentity.zCoord + dir.offsetZ, dir.ordinal()));
+                redstone = Math.max(
+                        redstone,
+                        tileentity
+                                .getWorldObj()
+                                .getIndirectPowerLevelTo(
+                                        tileentity.xCoord + dir.offsetX,
+                                        tileentity.yCoord + dir.offsetY,
+                                        tileentity.zCoord + dir.offsetZ,
+                                        dir.ordinal()));
         } else redstone = 15;
 
         GL11.glTranslatef(0.5F, 1.5F, 0.5F);
@@ -65,7 +76,16 @@ public class RenderTileMagnet extends TileEntitySpecialRenderer {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
                 GL11.glScalef(1F, -1F, 1F);
-                UtilsFX.renderQuadCenteredFromIcon(false, icon, redstone / 15F * 0.7F + (redstone == 0 ? 0 : 0.4F), blue ? 0F : 1F, 0F, blue ? 1F : 0F, 225, GL11.GL_ONE_MINUS_SRC_ALPHA, 0.9F);
+                UtilsFX.renderQuadCenteredFromIcon(
+                        false,
+                        icon,
+                        redstone / 15F * 0.7F + (redstone == 0 ? 0 : 0.4F),
+                        blue ? 0F : 1F,
+                        0F,
+                        blue ? 1F : 0F,
+                        225,
+                        GL11.GL_ONE_MINUS_SRC_ALPHA,
+                        0.9F);
             }
 
             GL11.glTranslated(0, 0, -(Math.cos(System.currentTimeMillis() / 500F) + 1) * 0.09 - 0.1);

@@ -14,6 +14,9 @@
  */
 package thaumic.tinkerer.common.research;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
@@ -21,10 +24,6 @@ import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 import thaumic.tinkerer.common.lib.LibResearch;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class KamiResearchItem extends TTResearchItem {
 
@@ -41,7 +40,9 @@ public class KamiResearchItem extends TTResearchItem {
 
     @Override
     public ResearchItem setPages(ResearchPage... par) {
-        List<String> requirements = parentsHidden == null || parentsHidden.length == 0 ? new ArrayList() : new ArrayList(Arrays.asList(parentsHidden));
+        List<String> requirements = parentsHidden == null || parentsHidden.length == 0
+                ? new ArrayList()
+                : new ArrayList(Arrays.asList(parentsHidden));
 
         if (!isAutoUnlock())
             for (String categoryStr : ResearchCategories.researchCategories.keySet()) {
@@ -49,18 +50,23 @@ public class KamiResearchItem extends TTResearchItem {
                 for (String tag : category.research.keySet()) {
                     ResearchItem research = category.research.get(tag);
 
-                    if (research.isLost() || research.isVirtual() || research instanceof KamiResearchItem || requirements.contains(tag))
-                        continue;
-                    if (research.category.equals(LibResearch.CATEGORY_THAUMICTINKERER) || research.category.equals("BASICS") || research.category.equals("GOLEMANCY") || research.category.equals("ARTIFICE") || research.category.equals("ALCHEMY") || research.category.equals("THAUMATURGY")) {
+                    if (research.isLost()
+                            || research.isVirtual()
+                            || research instanceof KamiResearchItem
+                            || requirements.contains(tag)) continue;
+                    if (research.category.equals(LibResearch.CATEGORY_THAUMICTINKERER)
+                            || research.category.equals("BASICS")
+                            || research.category.equals("GOLEMANCY")
+                            || research.category.equals("ARTIFICE")
+                            || research.category.equals("ALCHEMY")
+                            || research.category.equals("THAUMATURGY")) {
                         boolean found = false;
                         for (String black : Blacklist)
                             if (tag.startsWith(black)) {
                                 found = true;
                             }
-                        if (tag.endsWith("KAMI"))
-                            found = true;
-                        if (found)
-                            continue;
+                        if (tag.endsWith("KAMI")) found = true;
+                        if (found) continue;
                         requirements.add(tag);
                     }
                 }

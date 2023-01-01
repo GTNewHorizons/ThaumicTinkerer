@@ -28,12 +28,14 @@ public class EnchantmentVampirism extends EnchantmentMod {
 
     @Override
     public boolean canApplyTogether(Enchantment par1Enchantment) {
-        return par1Enchantment.effectId != Enchantment.fireAspect.effectId && par1Enchantment.effectId != Enchantment.knockback.effectId || par1Enchantment.effectId == Enchantment.unbreaking.effectId || par1Enchantment.effectId == ThaumcraftApi.enchantRepair;
+        return par1Enchantment.effectId != Enchantment.fireAspect.effectId
+                        && par1Enchantment.effectId != Enchantment.knockback.effectId
+                || par1Enchantment.effectId == Enchantment.unbreaking.effectId
+                || par1Enchantment.effectId == ThaumcraftApi.enchantRepair;
     }
 
     @Override
     public boolean canApply(ItemStack par1ItemStack) {
         return super.canApply(par1ItemStack) && par1ItemStack.getItem().getClass() != ItemBloodSword.class;
     }
-
 }

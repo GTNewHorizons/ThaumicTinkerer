@@ -51,9 +51,7 @@ public class FakeContainerCrafting extends Container {
         }
 
         @Override
-        public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {
-
-        }
+        public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {}
 
         @Override
         public String getInventoryName() {
@@ -71,9 +69,7 @@ public class FakeContainerCrafting extends Container {
         }
 
         @Override
-        public void markDirty() {
-
-        }
+        public void markDirty() {}
 
         @Override
         public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
@@ -81,19 +77,14 @@ public class FakeContainerCrafting extends Container {
         }
 
         @Override
-        public void openInventory() {
-
-        }
+        public void openInventory() {}
 
         @Override
-        public void closeInventory() {
-
-        }
+        public void closeInventory() {}
 
         @Override
         public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
             return true;
         }
     }
-
 }

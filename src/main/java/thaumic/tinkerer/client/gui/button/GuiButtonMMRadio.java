@@ -28,15 +28,12 @@ public class GuiButtonMMRadio extends GuiButtonMM implements IRadioButton {
     @Override
     public void enableFromClick() {
         setEnabled(true);
-        for (IRadioButton button : linkedButtons)
-            if (button != this)
-                button.updateStatus(this);
+        for (IRadioButton button : linkedButtons) if (button != this) button.updateStatus(this);
     }
 
     @Override
     public void updateStatus(IRadioButton otherButton) {
-        if (otherButton.isEnabled())
-            setEnabled(false);
+        if (otherButton.isEnabled()) setEnabled(false);
     }
 
     @Override

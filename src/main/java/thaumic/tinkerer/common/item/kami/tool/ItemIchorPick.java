@@ -16,6 +16,7 @@ package thaumic.tinkerer.common.item.kami.tool;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemPickaxe;
@@ -38,8 +39,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
-
-import java.util.ArrayList;
 
 public class ItemIchorPick extends ItemPickaxe implements ITTinkererItem {
 
@@ -88,18 +87,43 @@ public class ItemIchorPick extends ItemPickaxe implements ITTinkererItem {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHOR_TOOLS, new AspectList().add(Aspect.TOOL, 2).add(Aspect.WEAPON, 1).add(Aspect.METAL, 1).add(Aspect.CRAFT, 1), 13, 12, 5, new ItemStack(this)).setWarp(2).setConcealed().setParents(LibResearch.KEY_ICHORIUM).setParentsHidden(LibResearch.KEY_ICHORCLOTH_ROD)
-                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_PICK), ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_SHOVEL), ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_AXE), ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_SWORD));
-
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_ICHOR_TOOLS,
+                        new AspectList()
+                                .add(Aspect.TOOL, 2)
+                                .add(Aspect.WEAPON, 1)
+                                .add(Aspect.METAL, 1)
+                                .add(Aspect.CRAFT, 1),
+                        13,
+                        12,
+                        5,
+                        new ItemStack(this))
+                .setWarp(2)
+                .setConcealed()
+                .setParents(LibResearch.KEY_ICHORIUM)
+                .setParentsHidden(LibResearch.KEY_ICHORCLOTH_ROD)
+                .setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_PICK),
+                        ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_SHOVEL),
+                        ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_AXE),
+                        ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHOR_SWORD));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHOR_PICK, LibResearch.KEY_ICHOR_TOOLS, new ItemStack(this), new AspectList().add(Aspect.FIRE, 75),
-                "III", " R ", " R ",
-                'R', new ItemStack(ConfigItems.itemWandRod, 1, 2),
-                'I', new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_ICHOR_PICK,
+                LibResearch.KEY_ICHOR_TOOLS,
+                new ItemStack(this),
+                new AspectList().add(Aspect.FIRE, 75),
+                "III",
+                " R ",
+                " R ",
+                'R',
+                new ItemStack(ConfigItems.itemWandRod, 1, 2),
+                'I',
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2));
     }
 }

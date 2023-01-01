@@ -150,7 +150,6 @@ public class ModelRepairer extends ModelBase {
         Opening2.render(scale);
         Opening3.render(scale);
         Opening4.render(scale);
-
     }
 
     public void renderGlass() {
@@ -168,5 +167,4 @@ public class ModelRepairer extends ModelBase {
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
     }
-
 }

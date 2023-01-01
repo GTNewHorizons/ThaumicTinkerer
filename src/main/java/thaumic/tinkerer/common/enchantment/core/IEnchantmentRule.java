@@ -19,5 +19,4 @@ import java.util.List;
 public interface IEnchantmentRule {
 
     public boolean cantApplyAlongside(List<Integer> otherEnchantments);
-
 }

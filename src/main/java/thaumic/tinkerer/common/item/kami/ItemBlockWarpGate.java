@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.common.item.kami;
 
+import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
@@ -23,8 +24,6 @@ import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 public class ItemBlockWarpGate extends ItemBlock implements ITTinkererItem {
 

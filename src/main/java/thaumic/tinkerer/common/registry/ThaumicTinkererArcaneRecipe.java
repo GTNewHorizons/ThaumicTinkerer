@@ -15,7 +15,8 @@ public class ThaumicTinkererArcaneRecipe extends ThaumicTinkererRecipe {
     public AspectList aspects;
     public Object[] recipies;
 
-    public ThaumicTinkererArcaneRecipe(String name, String research, ItemStack output, AspectList aspects, Object... stuff) {
+    public ThaumicTinkererArcaneRecipe(
+            String name, String research, ItemStack output, AspectList aspects, Object... stuff) {
         this.name = name;
         this.research = research;
         this.output = output;

@@ -1,12 +1,11 @@
 package thaumic.tinkerer.common.registry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import thaumcraft.common.config.ConfigResearch;
-
-import java.util.List;
 
 public class ThaumicTinkererCraftingBenchRecipe extends ThaumicTinkererRecipe {
 
@@ -26,7 +25,6 @@ public class ThaumicTinkererCraftingBenchRecipe extends ThaumicTinkererRecipe {
 
         GameRegistry.addRecipe(output, stuff);
         List<IRecipe> recipeList = CraftingManager.getInstance().getRecipeList();
-        if (name != null && name.length() != 0)
-            ConfigResearch.recipes.put(name, recipeList.get(recipeList.size() - 1));
+        if (name != null && name.length() != 0) ConfigResearch.recipes.put(name, recipeList.get(recipeList.size() - 1));
     }
 }

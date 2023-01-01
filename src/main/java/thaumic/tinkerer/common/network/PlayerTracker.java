@@ -35,7 +35,9 @@ public class PlayerTracker {
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             ItemFocusHeal.playerHealData.put(event.player.getGameProfile().getName(), 0);
-            ThaumicTinkerer.netHandler.sendTo(new PacketToggleArmor(KamiArmorHandler.getArmorStatus(event.player)), (EntityPlayerMP) event.player);
+            ThaumicTinkerer.netHandler.sendTo(
+                    new PacketToggleArmor(KamiArmorHandler.getArmorStatus(event.player)),
+                    (EntityPlayerMP) event.player);
         }
     }
 
@@ -50,6 +52,5 @@ public class PlayerTracker {
         ItemGemChest.playersWithFlight.remove(username + ":true");
 
         ItemGemBoots.playersWith1Step.remove(username);
-
     }
 }

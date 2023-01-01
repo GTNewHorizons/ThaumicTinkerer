@@ -15,7 +15,14 @@ public class ThaumicTinkererInfusionRecipe extends ThaumicTinkererRecipe {
     private final ItemStack input;
     private final ItemStack[] stuff;
 
-    public ThaumicTinkererInfusionRecipe(String name, String research, Object output, int instability, AspectList aspects, ItemStack input, ItemStack... stuff) {
+    public ThaumicTinkererInfusionRecipe(
+            String name,
+            String research,
+            Object output,
+            int instability,
+            AspectList aspects,
+            ItemStack input,
+            ItemStack... stuff) {
 
         this.name = name;
         this.research = research;
@@ -26,13 +33,15 @@ public class ThaumicTinkererInfusionRecipe extends ThaumicTinkererRecipe {
         this.stuff = stuff;
     }
 
-    public ThaumicTinkererInfusionRecipe(String name, Object output, int instability, AspectList aspects, ItemStack input, ItemStack... stuff) {
+    public ThaumicTinkererInfusionRecipe(
+            String name, Object output, int instability, AspectList aspects, ItemStack input, ItemStack... stuff) {
         this(name, name, output, instability, aspects, input, stuff);
     }
 
     @Override
     public void registerRecipe() {
-        InfusionRecipe recipe = ThaumcraftApi.addInfusionCraftingRecipe(research, output, instability, aspects, input, stuff);
+        InfusionRecipe recipe =
+                ThaumcraftApi.addInfusionCraftingRecipe(research, output, instability, aspects, input, stuff);
         ConfigResearch.recipes.put(name, recipe);
     }
 }

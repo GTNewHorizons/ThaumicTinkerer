@@ -59,9 +59,7 @@ public final class LibBlockNames {
     public static final String PORTAL = "bedrockPortal";
 
     public static final String[] DARK_QUARTZ_BLOCK_NAMES = {
-            "tile." + DARK_QUARTZ,
-            "tile." + "darkQuartzChiseled",
-            "tile." + "darkQuartzPillar"
+        "tile." + DARK_QUARTZ, "tile." + "darkQuartzChiseled", "tile." + "darkQuartzPillar"
     };
 
     public static final String MOBILIZER_RELAY = "Levitational Locomotive Relay";
@@ -73,7 +71,5 @@ public final class LibBlockNames {
 
     public static final String INFUSED_GRAIN_BLOCK = INFUSED_GRAIN_BASE + "Block";
 
-
     public static final String FORCEFIELD = "forcefield";
-
 }

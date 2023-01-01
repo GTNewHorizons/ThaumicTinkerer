@@ -1,5 +1,7 @@
 package thaumic.tinkerer.common.item;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +19,6 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.lib.LibResearch;
-import thaumic.tinkerer.common.potion.ModPotions;
 import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCrucibleRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
@@ -25,9 +26,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipeMulti;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by pixlepix on 4/19/14.
@@ -63,15 +61,12 @@ public class ItemInfusedPotion extends ItemPotion implements ITTinkererItem {
                 r.add(new PotionEffect(ConfigHandler.potionAirId, 3600));
                 break;
             case 1:
-
                 r.add(new PotionEffect(ConfigHandler.potionFireId, 3600));
                 break;
             case 2:
-
                 r.add(new PotionEffect(ConfigHandler.potionEarthId, 3600));
                 break;
             case 3:
-
                 r.add(new PotionEffect(ConfigHandler.potionWaterId, 3600));
                 break;
         }
@@ -95,7 +90,7 @@ public class ItemInfusedPotion extends ItemPotion implements ITTinkererItem {
 
     @Override
     public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
-        //Override default potion overlay behavior
+        // Override default potion overlay behavior
         return icons[par1];
     }
 
@@ -142,24 +137,81 @@ public class ItemInfusedPotion extends ItemPotion implements ITTinkererItem {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableFire)
-            return (TTResearchItem) new TTResearchItem(LibResearch.KEY_POTIONS, new AspectList().add(Aspect.WATER, 5).add(Aspect.ENTROPY, 5), 7, -5, 2, ItemInfusedSeeds.getStackFromAspect(Aspect.FIRE)).setParentsHidden("INFUSION").setConcealed()
-                    .setPages(new ResearchPage("0"), new ResearchPage("1"), new ResearchPage("2"), new ResearchPage("3"), new ResearchPage("4"), new ResearchPage("5"), ResearchHelper.infusionPage(LibResearch.KEY_POTIONS, 4), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT1"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT2"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT3"));
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_POTIONS, new AspectList().add(Aspect.WATER, 5).add(Aspect.ENTROPY, 5), 7, -5, 2, ItemInfusedSeeds.getStackFromAspect(Aspect.FIRE)).setParents(LibResearch.KEY_FIRE_PERDITIO, LibResearch.KEY_FIRE_ORDO, LibResearch.KEY_FIRE_IGNIS, LibResearch.KEY_FIRE_TERRA, LibResearch.KEY_FIRE_AER, LibResearch.KEY_FIRE_AQUA).setParentsHidden("INFUSION").setConcealed()
-                .setPages(new ResearchPage("0"), new ResearchPage("1"), new ResearchPage("2"), new ResearchPage("3"), new ResearchPage("4"), new ResearchPage("5"), ResearchHelper.infusionPage(LibResearch.KEY_POTIONS, 4), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT1"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT2"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT3"));
+        if (!ConfigHandler.enableFire)
+            return (TTResearchItem) new TTResearchItem(
+                            LibResearch.KEY_POTIONS,
+                            new AspectList().add(Aspect.WATER, 5).add(Aspect.ENTROPY, 5),
+                            7,
+                            -5,
+                            2,
+                            ItemInfusedSeeds.getStackFromAspect(Aspect.FIRE))
+                    .setParentsHidden("INFUSION")
+                    .setConcealed()
+                    .setPages(
+                            new ResearchPage("0"),
+                            new ResearchPage("1"),
+                            new ResearchPage("2"),
+                            new ResearchPage("3"),
+                            new ResearchPage("4"),
+                            new ResearchPage("5"),
+                            ResearchHelper.infusionPage(LibResearch.KEY_POTIONS, 4),
+                            ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT0"),
+                            ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT1"),
+                            ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT2"),
+                            ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT3"));
+        return (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_POTIONS,
+                        new AspectList().add(Aspect.WATER, 5).add(Aspect.ENTROPY, 5),
+                        7,
+                        -5,
+                        2,
+                        ItemInfusedSeeds.getStackFromAspect(Aspect.FIRE))
+                .setParents(
+                        LibResearch.KEY_FIRE_PERDITIO,
+                        LibResearch.KEY_FIRE_ORDO,
+                        LibResearch.KEY_FIRE_IGNIS,
+                        LibResearch.KEY_FIRE_TERRA,
+                        LibResearch.KEY_FIRE_AER,
+                        LibResearch.KEY_FIRE_AQUA)
+                .setParentsHidden("INFUSION")
+                .setConcealed()
+                .setPages(
+                        new ResearchPage("0"),
+                        new ResearchPage("1"),
+                        new ResearchPage("2"),
+                        new ResearchPage("3"),
+                        new ResearchPage("4"),
+                        new ResearchPage("5"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_POTIONS, 4),
+                        ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT0"),
+                        ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT1"),
+                        ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT2"),
+                        ResearchHelper.crucibleRecipePage(LibResearch.KEY_POTIONS + "POT3"));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         return new ThaumicTinkererRecipeMulti(
-                new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_POTIONS + "POT0", new ItemStack(this, 1, 0), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 0), new AspectList().add(Aspect.AURA, 5).add(Aspect.AIR, 5)),
-
-                new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_POTIONS + "POT1", new ItemStack(this, 1, 1), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 1), new AspectList().add(Aspect.AURA, 5).add(Aspect.FIRE, 5)),
-
-                new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_POTIONS + "POT2", new ItemStack(this, 1, 2), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 2), new AspectList().add(Aspect.AURA, 5).add(Aspect.EARTH, 5)),
-
-                new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_POTIONS + "POT3", new ItemStack(this, 1, 3), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 3), new AspectList().add(Aspect.AURA, 5).add(Aspect.WATER, 5))
-        );
+                new ThaumicTinkererCrucibleRecipe(
+                        LibResearch.KEY_POTIONS + "POT0",
+                        new ItemStack(this, 1, 0),
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 0),
+                        new AspectList().add(Aspect.AURA, 5).add(Aspect.AIR, 5)),
+                new ThaumicTinkererCrucibleRecipe(
+                        LibResearch.KEY_POTIONS + "POT1",
+                        new ItemStack(this, 1, 1),
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 1),
+                        new AspectList().add(Aspect.AURA, 5).add(Aspect.FIRE, 5)),
+                new ThaumicTinkererCrucibleRecipe(
+                        LibResearch.KEY_POTIONS + "POT2",
+                        new ItemStack(this, 1, 2),
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 2),
+                        new AspectList().add(Aspect.AURA, 5).add(Aspect.EARTH, 5)),
+                new ThaumicTinkererCrucibleRecipe(
+                        LibResearch.KEY_POTIONS + "POT3",
+                        new ItemStack(this, 1, 3),
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedGrain.class), 1, 3),
+                        new AspectList().add(Aspect.AURA, 5).add(Aspect.WATER, 5)));
     }
 
     private enum PRIMAL_ASPECT_ENUM {
@@ -173,5 +225,4 @@ public class ItemInfusedPotion extends ItemPotion implements ITTinkererItem {
             this.aspect = a;
         }
     }
-
 }

@@ -15,6 +15,8 @@
 package thaumic.tinkerer.common.item.kami.armor;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -28,16 +30,12 @@ import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
 
     public ItemIchorclothArmorAdv(int par2) {
         super(par2);
         setHasSubtypes(true);
-        if (ticks())
-            MinecraftForge.EVENT_BUS.register(this);
+        if (ticks()) MinecraftForge.EVENT_BUS.register(this);
     }
 
     public ItemIchorclothArmorAdv() {
@@ -56,7 +54,8 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
             par1ItemStack.setItemDamage(~dmg & 1);
             par2World.playSoundAtEntity(par3EntityPlayer, "random.orb", 0.3F, 0.1F);
 
-            ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.awakenedArmor" + par1ItemStack.getItemDamage()));
+            ToolModeHUDHandler.setTooltip(
+                    StatCollector.translateToLocal("ttmisc.awakenedArmor" + par1ItemStack.getItemDamage()));
 
             return par1ItemStack;
         }
@@ -67,8 +66,7 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
         super.addInformation(stack, par2EntityPlayer, list, par4);
-        if (stack.getItemDamage() == 1)
-            list.add(StatCollector.translateToLocal("ttmisc.awakenedArmor1"));
+        if (stack.getItemDamage() == 1) list.add(StatCollector.translateToLocal("ttmisc.awakenedArmor1"));
     }
 
     @Override
@@ -81,7 +79,6 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
         return 10;
     }
 
-
     boolean ticks() {
         return false;
     }
@@ -92,8 +89,7 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
 
             ItemStack armor = player.getCurrentArmor(3 - armorType);
-            if (armor != null && armor.getItem() == this)
-                tickPlayer(player);
+            if (armor != null && armor.getItem() == this) tickPlayer(player);
         }
     }
 

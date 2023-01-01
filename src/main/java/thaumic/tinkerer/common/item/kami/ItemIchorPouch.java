@@ -18,6 +18,7 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,8 +50,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
-
-import java.util.ArrayList;
 
 public class ItemIchorPouch extends ItemFocusPouch implements IBauble, ITTinkererItem {
 
@@ -89,8 +88,7 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, ITTinkere
             for (int var3 = 0; var3 < var2.tagCount(); var3++) {
                 NBTTagCompound var4 = var2.getCompoundTagAt(var3);
                 int var5 = var4.getByte("Slot") & 0xFF;
-                if (var5 >= 0 && var5 < stackList.length)
-                    stackList[var5] = ItemStack.loadItemStackFromNBT(var4);
+                if (var5 >= 0 && var5 < stackList.length) stackList[var5] = ItemStack.loadItemStackFromNBT(var4);
             }
         }
 
@@ -103,19 +101,13 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, ITTinkere
     }
 
     @Override
-    public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onWornTick(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
-    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
-    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
     public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {
@@ -149,17 +141,40 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, ITTinkere
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHOR_POUCH, new AspectList().add(Aspect.VOID, 2).add(Aspect.CLOTH, 1).add(Aspect.ELDRITCH, 1).add(Aspect.MAN, 1), 13, 6, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHOR_CLOTH)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_ICHOR_POUCH,
+                        new AspectList()
+                                .add(Aspect.VOID, 2)
+                                .add(Aspect.CLOTH, 1)
+                                .add(Aspect.ELDRITCH, 1)
+                                .add(Aspect.MAN, 1),
+                        13,
+                        6,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHOR_CLOTH)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHOR_POUCH));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ICHOR_POUCH, new ItemStack(this), 9, new AspectList().add(Aspect.VOID, 64).add(Aspect.MAN, 32).add(Aspect.CLOTH, 32).add(Aspect.ELDRITCH, 32).add(Aspect.AIR, 64), new ItemStack(ConfigItems.itemFocusPouch),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1), new ItemStack(ConfigItems.itemFocusPortableHole), new ItemStack(Items.diamond), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1), new ItemStack(ConfigBlocks.blockChestHungry), new ItemStack(ConfigBlocks.blockJar, 1, 3));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_ICHOR_POUCH,
+                new ItemStack(this),
+                9,
+                new AspectList()
+                        .add(Aspect.VOID, 64)
+                        .add(Aspect.MAN, 32)
+                        .add(Aspect.CLOTH, 32)
+                        .add(Aspect.ELDRITCH, 32)
+                        .add(Aspect.AIR, 64),
+                new ItemStack(ConfigItems.itemFocusPouch),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1),
+                new ItemStack(ConfigItems.itemFocusPortableHole),
+                new ItemStack(Items.diamond),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1),
+                new ItemStack(ConfigBlocks.blockChestHungry),
+                new ItemStack(ConfigBlocks.blockJar, 1, 3));
     }
 }

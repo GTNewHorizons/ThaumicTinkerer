@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.common.item.quartz;
 
+import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.item.ItemStack;
@@ -24,18 +25,21 @@ import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.ArrayList;
-
-//Changed from ItemMultiTextureTile to ItemMultiTexture for 1.7
+// Changed from ItemMultiTextureTile to ItemMultiTexture for 1.7
 public class ItemDarkQuartzBlock extends ItemMultiTexture implements ITTinkererItem {
 
     public ItemDarkQuartzBlock(Block par1) {
-        super(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), new String[]{""});
+        super(
+                ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class),
+                ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class),
+                new String[] {""});
     }
 
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
-        return par1ItemStack.getItemDamage() >= 3 ? "" : LibBlockNames.DARK_QUARTZ_BLOCK_NAMES[par1ItemStack.getItemDamage()];
+        return par1ItemStack.getItemDamage() >= 3
+                ? ""
+                : LibBlockNames.DARK_QUARTZ_BLOCK_NAMES[par1ItemStack.getItemDamage()];
     }
 
     @Override

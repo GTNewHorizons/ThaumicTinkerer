@@ -17,5 +17,4 @@ package thaumic.tinkerer.common.item.kami.tool;
 public interface IAdvancedTool {
 
     public String getType();
-
 }

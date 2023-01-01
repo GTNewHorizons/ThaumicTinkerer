@@ -54,13 +54,21 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
 
                     TileEntity tile = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
                     if (tile != null && tile instanceof TileEntityHopper) {
-                        TileEntity tile1 = getHopperFacing(tile.xCoord, tile.yCoord, tile.zCoord, tile.getBlockMetadata());
+                        TileEntity tile1 =
+                                getHopperFacing(tile.xCoord, tile.yCoord, tile.zCoord, tile.getBlockMetadata());
                         if (tile1 instanceof TileJarFillable) {
                             TileJarFillable jar1 = (TileJarFillable) tile1;
                             boolean voidJar = tile1 instanceof TileJarFillableVoid;
                             AspectList aspectList1 = jar1.getAspects();
                             //noinspection ConstantConditions
-                            if (aspectList1 != null && aspectList1.size() == 0 && (jar1.aspectFilter == null || jar1.aspectFilter == aspect) || aspectList1.getAspects()[0] == aspect && (aspectList1.getAmount(aspectList1.getAspects()[0]) < 64 || voidJar)) {
+                            if (aspectList1 != null
+                                            && aspectList1.size() == 0
+                                            && (jar1.aspectFilter == null || jar1.aspectFilter == aspect)
+                                    || aspectList1.getAspects()[0] == aspect
+                                            && (aspectList1.getAmount(
+                                                                    aspectList1.getAspects()[0])
+                                                            < 64
+                                                    || voidJar)) {
                                 jar1.addToContainer(aspect, 1);
                                 item.setAspects(jar, aspectList.remove(aspect, 1));
                             }
@@ -79,7 +87,8 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
 
     private TileEntity getHopperFacing(int x, int y, int z, int meta) {
         int i = BlockHopper.getDirectionFromMetadata(meta);
-        return worldObj.getTileEntity(x + Facing.offsetsXForSide[i], y + Facing.offsetsYForSide[i], z + Facing.offsetsZForSide[i]);
+        return worldObj.getTileEntity(
+                x + Facing.offsetsXForSide[i], y + Facing.offsetsYForSide[i], z + Facing.offsetsZForSide[i]);
     }
 
     @Override
@@ -102,8 +111,7 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
         for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
             NBTTagCompound var4 = var2.getCompoundTagAt(var3);
             byte var5 = var4.getByte("Slot");
-            if (var5 >= 0 && var5 < inventorySlots.length)
-                inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
+            if (var5 >= 0 && var5 < inventorySlots.length) inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
         }
     }
 
@@ -128,7 +136,8 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
     @Override
     public ItemStack getStackInSlot(int i) {
         AspectList aspects = getAspects();
-        //if(inventorySlots[i] != null && inventorySlots[i].itemID == ConfigItems.itemJarFilled.itemID && aspects == null) {
+        // if(inventorySlots[i] != null && inventorySlots[i].itemID == ConfigItems.itemJarFilled.itemID && aspects ==
+        // null) {
         //	Aspect filter=((ItemJarFilled)inventorySlots[i].getItem()).getFilter(inventorySlots[i]);
         //    inventorySlots[i] = new ItemStack(ConfigBlocks.blockJar,1,inventorySlots[i].getItemDamage());
         //    if(filter!=null)
@@ -138,7 +147,7 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
         //        inventorySlots[i].getTagCompound().setString("AspectFilter",filter.getTag());
         //    }
         //	onInventoryChanged();
-        //}
+        // }
 
         return inventorySlots[i];
     }
@@ -155,8 +164,7 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
             } else {
                 stackAt = inventorySlots[i].splitStack(j);
 
-                if (inventorySlots[i].stackSize == 0)
-                    inventorySlots[i] = null;
+                if (inventorySlots[i].stackSize == 0) inventorySlots[i] = null;
 
                 return stackAt;
             }
@@ -192,18 +200,15 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+                && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
     }
 
     @Override
-    public void openInventory() {
-
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeInventory() {
-
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -225,7 +230,7 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
 
     @Override
     public int[] getAccessibleSlotsFromSide(int var1) {
-        return var1 == ForgeDirection.DOWN.ordinal() ? new int[0] : new int[]{0};
+        return var1 == ForgeDirection.DOWN.ordinal() ? new int[0] : new int[] {0};
     }
 
     @Override
@@ -241,12 +246,13 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
     @Override
     public AspectList getAspects() {
         ItemStack stack = inventorySlots[0];
-        return stack != null && stack.getItem() instanceof IEssentiaContainerItem ? ((IEssentiaContainerItem) stack.getItem()).getAspects(stack) : null;
+        return stack != null && stack.getItem() instanceof IEssentiaContainerItem
+                ? ((IEssentiaContainerItem) stack.getItem()).getAspects(stack)
+                : null;
     }
 
     @Override
-    public void setAspects(AspectList paramAspectList) {
-    }
+    public void setAspects(AspectList paramAspectList) {}
 
     @Override
     public boolean doesContainerAccept(Aspect paramAspect) {
@@ -289,8 +295,5 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
     }
 
     @Override
-    public void doneMoving() {
-
-    }
-
+    public void doneMoving() {}
 }

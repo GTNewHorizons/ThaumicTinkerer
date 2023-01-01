@@ -1,5 +1,7 @@
 package thaumic.tinkerer.common.item.kami.foci;
 
+import java.awt.*;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -26,9 +28,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.awt.*;
-import java.util.List;
-
 public class ItemFocusXPDrain extends ItemModKamiFocus {
 
     AspectList visUsage = new AspectList();
@@ -38,16 +37,14 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     public boolean isVisCostPerTick(ItemStack stack) {
         return true;
     }
-    
-    public String getSortingHelper(ItemStack itemstack)
-    {
-      return "TTKXP" + super.getSortingHelper(itemstack);
+
+    public String getSortingHelper(ItemStack itemstack) {
+        return "TTKXP" + super.getSortingHelper(itemstack);
     }
 
     @Override
     public void onUsingFocusTick(ItemStack paramItemStack, EntityPlayer paramEntityPlayer, int paramInt) {
-        if (paramEntityPlayer.worldObj.isRemote)
-            return;
+        if (paramEntityPlayer.worldObj.isRemote) return;
 
         ItemWandCasting wand = (ItemWandCasting) paramItemStack.getItem();
         AspectList aspects = wand.getAllVis(paramItemStack);
@@ -60,8 +57,7 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
 
             Aspect aspect = Aspect.getPrimalAspects().get(lastGiven);
 
-            if (aspects.getAmount(aspect) < wand.getMaxVis(paramItemStack))
-                aspectToAdd = aspect;
+            if (aspects.getAmount(aspect) < wand.getMaxVis(paramItemStack)) aspectToAdd = aspect;
 
             ++takes;
         }
@@ -70,7 +66,7 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
             int xpUse = getXpUse(paramItemStack);
             if (paramEntityPlayer.experienceTotal >= xpUse) {
                 ExperienceHelper.drainPlayerXP(paramEntityPlayer, xpUse);
-                int amount=wand.getVis(paramItemStack, aspectToAdd) + 500;
+                int amount = wand.getVis(paramItemStack, aspectToAdd) + 500;
                 ThaumicTinkerer.log.info(amount);
                 wand.storeVis(paramItemStack, aspectToAdd, Math.min(wand.getMaxVis(paramItemStack), amount));
             }
@@ -94,8 +90,9 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
 
     @Override
     protected void addVisCostTooltip(AspectList cost, ItemStack stack, EntityPlayer player, List list, boolean par4) {
-    	list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" : "item.Focus.cost1"));
-        list.add(" " + EnumChatFormatting.GREEN + StatCollector.translateToLocal("ttmisc.experience") + EnumChatFormatting.WHITE + " x " + getXpUse(stack));
+        list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" : "item.Focus.cost1"));
+        list.add(" " + EnumChatFormatting.GREEN + StatCollector.translateToLocal("ttmisc.experience")
+                + EnumChatFormatting.WHITE + " x " + getXpUse(stack));
     }
 
     @Override
@@ -108,12 +105,10 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
         return false;
     }
 
-
     @Override
     public EnumRarity getRarity(ItemStack par1ItemStack) {
         return TTCommonProxy.kamiRarity;
     }
-
 
     @Override
     public String getItemName() {
@@ -122,17 +117,39 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_FOCUS_XP_DRAIN, new AspectList().add(Aspect.MIND, 2).add(Aspect.MAGIC, 1).add(Aspect.AURA, 1).add(Aspect.MAN, 1), 12, 3, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ROD)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_FOCUS_XP_DRAIN,
+                        new AspectList()
+                                .add(Aspect.MIND, 2)
+                                .add(Aspect.MAGIC, 1)
+                                .add(Aspect.AURA, 1)
+                                .add(Aspect.MAN, 1),
+                        12,
+                        3,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHORCLOTH_ROD)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_XP_DRAIN));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_FOCUS_XP_DRAIN, new ItemStack(this), 12, new AspectList().add(Aspect.MIND, 65).add(Aspect.TAINT, 16).add(Aspect.MAGIC, 50).add(Aspect.AURA, 32), new ItemStack(Items.ender_pearl),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(Items.experience_bottle), new ItemStack(Items.diamond), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemXPTalisman.class)), new ItemStack(Blocks.enchanting_table), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_FOCUS_XP_DRAIN,
+                new ItemStack(this),
+                12,
+                new AspectList()
+                        .add(Aspect.MIND, 65)
+                        .add(Aspect.TAINT, 16)
+                        .add(Aspect.MAGIC, 50)
+                        .add(Aspect.AURA, 32),
+                new ItemStack(Items.ender_pearl),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(Items.experience_bottle),
+                new ItemStack(Items.diamond),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemXPTalisman.class)),
+                new ItemStack(Blocks.enchanting_table),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)));
     }
 }

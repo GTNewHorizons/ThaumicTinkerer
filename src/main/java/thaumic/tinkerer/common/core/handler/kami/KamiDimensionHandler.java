@@ -18,7 +18,6 @@ public class KamiDimensionHandler {
             if (event.entityPlayer.worldObj.getBlock(event.x, event.y, event.z) == Blocks.bedrock) {
                 if (stack != null && stack.getItem() instanceof ItemIchorPickAdv) {
                     stack.getItem().onBlockStartBreak(stack, event.x, event.y, event.z, event.entityPlayer);
-
                 }
             }
         }

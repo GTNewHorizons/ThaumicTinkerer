@@ -38,18 +38,13 @@ public class ContainerRemotePlacer extends ContainerPlayerInv {
             var3 = var5.copy();
 
             if (par2 < 1) {
-                if (!mergeItemStack(var5, 1, 37, false))
-                    return null;
-            } else if (!mergeItemStack(var5, 0, 1, false))
-                return null;
+                if (!mergeItemStack(var5, 1, 37, false)) return null;
+            } else if (!mergeItemStack(var5, 0, 1, false)) return null;
 
-            if (var5.stackSize == 0)
-                var4.putStack(null);
-            else
-                var4.onSlotChanged();
+            if (var5.stackSize == 0) var4.putStack(null);
+            else var4.onSlotChanged();
 
-            if (var5.stackSize == var3.stackSize)
-                return null;
+            if (var5.stackSize == var3.stackSize) return null;
 
             var4.onPickupFromSlot(par1EntityPlayer, var5);
         }

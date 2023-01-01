@@ -14,7 +14,6 @@
  */
 package thaumic.tinkerer.common.block.tile.transvector;
 
-
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
@@ -30,7 +29,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -43,23 +41,41 @@ import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumic.tinkerer.common.compat.IndustrialcraftUnloadHelper;
 import thaumic.tinkerer.common.lib.LibFeatures;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
-        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
-        @Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHCore"),
-        @Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHCore"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyConductor", modid = "IC2")})
-
-public class TileTransvectorInterface extends TileTransvector implements ISidedInventory, IEnergyEmitter,IEnergySink,IEnergyConductor,IEnergySource, IFluidHandler, IEnergyHandler, IEnergyReceiver, IAspectContainer, IEssentiaTransport, IPeripheral,IEnergyProvider {
+import tuhljin.automagy.api.essentia.IAspectContainerWithMax;
+import tuhljin.automagy.api.essentia.IEssentiaLocusReadable;
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
+    @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+    @Optional.Interface(iface = "cofh.api.energy.IEnergyReceiver", modid = "CoFHCore"),
+    @Optional.Interface(iface = "cofh.api.energy.IEnergyProvider", modid = "CoFHCore"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyConductor", modid = "IC2"),
+    @Optional.Interface(iface = "tuhljin.automagy.api.essentia.IEssentiaLocusReadable", modid = "Automagy"),
+    @Optional.Interface(iface = "tuhljin.automagy.api.essentia.IAspectContainerWithMax", modid = "Automagy")
+})
+public class TileTransvectorInterface extends TileTransvector
+        implements ISidedInventory,
+                IEnergyEmitter,
+                IEnergySink,
+                IEnergyConductor,
+                IEnergySource,
+                IFluidHandler,
+                IEnergyHandler,
+                IEnergyReceiver,
+                IAspectContainer,
+                IEssentiaTransport,
+                IPeripheral,
+                IEssentiaLocusReadable,
+               // IAspectContainerWithMax, needs to be implimented
+                IEnergyProvider {
 
     public boolean addedToICEnergyNet = false;
 
     public static int[] buildSlotsForLinearInventory(IInventory inv) {
         int[] slots = new int[inv.getSizeInventory()];
-        for (int i = 0; i < slots.length; i++)
-            slots[i] = i;
+        for (int i = 0; i < slots.length; i++) slots[i] = i;
 
         return slots;
     }
@@ -101,8 +117,7 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     public void markDirty() {
         super.markDirty();
         TileEntity tile = getTile();
-        if (tile != null)
-            tile.markDirty();
+        if (tile != null) tile.markDirty();
     }
 
     @Override
@@ -132,8 +147,7 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     public void setInventorySlotContents(int i, ItemStack itemstack) {
         TileEntity tile = getTile();
-        if (tile instanceof IInventory)
-            ((IInventory) tile).setInventorySlotContents(i, itemstack);
+        if (tile instanceof IInventory) ((IInventory) tile).setInventorySlotContents(i, itemstack);
     }
 
     @Override
@@ -163,15 +177,13 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     public void openInventory() {
         TileEntity tile = getTile();
-        if (tile instanceof IInventory)
-            ((IInventory) tile).openInventory();
+        if (tile instanceof IInventory) ((IInventory) tile).openInventory();
     }
 
     @Override
     public void closeInventory() {
         TileEntity tile = getTile();
-        if (tile instanceof IInventory)
-            ((IInventory) tile).closeInventory();
+        if (tile instanceof IInventory) ((IInventory) tile).closeInventory();
     }
 
     @Override
@@ -219,22 +231,26 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     public int[] getAccessibleSlotsFromSide(int var1) {
         TileEntity tile = getTile();
-        return tile instanceof ISidedInventory ? ((ISidedInventory) tile).getAccessibleSlotsFromSide(var1) : tile instanceof IInventory ? buildSlotsForLinearInventory((IInventory) tile) : new int[0];
+        return tile instanceof ISidedInventory
+                ? ((ISidedInventory) tile).getAccessibleSlotsFromSide(var1)
+                : tile instanceof IInventory ? buildSlotsForLinearInventory((IInventory) tile) : new int[0];
     }
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
         TileEntity tile = getTile();
-        return tile instanceof ISidedInventory ? ((ISidedInventory) tile).canInsertItem(i, itemstack, j) : tile instanceof IInventory;
+        return tile instanceof ISidedInventory
+                ? ((ISidedInventory) tile).canInsertItem(i, itemstack, j)
+                : tile instanceof IInventory;
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, int j) {
         TileEntity tile = getTile();
-        return tile instanceof ISidedInventory ? ((ISidedInventory) tile).canExtractItem(i, itemstack, j) : tile instanceof IInventory;
+        return tile instanceof ISidedInventory
+                ? ((ISidedInventory) tile).canExtractItem(i, itemstack, j)
+                : tile instanceof IInventory;
     }
-
-
 
     @Optional.Method(modid = "IC2")
     @Override
@@ -242,7 +258,6 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
         TileEntity tile = getTile();
         return tile instanceof IEnergySink ? ((IEnergySink) tile).getDemandedEnergy() : 0;
     }
-
 
     @Optional.Method(modid = "IC2")
     @Override
@@ -252,14 +267,12 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
         return tile instanceof IEnergySink ? ((IEnergySink) tile).injectEnergy(directionFrom, amount, voltage) : 0;
     }
 
-
     @Optional.Method(modid = "IC2")
     @Override
     public int getSinkTier() {
         TileEntity tile = getTile();
         return tile instanceof IEnergySink ? ((IEnergySink) tile).getSinkTier() : 0;
     }
-
 
     @Override
     @Optional.Method(modid = "CoFHLib")
@@ -274,7 +287,6 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
         TileEntity tile = getTile();
         return tile instanceof IEnergyHandler ? ((IEnergyHandler) tile).extractEnergy(from, maxExtract, simulate) : 0;
     }
-
 
     @Override
     @Optional.Method(modid = "CoFHLib")
@@ -306,8 +318,7 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     public void setAspects(AspectList paramAspectList) {
         TileEntity tile = getTile();
-        if (tile != null)
-            ((IAspectContainer) tile).setAspects(paramAspectList);
+        if (tile != null) ((IAspectContainer) tile).setAspects(paramAspectList);
     }
 
     @Override
@@ -337,7 +348,8 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     public boolean doesContainerContainAmount(Aspect paramAspect, int paramInt) {
         TileEntity tile = getTile();
-        return tile instanceof IAspectContainer && ((IAspectContainer) tile).doesContainerContainAmount(paramAspect, paramInt);
+        return tile instanceof IAspectContainer
+                && ((IAspectContainer) tile).doesContainerContainAmount(paramAspect, paramInt);
     }
 
     @Override
@@ -354,9 +366,9 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
 
     @Override
     public boolean isConnectable(ForgeDirection forgeDirection) {
-        //TileEntity tile = getTile();
-        //return tile instanceof IEssentiaTransport && ((IEssentiaTransport) tile).isConnectable(forgeDirection);
-    	return true;
+        // TileEntity tile = getTile();
+        // return tile instanceof IEssentiaTransport && ((IEssentiaTransport) tile).isConnectable(forgeDirection);
+        return true;
     }
 
     @Override
@@ -374,30 +386,29 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     public void setSuction(Aspect paramAspect, int paramInt) {
         TileEntity tile = getTile();
-        if (tile instanceof IEssentiaTransport)
-            ((IEssentiaTransport) tile).setSuction(paramAspect, paramInt);
+        if (tile instanceof IEssentiaTransport) ((IEssentiaTransport) tile).setSuction(paramAspect, paramInt);
     }
 
     @Override
     public Aspect getSuctionType(ForgeDirection forgeDirection) {
-    	TileEntity tile = getTile();
-        if (tile instanceof IEssentiaTransport)
-            return ((IEssentiaTransport) tile).getSuctionType(forgeDirection);
+        TileEntity tile = getTile();
+        if (tile instanceof IEssentiaTransport) return ((IEssentiaTransport) tile).getSuctionType(forgeDirection);
         return null;
     }
 
     @Override
     public int getSuctionAmount(ForgeDirection forgeDirection) {
-    	TileEntity tile = getTile();
-        if (tile instanceof IEssentiaTransport)
-            return ((IEssentiaTransport) tile).getSuctionAmount(forgeDirection);
+        TileEntity tile = getTile();
+        if (tile instanceof IEssentiaTransport) return ((IEssentiaTransport) tile).getSuctionAmount(forgeDirection);
         return 0;
     }
 
     @Override
     public int takeEssentia(Aspect paramAspect, int paramInt, ForgeDirection forgeDirection) {
         TileEntity tile = getTile();
-        return tile instanceof IEssentiaTransport ? ((IEssentiaTransport) tile).takeEssentia(paramAspect, paramInt, forgeDirection) : 0;
+        return tile instanceof IEssentiaTransport
+                ? ((IEssentiaTransport) tile).takeEssentia(paramAspect, paramInt, forgeDirection)
+                : 0;
     }
 
     @Override
@@ -408,14 +419,16 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
 
     @Override
     public boolean renderExtendedTube() {
-    	TileEntity tile = getTile();
+        TileEntity tile = getTile();
         return tile instanceof IEssentiaTransport && ((IEssentiaTransport) tile).renderExtendedTube();
     }
 
     @Override
     public int addEssentia(Aspect arg0, int arg1, ForgeDirection forgeDirection) {
         TileEntity tile = getTile();
-        return tile instanceof IEssentiaTransport ? ((IEssentiaTransport) tile).addEssentia(arg0, arg1, forgeDirection) : 0;
+        return tile instanceof IEssentiaTransport
+                ? ((IEssentiaTransport) tile).addEssentia(arg0, arg1, forgeDirection)
+                : 0;
     }
 
     @Override
@@ -434,7 +447,9 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Override
     @Optional.Method(modid = "ComputerCraft")
     public String getType() {
-        return getTile() instanceof IPeripheral ? ((IPeripheral) getTile()).getType() : "Transvector Interface Unconnected Peripherad";
+        return getTile() instanceof IPeripheral
+                ? ((IPeripheral) getTile()).getType()
+                : "Transvector Interface Unconnected Peripherad";
     }
 
     @Override
@@ -445,12 +460,14 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
-    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
-        return getTile() instanceof IPeripheral ? ((IPeripheral) getTile()).callMethod(computer, context, method, arguments) : new Object[0];
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments)
+            throws LuaException, InterruptedException {
+        return getTile() instanceof IPeripheral
+                ? ((IPeripheral) getTile()).callMethod(computer, context, method, arguments)
+                : new Object[0];
     }
 
     @Override
-
     public void attach(IComputerAccess computer) {
         if (getTile() instanceof IPeripheral) {
             ((IPeripheral) getTile()).attach(computer);
@@ -471,7 +488,6 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
         return this.equals((Object) other);
     }
 
-
     @Optional.Method(modid = "IC2")
     @Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
@@ -483,74 +499,70 @@ public class TileTransvectorInterface extends TileTransvector implements ISidedI
     @Optional.Method(modid = "IC2")
     public double getConductionLoss() {
         TileEntity tile = getTile();
-        return tile instanceof IEnergyConductor ? ((IEnergyConductor)tile).getConductionLoss():0;
+        return tile instanceof IEnergyConductor ? ((IEnergyConductor) tile).getConductionLoss() : 0;
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public double getInsulationEnergyAbsorption() {
         TileEntity tile = getTile();
-        return tile instanceof IEnergyConductor ? ((IEnergyConductor)tile).getInsulationEnergyAbsorption():0;
+        return tile instanceof IEnergyConductor ? ((IEnergyConductor) tile).getInsulationEnergyAbsorption() : 0;
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public double getInsulationBreakdownEnergy() {
         TileEntity tile = getTile();
-        return tile instanceof IEnergyConductor ? ((IEnergyConductor)tile).getInsulationBreakdownEnergy():0;
+        return tile instanceof IEnergyConductor ? ((IEnergyConductor) tile).getInsulationBreakdownEnergy() : 0;
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public double getConductorBreakdownEnergy() {
         TileEntity tile = getTile();
-        return tile instanceof IEnergyConductor ? ((IEnergyConductor)tile).getConductorBreakdownEnergy():0;
+        return tile instanceof IEnergyConductor ? ((IEnergyConductor) tile).getConductorBreakdownEnergy() : 0;
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public void removeInsulation() {
         TileEntity tile = getTile();
-        if(tile instanceof IEnergyConductor )
-            ((IEnergyConductor)tile).removeInsulation();
+        if (tile instanceof IEnergyConductor) ((IEnergyConductor) tile).removeInsulation();
     }
-
 
     @Override
     @Optional.Method(modid = "IC2")
     public void removeConductor() {
 
         TileEntity tile = getTile();
-        if(tile instanceof IEnergyConductor )
-            ((IEnergyConductor)tile).removeConductor();
+        if (tile instanceof IEnergyConductor) ((IEnergyConductor) tile).removeConductor();
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
         TileEntity tile = getTile();
-        return tile instanceof IEnergyEmitter ? ((IEnergyEmitter)tile).emitsEnergyTo(receiver,direction):false;
+        return tile instanceof IEnergyEmitter ? ((IEnergyEmitter) tile).emitsEnergyTo(receiver, direction) : false;
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public double getOfferedEnergy() {
         TileEntity tile = getTile();
-        return tile instanceof IEnergySource ? ((IEnergySource)tile).getOfferedEnergy():0;
+        return tile instanceof IEnergySource ? ((IEnergySource) tile).getOfferedEnergy() : 0;
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public void drawEnergy(double amount) {
         TileEntity tile = getTile();
-        if(tile instanceof IEnergySource )
-            ((IEnergySource)tile).drawEnergy(amount);
+        if (tile instanceof IEnergySource) ((IEnergySource) tile).drawEnergy(amount);
     }
 
     @Override
     @Optional.Method(modid = "IC2")
     public int getSourceTier() {
         TileEntity tile = getTile();
-        return tile instanceof IEnergySource ? ((IEnergySource)tile).getSourceTier():0;
+        return tile instanceof IEnergySource ? ((IEnergySource) tile).getSourceTier() : 0;
     }
 }

@@ -43,7 +43,10 @@ public class ItemBrightNitor extends ItemBase {
     }
 
     public static void setBlock(int x, int y, int z, World world) {
-        if ((world.getBlock(x, y, z) == Blocks.air || world.getBlock(x, y, z) == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockNitorGas.class)) && !world.isRemote)
+        if ((world.getBlock(x, y, z) == Blocks.air
+                        || world.getBlock(x, y, z)
+                                == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockNitorGas.class))
+                && !world.isRemote)
             world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockNitorGas.class), meta, 2);
     }
 
@@ -54,14 +57,34 @@ public class ItemBrightNitor extends ItemBase {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_BRIGHT_NITOR, new AspectList().add(Aspect.LIGHT, 2).add(Aspect.FIRE, 1).add(Aspect.ENERGY, 1).add(Aspect.AIR, 1), 1, -5, 2, new ItemStack(this)).setParents(LibResearch.KEY_GASEOUS_LIGHT).setConcealed()
-                .setPages(new ResearchPage("0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_BRIGHT_NITOR)).setSecondary();
-
+        return (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_BRIGHT_NITOR,
+                        new AspectList()
+                                .add(Aspect.LIGHT, 2)
+                                .add(Aspect.FIRE, 1)
+                                .add(Aspect.ENERGY, 1)
+                                .add(Aspect.AIR, 1),
+                        1,
+                        -5,
+                        2,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_GASEOUS_LIGHT)
+                .setConcealed()
+                .setPages(new ResearchPage("0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_BRIGHT_NITOR))
+                .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_BRIGHT_NITOR, new ItemStack(this), new ItemStack(ConfigItems.itemResource, 1, 1), new AspectList().add(Aspect.ENERGY, 25).add(Aspect.LIGHT, 25).add(Aspect.AIR, 10).add(Aspect.FIRE, 10));
+        return new ThaumicTinkererCrucibleRecipe(
+                LibResearch.KEY_BRIGHT_NITOR,
+                new ItemStack(this),
+                new ItemStack(ConfigItems.itemResource, 1, 1),
+                new AspectList()
+                        .add(Aspect.ENERGY, 25)
+                        .add(Aspect.LIGHT, 25)
+                        .add(Aspect.AIR, 10)
+                        .add(Aspect.FIRE, 10));
     }
 
     @Override

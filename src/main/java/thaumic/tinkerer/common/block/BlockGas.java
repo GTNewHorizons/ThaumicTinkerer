@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -30,9 +32,6 @@ import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public abstract class BlockGas extends BlockMod implements ITTinkererBlock {
 
@@ -83,8 +82,7 @@ public abstract class BlockGas extends BlockMod implements ITTinkererBlock {
 
     private void setAt(World world, int x, int y, int z, int meta) {
         if (world.isAirBlock(x, y, z) && world.getBlock(x, y, z) != this) {
-            if (!world.isRemote)
-                world.setBlock(x, y, z, this, meta, 2);
+            if (!world.isRemote) world.setBlock(x, y, z, this, meta, 2);
             world.scheduleBlockUpdate(x, y, z, this, 10);
         }
     }

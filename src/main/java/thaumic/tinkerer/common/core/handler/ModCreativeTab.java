@@ -14,6 +14,9 @@
  */
 package thaumic.tinkerer.common.core.handler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -27,21 +30,17 @@ import thaumic.tinkerer.common.item.kami.ItemKamiResource;
 import thaumic.tinkerer.common.lib.LibMisc;
 import thaumic.tinkerer.common.registry.ItemStackCompatator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class ModCreativeTab extends CreativeTabs {
 
     public static ModCreativeTab INSTANCE;
-    //Holds the registered items and blocks before they are sorted
+    // Holds the registered items and blocks before they are sorted
     public ArrayList<ItemStack> creativeTabQueue = new ArrayList<ItemStack>();
     ItemStack displayItem;
     List list = new ArrayList();
 
     public ModCreativeTab() {
         super(LibMisc.MOD_ID);
-        //addWand();
+        // addWand();
     }
 
     @Override
@@ -59,25 +58,40 @@ public class ModCreativeTab extends CreativeTabs {
     @Override
     public void displayAllReleventItems(List list) {
         list.addAll(this.list);
-
     }
 
     public void addWand() {
         ItemStack wand = new ItemStack(ConfigItems.itemWandCasting);
         ((ItemWandCasting) wand.getItem()).setRod(wand, ConfigItems.WAND_ROD_SILVERWOOD);
         ((ItemWandCasting) wand.getItem()).setCap(wand, ConfigItems.WAND_CAP_THAUMIUM);
-        ((ItemWandCasting) wand.getItem()).storeAllVis(wand, new AspectList().add(Aspect.AIR, 10000).add(Aspect.EARTH, 10000).add(Aspect.FIRE, 10000).add(Aspect.WATER, 10000).add(Aspect.ORDER, 10000).add(Aspect.ENTROPY, 10000));
-        if (list != null)
-            list.add(wand);
+        ((ItemWandCasting) wand.getItem())
+                .storeAllVis(
+                        wand,
+                        new AspectList()
+                                .add(Aspect.AIR, 10000)
+                                .add(Aspect.EARTH, 10000)
+                                .add(Aspect.FIRE, 10000)
+                                .add(Aspect.WATER, 10000)
+                                .add(Aspect.ORDER, 10000)
+                                .add(Aspect.ENTROPY, 10000));
+        if (list != null) list.add(wand);
         displayItem = wand;
 
         if (ConfigHandler.enableKami) {
             ItemStack wand1 = new ItemStack(ConfigItems.itemWandCasting);
             ((ItemWandCasting) wand1.getItem()).setRod(wand1, ThaumicTinkerer.proxy.rodIchor);
             ((ItemWandCasting) wand1.getItem()).setCap(wand1, ThaumicTinkerer.proxy.capIchor);
-            ((ItemWandCasting) wand1.getItem()).storeAllVis(wand1, new AspectList().add(Aspect.AIR, 100000).add(Aspect.EARTH, 100000).add(Aspect.FIRE, 100000).add(Aspect.WATER, 100000).add(Aspect.ORDER, 100000).add(Aspect.ENTROPY, 100000));
-            if (list != null)
-                list.add(wand1);
+            ((ItemWandCasting) wand1.getItem())
+                    .storeAllVis(
+                            wand1,
+                            new AspectList()
+                                    .add(Aspect.AIR, 100000)
+                                    .add(Aspect.EARTH, 100000)
+                                    .add(Aspect.FIRE, 100000)
+                                    .add(Aspect.WATER, 100000)
+                                    .add(Aspect.ORDER, 100000)
+                                    .add(Aspect.ENTROPY, 100000));
+            if (list != null) list.add(wand1);
             displayItem = wand1;
         }
     }
@@ -94,5 +108,4 @@ public class ModCreativeTab extends CreativeTabs {
         Collections.sort(creativeTabQueue, new ItemStackCompatator());
         list.addAll(creativeTabQueue);
     }
-
 }

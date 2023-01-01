@@ -70,10 +70,8 @@ public class ModelWings extends ModelBiped {
             if (itemstack != null && player.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemstack.getItemUseAction();
 
-                if (enumaction == EnumAction.block)
-                    heldItemRight = 3;
-                else if (enumaction == EnumAction.bow)
-                    aimedBow = true;
+                if (enumaction == EnumAction.block) heldItemRight = 3;
+                else if (enumaction == EnumAction.bow) aimedBow = true;
             }
 
             if (player.capabilities.isFlying) {
@@ -90,5 +88,4 @@ public class ModelWings extends ModelBiped {
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
     }
-
 }

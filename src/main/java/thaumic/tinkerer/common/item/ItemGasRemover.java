@@ -53,19 +53,39 @@ public class ItemGasRemover extends ItemBase {
     @Override
     public IRegisterableResearch getResearchItem() {
 
-        IRegisterableResearch research = (TTResearchItem) new TTResearchItem(LibResearch.KEY_GAS_REMOVER, new AspectList().add(Aspect.DARKNESS, 2).add(Aspect.LIGHT, 2), -2, -7, 0, new ItemStack(this)).setRound()
-                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_GAS_REMOVER)).setParents(LibResearch.KEY_GASEOUS_SHADOW);
+        IRegisterableResearch research = (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_GAS_REMOVER,
+                        new AspectList().add(Aspect.DARKNESS, 2).add(Aspect.LIGHT, 2),
+                        -2,
+                        -7,
+                        0,
+                        new ItemStack(this))
+                .setRound()
+                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_GAS_REMOVER))
+                .setParents(LibResearch.KEY_GASEOUS_SHADOW);
         return research;
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_GAS_REMOVER, LibResearch.KEY_GAS_REMOVER, new ItemStack(this), new AspectList().add(Aspect.AIR, 2).add(Aspect.ORDER, 2),
-                "DDD", "T G", "QQQ",
-                'D', new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class)),
-                'T', new ItemStack(ThaumicTinkerer.registry.getItemFromClass(ItemGas.class).get(0)),
-                'G', new ItemStack(ThaumicTinkerer.registry.getItemFromClass(ItemGas.class).get(1)),
-                'Q', new ItemStack(Items.quartz));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_GAS_REMOVER,
+                LibResearch.KEY_GAS_REMOVER,
+                new ItemStack(this),
+                new AspectList().add(Aspect.AIR, 2).add(Aspect.ORDER, 2),
+                "DDD",
+                "T G",
+                "QQQ",
+                'D',
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class)),
+                'T',
+                new ItemStack(
+                        ThaumicTinkerer.registry.getItemFromClass(ItemGas.class).get(0)),
+                'G',
+                new ItemStack(
+                        ThaumicTinkerer.registry.getItemFromClass(ItemGas.class).get(1)),
+                'Q',
+                new ItemStack(Items.quartz));
     }
 
     @Override

@@ -16,13 +16,14 @@ package thaumic.tinkerer.common.item.foci;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -33,14 +34,9 @@ import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererItem {
 
     private IIcon ornament, depth;
-
-
 
     public ItemModFocus() {
         super();
@@ -59,17 +55,14 @@ public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererI
     public void registerIcons(IIconRegister par1IconRegister) {
         super.registerIcons(par1IconRegister);
         this.icon = IconHelper.forItem(par1IconRegister, this);
-        if (hasOrnament())
-            ornament = IconHelper.forItem(par1IconRegister, this, "Orn");
-        if (hasDepth())
-            depth = IconHelper.forItem(par1IconRegister, this, "Depth");
+        if (hasOrnament()) ornament = IconHelper.forItem(par1IconRegister, this, "Orn");
+        if (hasDepth()) depth = IconHelper.forItem(par1IconRegister, this, "Depth");
     }
 
     @Override
     public ArrayList<Object> getSpecialParameters() {
         return null;
     }
-
 
     @Override
     public boolean shouldRegister() {
@@ -97,22 +90,21 @@ public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererI
     }
     */
     /*
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-        AspectList cost = getVisCost(stack);
-        if (cost != null) {
-            list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" : "item.Focus.cost1"));
-            addVisCostTooltip(cost, stack, player, list, par4);
-        }
-    }
-	*/
+       @Override
+       public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+           AspectList cost = getVisCost(stack);
+           if (cost != null) {
+               list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" : "item.Focus.cost1"));
+               addVisCostTooltip(cost, stack, player, list, par4);
+           }
+       }
+    */
     protected void addVisCostTooltip(AspectList cost, ItemStack stack, EntityPlayer player, List list, boolean par4) {
         for (Aspect aspect : cost.getAspectsSorted()) {
             float amount = cost.getAmount(aspect) / 100.0F;
             list.add(" " + '\u00a7' + aspect.getChatcolor() + aspect.getName() + '\u00a7' + "r x " + amount);
         }
     }
-
 
     @Override
     public EnumRarity getRarity(ItemStack itemstack) {
@@ -144,9 +136,12 @@ public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererI
     }
 
     @Override
-    public ItemStack onFocusRightClick(ItemStack paramItemStack, World paramWorld, EntityPlayer paramEntityPlayer, MovingObjectPosition paramMovingObjectPosition) {
-        if (isUseItem(paramItemStack))
-            paramEntityPlayer.setItemInUse(paramItemStack, Integer.MAX_VALUE);
+    public ItemStack onFocusRightClick(
+            ItemStack paramItemStack,
+            World paramWorld,
+            EntityPlayer paramEntityPlayer,
+            MovingObjectPosition paramMovingObjectPosition) {
+        if (isUseItem(paramItemStack)) paramEntityPlayer.setItemInUse(paramItemStack, Integer.MAX_VALUE);
 
         return paramItemStack;
     }
@@ -157,21 +152,18 @@ public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererI
     }
 
     @Override
-    public void onPlayerStoppedUsingFocus(ItemStack paramItemStack, World paramWorld, EntityPlayer paramEntityPlayer, int paramInt) {
+    public void onPlayerStoppedUsingFocus(
+            ItemStack paramItemStack, World paramWorld, EntityPlayer paramEntityPlayer, int paramInt) {
         // NO-OP
     }
 
-
     @Override
-    public boolean onFocusBlockStartBreak(ItemStack paramItemStack, int paramInt1, int paramInt2, int paramInt3, EntityPlayer paramEntityPlayer) {
+    public boolean onFocusBlockStartBreak(
+            ItemStack paramItemStack, int paramInt1, int paramInt2, int paramInt3, EntityPlayer paramEntityPlayer) {
         return false;
     }
 
     public boolean canApplyUpgrade(ItemStack focusstack, EntityPlayer player, FocusUpgradeType type, int rank) {
         return true;
     }
-    
-    
-
-
 }

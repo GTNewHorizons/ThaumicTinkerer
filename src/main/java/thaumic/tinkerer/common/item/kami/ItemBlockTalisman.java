@@ -18,6 +18,8 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -53,12 +55,10 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
     @Deprecated
     private static final String TAG_BLOCK_ID = "blockID";
+
     private static final String TAG_BLOCK_NAME = "blockName";
     private static final String TAG_BLOCK_META = "blockMeta";
     private static final String TAG_BLOCK_COUNT = "blockCount";
@@ -93,8 +93,7 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
 
     public static Block getBlock(ItemStack stack) {
         Block block = Block.getBlockFromName(getBlockName(stack));
-        if (block == Blocks.air)
-            block = Block.getBlockById(getBlockID(stack));
+        if (block == Blocks.air) block = Block.getBlockById(getBlockID(stack));
 
         return block;
     }
@@ -109,7 +108,8 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
 
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        if ((getBlock(par1ItemStack) != Blocks.air || getBlockID(par1ItemStack) != 0) && par3EntityPlayer.isSneaking()) {
+        if ((getBlock(par1ItemStack) != Blocks.air || getBlockID(par1ItemStack) != 0)
+                && par3EntityPlayer.isSneaking()) {
             int dmg = par1ItemStack.getItemDamage();
             par1ItemStack.setItemDamage(~dmg & 1);
             par2World.playSoundAtEntity(par3EntityPlayer, "random.orb", 0.3F, 0.1F);
@@ -118,7 +118,17 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
     }
 
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
+    public boolean onItemUse(
+            ItemStack par1ItemStack,
+            EntityPlayer par2EntityPlayer,
+            World par3World,
+            int par4,
+            int par5,
+            int par6,
+            int par7,
+            float par8,
+            float par9,
+            float par10) {
         Block block = par3World.getBlock(par4, par5, par6);
         int meta = par3World.getBlockMetadata(par4, par5, par6);
         boolean set = setBlock(par1ItemStack, block, meta);
@@ -130,7 +140,9 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
             TileEntity tile = par3World.getTileEntity(par4, par5, par6);
             if (tile != null && tile instanceof IInventory) {
                 IInventory inv = (IInventory) tile;
-                int[] slots = inv instanceof ISidedInventory ? ((ISidedInventory) inv).getAccessibleSlotsFromSide(par7) : TileTransvectorInterface.buildSlotsForLinearInventory(inv);
+                int[] slots = inv instanceof ISidedInventory
+                        ? ((ISidedInventory) inv).getAccessibleSlotsFromSide(par7)
+                        : TileTransvectorInterface.buildSlotsForLinearInventory(inv);
                 for (int slot : slots) {
                     ItemStack stackInSlot = inv.getStackInSlot(slot);
                     if (stackInSlot == null) {
@@ -138,16 +150,21 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
                         int maxSize = stack.getMaxStackSize();
                         stack.stackSize = remove(par1ItemStack, maxSize);
                         if (stack.stackSize != 0) {
-                            if (inv.isItemValidForSlot(slot, stack) && (!(inv instanceof ISidedInventory) || ((ISidedInventory) inv).canInsertItem(slot, stack, par7))) {
+                            if (inv.isItemValidForSlot(slot, stack)
+                                    && (!(inv instanceof ISidedInventory)
+                                            || ((ISidedInventory) inv).canInsertItem(slot, stack, par7))) {
                                 inv.setInventorySlotContents(slot, stack);
                                 inv.markDirty();
                                 set = true;
                             }
                         }
-                    } else if (stackInSlot.getItem() == Item.getItemFromBlock(bBlock) && stackInSlot.getItemDamage() == bmeta) {
+                    } else if (stackInSlot.getItem() == Item.getItemFromBlock(bBlock)
+                            && stackInSlot.getItemDamage() == bmeta) {
                         int maxSize = stackInSlot.getMaxStackSize();
                         int missing = maxSize - stackInSlot.stackSize;
-                        if (inv.isItemValidForSlot(slot, stackInSlot) && (!(inv instanceof ISidedInventory) || ((ISidedInventory) inv).canInsertItem(slot, stackInSlot, par7))) {
+                        if (inv.isItemValidForSlot(slot, stackInSlot)
+                                && (!(inv instanceof ISidedInventory)
+                                        || ((ISidedInventory) inv).canInsertItem(slot, stackInSlot, par7))) {
                             stackInSlot.stackSize += remove(par1ItemStack, missing);
                             inv.markDirty();
                             set = true;
@@ -157,7 +174,18 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
             } else {
                 int remove = remove(par1ItemStack, 1);
                 if (remove > 0) {
-                    Item.getItemFromBlock(bBlock).onItemUse(new ItemStack(bBlock, 1, bmeta), par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
+                    Item.getItemFromBlock(bBlock)
+                            .onItemUse(
+                                    new ItemStack(bBlock, 1, bmeta),
+                                    par2EntityPlayer,
+                                    par3World,
+                                    par4,
+                                    par5,
+                                    par6,
+                                    par7,
+                                    par8,
+                                    par9,
+                                    par10);
                     set = true;
                 }
             }
@@ -201,11 +229,12 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
         Block block = getBlock(par1ItemStack);
         if (block != null && block != Blocks.air) {
             int count = getBlockCount(par1ItemStack);
-            par3List.add(StatCollector.translateToLocal(new ItemStack(block, 1, getBlockMeta(par1ItemStack)).getUnlocalizedName() + ".name") + " (x" + count + ")");
+            par3List.add(StatCollector.translateToLocal(
+                            new ItemStack(block, 1, getBlockMeta(par1ItemStack)).getUnlocalizedName() + ".name")
+                    + " (x" + count + ")");
         }
 
-        if (par1ItemStack.getItemDamage() == 1)
-            par3List.add(StatCollector.translateToLocal("ttmisc.active"));
+        if (par1ItemStack.getItemDamage() == 1) par3List.add(StatCollector.translateToLocal("ttmisc.active"));
         else par3List.add(StatCollector.translateToLocal("ttmisc.inactive"));
     }
 
@@ -222,7 +251,10 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
     @Override
     public void onWornTick(ItemStack itemstack, EntityLivingBase entity) {
         Block block = getBlock(itemstack);
-        if (!entity.worldObj.isRemote && itemstack.getItemDamage() == 1 && block != Blocks.air && entity instanceof EntityPlayer) {
+        if (!entity.worldObj.isRemote
+                && itemstack.getItemDamage() == 1
+                && block != Blocks.air
+                && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             int meta = getBlockMeta(itemstack);
 
@@ -240,25 +272,25 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
 
                 if (Item.getItemFromBlock(block) == stack.getItem() && stack.getItemDamage() == meta) {
                     counts[i] = stack.stackSize;
-                    if (highest == -1)
-                        highest = i;
+                    if (highest == -1) highest = i;
                     else highest = counts[i] > counts[highest] && highest > 8 ? i : highest;
                 }
             }
 
             if (highest == -1) {
                 ItemStack heldItem = player.inventory.getItemStack();
-                if (hasFreeSlot && (heldItem == null || Item.getItemFromBlock(block) == heldItem.getItem() || heldItem.getItemDamage() != meta)) {
+                if (hasFreeSlot
+                        && (heldItem == null
+                                || Item.getItemFromBlock(block) == heldItem.getItem()
+                                || heldItem.getItemDamage() != meta)) {
                     ItemStack stack = new ItemStack(block, remove(itemstack, 64), meta);
-                    if (stack.stackSize != 0)
-                        player.inventory.addItemStackToInventory(stack);
+                    if (stack.stackSize != 0) player.inventory.addItemStackToInventory(stack);
                 }
             } else {
                 for (int i = 0; i < counts.length; i++) {
                     int count = counts[i];
 
-                    if (i == highest || count == 0)
-                        continue;
+                    if (i == highest || count == 0) continue;
 
                     add(itemstack, count);
                     player.inventory.setInventorySlotContents(i, null);
@@ -276,14 +308,10 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
     }
 
     @Override
-    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
-    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
     public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {
@@ -302,17 +330,39 @@ public class ItemBlockTalisman extends ItemKamiBase implements IBauble {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_BLOCK_TALISMAN, new AspectList().add(Aspect.VOID, 2).add(Aspect.DARKNESS, 1).add(Aspect.ELDRITCH, 1).add(Aspect.MAGIC, 1), 14, 17, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHOR_PICK_GEM, LibResearch.KEY_ICHOR_SHOVEL_GEM)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_BLOCK_TALISMAN,
+                        new AspectList()
+                                .add(Aspect.VOID, 2)
+                                .add(Aspect.DARKNESS, 1)
+                                .add(Aspect.ELDRITCH, 1)
+                                .add(Aspect.MAGIC, 1),
+                        14,
+                        17,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHOR_PICK_GEM, LibResearch.KEY_ICHOR_SHOVEL_GEM)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_BLOCK_TALISMAN));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_BLOCK_TALISMAN, new ItemStack(this), 9, new AspectList().add(Aspect.VOID, 65).add(Aspect.DARKNESS, 32).add(Aspect.MAGIC, 50).add(Aspect.ELDRITCH, 32), new ItemStack(ConfigItems.itemFocusPortableHole),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(Blocks.ender_chest), new ItemStack(Items.diamond), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemResource, 1, 11), new ItemStack(ConfigBlocks.blockJar, 1, 3));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_BLOCK_TALISMAN,
+                new ItemStack(this),
+                9,
+                new AspectList()
+                        .add(Aspect.VOID, 65)
+                        .add(Aspect.DARKNESS, 32)
+                        .add(Aspect.MAGIC, 50)
+                        .add(Aspect.ELDRITCH, 32),
+                new ItemStack(ConfigItems.itemFocusPortableHole),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(Blocks.ender_chest),
+                new ItemStack(Items.diamond),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ConfigItems.itemResource, 1, 11),
+                new ItemStack(ConfigBlocks.blockJar, 1, 3));
     }
 }

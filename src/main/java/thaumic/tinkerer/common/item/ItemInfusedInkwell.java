@@ -24,7 +24,6 @@ public class ItemInfusedInkwell extends ItemBase implements IScribeTools {
         maxStackSize = 1;
         canRepair = true;
         setHasSubtypes(false);
-
     }
 
     @Override
@@ -39,13 +38,26 @@ public class ItemInfusedInkwell extends ItemBase implements IScribeTools {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererRecipeMulti(new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_INFUSED_INKWELL + 0, new ItemStack(this),
-                "QQQ", "QCQ", "QQQ",
-                'Q', new ItemStack(Items.dye, 1, 0),
-                'C', new ItemStack(this, 1, 32767)),
-                new ThaumicTinkererInfusionRecipe(LibResearch.KEY_INFUSED_INKWELL, new ItemStack(this), 2, new AspectList().add(Aspect.VOID, 8).add(Aspect.DARKNESS, 8), new ItemStack(ConfigItems.itemInkwell),
-                        new ItemStack(ConfigItems.itemShard, 1, 0), new ItemStack(ConfigBlocks.blockJar), new ItemStack(ConfigItems.itemResource, 1, 3))
-        );
+        return new ThaumicTinkererRecipeMulti(
+                new ThaumicTinkererCraftingBenchRecipe(
+                        LibResearch.KEY_INFUSED_INKWELL + 0,
+                        new ItemStack(this),
+                        "QQQ",
+                        "QCQ",
+                        "QQQ",
+                        'Q',
+                        new ItemStack(Items.dye, 1, 0),
+                        'C',
+                        new ItemStack(this, 1, 32767)),
+                new ThaumicTinkererInfusionRecipe(
+                        LibResearch.KEY_INFUSED_INKWELL,
+                        new ItemStack(this),
+                        2,
+                        new AspectList().add(Aspect.VOID, 8).add(Aspect.DARKNESS, 8),
+                        new ItemStack(ConfigItems.itemInkwell),
+                        new ItemStack(ConfigItems.itemShard, 1, 0),
+                        new ItemStack(ConfigBlocks.blockJar),
+                        new ItemStack(ConfigItems.itemResource, 1, 3)));
     }
 
     @Override
@@ -64,5 +76,4 @@ public class ItemInfusedInkwell extends ItemBase implements IScribeTools {
     public String getItemName() {
         return LibItemNames.INFUSED_INKWELL;
     }
-
 }

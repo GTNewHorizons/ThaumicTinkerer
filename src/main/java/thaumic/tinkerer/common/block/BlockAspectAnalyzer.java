@@ -15,6 +15,8 @@
 package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.common.Loader;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -43,9 +45,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class BlockAspectAnalyzer extends BlockModContainer {
 
     IIcon[] icons = new IIcon[5];
@@ -61,11 +60,21 @@ public class BlockAspectAnalyzer extends BlockModContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityPlayer par5EntityPlayer,
+            int par6,
+            float par7,
+            float par8,
+            float par9) {
         if (!par1World.isRemote) {
             TileAspectAnalyzer tile = (TileAspectAnalyzer) par1World.getTileEntity(par2, par3, par4);
             if (tile != null) {
-                par5EntityPlayer.openGui(ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_ASPECT_ANALYZER, par1World, par2, par3, par4);
+                par5EntityPlayer.openGui(
+                        ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_ASPECT_ANALYZER, par1World, par2, par3, par4);
             }
         }
 
@@ -85,21 +94,28 @@ public class BlockAspectAnalyzer extends BlockModContainer {
                     float f1 = random.nextFloat() * 0.8F + 0.1F;
                     EntityItem entityitem;
 
-                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World.spawnEntityInWorld(entityitem)) {
+                    for (float f2 = random.nextFloat() * 0.8F + 0.1F;
+                            itemstack.stackSize > 0;
+                            par1World.spawnEntityInWorld(entityitem)) {
                         int k1 = random.nextInt(21) + 10;
 
-                        if (k1 > itemstack.stackSize)
-                            k1 = itemstack.stackSize;
+                        if (k1 > itemstack.stackSize) k1 = itemstack.stackSize;
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(
+                                par1World,
+                                par2 + f,
+                                par3 + f1,
+                                par4 + f2,
+                                new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (float) random.nextGaussian() * f3;
                         entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
                         entityitem.motionZ = (float) random.nextGaussian() * f3;
 
                         if (itemstack.hasTagCompound())
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)
+                                    itemstack.getTagCompound().copy());
                     }
                 }
             }
@@ -112,8 +128,7 @@ public class BlockAspectAnalyzer extends BlockModContainer {
 
     @Override
     public void registerBlockIcons(IIconRegister par1IconRegister) {
-        for (int i = 0; i < 5; i++)
-            icons[i] = IconHelper.forBlock(par1IconRegister, this, i);
+        for (int i = 0; i < 5; i++) icons[i] = IconHelper.forBlock(par1IconRegister, this, i);
     }
 
     @Override
@@ -158,16 +173,38 @@ public class BlockAspectAnalyzer extends BlockModContainer {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_ASPECT_ANALYZER, new AspectList().add(Aspect.MECHANISM, 2).add(Aspect.SENSES, 1).add(Aspect.MIND, 1), 0, 1, 2, new ItemStack(this)).setParents(LibResearch.KEY_PERIPHERALS).setParentsHidden("GOGGLES", "THAUMIUM").setConcealed().setRound()
+        return (IRegisterableResearch) new TTResearchItem(
+                        LibResearch.KEY_ASPECT_ANALYZER,
+                        new AspectList()
+                                .add(Aspect.MECHANISM, 2)
+                                .add(Aspect.SENSES, 1)
+                                .add(Aspect.MIND, 1),
+                        0,
+                        1,
+                        2,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_PERIPHERALS)
+                .setParentsHidden("GOGGLES", "THAUMIUM")
+                .setConcealed()
+                .setRound()
                 .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_ASPECT_ANALYZER));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ASPECT_ANALYZER, LibResearch.KEY_ASPECT_ANALYZER, new ItemStack(this), new AspectList().add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1),
-                "TWT", "WMW", "TWT",
-                'W', new ItemStack(ConfigBlocks.blockWoodenDevice, 1, 6),
-                'M', new ItemStack(ConfigItems.itemThaumometer),
-                'T', new ItemStack(ConfigItems.itemResource, 1, 2));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_ASPECT_ANALYZER,
+                LibResearch.KEY_ASPECT_ANALYZER,
+                new ItemStack(this),
+                new AspectList().add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1),
+                "TWT",
+                "WMW",
+                "TWT",
+                'W',
+                new ItemStack(ConfigBlocks.blockWoodenDevice, 1, 6),
+                'M',
+                new ItemStack(ConfigItems.itemThaumometer),
+                'T',
+                new ItemStack(ConfigItems.itemResource, 1, 2));
     }
 }

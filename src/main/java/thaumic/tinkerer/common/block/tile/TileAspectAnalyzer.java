@@ -19,6 +19,8 @@ import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import java.util.HashMap;
+import java.util.Map;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -35,12 +37,9 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Optional.InterfaceList({
-        @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
-        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+    @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
+    @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 })
 public class TileAspectAnalyzer extends TileEntity implements IInventory, SimpleComponent, IPeripheral, IMovableTile {
 
@@ -55,8 +54,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
         for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
             NBTTagCompound var4 = var2.getCompoundTagAt(var3);
             byte var5 = var4.getByte("Slot");
-            if (var5 >= 0 && var5 < inventorySlots.length)
-                inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
+            if (var5 >= 0 && var5 < inventorySlots.length) inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
         }
     }
 
@@ -74,7 +72,6 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
             }
         }
         par1NBTTagCompound.setTag("Items", var2);
-
     }
 
     @Override
@@ -99,8 +96,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
             } else {
                 stackAt = inventorySlots[i].splitStack(j);
 
-                if (inventorySlots[i].stackSize == 0)
-                    inventorySlots[i] = null;
+                if (inventorySlots[i].stackSize == 0) inventorySlots[i] = null;
 
                 return stackAt;
             }
@@ -136,19 +132,15 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+                && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
     }
 
     @Override
-    public void openInventory() {
-
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeInventory() {
-
-
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -162,7 +154,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"hasItem", "itemHasAspects", "getAspects", "getAspectCount"};
+        return new String[] {"hasItem", "itemHasAspects", "getAspects", "getAspectCount"};
     }
 
     @Override
@@ -184,7 +176,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
 
     public Object[] hasItemMethod() {
         ItemStack stack = getStackInSlot(0);
-        return new Object[]{stack != null};
+        return new Object[] {stack != null};
     }
 
     public AspectList getAspectList() {
@@ -201,28 +193,25 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
 
     public Object[] itemHasAspectsMethod() {
         AspectList aspects = getAspectList();
-        return new Object[]{aspects != null && aspects.size() > 0};
+        return new Object[] {aspects != null && aspects.size() > 0};
     }
 
     public Object[] getAspectsMethod() {
         AspectList aspects = getAspectList();
         Map<Double, String> retVals = new HashMap<Double, String>();
-        if (aspects == null)
-            return new Object[]{retVals};
+        if (aspects == null) return new Object[] {retVals};
         double i = 1;
-        for (Aspect aspect : aspects.getAspectsSorted())
-            retVals.put(i++, aspect.getTag());
-        return new Object[]{retVals};
+        for (Aspect aspect : aspects.getAspectsSorted()) retVals.put(i++, aspect.getTag());
+        return new Object[] {retVals};
     }
 
     public Object[] getAspectsAmountsMethod() {
         AspectList aspects = getAspectList();
         Map<String, Double> retVals = new HashMap<String, Double>();
-        if (aspects == null)
-            return new Object[]{retVals};
+        if (aspects == null) return new Object[] {retVals};
         for (Aspect aspect : aspects.getAspectsSorted())
             retVals.put(aspect.getTag(), (double) aspects.getAmount(aspect));
-        return new Object[]{retVals};
+        return new Object[] {retVals};
     }
 
     @Override
@@ -249,9 +238,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
     }
 
     @Override
-    public void doneMoving() {
-
-    }
+    public void doneMoving() {}
 
     @Override
     public String getComponentName() {
@@ -261,7 +248,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
     @Callback
     @Optional.Method(modid = "OpenComputers")
     public Object[] greet(Context context, Arguments args) {
-        return new Object[]{String.format("Hello, %s!", args.checkString(0))};
+        return new Object[] {String.format("Hello, %s!", args.checkString(0))};
     }
 
     @Callback(doc = "function():boolean -- Whether this inventory contains an item")

@@ -18,6 +18,7 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -45,8 +46,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-
-import java.util.List;
 
 public class ItemXPTalisman extends ItemBase implements IBauble {
 
@@ -81,13 +80,17 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
         } else if (getXP(par1ItemStack) >= LibFeatures.XP_TALISMAN_ENCHANTING_BOTTLE_COST) {
             boolean has = par3EntityPlayer.inventory.consumeInventoryItem(Items.glass_bottle);
             if (has) {
-                if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.experience_bottle, 1)) && !par2World.isRemote)
-                    par3EntityPlayer.dropItem(Items.experience_bottle, 1);
+                if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.experience_bottle, 1))
+                        && !par2World.isRemote) par3EntityPlayer.dropItem(Items.experience_bottle, 1);
                 int xp = getXP(par1ItemStack);
                 setXP(par1ItemStack, xp - LibFeatures.XP_TALISMAN_ENCHANTING_BOTTLE_COST);
                 par2World.playSoundAtEntity(par3EntityPlayer, "random.orb", 0.1F, (float) (0.1F + Math.random() / 2F));
                 for (int i = 0; par2World.isRemote && i < 6; i++)
-                    ThaumicTinkerer.tcProxy.sparkle((float) (par3EntityPlayer.posX + (Math.random() - 0.5)), (float) (par3EntityPlayer.posY + Math.random() - 0.5), (float) (par3EntityPlayer.posZ + (Math.random() - 0.5)), 3);
+                    ThaumicTinkerer.tcProxy.sparkle(
+                            (float) (par3EntityPlayer.posX + (Math.random() - 0.5)),
+                            (float) (par3EntityPlayer.posY + Math.random() - 0.5),
+                            (float) (par3EntityPlayer.posZ + (Math.random() - 0.5)),
+                            3);
             }
         }
 
@@ -97,7 +100,8 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
     private void consumeXPOrb(EntityXPOrb orb) {
         orb.setDead();
         orb.worldObj.playSoundAtEntity(orb, "thaumcraft:zap", orb.getXpValue() / 10F, 1F);
-        ThaumicTinkerer.tcProxy.wispFX(orb.worldObj, orb.posX, orb.posY, orb.posZ, orb.getXpValue() / 5F, 0.1F, 0.9F, 0.1F);
+        ThaumicTinkerer.tcProxy.wispFX(
+                orb.worldObj, orb.posX, orb.posY, orb.posZ, orb.getXpValue() / 5F, 0.1F, 0.9F, 0.1F);
     }
 
     @Override
@@ -130,15 +134,38 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_XP_TALISMAN, new AspectList().add(Aspect.GREED, 1).add(Aspect.MAGIC, 1).add(Aspect.MAN, 1), 4, -1, 2, new ItemStack(this, 1, 1)).setParents("JARBRAIN", LibResearch.KEY_SPELL_CLOTH).setConcealed()
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_XP_TALISMAN)).setSecondary();
-
+        return (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_XP_TALISMAN,
+                        new AspectList()
+                                .add(Aspect.GREED, 1)
+                                .add(Aspect.MAGIC, 1)
+                                .add(Aspect.MAN, 1),
+                        4,
+                        -1,
+                        2,
+                        new ItemStack(this, 1, 1))
+                .setParents("JARBRAIN", LibResearch.KEY_SPELL_CLOTH)
+                .setConcealed()
+                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_XP_TALISMAN))
+                .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_XP_TALISMAN, new ItemStack(this), 6, new AspectList().add(Aspect.GREED, 20).add(Aspect.EXCHANGE, 10).add(Aspect.BEAST, 10).add(Aspect.MECHANISM, 5), new ItemStack(Items.gold_ingot),
-                new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(ConfigItems.itemZombieBrain), new ItemStack(Items.diamond));
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_XP_TALISMAN,
+                new ItemStack(this),
+                6,
+                new AspectList()
+                        .add(Aspect.GREED, 20)
+                        .add(Aspect.EXCHANGE, 10)
+                        .add(Aspect.BEAST, 10)
+                        .add(Aspect.MECHANISM, 5),
+                new ItemStack(Items.gold_ingot),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(ConfigItems.itemZombieBrain),
+                new ItemStack(Items.diamond));
     }
 
     @Override
@@ -171,7 +198,13 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
                 return; // Can't take any XP.
             }
 
-            AxisAlignedBB boundingBox = AxisAlignedBB.getBoundingBox(player.posX - r, player.posY - r, player.posZ - r, player.posX + r, player.posY + r, player.posZ + r);
+            AxisAlignedBB boundingBox = AxisAlignedBB.getBoundingBox(
+                    player.posX - r,
+                    player.posY - r,
+                    player.posZ - r,
+                    player.posX + r,
+                    player.posY + r,
+                    player.posZ + r);
             List<EntityXPOrb> orbs = par2World.getEntitiesWithinAABB(EntityXPOrb.class, boundingBox);
 
             for (EntityXPOrb orb : orbs) {
@@ -184,8 +217,7 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
 
                     maxXP -= xpToAdd;
 
-                    if (maxXP <= 0)
-                        break;
+                    if (maxXP <= 0) break;
                 }
             }
 
@@ -194,14 +226,10 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
     }
 
     @Override
-    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
-    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
     public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {

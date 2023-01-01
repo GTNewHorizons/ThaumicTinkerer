@@ -34,7 +34,8 @@ public class RenderRepairer implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderWorldBlock(
+            IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         return false;
     }
 
@@ -47,5 +48,4 @@ public class RenderRepairer implements ISimpleBlockRenderingHandler {
     public int getRenderId() {
         return LibRenderIDs.idRepairer;
     }
-
 }

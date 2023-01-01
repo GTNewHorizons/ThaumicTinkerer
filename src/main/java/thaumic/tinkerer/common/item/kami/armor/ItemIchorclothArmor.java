@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.item.kami.armor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,13 +52,10 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ItemIchorclothArmor extends ItemArmor
+        implements IVisDiscountGear, ISpecialArmor, ITTinkererItem, IWarpingGear, IRunicArmor {
 
-public class ItemIchorclothArmor extends ItemArmor implements IVisDiscountGear, ISpecialArmor, ITTinkererItem, IWarpingGear, IRunicArmor {
-
-    static ItemArmor.ArmorMaterial material = EnumHelper.addArmorMaterial(
-            "ICHOR", 0, new int[]{3, 8, 6, 3}, 20);
+    static ItemArmor.ArmorMaterial material = EnumHelper.addArmorMaterial("ICHOR", 0, new int[] {3, 8, 6, 3}, 20);
 
     public ItemIchorclothArmor(int par2) {
         super(material, 0, par2);
@@ -83,9 +82,9 @@ public class ItemIchorclothArmor extends ItemArmor implements IVisDiscountGear, 
     }
 
     @Override
-    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean par4)
-    {
-        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + this.getVisDiscount(stack, player, null) + "%");
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean par4) {
+        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
+                + this.getVisDiscount(stack, player, null) + "%");
     }
 
     @Override
@@ -99,7 +98,8 @@ public class ItemIchorclothArmor extends ItemArmor implements IVisDiscountGear, 
     }
 
     @Override
-    public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
+    public ArmorProperties getProperties(
+            EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
         return new ArmorProperties(0, getArmorMaterial().getDamageReductionAmount(slot) * 0.0425, Integer.MAX_VALUE);
     }
 
@@ -155,74 +155,87 @@ public class ItemIchorclothArmor extends ItemArmor implements IVisDiscountGear, 
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return armorType != 0 ? null
+        if (!ConfigHandler.enableKami) return null;
+        return armorType != 0
+                ? null
                 : (IRegisterableResearch) new KamiResearchItem(
-                LibResearch.KEY_ICHORCLOTH_ARMOR, new AspectList()
-                .add(Aspect.ARMOR, 2).add(Aspect.CLOTH, 1)
-                .add(Aspect.LIGHT, 1).add(Aspect.CRAFT, 1), 17,
-                5, 5, new ItemStack(this)).setWarp(4)
-                .setConcealed()
-                .setParents(LibResearch.KEY_ICHOR_CLOTH)
-                .setPages(
-                        new ResearchPage("0"),
-                        ResearchHelper
-                                .arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_HELM),
-                        ResearchHelper
-                                .arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_CHEST),
-                        ResearchHelper
-                                .arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_LEGS),
-                        ResearchHelper
-                                .arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_BOOTS));
-
+                                LibResearch.KEY_ICHORCLOTH_ARMOR,
+                                new AspectList()
+                                        .add(Aspect.ARMOR, 2)
+                                        .add(Aspect.CLOTH, 1)
+                                        .add(Aspect.LIGHT, 1)
+                                        .add(Aspect.CRAFT, 1),
+                                17,
+                                5,
+                                5,
+                                new ItemStack(this))
+                        .setWarp(4)
+                        .setConcealed()
+                        .setParents(LibResearch.KEY_ICHOR_CLOTH)
+                        .setPages(
+                                new ResearchPage("0"),
+                                ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_HELM),
+                                ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_CHEST),
+                                ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_LEGS),
+                                ResearchHelper.arcaneRecipePage(LibResearch.KEY_ICHORCLOTH_BOOTS));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         switch (armorType) {
             case 0:
-                return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHORCLOTH_HELM,
-                        LibResearch.KEY_ICHORCLOTH_ARMOR, new ItemStack(this),
-                        new AspectList().add(Aspect.WATER, 75), "CCC", "C C", 'C',
-                        new ItemStack(ThaumicTinkerer.registry
-                                .getFirstItemFromClass(ItemKamiResource.class), 1,
-                                1));
+                return new ThaumicTinkererArcaneRecipe(
+                        LibResearch.KEY_ICHORCLOTH_HELM,
+                        LibResearch.KEY_ICHORCLOTH_ARMOR,
+                        new ItemStack(this),
+                        new AspectList().add(Aspect.WATER, 75),
+                        "CCC",
+                        "C C",
+                        'C',
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
             case 1:
-                return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHORCLOTH_CHEST,
-                        LibResearch.KEY_ICHORCLOTH_ARMOR, new ItemStack(this),
-                        new AspectList().add(Aspect.AIR, 75), "C C", "CCC", "CCC",
+                return new ThaumicTinkererArcaneRecipe(
+                        LibResearch.KEY_ICHORCLOTH_CHEST,
+                        LibResearch.KEY_ICHORCLOTH_ARMOR,
+                        new ItemStack(this),
+                        new AspectList().add(Aspect.AIR, 75),
+                        "C C",
+                        "CCC",
+                        "CCC",
                         'C',
-                        new ItemStack(ThaumicTinkerer.registry
-                                .getFirstItemFromClass(ItemKamiResource.class), 1,
-                                1));
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
             case 2:
-                return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHORCLOTH_LEGS,
-                        LibResearch.KEY_ICHORCLOTH_ARMOR, new ItemStack(this),
-                        new AspectList().add(Aspect.FIRE, 75), "CCC", "C C", "C C",
+                return new ThaumicTinkererArcaneRecipe(
+                        LibResearch.KEY_ICHORCLOTH_LEGS,
+                        LibResearch.KEY_ICHORCLOTH_ARMOR,
+                        new ItemStack(this),
+                        new AspectList().add(Aspect.FIRE, 75),
+                        "CCC",
+                        "C C",
+                        "C C",
                         'C',
-                        new ItemStack(ThaumicTinkerer.registry
-                                .getFirstItemFromClass(ItemKamiResource.class), 1,
-                                1));
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
             case 3:
-                return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ICHORCLOTH_BOOTS,
-                        LibResearch.KEY_ICHORCLOTH_ARMOR, new ItemStack(this),
-                        new AspectList().add(Aspect.EARTH, 75), "C C", "C C", 'C',
-                        new ItemStack(ThaumicTinkerer.registry
-                                .getFirstItemFromClass(ItemKamiResource.class), 1,
-                                1));
-
+                return new ThaumicTinkererArcaneRecipe(
+                        LibResearch.KEY_ICHORCLOTH_BOOTS,
+                        LibResearch.KEY_ICHORCLOTH_ARMOR,
+                        new ItemStack(this),
+                        new AspectList().add(Aspect.EARTH, 75),
+                        "C C",
+                        "C C",
+                        'C',
+                        new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
         }
         return null;
     }
 
-	@Override
-	public int getWarp(ItemStack arg0, EntityPlayer arg1) {
-		return 3;
-	}
+    @Override
+    public int getWarp(ItemStack arg0, EntityPlayer arg1) {
+        return 3;
+    }
 
-	@Override
-	public int getRunicCharge(ItemStack arg0) {
-		return 0;
-	}
+    @Override
+    public int getRunicCharge(ItemStack arg0) {
+        return 0;
+    }
 }

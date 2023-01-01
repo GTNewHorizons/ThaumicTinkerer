@@ -45,8 +45,7 @@ public class ContainerEnchanter extends ContainerPlayerInv {
         if (var4 != null && var4.getHasStack()) {
             ItemStack var5 = var4.getStack();
 
-            if (var5 != null && var5.getItem() == Items.book)
-                return null;
+            if (var5 != null && var5.getItem() == Items.book) return null;
 
             boolean wand = ((Slot) inventorySlots.get(1)).isItemValid(var5);
 
@@ -54,18 +53,15 @@ public class ContainerEnchanter extends ContainerPlayerInv {
             var3 = var5.copy();
 
             if (par2 < 2) {
-                if (!mergeItemStack(var5, 2, 38, false))
-                    return null;
-            } else if (wand ? !mergeItemStack(var5, 1, 2, false) : var5.getItem().isItemTool(var5) && !mergeItemStack(var5, 0, 1, false))
-                return null;
+                if (!mergeItemStack(var5, 2, 38, false)) return null;
+            } else if (wand
+                    ? !mergeItemStack(var5, 1, 2, false)
+                    : var5.getItem().isItemTool(var5) && !mergeItemStack(var5, 0, 1, false)) return null;
 
-            if (var5.stackSize == 0)
-                var4.putStack(null);
-            else
-                var4.onSlotChanged();
+            if (var5.stackSize == 0) var4.putStack(null);
+            else var4.onSlotChanged();
 
-            if (var5.stackSize == var3.stackSize)
-                return null;
+            if (var5.stackSize == var3.stackSize) return null;
 
             var4.onPickupFromSlot(par1EntityPlayer, var5);
         }
@@ -77,5 +73,4 @@ public class ContainerEnchanter extends ContainerPlayerInv {
     public boolean canInteractWith(EntityPlayer entityplayer) {
         return enchanter.isUseableByPlayer(entityplayer);
     }
-
 }

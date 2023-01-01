@@ -62,7 +62,7 @@ public class GuiWarpGate extends GuiContainer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(gui);
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-        fontRendererObj.drawStringWithShadow(StatCollector.translateToLocal("ttmisc.lockedGate"), x + 20, y + 7, 0x999999);
+        fontRendererObj.drawStringWithShadow(
+                StatCollector.translateToLocal("ttmisc.lockedGate"), x + 20, y + 7, 0x999999);
     }
-
 }

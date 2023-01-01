@@ -22,7 +22,8 @@ public class RenderMobDisplay implements IItemRenderer {
     }
 
     @Override
-    public boolean shouldUseRenderHelper(ItemRenderType itemRenderType, ItemStack itemStack, ItemRendererHelper itemRendererHelper) {
+    public boolean shouldUseRenderHelper(
+            ItemRenderType itemRenderType, ItemStack itemStack, ItemRendererHelper itemRendererHelper) {
         return true;
     }
 
@@ -39,9 +40,7 @@ public class RenderMobDisplay implements IItemRenderer {
             verticalOffset = aspect.getVerticalOffset();
         }
         switch (itemRenderType) {
-
             case ENTITY:
-
                 GL11.glPushMatrix();
                 GL11.glTranslated(0.5, 0.2 + verticalOffset, 0.5);
                 GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
@@ -56,11 +55,10 @@ public class RenderMobDisplay implements IItemRenderer {
                         entity.copyLocationAndAnglesFrom(eItem);
                         if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
                             GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-                            //if (renderWithLighting) RenderUtils.enableLightmap();
+                            // if (renderWithLighting) RenderUtils.enableLightmap();
                             renderer.doRender(entity, 0, 0, 0, 0, 0);
                             GL11.glPopAttrib();
                         }
-
                     }
                     entity.worldObj = null;
                 }
@@ -81,11 +79,10 @@ public class RenderMobDisplay implements IItemRenderer {
                         Render renderer = RenderManager.instance.getEntityRenderObject(entity);
                         if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
                             GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-                            //if (renderWithLighting) RenderUtils.enableLightmap();
+                            // if (renderWithLighting) RenderUtils.enableLightmap();
                             renderer.doRender(entity, 0, 0, 0, 0, 0);
                             GL11.glPopAttrib();
                         }
-
                     }
                     entity.worldObj = null;
                 }

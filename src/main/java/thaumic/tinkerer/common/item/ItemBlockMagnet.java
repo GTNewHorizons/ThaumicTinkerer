@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.common.item;
 
+import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,8 +22,6 @@ import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 public class ItemBlockMagnet extends ItemBlock implements ITTinkererItem {
 

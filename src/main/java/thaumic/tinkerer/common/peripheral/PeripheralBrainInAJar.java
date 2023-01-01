@@ -12,7 +12,6 @@
  *
  * File Created @ [Dec 11, 2013, 9:36:45 PM (GMT)]
  */
-
 package thaumic.tinkerer.common.peripheral;
 
 import dan200.computercraft.api.lua.ILuaContext;
@@ -35,12 +34,12 @@ public class PeripheralBrainInAJar implements IPeripheral {
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"getXP"};
+        return new String[] {"getXP"};
     }
 
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) {
-        return new Object[]{jar.xp};
+        return new Object[] {jar.xp};
     }
 
     @Override
@@ -57,6 +56,4 @@ public class PeripheralBrainInAJar implements IPeripheral {
     public boolean equals(IPeripheral other) {
         return this.equals((Object) other);
     }
-
 }
-

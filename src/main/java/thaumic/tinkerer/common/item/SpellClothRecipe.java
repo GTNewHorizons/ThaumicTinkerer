@@ -39,10 +39,7 @@ public class SpellClothRecipe implements IRecipe {
             if (stack != null) {
                 if (stack.isItemEnchanted() && !(stack.getItem() instanceof INoRemoveEnchant) && !foundEnchanted)
                     foundEnchanted = true;
-
-                else if (stack.getItem() == item && !foundCloth)
-                    foundCloth = true;
-
+                else if (stack.getItem() == item && !foundCloth) foundCloth = true;
                 else return false; // Found an invalid item, breaking the recipe
             }
         }
@@ -61,8 +58,7 @@ public class SpellClothRecipe implements IRecipe {
             }
         }
 
-        if (stackToDisenchant == null)
-            return null;
+        if (stackToDisenchant == null) return null;
 
         NBTTagCompound cmp = (NBTTagCompound) stackToDisenchant.getTagCompound().copy();
         cmp.removeTag("ench"); // Remove enchantments

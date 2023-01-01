@@ -28,12 +28,12 @@ public class EnchantmentAutoSmelt extends EnchantmentMod {
 
     @Override
     public boolean canApplyTogether(Enchantment par1Enchantment) {
-        return par1Enchantment.effectId == Enchantment.unbreaking.effectId || par1Enchantment.effectId == Config.enchRepair.effectId;
+        return par1Enchantment.effectId == Enchantment.unbreaking.effectId
+                || par1Enchantment.effectId == Config.enchRepair.effectId;
     }
 
     @Override
     public boolean canApply(ItemStack par1ItemStack) {
         return super.canApply(par1ItemStack) && par1ItemStack.getItem() != ConfigItems.itemAxeElemental;
     }
-
 }

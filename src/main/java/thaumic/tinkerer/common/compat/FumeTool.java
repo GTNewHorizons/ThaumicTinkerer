@@ -19,7 +19,7 @@ import thaumic.tinkerer.common.item.ItemGasRemover;
 /**
  * Created by Katrina on 04/02/2015.
  */
-        @Optional.Interface(iface = "dan200.computercraft.api.turtle.ITurtleUpgrade", modid = "ComputerCraft")
+@Optional.Interface(iface = "dan200.computercraft.api.turtle.ITurtleUpgrade", modid = "ComputerCraft")
 public class FumeTool implements ITurtleUpgrade {
 
     @SideOnly(Side.CLIENT)
@@ -36,7 +36,6 @@ public class FumeTool implements ITurtleUpgrade {
     public String getUnlocalisedAdjective() {
         return "ttcomputer.dissipator";
     }
-
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
@@ -56,31 +55,28 @@ public class FumeTool implements ITurtleUpgrade {
         return null;
     }
 
-
     @Override
     @Optional.Method(modid = "ComputerCraft")
-    public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side,
-                           TurtleVerb verb, int direction) {
+    public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, int direction) {
 
-        if(verb==TurtleVerb.Dig)
-        {
-            ChunkCoordinates pos=turtle.getPosition();
+        if (verb == TurtleVerb.Dig) {
+            ChunkCoordinates pos = turtle.getPosition();
             int xs = (int) pos.posX;
             int ys = (int) pos.posY;
             int zs = (int) pos.posZ;
 
-            for(int x = xs - 3; x < xs + 3; x++)
-                for(int y = ys - 3; y < ys + 3; y++)
-                    for(int z = zs - 3; z < zs + 3; z++) {
+            for (int x = xs - 3; x < xs + 3; x++)
+                for (int y = ys - 3; y < ys + 3; y++)
+                    for (int z = zs - 3; z < zs + 3; z++) {
                         Block block = turtle.getWorld().getBlock(x, y, z);
-                        if(block != null && block instanceof BlockGas) {
+                        if (block != null && block instanceof BlockGas) {
                             BlockGas gas = (BlockGas) block;
                             gas.placeParticle(turtle.getWorld(), x, y, z);
                             turtle.getWorld().setBlock(x, y, z, Blocks.air, 0, 1 | 2);
                         }
                     }
 
-            //turtle.getWorld().playSoundAtEntity(turtle., "thaumcraft.wand", 0.2F, 1F);
+            // turtle.getWorld().playSoundAtEntity(turtle., "thaumcraft.wand", 0.2F, 1F);
             return TurtleCommandResult.success();
         }
         return TurtleCommandResult.failure();
@@ -95,9 +91,7 @@ public class FumeTool implements ITurtleUpgrade {
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
-    public void update(ITurtleAccess turtle, TurtleSide side) {
-
-    }
+    public void update(ITurtleAccess turtle, TurtleSide side) {}
 
     @SubscribeEvent
     @Optional.Method(modid = "ComputerCraft")

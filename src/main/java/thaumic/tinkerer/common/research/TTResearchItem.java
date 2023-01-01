@@ -65,7 +65,8 @@ public class TTResearchItem extends ResearchItem implements IRegisterableResearc
     @Override
     @SideOnly(Side.CLIENT)
     public String getText() {
-        return (ConfigHandler.useTootlipIndicators ? StatCollector.translateToLocal(getPrefix()) : "") + StatCollector.translateToLocal("ttresearch.lore." + key);
+        return (ConfigHandler.useTootlipIndicators ? StatCollector.translateToLocal(getPrefix()) : "")
+                + StatCollector.translateToLocal("ttresearch.lore." + key);
     }
 
     String getPrefix() {
@@ -80,14 +81,12 @@ public class TTResearchItem extends ResearchItem implements IRegisterableResearc
             }
 
             if (checkInfusion() && page.type == PageType.INFUSION_CRAFTING) {
-                if (parentsHidden == null || parentsHidden.length == 0)
-                    parentsHidden = new String[]{"INFUSION"};
+                if (parentsHidden == null || parentsHidden.length == 0) parentsHidden = new String[] {"INFUSION"};
                 else {
                     String[] newParents = new String[parentsHidden.length + 1];
                     newParents[0] = "INFUSION";
                     //noinspection ManualArrayCopy
-                    for (int i = 0; i < parentsHidden.length; i++)
-                        newParents[i + 1] = parentsHidden[i];
+                    for (int i = 0; i < parentsHidden.length; i++) newParents[i + 1] = parentsHidden[i];
                     parentsHidden = newParents;
                 }
             }

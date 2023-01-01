@@ -33,5 +33,4 @@ public final class LibEnchantNames {
     public static final String shockwave = LibResources.PREFIX_MOD + "shockwave";
     public static final String tunnel = LibResources.PREFIX_MOD + "tunnel";
     public static final String valiance = LibResources.PREFIX_MOD + "valiance";
-
 }

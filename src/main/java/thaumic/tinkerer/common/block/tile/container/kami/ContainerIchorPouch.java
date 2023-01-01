@@ -30,6 +30,7 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
     EntityPlayer player;
     ItemStack pouch;
     int blockSlot;
+
     public ContainerIchorPouch(EntityPlayer player) {
         super(player.inventory);
 
@@ -51,8 +52,7 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slot) {
-        if (slot == blockSlot)
-            return null;
+        if (slot == blockSlot) return null;
 
         ItemStack stack = null;
         Slot slotObject = (Slot) inventorySlots.get(slot);
@@ -60,13 +60,12 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
             ItemStack stackInSlot = slotObject.getStack();
             stack = stackInSlot.copy();
             if (slot < 13 * 9) {
-                if (!inv.isItemValidForSlot(slot, stackInSlot) || !mergeItemStack(stackInSlot, 13 * 9, inventorySlots.size(), true))
-                    return null;
+                if (!inv.isItemValidForSlot(slot, stackInSlot)
+                        || !mergeItemStack(stackInSlot, 13 * 9, inventorySlots.size(), true)) return null;
             } else if (!inv.isItemValidForSlot(slot, stackInSlot) || !mergeItemStack(stackInSlot, 0, 13 * 9, false)) {
                 return null;
             }
-            if (stackInSlot.stackSize == 0)
-                slotObject.putStack(null);
+            if (stackInSlot.stackSize == 0) slotObject.putStack(null);
             else slotObject.onSlotChanged();
         }
 
@@ -86,8 +85,7 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
         super.onContainerClosed(par1EntityPlayer);
         if (!player.worldObj.isRemote) {
             ((ItemFocusPouch) pouch.getItem()).setInventory(pouch, ((InventoryIchorPouch) inv).stackList);
-            if (player == null)
-                return;
+            if (player == null) return;
             if (player.getHeldItem() != null && player.getHeldItem().isItemEqual(pouch))
                 player.setCurrentItemOrArmor(0, pouch);
 
@@ -126,6 +124,5 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
         public boolean isItemValidForSlot(int i, ItemStack itemstack) {
             return itemstack != null && !(itemstack.getItem() instanceof ItemFocusPouch);
         }
-
     }
 }

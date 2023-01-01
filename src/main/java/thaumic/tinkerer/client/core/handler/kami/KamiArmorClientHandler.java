@@ -14,10 +14,8 @@ public class KamiArmorClientHandler {
 
     public static void SetStatus(boolean status) {
         if (FMLClientHandler.instance().getClient().currentScreen == null) {
-            if (status)
-                ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.enableAllArmor"));
-            else
-                ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.disableAllArmor"));
+            if (status) ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.enableAllArmor"));
+            else ToolModeHUDHandler.setTooltip(StatCollector.translateToLocal("ttmisc.disableAllArmor"));
             ArmorEnabled = status;
             ThaumicTinkerer.netHandler.sendToServer(new PacketToggleArmor(status));
         }

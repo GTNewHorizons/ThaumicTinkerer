@@ -14,6 +14,9 @@
  */
 package thaumic.tinkerer.client.gui;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
@@ -35,10 +38,6 @@ import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import thaumic.tinkerer.common.lib.LibFeatures;
 import thaumic.tinkerer.common.network.packet.PacketEnchanterAddEnchant;
 import thaumic.tinkerer.common.network.packet.PacketEnchanterStartWorking;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiEnchanting extends GuiContainer {
 
@@ -106,21 +105,23 @@ public class GuiEnchanting extends GuiContainer {
             enchantButtons[i].enabled = false;
         }
 
-        if (currentStack == null || currentStack.isItemEnchanted())
-            return;
+        if (currentStack == null || currentStack.isItemEnchanted()) return;
 
         int it = 0;
 
         for (int enchant : EnchantmentManager.enchantmentData.keySet()) {
-            if (currentStack.getItem().getItemEnchantability() != 0 && EnchantmentManager.canApply(currentStack, Enchantment.enchantmentsList[enchant], enchanter.enchantments) && EnchantmentManager.canEnchantmentBeUsed(ClientHelper.clientPlayer().getGameProfile().getName(), Enchantment.enchantmentsList[enchant])) {
+            if (currentStack.getItem().getItemEnchantability() != 0
+                    && EnchantmentManager.canApply(
+                            currentStack, Enchantment.enchantmentsList[enchant], enchanter.enchantments)
+                    && EnchantmentManager.canEnchantmentBeUsed(
+                            ClientHelper.clientPlayer().getGameProfile().getName(),
+                            Enchantment.enchantmentsList[enchant])) {
                 enchantButtons[it].enchant = Enchantment.enchantmentsList[enchant];
                 enchantButtons[it].enabled = true;
                 it++;
-                if (it >= 16)
-                    break;
+                if (it >= 16) break;
             }
         }
-
     }
 
     @Override
@@ -130,13 +131,13 @@ public class GuiEnchanting extends GuiContainer {
         } else if (par1GuiButton.id <= 16) {
             GuiButtonEnchantment button = enchantButtons[par1GuiButton.id - 1];
             if (button != null && button.enchant != null)
-                ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(enchanter, button.enchant.effectId, 0));
+                ThaumicTinkerer.netHandler.sendToServer(
+                        new PacketEnchanterAddEnchant(enchanter, button.enchant.effectId, 0));
         } else {
             int type = (par1GuiButton.id - 17) % 3;
             int index = (par1GuiButton.id - 17) / 3;
 
-            if (index >= enchanter.enchantments.size() || index >= enchanter.levels.size())
-                return;
+            if (index >= enchanter.enchantments.size() || index >= enchanter.levels.size()) return;
 
             int level = enchanter.levels.get(index);
 
@@ -144,15 +145,18 @@ public class GuiEnchanting extends GuiContainer {
 
             switch (type) {
                 case 0: {
-                    ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(enchanter, enchant.effectId, -1));
+                    ThaumicTinkerer.netHandler.sendToServer(
+                            new PacketEnchanterAddEnchant(enchanter, enchant.effectId, -1));
                     break;
                 }
                 case 1: {
-                    ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(enchanter, enchant.effectId, level == 1 ? -1 : level - 1));
+                    ThaumicTinkerer.netHandler.sendToServer(
+                            new PacketEnchanterAddEnchant(enchanter, enchant.effectId, level == 1 ? -1 : level - 1));
                     break;
                 }
                 case 2: {
-                    ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(enchanter, enchant.effectId, level + 1));
+                    ThaumicTinkerer.netHandler.sendToServer(
+                            new PacketEnchanterAddEnchant(enchanter, enchant.effectId, level + 1));
                     break;
                 }
             }
@@ -165,8 +169,9 @@ public class GuiEnchanting extends GuiContainer {
     public void updateScreen() {
         currentStack = enchanter.getStackInSlot(0);
         buildButtonList();
-        if (currentStack != lastTickStack || !lastTickEnchants.equals(enchanter.enchantments) || !lastTickLevels.equals(enchanter.levels))
-            buildButtonList();
+        if (currentStack != lastTickStack
+                || !lastTickEnchants.equals(enchanter.enchantments)
+                || !lastTickLevels.equals(enchanter.levels)) buildButtonList();
 
         lastTickStack = currentStack;
         lastTickEnchants = new ArrayList(enchanter.enchantments);
@@ -193,8 +198,7 @@ public class GuiEnchanting extends GuiContainer {
             GL11.glEnable(GL11.GL_BLEND);
             int xo = 15;
             int z = 50;
-            if (enchantButtons[8].enabled)
-                z = 26;
+            if (enchantButtons[8].enabled) z = 26;
             for (Aspect aspect : LibFeatures.PRIMAL_ASPECTS) {
                 drawAspectBar(aspect, x + xo, y + z, i, j);
                 xo += 15;
@@ -205,8 +209,7 @@ public class GuiEnchanting extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-        if (!tooltip.isEmpty())
-            ClientHelper.renderTooltip(par1 - x, par2 - y, tooltip);
+        if (!tooltip.isEmpty()) ClientHelper.renderTooltip(par1 - x, par2 - y, tooltip);
         tooltip.clear();
     }
 
@@ -235,5 +238,4 @@ public class GuiEnchanting extends GuiContainer {
             this.tooltip = tooltip;
         }
     }
-
 }

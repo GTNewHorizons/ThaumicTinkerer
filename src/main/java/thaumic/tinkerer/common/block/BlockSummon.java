@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -41,9 +43,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class BlockSummon extends Block implements ITTinkererBlock {
 
@@ -92,7 +91,11 @@ public class BlockSummon extends Block implements ITTinkererBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int meta) {
-        return par1 == ForgeDirection.UP.ordinal() ? iconTop : par1 == ForgeDirection.DOWN.ordinal() ? Block.getBlockFromName("obsidian").getIcon(0, 0) : iconSide;
+        return par1 == ForgeDirection.UP.ordinal()
+                ? iconTop
+                : par1 == ForgeDirection.DOWN.ordinal()
+                        ? Block.getBlockFromName("obsidian").getIcon(0, 0)
+                        : iconSide;
     }
 
     @Override
@@ -127,13 +130,38 @@ public class BlockSummon extends Block implements ITTinkererBlock {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_SUMMON, new AspectList().add(Aspect.WEAPON, 1).add(Aspect.BEAST, 3).add(Aspect.MAGIC, 3), -5, 8, 3, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class))).setWarp(3).setParents(LibResearch.KEY_BLOOD_SWORD)
-                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_SUMMON + "0"), ResearchHelper.recipePage(LibResearch.KEY_SUMMON + "1"), ResearchHelper.infusionPage(LibResearch.KEY_SUMMON), new ResearchPage("1"));
-
+        return (IRegisterableResearch) new TTResearchItem(
+                        LibResearch.KEY_SUMMON,
+                        new AspectList()
+                                .add(Aspect.WEAPON, 1)
+                                .add(Aspect.BEAST, 3)
+                                .add(Aspect.MAGIC, 3),
+                        -5,
+                        8,
+                        3,
+                        new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class)))
+                .setWarp(3)
+                .setParents(LibResearch.KEY_BLOOD_SWORD)
+                .setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.arcaneRecipePage(LibResearch.KEY_SUMMON + "0"),
+                        ResearchHelper.recipePage(LibResearch.KEY_SUMMON + "1"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_SUMMON),
+                        new ResearchPage("1"));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_SUMMON + "0", LibResearch.KEY_SUMMON, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class)), new AspectList().add(Aspect.ORDER, 50).add(Aspect.ENTROPY, 50), "WWW", "SSS", 'S', new ItemStack(Blocks.stone), 'W', new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_SUMMON + "0",
+                LibResearch.KEY_SUMMON,
+                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class)),
+                new AspectList().add(Aspect.ORDER, 50).add(Aspect.ENTROPY, 50),
+                "WWW",
+                "SSS",
+                'S',
+                new ItemStack(Blocks.stone),
+                'W',
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1));
     }
 }

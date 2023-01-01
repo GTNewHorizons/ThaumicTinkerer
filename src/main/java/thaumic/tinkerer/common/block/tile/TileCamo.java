@@ -80,7 +80,5 @@ public class TileCamo extends TileEntity implements IMovableTile {
     }
 
     @Override
-    public void doneMoving() {
-
-    }
+    public void doneMoving() {}
 }

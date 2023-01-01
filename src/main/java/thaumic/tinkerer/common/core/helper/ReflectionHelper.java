@@ -2,10 +2,9 @@ package thaumic.tinkerer.common.core.helper;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Created by Katrina on 18/03/14.

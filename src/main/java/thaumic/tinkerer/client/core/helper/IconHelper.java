@@ -55,5 +55,4 @@ public class IconHelper {
     public static IIcon forItem(IIconRegister ir, Item item, String s) {
         return forName(ir, item.getUnlocalizedName().replaceAll("item.", "") + s);
     }
-
 }

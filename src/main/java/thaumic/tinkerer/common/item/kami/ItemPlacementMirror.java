@@ -2,6 +2,8 @@ package thaumic.tinkerer.common.item.kami;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,9 +34,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemPlacementMirror extends ItemKamiBase {
 
     @Deprecated
@@ -52,8 +51,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
     }
 
     public static boolean hasBlocks(ItemStack stack, EntityPlayer player, ChunkCoordinates[] blocks) {
-        if (player.capabilities.isCreativeMode)
-            return true;
+        if (player.capabilities.isCreativeMode) return true;
 
         int required = blocks.length;
         int current = 0;
@@ -61,12 +59,14 @@ public class ItemPlacementMirror extends ItemKamiBase {
         List<ItemStack> talismansToCheck = new ArrayList();
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack stackInSlot = player.inventory.getStackInSlot(i);
-            if (stackInSlot != null && stackInSlot.getItem() == reqStack.getItem() && stackInSlot.getItemDamage() == reqStack.getItemDamage()) {
+            if (stackInSlot != null
+                    && stackInSlot.getItem() == reqStack.getItem()
+                    && stackInSlot.getItemDamage() == reqStack.getItemDamage()) {
                 current += stackInSlot.stackSize;
-                if (current >= required)
-                    return true;
+                if (current >= required) return true;
             }
-            if (stackInSlot != null && stackInSlot.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemBlockTalisman.class))
+            if (stackInSlot != null
+                    && stackInSlot.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemBlockTalisman.class))
                 talismansToCheck.add(stackInSlot);
         }
 
@@ -77,8 +77,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
             if (Item.getItemFromBlock(block) == reqStack.getItem() && meta == reqStack.getItemDamage()) {
                 current += ItemBlockTalisman.getBlockCount(talisman);
 
-                if (current >= required)
-                    return true;
+                if (current >= required) return true;
             }
         }
 
@@ -90,8 +89,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
         MovingObjectPosition pos = ToolHandler.raytraceFromEntity(player.worldObj, player, true, 5);
         if (pos != null) {
             Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
-            if (block != null && block.isReplaceable(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
-                pos.blockY--;
+            if (block != null && block.isReplaceable(player.worldObj, pos.blockX, pos.blockY, pos.blockZ)) pos.blockY--;
 
             ForgeDirection dir = ForgeDirection.getOrientation(pos.sideHit);
             int rotation = MathHelper.floor_double(player.rotationYaw * 4F / 360F + 0.5D) & 3;
@@ -99,9 +97,13 @@ public class ItemPlacementMirror extends ItemKamiBase {
 
             boolean topOrBottom = dir == ForgeDirection.UP || dir == ForgeDirection.DOWN;
 
-            int xOff = !(dir == ForgeDirection.WEST || dir == ForgeDirection.EAST) ? topOrBottom ? player.rotationPitch > 75 || (rotation & 1) == 0 ? range : 0 : range : 0;
+            int xOff = !(dir == ForgeDirection.WEST || dir == ForgeDirection.EAST)
+                    ? topOrBottom ? player.rotationPitch > 75 || (rotation & 1) == 0 ? range : 0 : range
+                    : 0;
             int yOff = topOrBottom ? player.rotationPitch > 75 ? 0 : range : range;
-            int zOff = !(dir == ForgeDirection.SOUTH || dir == ForgeDirection.NORTH) ? topOrBottom ? player.rotationPitch > 75 || (rotation & 1) == 1 ? range : 0 : range : 0;
+            int zOff = !(dir == ForgeDirection.SOUTH || dir == ForgeDirection.NORTH)
+                    ? topOrBottom ? player.rotationPitch > 75 || (rotation & 1) == 1 ? range : 0 : range
+                    : 0;
 
             for (int x = -xOff; x < xOff + 1; x++)
                 for (int y = 0; y < yOff * 2 + 1; y++) {
@@ -111,11 +113,12 @@ public class ItemPlacementMirror extends ItemKamiBase {
                         int zp = pos.blockZ + z + dir.offsetZ;
 
                         Block block1 = player.worldObj.getBlock(xp, yp, zp);
-                        if (block1 == null || block1.isAir(player.worldObj, xp, yp, zp) || block1.isReplaceable(player.worldObj, xp, yp, zp))
+                        if (block1 == null
+                                || block1.isAir(player.worldObj, xp, yp, zp)
+                                || block1.isReplaceable(player.worldObj, xp, yp, zp))
                             coords.add(new ChunkCoordinates(xp, yp, zp));
                     }
                 }
-
         }
 
         return coords.toArray(new ChunkCoordinates[coords.size()]);
@@ -136,8 +139,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
 
     public static Block getBlock(ItemStack stack) {
         Block block = Block.getBlockFromName(getBlockName(stack));
-        if (block == Blocks.air)
-            block = Block.getBlockById(getBlockID(stack));
+        if (block == Blocks.air) block = Block.getBlockById(getBlockID(stack));
 
         return block;
     }
@@ -151,13 +153,22 @@ public class ItemPlacementMirror extends ItemKamiBase {
     }
 
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
+    public boolean onItemUse(
+            ItemStack par1ItemStack,
+            EntityPlayer par2EntityPlayer,
+            World par3World,
+            int par4,
+            int par5,
+            int par6,
+            int par7,
+            float par8,
+            float par9,
+            float par10) {
         Block block = par3World.getBlock(par4, par5, par6);
         int meta = par3World.getBlockMetadata(par4, par5, par6);
 
         if (par2EntityPlayer.isSneaking()) {
-            if (block != null && block.getRenderType() == 0)
-                setBlock(par1ItemStack, block, meta);
+            if (block != null && block.getRenderType() == 0) setBlock(par1ItemStack, block, meta);
         } else placeAllBlocks(par1ItemStack, par2EntityPlayer);
 
         return true;
@@ -178,35 +189,39 @@ public class ItemPlacementMirror extends ItemKamiBase {
 
     public void placeAllBlocks(ItemStack stack, EntityPlayer player) {
         ChunkCoordinates[] blocksToPlace = getBlocksToPlace(stack, player);
-        if (!hasBlocks(stack, player, blocksToPlace))
-            return;
+        if (!hasBlocks(stack, player, blocksToPlace)) return;
 
         ItemStack stackToPlace = new ItemStack(getBlock(stack), 1, getBlockMeta(stack));
-        for (ChunkCoordinates coords : blocksToPlace)
-            placeBlockAndConsume(player, stackToPlace, coords);
+        for (ChunkCoordinates coords : blocksToPlace) placeBlockAndConsume(player, stackToPlace, coords);
         player.worldObj.playSoundAtEntity(player, "thaumcraft:wand", 1F, 1F);
     }
 
     private void placeBlockAndConsume(EntityPlayer player, ItemStack blockToPlace, ChunkCoordinates coords) {
-        if (blockToPlace.getItem() == null)
-            return;
-        player.worldObj.setBlock(coords.posX, coords.posY, coords.posZ, Block.getBlockFromItem(blockToPlace.getItem()), blockToPlace.getItemDamage(), 1 | 2);
+        if (blockToPlace.getItem() == null) return;
+        player.worldObj.setBlock(
+                coords.posX,
+                coords.posY,
+                coords.posZ,
+                Block.getBlockFromItem(blockToPlace.getItem()),
+                blockToPlace.getItemDamage(),
+                1 | 2);
 
-        if (player.capabilities.isCreativeMode)
-            return;
+        if (player.capabilities.isCreativeMode) return;
 
         List<ItemStack> talismansToCheck = new ArrayList();
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack stackInSlot = player.inventory.getStackInSlot(i);
-            if (stackInSlot != null && stackInSlot.getItem() == blockToPlace.getItem() && stackInSlot.getItemDamage() == blockToPlace.getItemDamage()) {
+            if (stackInSlot != null
+                    && stackInSlot.getItem() == blockToPlace.getItem()
+                    && stackInSlot.getItemDamage() == blockToPlace.getItemDamage()) {
                 stackInSlot.stackSize--;
-                if (stackInSlot.stackSize == 0)
-                    player.inventory.setInventorySlotContents(i, null);
+                if (stackInSlot.stackSize == 0) player.inventory.setInventorySlotContents(i, null);
 
                 return;
             }
 
-            if (stackInSlot != null && stackInSlot.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemBlockTalisman.class))
+            if (stackInSlot != null
+                    && stackInSlot.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemBlockTalisman.class))
                 talismansToCheck.add(stackInSlot);
         }
 
@@ -255,7 +270,8 @@ public class ItemPlacementMirror extends ItemKamiBase {
 
         par3List.add(size + " x " + size);
         if (block != null && block != Blocks.air)
-            par3List.add(StatCollector.translateToLocal(new ItemStack(block, 1, getBlockMeta(par1ItemStack)).getUnlocalizedName() + ".name"));
+            par3List.add(StatCollector.translateToLocal(
+                    new ItemStack(block, 1, getBlockMeta(par1ItemStack)).getUnlocalizedName() + ".name"));
     }
 
     @Override
@@ -265,17 +281,39 @@ public class ItemPlacementMirror extends ItemKamiBase {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_PLACEMENT_MIRROR, new AspectList().add(Aspect.CRAFT, 2).add(Aspect.CRYSTAL, 1).add(Aspect.ELDRITCH, 1).add(Aspect.MIND, 1), 17, 16, 5, new ItemStack(this)).setParents(LibResearch.KEY_BLOCK_TALISMAN)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_PLACEMENT_MIRROR,
+                        new AspectList()
+                                .add(Aspect.CRAFT, 2)
+                                .add(Aspect.CRYSTAL, 1)
+                                .add(Aspect.ELDRITCH, 1)
+                                .add(Aspect.MIND, 1),
+                        17,
+                        16,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_BLOCK_TALISMAN)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_PLACEMENT_MIRROR));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_PLACEMENT_MIRROR, new ItemStack(this), 12, new AspectList().add(Aspect.CRAFT, 65).add(Aspect.CRYSTAL, 32).add(Aspect.MAGIC, 50).add(Aspect.MIND, 32), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBlockTalisman.class)),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(Blocks.dropper), new ItemStack(Items.diamond), new ItemStack(Blocks.glass), new ItemStack(Items.blaze_powder), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_PLACEMENT_MIRROR,
+                new ItemStack(this),
+                12,
+                new AspectList()
+                        .add(Aspect.CRAFT, 65)
+                        .add(Aspect.CRYSTAL, 32)
+                        .add(Aspect.MAGIC, 50)
+                        .add(Aspect.MIND, 32),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBlockTalisman.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(Blocks.dropper),
+                new ItemStack(Items.diamond),
+                new ItemStack(Blocks.glass),
+                new ItemStack(Items.blaze_powder),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)));
     }
 }

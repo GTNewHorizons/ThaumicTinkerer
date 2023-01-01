@@ -19,31 +19,26 @@ public class TinkersConstructCompat {
     private static final String TAG_REPAIRCOUNT = "RepairCount";
 
     public static boolean isTConstructTool(ItemStack stack) {
-        if (stack == null)
-            return false;
+        if (stack == null) return false;
         Item item = stack.getItem();
 
         if (item instanceof ToolCore) {
-            return !(ItemNBTHelper.verifyExistance(stack, TAG_ENERGY) || ItemNBTHelper.verifyExistance(stack, TAG_CHARGE));
-        } else
-            return false;
+            return !(ItemNBTHelper.verifyExistance(stack, TAG_ENERGY)
+                    || ItemNBTHelper.verifyExistance(stack, TAG_CHARGE));
+        } else return false;
     }
 
     public static int getDamage(ItemStack stack) {
-        if (stack == null)
-            return -1;
-        if (!isTConstructTool(stack))
-            return -1;
+        if (stack == null) return -1;
+        if (!isTConstructTool(stack)) return -1;
 
         if (ItemNBTHelper.verifyExistance(stack, TAG_ENERGY) || ItemNBTHelper.verifyExistance(stack, TAG_CHARGE))
             return -1;
         if (ItemNBTHelper.getNBT(stack).hasKey(TAG_INFINITOOL)) {
             NBTTagCompound InfiniTool = ItemNBTHelper.getNBT(stack).getCompoundTag(TAG_INFINITOOL);
             if (InfiniTool.hasKey(TAG_BROKEN) && InfiniTool.getBoolean(TAG_BROKEN)) {
-                if (InfiniTool.hasKey(TAG_DURABILITY))
-                    return InfiniTool.getInteger(TAG_DURABILITY);
-                else
-                    return -1;
+                if (InfiniTool.hasKey(TAG_DURABILITY)) return InfiniTool.getInteger(TAG_DURABILITY);
+                else return -1;
             }
             if (InfiniTool.hasKey(TAG_DAMAGE)) {
                 return InfiniTool.getInteger(TAG_DAMAGE);
@@ -53,10 +48,8 @@ public class TinkersConstructCompat {
     }
 
     public static boolean fixDamage(ItemStack stack, int amount) {
-        if (stack == null)
-            return false;
-        if (!isTConstructTool(stack))
-            return false;
+        if (stack == null) return false;
+        if (!isTConstructTool(stack)) return false;
 
         if (ItemNBTHelper.verifyExistance(stack, TAG_ENERGY) || ItemNBTHelper.verifyExistance(stack, TAG_CHARGE))
             return false;
@@ -71,8 +64,7 @@ public class TinkersConstructCompat {
             InfiniTool.setInteger(TAG_REPAIRCOUNT, repair);
 
             damage -= increase;
-            if (damage < 0)
-                damage = 0;
+            if (damage < 0) damage = 0;
             InfiniTool.setInteger(TAG_DAMAGE, damage);
 
             AbilityHelper.damageTool(stack, 0, null, true);
@@ -81,29 +73,24 @@ public class TinkersConstructCompat {
         }
         return false;
     }
-    
+
     private static int calculateIncrease(ItemStack tool, int amount) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag(TAG_INFINITOOL);
         int increase = amount * 2;
 
         int modifiers = tags.getInteger(TAG_MODIFIERS);
         float mods = 1.0f;
-        if (modifiers == 2)
-            mods = 1.0f;
-        else if (modifiers == 1)
-            mods = 0.75f;
-        else if (modifiers == 0)
-            mods = 0.5f;
+        if (modifiers == 2) mods = 1.0f;
+        else if (modifiers == 1) mods = 0.75f;
+        else if (modifiers == 0) mods = 0.5f;
 
         increase *= mods;
 
         int repair = tags.getInteger(TAG_REPAIRCOUNT);
         float repairCount = (100 - repair) / 100f;
-        if (repairCount < 0.5f)
-            repairCount = 0.5f;
+        if (repairCount < 0.5f) repairCount = 0.5f;
         increase *= repairCount;
         increase /= ((ToolCore) tool.getItem()).getRepairCost();
         return increase;
     }
 }
-

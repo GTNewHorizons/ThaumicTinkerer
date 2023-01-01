@@ -40,8 +40,7 @@ public class SoulHeartHandler {
 
     public static boolean addHP(EntityPlayer player, int hp) {
         int current = getHP(player);
-        if (current >= MAX_HP)
-            return false;
+        if (current >= MAX_HP) return false;
 
         setHP(player, Math.min(MAX_HP, current + hp));
         return true;
@@ -68,8 +67,7 @@ public class SoulHeartHandler {
 
     private static NBTTagCompound getCompoundToSet(EntityPlayer player) {
         NBTTagCompound cmp = player.getEntityData();
-        if (!cmp.hasKey(COMPOUND))
-            cmp.setTag(COMPOUND, new NBTTagCompound());
+        if (!cmp.hasKey(COMPOUND)) cmp.setTag(COMPOUND, new NBTTagCompound());
 
         return cmp.getCompoundTag(COMPOUND);
     }
@@ -114,13 +112,11 @@ public class SoulHeartHandler {
             par2 = f1 / 25.0F;
         }
 
-        if (par2 <= 0.0F)
-            return 0.0F;
+        if (par2 <= 0.0F) return 0.0F;
         else {
             i = EnchantmentHelper.getEnchantmentModifierDamage(entity.getLastActiveItems(), par1DamageSource);
 
-            if (i > 20)
-                i = 20;
+            if (i > 20) i = 20;
 
             if (i > 0 && i <= 20) {
                 j = 25 - i;

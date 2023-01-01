@@ -1,5 +1,6 @@
 package thaumic.tinkerer.common.block.tile;
 
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -12,8 +13,6 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
 import thaumic.tinkerer.common.ThaumicTinkerer;
-
-import java.util.Random;
 
 /**
  * Created by pixlepix on 7/25/14.
@@ -34,32 +33,39 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
     @Override
     public void updateEntity() {
 
-        //Growth
+        // Growth
         if (!worldObj.isRemote && worldObj.getBlockLightValue(xCoord, yCoord + 1, zCoord) >= 9) {
             int l = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
             if (l < 7) {
-                if (worldObj.rand.nextInt((((2510 - (int) Math.pow(((TileInfusedGrain) (worldObj.getTileEntity(xCoord, yCoord, zCoord))).primalTendencies.getAmount(Aspect.WATER), 2))) * 6)) == 0) {
+                if (worldObj.rand.nextInt((((2510
+                                        - (int) Math.pow(
+                                                ((TileInfusedGrain) (worldObj.getTileEntity(xCoord, yCoord, zCoord)))
+                                                        .primalTendencies.getAmount(Aspect.WATER),
+                                                2)))
+                                * 6))
+                        == 0) {
                     ++l;
                     worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, l, 3);
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 }
             }
         }
-        if(aspect==null) {
+        if (aspect == null) {
             aspect = Aspect.AIR;
         }
-        if(primalTendencies==null)
-        {
-            primalTendencies=new AspectList();
-            primalTendencies.merge(aspect,1);
+        if (primalTendencies == null) {
+            primalTendencies = new AspectList();
+            primalTendencies.merge(aspect, 1);
         }
-        //Aspect Exchange
-        if (worldObj.rand.nextInt((2550 - ((int) Math.pow(primalTendencies.getAmount(Aspect.AIR), 2))) * 10) == 0 && !aspect.isPrimal()) {
+        // Aspect Exchange
+        if (worldObj.rand.nextInt((2550 - ((int) Math.pow(primalTendencies.getAmount(Aspect.AIR), 2))) * 10) == 0
+                && !aspect.isPrimal()) {
 
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-                TileEntity entity = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+                TileEntity entity =
+                        worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
                 if (entity instanceof TileInfusedGrain) {
-                    //Exchange aspects
+                    // Exchange aspects
                     TileInfusedGrain tileInfusedGrain = (TileInfusedGrain) entity;
                     Aspect aspect = tileInfusedGrain.aspect;
                     if (aspect.isPrimal()) {
@@ -70,7 +76,17 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
                             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                             if (worldObj.isRemote) {
                                 for (int i = 0; i < 50; i++) {
-                                    ThaumicTinkerer.tcProxy.essentiaTrailFx(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, xCoord, yCoord, zCoord, 50, aspect.getColor(), 1F);
+                                    ThaumicTinkerer.tcProxy.essentiaTrailFx(
+                                            worldObj,
+                                            xCoord + dir.offsetX,
+                                            yCoord + dir.offsetY,
+                                            zCoord + dir.offsetZ,
+                                            xCoord,
+                                            yCoord,
+                                            zCoord,
+                                            50,
+                                            aspect.getColor(),
+                                            1F);
                                 }
                             }
                             return;
@@ -88,7 +104,17 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
                             reduceSaturatedAspects();
                             if (worldObj.isRemote) {
                                 for (int i = 0; i < 50; i++) {
-                                    ThaumicTinkerer.tcProxy.essentiaTrailFx(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, xCoord, yCoord, zCoord, 50, aspect.getColor(), 1F);
+                                    ThaumicTinkerer.tcProxy.essentiaTrailFx(
+                                            worldObj,
+                                            xCoord + dir.offsetX,
+                                            yCoord + dir.offsetY,
+                                            zCoord + dir.offsetZ,
+                                            xCoord,
+                                            yCoord,
+                                            zCoord,
+                                            50,
+                                            aspect.getColor(),
+                                            1F);
                                 }
                             }
 
@@ -96,15 +122,14 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
                         }
                         return;
                     }
-
-
                 }
             }
         }
     }
 
     @Override
-    public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
+    public boolean shouldRefresh(
+            Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
         return !(oldBlock == newBlock);
     }
 
@@ -167,10 +192,8 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
         return aspect != null ? new AspectList().add(aspect, 1) : null;
     }
 
-
     @Override
-    public void setAspects(AspectList paramAspectList) {
-    }
+    public void setAspects(AspectList paramAspectList) {}
 
     @Override
     public boolean doesContainerAccept(Aspect paramAspect) {

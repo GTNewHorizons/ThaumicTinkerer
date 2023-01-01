@@ -33,7 +33,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.world.ChunkDataEvent;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
@@ -74,7 +73,6 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class TTCommonProxy {
 
-
     public static EnumRarity kamiRarity;
     public WandCap capIchor;
     public WandRod rodIchor;
@@ -84,21 +82,26 @@ public class TTCommonProxy {
         toolMaterialIchor = EnumHelper.addToolMaterial("ICHOR", 4, -1, 10F, 5F, 25);
         ModCreativeTab.INSTANCE = new ModCreativeTab();
         ConfigHandler.loadConfig(event.getSuggestedConfigurationFile());
-        //ModItems.initItems();
+        // ModItems.initItems();
 
         NumericAspectHelper.init();
         ThaumicTinkerer.registry.preInit();
         capIchor = new CapIchor();
         rodIchor = new RodIchorcloth();
-        
+
         ModCreativeTab.INSTANCE.addWand();
-        
+
         if (Loader.isModLoaded("ComputerCraft")) {
             initCCPeripherals();
         }
         registerVersionChecker();
 
-        kamiRarity = EnumHelper.addEnum(new Class[][]{{EnumRarity.class, EnumChatFormatting.class, String.class}}, EnumRarity.class, "KAMI", EnumChatFormatting.LIGHT_PURPLE, "Kami");
+        kamiRarity = EnumHelper.addEnum(
+                new Class[][] {{EnumRarity.class, EnumChatFormatting.class, String.class}},
+                EnumRarity.class,
+                "KAMI",
+                EnumChatFormatting.LIGHT_PURPLE,
+                "Kami");
     }
 
     public void init(FMLInitializationEvent event) {
@@ -121,8 +124,7 @@ public class TTCommonProxy {
         if (Loader.isModLoaded("OpenComputers")) {
             initOpenCDrivers();
         }
-        if(Loader.isModLoaded("EnderIO"))
-        {
+        if (Loader.isModLoaded("EnderIO")) {
             InitEnderIO();
         }
 
@@ -140,16 +142,26 @@ public class TTCommonProxy {
     }
 
     protected void registerPackets() {
-        ThaumicTinkerer.netHandler.registerMessage(PacketSoulHearts.class, PacketSoulHearts.class, 142 + 0, Side.CLIENT);
-        ThaumicTinkerer.netHandler.registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 1, Side.CLIENT);
-        ThaumicTinkerer.netHandler.registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 2, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketWarpGateButton.class, PacketWarpGateButton.class, 142 + 3, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketWarpGateTeleport.class, PacketWarpGateTeleport.class, 142 + 4, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketEnchanterAddEnchant.class, PacketEnchanterAddEnchant.class, 142 + 5, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketEnchanterStartWorking.class, PacketEnchanterStartWorking.class, 142 + 6, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketMobMagnetButton.class, PacketMobMagnetButton.class, 142 + 7, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketTabletButton.class, PacketTabletButton.class, 142 + 8, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketSoulHearts.class, PacketSoulHearts.class, 142 + 0, Side.CLIENT);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketToggleArmor.class, PacketToggleArmor.class, 142 + 1, Side.CLIENT);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketToggleArmor.class, PacketToggleArmor.class, 142 + 2, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketWarpGateButton.class, PacketWarpGateButton.class, 142 + 3, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketWarpGateTeleport.class, PacketWarpGateTeleport.class, 142 + 4, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketEnchanterAddEnchant.class, PacketEnchanterAddEnchant.class, 142 + 5, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketEnchanterStartWorking.class, PacketEnchanterStartWorking.class, 142 + 6, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketMobMagnetButton.class, PacketMobMagnetButton.class, 142 + 7, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketTabletButton.class, PacketTabletButton.class, 142 + 8, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(
+                PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
     }
 
     public void registerVersionChecker() {
@@ -168,19 +180,32 @@ public class TTCommonProxy {
     }
 
     @Optional.Method(modid = "EnderIO")
-    protected void InitEnderIO()
-    {
+    protected void InitEnderIO() {
         EnderIO.registerPlanters();
     }
+
     @Optional.Method(modid = "ComputerCraft")
     protected void initCCPeripherals() {
         PeripheralHandler handler = new PeripheralHandler();
 
-        Class[] peripheralClasses = new Class[]{
-                TileAlembic.class, TileCentrifuge.class, TileCrucible.class, TileFunnel.class,
-                TileInfusionMatrix.class, TileJarFillable.class, TileJarNode.class, TileNode.class,
-                TileRepairer.class, TileTubeFilter.class, TileTransvectorInterface.class, TileWandPedestal.class,
-                TileDeconstructionTable.class, TileJarBrain.class, TileSensor.class, TileArcaneBore.class, IEssentiaTransport.class
+        Class[] peripheralClasses = new Class[] {
+            TileAlembic.class,
+            TileCentrifuge.class,
+            TileCrucible.class,
+            TileFunnel.class,
+            TileInfusionMatrix.class,
+            TileJarFillable.class,
+            TileJarNode.class,
+            TileNode.class,
+            TileRepairer.class,
+            TileTubeFilter.class,
+            TileTransvectorInterface.class,
+            TileWandPedestal.class,
+            TileDeconstructionTable.class,
+            TileJarBrain.class,
+            TileSensor.class,
+            TileArcaneBore.class,
+            IEssentiaTransport.class
         };
         handler.registerPeripheralProvider();
 
@@ -195,7 +220,6 @@ public class TTCommonProxy {
         Driver.add(new DriverDeconstructor());
         Driver.add(new DriverEssentiaTransport());
         Driver.add(new DriverArcaneBore());
-
     }
 
     public boolean isClient() {

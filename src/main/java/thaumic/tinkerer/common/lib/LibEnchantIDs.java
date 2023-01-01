@@ -31,5 +31,4 @@ public class LibEnchantIDs {
     public static int shockwave = 171;
     public static int tunnel = 172;
     public static int valiance = 173;
-
 }

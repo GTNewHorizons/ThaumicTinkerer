@@ -14,6 +14,8 @@
  */
 package thaumic.tinkerer.common.block.kami;
 
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -49,9 +51,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class BlockWarpGate extends BlockModContainer {
 
     public static IIcon[] icons = new IIcon[3];
@@ -66,12 +65,22 @@ public class BlockWarpGate extends BlockModContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityPlayer par5EntityPlayer,
+            int par6,
+            float par7,
+            float par8,
+            float par9) {
         if (!par1World.isRemote) {
             TileEntity tile = par1World.getTileEntity(par2, par3, par4);
             if (tile != null) {
                 par1World.markBlockForUpdate(par2, par3, par4);
-                par5EntityPlayer.openGui(ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_WARP_GATE, par1World, par2, par3, par4);
+                par5EntityPlayer.openGui(
+                        ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_WARP_GATE, par1World, par2, par3, par4);
             }
         }
 
@@ -91,27 +100,33 @@ public class BlockWarpGate extends BlockModContainer {
                     float f1 = random.nextFloat() * 0.8F + 0.1F;
                     EntityItem entityitem;
 
-                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World.spawnEntityInWorld(entityitem)) {
+                    for (float f2 = random.nextFloat() * 0.8F + 0.1F;
+                            itemstack.stackSize > 0;
+                            par1World.spawnEntityInWorld(entityitem)) {
                         int k1 = random.nextInt(21) + 10;
 
-                        if (k1 > itemstack.stackSize)
-                            k1 = itemstack.stackSize;
+                        if (k1 > itemstack.stackSize) k1 = itemstack.stackSize;
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(
+                                par1World,
+                                par2 + f,
+                                par3 + f1,
+                                par4 + f2,
+                                new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (float) random.nextGaussian() * f3;
                         entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
                         entityitem.motionZ = (float) random.nextGaussian() * f3;
 
                         if (itemstack.hasTagCompound())
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)
+                                    itemstack.getTagCompound().copy());
                     }
                 }
             }
 
             par1World.func_147453_f(par2, par3, par4, par5);
-
         }
 
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
@@ -129,8 +144,7 @@ public class BlockWarpGate extends BlockModContainer {
 
     @Override
     public void registerBlockIcons(IIconRegister par1IconRegister) {
-        for (int i = 0; i < icons.length; i++)
-            icons[i] = IconHelper.forBlock(par1IconRegister, this, i);
+        for (int i = 0; i < icons.length; i++) icons[i] = IconHelper.forBlock(par1IconRegister, this, i);
     }
 
     @Override
@@ -183,11 +197,25 @@ public class BlockWarpGate extends BlockModContainer {
         if (!Config.allowMirrors) {
             return null;
         }
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_WARP_GATE, new AspectList().add(Aspect.TRAVEL, 2).add(Aspect.ELDRITCH, 1).add(Aspect.FLIGHT, 1).add(Aspect.MECHANISM, 1), 19, 6, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_CHEST_GEM).setParentsHidden(LibResearch.KEY_ICHORCLOTH_BOOTS_GEM)
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_WARP_GATE), new ResearchPage("1"), ResearchHelper.infusionPage(LibResearch.KEY_SKY_PEARL));
-
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_WARP_GATE,
+                        new AspectList()
+                                .add(Aspect.TRAVEL, 2)
+                                .add(Aspect.ELDRITCH, 1)
+                                .add(Aspect.FLIGHT, 1)
+                                .add(Aspect.MECHANISM, 1),
+                        19,
+                        6,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHORCLOTH_CHEST_GEM)
+                .setParentsHidden(LibResearch.KEY_ICHORCLOTH_BOOTS_GEM)
+                .setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_WARP_GATE),
+                        new ResearchPage("1"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_SKY_PEARL));
     }
 
     @Override
@@ -195,7 +223,17 @@ public class BlockWarpGate extends BlockModContainer {
         if (!Config.allowMirrors) {
             return null;
         }
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_WARP_GATE, new ItemStack(this), 8, new AspectList().add(Aspect.TRAVEL, 64).add(Aspect.ELDRITCH, 50).add(Aspect.FLIGHT, 50), new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 2), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 7), new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorDislocator.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 6), new ItemStack(Items.diamond), new ItemStack(Items.feather));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_WARP_GATE,
+                new ItemStack(this),
+                8,
+                new AspectList().add(Aspect.TRAVEL, 64).add(Aspect.ELDRITCH, 50).add(Aspect.FLIGHT, 50),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 2),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 7),
+                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorDislocator.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 6),
+                new ItemStack(Items.diamond),
+                new ItemStack(Items.feather));
     }
 }

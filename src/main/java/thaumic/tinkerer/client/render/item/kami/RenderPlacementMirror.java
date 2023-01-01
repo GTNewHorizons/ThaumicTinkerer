@@ -18,8 +18,8 @@ public class RenderPlacementMirror implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        //return type != ItemRenderType.INVENTORY && type!=ItemRenderType.ENTITY;
-        //return type != ItemRenderType.INVENTORY ;
+        // return type != ItemRenderType.INVENTORY && type!=ItemRenderType.ENTITY;
+        // return type != ItemRenderType.INVENTORY ;
         return true;
     }
 
@@ -40,7 +40,9 @@ public class RenderPlacementMirror implements IItemRenderer {
             }
             case EQUIPPED: {
                 for (int i = 1; i >= 0; i--) {
-                    IIcon icon = ThaumicTinkerer.registry.getFirstItemFromClass(ItemPlacementMirror.class).getIconFromDamageForRenderPass(0, i);
+                    IIcon icon = ThaumicTinkerer.registry
+                            .getFirstItemFromClass(ItemPlacementMirror.class)
+                            .getIconFromDamageForRenderPass(0, i);
                     if (i == 0) {
                         GL11.glEnable(GL11.GL_BLEND);
                         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -50,7 +52,8 @@ public class RenderPlacementMirror implements IItemRenderer {
                     float f1 = icon.getMaxU();
                     float f2 = icon.getMinV();
                     float f3 = icon.getMaxV();
-                    ItemRenderer.renderItemIn2D(Tessellator.instance, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 1F / 16F);
+                    ItemRenderer.renderItemIn2D(
+                            Tessellator.instance, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 1F / 16F);
                 }
                 GL11.glDisable(GL11.GL_BLEND);
                 break;
@@ -74,5 +77,4 @@ public class RenderPlacementMirror implements IItemRenderer {
                 break;
         }
     }
-
 }

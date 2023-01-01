@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -27,9 +29,6 @@ import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.item.ItemBrightNitor;
 import thaumic.tinkerer.common.item.kami.armor.ItemGemLegs;
 import thaumic.tinkerer.common.lib.LibBlockNames;
-
-import java.util.List;
-import java.util.Random;
 
 public class BlockNitorGas extends BlockGas {
 
@@ -52,30 +51,33 @@ public class BlockNitorGas extends BlockGas {
     @Override
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
         if (!par1World.isRemote) {
-        	boolean remove=false;
+            boolean remove = false;
             int dist = par1World.getBlockMetadata(par2, par3, par4) == 1 ? 6 : 1;
-            List<EntityPlayer> players = par1World.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(par2 - dist, par3 - dist, par4 - dist, par2 + dist, par3 + dist, par4 + dist));
-            if (players.isEmpty())
-            {
+            List<EntityPlayer> players = par1World.getEntitiesWithinAABB(
+                    EntityPlayer.class,
+                    AxisAlignedBB.getBoundingBox(
+                            par2 - dist, par3 - dist, par4 - dist, par2 + dist, par3 + dist, par4 + dist));
+            if (players.isEmpty()) {
                 par1World.setBlockToAir(par2, par3, par4);
-                remove=true;
-            }
-            else {
+                remove = true;
+            } else {
                 boolean has = false;
                 for (EntityPlayer player : players)
-                    if (player.inventory.hasItem(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)) || (ConfigHandler.enableKami && player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemGemLegs.class))) {
+                    if (player.inventory.hasItem(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class))
+                            || (ConfigHandler.enableKami
+                                    && player.getCurrentArmor(1) != null
+                                    && player.getCurrentArmor(1).getItem()
+                                            == ThaumicTinkerer.registry.getFirstItemFromClass(ItemGemLegs.class))) {
                         has = true;
                         break;
                     }
 
-                if (!has)
-                {
+                if (!has) {
                     par1World.setBlockToAir(par2, par3, par4);
-                    remove=true;
+                    remove = true;
                 }
             }
-            if(!remove)
-            par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
+            if (!remove) par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
         }
     }
 
@@ -91,8 +93,7 @@ public class BlockNitorGas extends BlockGas {
 
     @Override
     public void onBlockAdded(World par1World, int par2, int par3, int par4) {
-        if (!par1World.isRemote)
-            par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
+        if (!par1World.isRemote) par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
     }
 
     @Override

@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.item.kami;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,9 +49,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemCatAmulet extends ItemKamiBase implements IBauble {
 
     public ItemCatAmulet() {
@@ -58,9 +57,7 @@ public class ItemCatAmulet extends ItemKamiBase implements IBauble {
     }
 
     @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity e, int par4, boolean par5) {
-
-    }
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity e, int par4, boolean par5) {}
 
     @Override
     public EnumRarity getRarity(ItemStack par1ItemStack) {
@@ -89,7 +86,15 @@ public class ItemCatAmulet extends ItemKamiBase implements IBauble {
     public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
         int range = 10;
         int rangeY = 4;
-        List<EntityLiving> entities = player.worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(player.posX - range, player.posY - rangeY, player.posZ - range, player.posX + range, player.posY + rangeY, player.posZ + range));
+        List<EntityLiving> entities = player.worldObj.getEntitiesWithinAABB(
+                EntityLiving.class,
+                AxisAlignedBB.getBoundingBox(
+                        player.posX - range,
+                        player.posY - rangeY,
+                        player.posZ - range,
+                        player.posX + range,
+                        player.posY + rangeY,
+                        player.posZ + range));
 
         for (EntityLiving entity : entities) {
             List<EntityAITasks.EntityAITaskEntry> entries = new ArrayList(entity.tasks.taskEntries);
@@ -112,14 +117,10 @@ public class ItemCatAmulet extends ItemKamiBase implements IBauble {
     }
 
     @Override
-    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onEquipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
-    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {
-
-    }
+    public void onUnequipped(ItemStack itemstack, EntityLivingBase player) {}
 
     @Override
     public boolean canEquip(ItemStack itemstack, EntityLivingBase player) {
@@ -138,17 +139,35 @@ public class ItemCatAmulet extends ItemKamiBase implements IBauble {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_CAT_AMULET, new AspectList().add(Aspect.MIND, 2).add(Aspect.ORDER, 1).add(Aspect.DARKNESS, 1).add(Aspect.DEATH, 1), 13, 10, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORIUM)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_CAT_AMULET,
+                        new AspectList()
+                                .add(Aspect.MIND, 2)
+                                .add(Aspect.ORDER, 1)
+                                .add(Aspect.DARKNESS, 1)
+                                .add(Aspect.DEATH, 1),
+                        13,
+                        10,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHORIUM)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_CAT_AMULET));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_CAT_AMULET, new ItemStack(this), 8, new AspectList().add(Aspect.DARKNESS, 16).add(Aspect.ORDER, 32).add(Aspect.MIND, 16), new ItemStack(Blocks.quartz_block),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.dye, 1, 3), new ItemStack(Blocks.leaves, 1, 3), new ItemStack(Items.fish));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_CAT_AMULET,
+                new ItemStack(this),
+                8,
+                new AspectList().add(Aspect.DARKNESS, 16).add(Aspect.ORDER, 32).add(Aspect.MIND, 16),
+                new ItemStack(Blocks.quartz_block),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(Items.gold_ingot),
+                new ItemStack(Items.gold_ingot),
+                new ItemStack(Items.dye, 1, 3),
+                new ItemStack(Blocks.leaves, 1, 3),
+                new ItemStack(Items.fish));
     }
 }

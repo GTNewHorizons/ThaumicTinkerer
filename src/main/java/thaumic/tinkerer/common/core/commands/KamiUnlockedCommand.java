@@ -1,5 +1,8 @@
 package thaumic.tinkerer.common.core.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,10 +10,6 @@ import net.minecraft.util.ChatComponentText;
 import org.apache.commons.lang3.StringUtils;
 import thaumcraft.common.lib.research.ResearchManager;
 import thaumic.tinkerer.common.research.ResearchHelper;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Katrina on 27/02/14.
@@ -47,11 +46,12 @@ public class KamiUnlockedCommand extends CommandBase {
             ((EntityPlayer) icommandsender).addChatComponentMessage(new ChatComponentText("No"));
             List<String> list = new ArrayList<String>(parents);
             list.removeAll(unlocked);
-            ((EntityPlayer) icommandsender).addChatComponentMessage(new ChatComponentText("Remaining: " + StringUtils.join(list, ',')));
-            //EntityPlayer player=(EntityPlayer)icommandsender;
-            //EntityGiantBrainyZombie bat=new EntityGiantBrainyZombie(player.worldObj);
-            //bat.setPositionAndRotation(player.posX,player.posY,player.posZ,1,1);
-            //player.worldObj.spawnEntityInWorld(bat);
+            ((EntityPlayer) icommandsender)
+                    .addChatComponentMessage(new ChatComponentText("Remaining: " + StringUtils.join(list, ',')));
+            // EntityPlayer player=(EntityPlayer)icommandsender;
+            // EntityGiantBrainyZombie bat=new EntityGiantBrainyZombie(player.worldObj);
+            // bat.setPositionAndRotation(player.posX,player.posY,player.posZ,1,1);
+            // player.worldObj.spawnEntityInWorld(bat);
         }
     }
 

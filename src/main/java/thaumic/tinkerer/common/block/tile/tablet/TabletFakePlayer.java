@@ -15,21 +15,22 @@
 package thaumic.tinkerer.common.block.tile.tablet;
 
 import com.mojang.authlib.GameProfile;
+import java.util.UUID;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import thaumcraft.common.lib.FakeThaumcraftPlayer;
 
-import java.util.UUID;
-
 public class TabletFakePlayer extends FakeThaumcraftPlayer {
 
     TileAnimationTablet tablet;
 
-    public TabletFakePlayer(TileAnimationTablet tablet) { //,String name) {
-        super(tablet.getWorldObj(), new GameProfile(UUID.fromString("a8f026a0-135b-11e4-9191-0800200c9a66"), "[ThaumcraftTablet]"));
-        //super(tablet.getWorldObj(),"[ThaumcraftTablet]");
+    public TabletFakePlayer(TileAnimationTablet tablet) { // ,String name) {
+        super(
+                tablet.getWorldObj(),
+                new GameProfile(UUID.fromString("a8f026a0-135b-11e4-9191-0800200c9a66"), "[ThaumcraftTablet]"));
+        // super(tablet.getWorldObj(),"[ThaumcraftTablet]");
         this.tablet = tablet;
     }
 
@@ -52,10 +53,8 @@ public class TabletFakePlayer extends FakeThaumcraftPlayer {
         posY = tablet.yCoord + 1.6;
         posZ = tablet.zCoord + 0.5;
 
-        if (riddenByEntity != null)
-            riddenByEntity.ridingEntity = null;
-        if (ridingEntity != null)
-            ridingEntity.riddenByEntity = null;
+        if (riddenByEntity != null) riddenByEntity.ridingEntity = null;
+        if (ridingEntity != null) ridingEntity.riddenByEntity = null;
         riddenByEntity = null;
         ridingEntity = null;
 
@@ -80,13 +79,10 @@ public class TabletFakePlayer extends FakeThaumcraftPlayer {
     }
 
     @Override
-    public void addChatMessage(IChatComponent var1) {
-
-    }
+    public void addChatMessage(IChatComponent var1) {}
 
     @Override
     public ChunkCoordinates getPlayerCoordinates() {
         return new ChunkCoordinates(tablet.xCoord, tablet.yCoord, tablet.zCoord);
     }
-
 }

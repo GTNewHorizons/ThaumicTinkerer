@@ -32,8 +32,7 @@ public final class ItemNBTHelper {
      * compound *
      */
     public static void initNBT(ItemStack stack) {
-        if (!detectNBT(stack))
-            injectNBT(stack, new NBTTagCompound());
+        if (!detectNBT(stack)) injectNBT(stack, new NBTTagCompound());
     }
 
     /**
@@ -85,12 +84,12 @@ public final class ItemNBTHelper {
 
     public static void setCompound(ItemStack stack, String tag, NBTTagCompound cmp) {
         if (!tag.equalsIgnoreCase("ench")) // not override the enchantments
-            getNBT(stack).setTag(tag, cmp);
+        getNBT(stack).setTag(tag, cmp);
     }
 
-    //public static void setCompound(ItemStack stack, NBTTagCompound cmp) {
+    // public static void setCompound(ItemStack stack, NBTTagCompound cmp) {
     //	setCompound(stack, cmp, cmp);
-    //}
+    // }
 
     public static void setString(ItemStack stack, String tag, String s) {
         getNBT(stack).setString(tag, s);
@@ -135,11 +134,12 @@ public final class ItemNBTHelper {
      * compounds, otherwise it'll return a new one. *
      */
     public static NBTTagCompound getCompound(ItemStack stack, String tag, boolean nullifyOnFail) {
-        return verifyExistance(stack, tag) ? getNBT(stack).getCompoundTag(tag) : nullifyOnFail ? null : new NBTTagCompound();
+        return verifyExistance(stack, tag)
+                ? getNBT(stack).getCompoundTag(tag)
+                : nullifyOnFail ? null : new NBTTagCompound();
     }
 
     public static String getString(ItemStack stack, String tag, String defaultExpected) {
         return verifyExistance(stack, tag) ? getNBT(stack).getString(tag) : defaultExpected;
     }
-
 }

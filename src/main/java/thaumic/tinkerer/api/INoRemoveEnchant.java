@@ -14,6 +14,4 @@
  */
 package thaumic.tinkerer.api;
 
-public interface INoRemoveEnchant {
-
-}
+public interface INoRemoveEnchant {}

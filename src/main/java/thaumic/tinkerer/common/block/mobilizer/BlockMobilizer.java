@@ -30,8 +30,10 @@ public class BlockMobilizer extends BlockMod {
 
     @SideOnly(Side.CLIENT)
     private IIcon iconTop;
+
     @SideOnly(Side.CLIENT)
     private IIcon iconBottom;
+
     @SideOnly(Side.CLIENT)
     private IIcon iconSide;
 
@@ -40,8 +42,7 @@ public class BlockMobilizer extends BlockMod {
     }
 
     @Override
-    public void onBlockPreDestroy(World par1World, int par2, int par3,
-                                  int par4, int par5) {
+    public void onBlockPreDestroy(World par1World, int par2, int par3, int par4, int par5) {
         TileEntity tile = par1World.getTileEntity(par2, par3, par4);
         if (tile != null && tile instanceof TileEntityMobilizer) {
 
@@ -71,7 +72,9 @@ public class BlockMobilizer extends BlockMod {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int meta) {
-        return par1 == ForgeDirection.UP.ordinal() ? iconTop : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSide;
+        return par1 == ForgeDirection.UP.ordinal()
+                ? iconTop
+                : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSide;
     }
 
     @Override
@@ -91,14 +94,32 @@ public class BlockMobilizer extends BlockMod {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_MOBILIZER, new AspectList().add(Aspect.MOTION, 2).add(Aspect.ORDER, 2), -7, 5, 3, new ItemStack(this)).setParents(LibResearch.KEY_MAGNETS)
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_MOBILIZER), ResearchHelper.arcaneRecipePage(LibResearch.KEY_RELAY)).setSecondary();
+        return (IRegisterableResearch) new TTResearchItem(
+                        LibResearch.KEY_MOBILIZER,
+                        new AspectList().add(Aspect.MOTION, 2).add(Aspect.ORDER, 2),
+                        -7,
+                        5,
+                        3,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_MAGNETS)
+                .setPages(
+                        new ResearchPage("0"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_MOBILIZER),
+                        ResearchHelper.arcaneRecipePage(LibResearch.KEY_RELAY))
+                .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_MOBILIZER, new ItemStack(this), 4, new AspectList().add(Aspect.MOTION, 15).add(Aspect.ORDER, 20).add(Aspect.MAGIC, 15), new ItemStack(ConfigBlocks.blockLifter),
-                new ItemStack(Items.iron_ingot), new ItemStack(Items.feather), new ItemStack(Items.iron_ingot), new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_MOBILIZER,
+                new ItemStack(this),
+                4,
+                new AspectList().add(Aspect.MOTION, 15).add(Aspect.ORDER, 20).add(Aspect.MAGIC, 15),
+                new ItemStack(ConfigBlocks.blockLifter),
+                new ItemStack(Items.iron_ingot),
+                new ItemStack(Items.feather),
+                new ItemStack(Items.iron_ingot),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1));
     }
 }

@@ -14,14 +14,11 @@
  */
 package thaumic.tinkerer.common.block.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,6 +30,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import org.apache.commons.lang3.ArrayUtils;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.Thaumcraft;
@@ -79,7 +77,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
     }
 
     public void removeLevel(int index) {
-            levels.remove(index);
+        levels.remove(index);
     }
 
     public void setEnchant(int index, int enchant) {
@@ -107,7 +105,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
             checkPillars();
 
             if (!working) // Pillar check
-                return;
+            return;
 
             enchantItem:
             {
@@ -115,8 +113,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
                     int currentAmount = currentAspects.getAmount(aspect);
                     int totalAmount = totalAspects.getAmount(aspect);
 
-                    if (currentAmount < totalAmount)
-                        break enchantItem;
+                    if (currentAmount < totalAmount) break enchantItem;
                 }
 
                 working = false;
@@ -127,8 +124,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
                     int enchant = enchantments.get(i);
                     int level = levels.get(i);
 
-                    if (!worldObj.isRemote)
-                        tool.addEnchantment(Enchantment.enchantmentsList[enchant], level);
+                    if (!worldObj.isRemote) tool.addEnchantment(Enchantment.enchantmentsList[enchant], level);
                 }
 
                 enchantments.clear();
@@ -140,7 +136,9 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
 
             ItemStack wand = getStackInSlot(1);
 
-            if (wand != null && wand.getItem() instanceof ItemWandCasting && !((ItemWandCasting) wand.getItem()).isStaff(wand)) {
+            if (wand != null
+                    && wand.getItem() instanceof ItemWandCasting
+                    && !((ItemWandCasting) wand.getItem()).isStaff(wand)) {
                 ItemWandCasting wandItem = (ItemWandCasting) wand.getItem();
                 AspectList wandAspects = wandItem.getAllVis(wand);
 
@@ -151,8 +149,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
                     missing = totalAspects.getAmount(aspect) - currentAspects.getAmount(aspect);
                     onWand = wandAspects.getAmount(aspect);
 
-                    if (missing > 0 && onWand >= 100)
-                        aspectsThatCanGet.add(aspect);
+                    if (missing > 0 && onWand >= 100) aspectsThatCanGet.add(aspect);
                 }
 
                 int i = aspectsThatCanGet.isEmpty() ? 0 : worldObj.rand.nextInt(aspectsThatCanGet.size());
@@ -163,62 +160,90 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
                     currentAspects.add(aspect, 1);
                     Tuple4Int p = pillars.get(i);
                     if (worldObj.rand.nextBoolean()) {
-                        
-                    	if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-						Thaumcraft.proxy.essentiaTrailFx(getWorldObj(), p.i1, p.i4, p.i3, xCoord, yCoord, zCoord, 4, aspect.getColor(), worldObj.rand.nextFloat() * 0.5F + 0.5F);
-                    	Thaumcraft.proxy.blockRunes(worldObj, p.i1, p.i4 - 0.75, p.i3, 0.3F + worldObj.rand.nextFloat() * 0.7F, 0.0F, 0.3F + worldObj.rand.nextFloat() * 0.7F, 15, worldObj.rand.nextFloat() / 8F);
-                        Thaumcraft.proxy.blockRunes(worldObj, xCoord, yCoord + 0.25, zCoord, 0.3F + worldObj.rand.nextFloat() * 0.7F, 0.0F, 0.3F + worldObj.rand.nextFloat() * 0.7F, 15, worldObj.rand.nextFloat() / 8F);
-                    	}
+
+                        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+                            Thaumcraft.proxy.essentiaTrailFx(
+                                    getWorldObj(),
+                                    p.i1,
+                                    p.i4,
+                                    p.i3,
+                                    xCoord,
+                                    yCoord,
+                                    zCoord,
+                                    4,
+                                    aspect.getColor(),
+                                    worldObj.rand.nextFloat() * 0.5F + 0.5F);
+                            Thaumcraft.proxy.blockRunes(
+                                    worldObj,
+                                    p.i1,
+                                    p.i4 - 0.75,
+                                    p.i3,
+                                    0.3F + worldObj.rand.nextFloat() * 0.7F,
+                                    0.0F,
+                                    0.3F + worldObj.rand.nextFloat() * 0.7F,
+                                    15,
+                                    worldObj.rand.nextFloat() / 8F);
+                            Thaumcraft.proxy.blockRunes(
+                                    worldObj,
+                                    xCoord,
+                                    yCoord + 0.25,
+                                    zCoord,
+                                    0.3F + worldObj.rand.nextFloat() * 0.7F,
+                                    0.0F,
+                                    0.3F + worldObj.rand.nextFloat() * 0.7F,
+                                    15,
+                                    worldObj.rand.nextFloat() / 8F);
+                        }
                         if (worldObj.rand.nextInt(5) == 0)
                             worldObj.playSoundEffect(p.i1, p.i2, p.i3, "thaumcraft:egidle", 0.5F, 1F);
-                                                
                     }
-
                 }
             }
         }
     }
-    public boolean consumeAllVisCrafting(ItemStack is, EntityPlayer player, AspectList aspects, boolean doit, ItemWandCasting wandItem) {
-        if(aspects != null && aspects.size() != 0) {
+
+    public boolean consumeAllVisCrafting(
+            ItemStack is, EntityPlayer player, AspectList aspects, boolean doit, ItemWandCasting wandItem) {
+        if (aspects != null && aspects.size() != 0) {
             AspectList aspectList = new AspectList();
             Aspect[] aspectArray = aspects.getAspects();
             int arrayLength = aspectArray.length;
 
-            for(int i$ = 0; i$ < arrayLength; ++i$) {
+            for (int i$ = 0; i$ < arrayLength; ++i$) {
                 Aspect aspect = aspectArray[i$];
                 int cost = aspects.getAmount(aspect) * 100;
                 aspectList.add(aspect, cost);
             }
-            aspects=aspectList;
-            if(aspects != null && aspects.size() != 0) {
+            aspects = aspectList;
+            if (aspects != null && aspects.size() != 0) {
                 AspectList nl = new AspectList();
                 Aspect[] arr$ = aspects.getAspects();
                 int len$ = arr$.length;
 
                 int i$;
                 Aspect aspect;
-                for(i$ = 0; i$ < len$; ++i$) {
+                for (i$ = 0; i$ < len$; ++i$) {
                     aspect = arr$[i$];
                     int cost = aspects.getAmount(aspect);
-                    cost = (int)((float)cost * wandItem.getConsumptionModifier(is, player, aspect, true));
+                    cost = (int) ((float) cost * wandItem.getConsumptionModifier(is, player, aspect, true));
                     nl.add(aspect, cost);
                 }
 
                 arr$ = nl.getAspects();
                 len$ = arr$.length;
 
-                for(i$ = 0; i$ < len$; ++i$) {
+                for (i$ = 0; i$ < len$; ++i$) {
                     aspect = arr$[i$];
-                    if(wandItem.getVis(is, aspect) < nl.getAmount(aspect)) {
+                    if (wandItem.getVis(is, aspect) < nl.getAmount(aspect)) {
                         return false;
                     }
                 }
 
-                if(doit && FMLCommonHandler.instance().getEffectiveSide()== Side.SERVER) {
+                if (doit && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
                     arr$ = nl.getAspects();
                     len$ = arr$.length;
 
-                    for(i$ = 0; i$ < len$; ++i$) {
+                    for (i$ = 0; i$ < len$; ++i$) {
                         aspect = arr$[i$];
                         wandItem.storeVis(is, aspect, wandItem.getVis(is, aspect) - nl.getAmount(aspect));
                     }
@@ -232,7 +257,6 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
             return false;
         }
     }
-
 
     @Override
     public void markDirty() {
@@ -260,8 +284,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
             if (pillarHeight == -1) {
                 pillars.clear();
                 return checkPillars();
-            } else if (pillarHeight != pillar.i4)
-                pillar.i4 = pillarHeight;
+            } else if (pillarHeight != pillar.i4) pillar.i4 = pillarHeight;
         }
 
         return true;
@@ -272,11 +295,9 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
         for (int x = xCoord - 4; x <= xCoord + 4; x++)
             for (int z = zCoord - 4; z <= zCoord + 4; z++) {
                 int height = findPillar(x, y, z);
-                if (height != -1)
-                    pillars.add(new Tuple4Int(x, y, z, height));
+                if (height != -1) pillars.add(new Tuple4Int(x, y, z, height));
 
-                if (pillars.size() == 6)
-                    return false;
+                if (pillars.size() == 6) return false;
             }
 
         pillars.clear();
@@ -286,8 +307,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
     public int findPillar(int x, int y, int z) {
         int obsidianFound = 0;
         for (int i = 0; true; i++) {
-            if (y + i >= 256)
-                return -1;
+            if (y + i >= 256) return -1;
 
             Block id = worldObj.getBlock(x, y + i, z);
             int meta = worldObj.getBlockMetadata(x, y + i, z);
@@ -296,8 +316,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
                 continue;
             }
             if (id == ConfigBlocks.blockAiry && meta == 1) {
-                if (obsidianFound >= 2 && obsidianFound < 13)
-                    return y + i;
+                if (obsidianFound >= 2 && obsidianFound < 13) return y + i;
                 return -1;
             }
 
@@ -312,8 +331,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
             int level = levels.get(i);
 
             AspectList aspects = EnchantmentManager.enchantmentData.get(enchant).get(level).aspects;
-            for (Aspect aspect : aspects.getAspectsSorted())
-                totalAspects.add(aspect, aspects.getAmount(aspect));
+            for (Aspect aspect : aspects.getAspectsSorted()) totalAspects.add(aspect, aspects.getAmount(aspect));
         }
     }
 
@@ -337,26 +355,24 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
         totalAspects.readFromNBT(par1NBTTagCompound.getCompoundTag(TAG_TOTAL_ASPECTS));
 
         enchantments.clear();
-        for (int i : par1NBTTagCompound.getIntArray(TAG_ENCHANTS))
-            enchantments.add(i);
+        for (int i : par1NBTTagCompound.getIntArray(TAG_ENCHANTS)) enchantments.add(i);
         levels.clear();
-        for (int i : par1NBTTagCompound.getIntArray(TAG_LEVELS))
-            levels.add(i);
+        for (int i : par1NBTTagCompound.getIntArray(TAG_LEVELS)) levels.add(i);
 
         NBTTagList var2 = par1NBTTagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         inventorySlots = new ItemStack[getSizeInventory()];
         for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
             NBTTagCompound var4 = var2.getCompoundTagAt(var3);
             byte var5 = var4.getByte("Slot");
-            if (var5 >= 0 && var5 < inventorySlots.length)
-                inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
+            if (var5 >= 0 && var5 < inventorySlots.length) inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
         }
     }
 
     public void writeCustomNBT(NBTTagCompound par1NBTTagCompound) {
         par1NBTTagCompound.setIntArray(TAG_LEVELS, ArrayUtils.toPrimitive(levels.toArray(new Integer[levels.size()])));
 
-        par1NBTTagCompound.setIntArray(TAG_ENCHANTS, ArrayUtils.toPrimitive(enchantments.toArray(new Integer[enchantments.size()])));
+        par1NBTTagCompound.setIntArray(
+                TAG_ENCHANTS, ArrayUtils.toPrimitive(enchantments.toArray(new Integer[enchantments.size()])));
 
         NBTTagCompound totalAspectsCmp = new NBTTagCompound();
         totalAspects.writeToNBT(totalAspectsCmp);
@@ -401,8 +417,7 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
             } else {
                 stackAt = inventorySlots[i].splitStack(j);
 
-                if (inventorySlots[i].stackSize == 0)
-                    inventorySlots[i] = null;
+                if (inventorySlots[i].stackSize == 0) inventorySlots[i] = null;
 
                 return stackAt;
             }
@@ -438,18 +453,15 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+                && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
     }
 
     @Override
-    public void openInventory() {
-
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeInventory() {
-
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -490,7 +502,5 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
     }
 
     @Override
-    public void doneMoving() {
-
-    }
+    public void doneMoving() {}
 }

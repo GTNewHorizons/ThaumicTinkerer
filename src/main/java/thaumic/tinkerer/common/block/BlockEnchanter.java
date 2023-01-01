@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -47,9 +49,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class BlockEnchanter extends BlockModContainer {
 
     Random random;
@@ -68,12 +67,22 @@ public class BlockEnchanter extends BlockModContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityPlayer par5EntityPlayer,
+            int par6,
+            float par7,
+            float par8,
+            float par9) {
         if (!par1World.isRemote) {
             TileEntity tile = par1World.getTileEntity(par2, par3, par4);
             if (tile != null) {
                 par1World.markBlockForUpdate(par2, par3, par4);
-                par5EntityPlayer.openGui(ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_ENCHANTER, par1World, par2, par3, par4);
+                par5EntityPlayer.openGui(
+                        ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_ENCHANTER, par1World, par2, par3, par4);
             }
         }
 
@@ -93,21 +102,28 @@ public class BlockEnchanter extends BlockModContainer {
                     float f1 = random.nextFloat() * 0.8F + 0.1F;
                     EntityItem entityitem;
 
-                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World.spawnEntityInWorld(entityitem)) {
+                    for (float f2 = random.nextFloat() * 0.8F + 0.1F;
+                            itemstack.stackSize > 0;
+                            par1World.spawnEntityInWorld(entityitem)) {
                         int k1 = random.nextInt(21) + 10;
 
-                        if (k1 > itemstack.stackSize)
-                            k1 = itemstack.stackSize;
+                        if (k1 > itemstack.stackSize) k1 = itemstack.stackSize;
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(
+                                par1World,
+                                par2 + f,
+                                par3 + f1,
+                                par4 + f2,
+                                new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (float) random.nextGaussian() * f3;
                         entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
                         entityitem.motionZ = (float) random.nextGaussian() * f3;
 
                         if (itemstack.hasTagCompound())
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)
+                                    itemstack.getTagCompound().copy());
                     }
                 }
             }
@@ -129,7 +145,9 @@ public class BlockEnchanter extends BlockModContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int par2) {
-        return par1 == ForgeDirection.UP.ordinal() ? iconTop : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSides;
+        return par1 == ForgeDirection.UP.ordinal()
+                ? iconTop
+                : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSides;
     }
 
     @Override
@@ -179,14 +197,46 @@ public class BlockEnchanter extends BlockModContainer {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_ENCHANTER, new AspectList().add(Aspect.MAGIC, 2).add(Aspect.AURA, 1).add(Aspect.ELDRITCH, 1).add(Aspect.DARKNESS, 1).add(Aspect.MIND, 1), 5, 4, 5, new ItemStack(this)).setParents(LibResearch.KEY_SPELL_CLOTH)
-                .setPages(new ResearchPage("0"), new ResearchPage("1"), new ResearchPage("2"), ResearchHelper.infusionPage(LibResearch.KEY_ENCHANTER));
-
+        return (IRegisterableResearch) new TTResearchItem(
+                        LibResearch.KEY_ENCHANTER,
+                        new AspectList()
+                                .add(Aspect.MAGIC, 2)
+                                .add(Aspect.AURA, 1)
+                                .add(Aspect.ELDRITCH, 1)
+                                .add(Aspect.DARKNESS, 1)
+                                .add(Aspect.MIND, 1),
+                        5,
+                        4,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_SPELL_CLOTH)
+                .setPages(
+                        new ResearchPage("0"),
+                        new ResearchPage("1"),
+                        new ResearchPage("2"),
+                        ResearchHelper.infusionPage(LibResearch.KEY_ENCHANTER));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ENCHANTER, new ItemStack(this), 15, new AspectList().add(Aspect.MAGIC, 50).add(Aspect.ENERGY, 20).add(Aspect.ELDRITCH, 20).add(Aspect.VOID, 20).add(Aspect.MIND, 10), new ItemStack(Blocks.enchanting_table),
-                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1), new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1), new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1), new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1), new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1), new ItemStack(ConfigItems.itemResource, 1, 2), new ItemStack(ConfigItems.itemResource, 1, 2), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemSpellCloth.class)));
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_ENCHANTER,
+                new ItemStack(this),
+                15,
+                new AspectList()
+                        .add(Aspect.MAGIC, 50)
+                        .add(Aspect.ENERGY, 20)
+                        .add(Aspect.ELDRITCH, 20)
+                        .add(Aspect.VOID, 20)
+                        .add(Aspect.MIND, 10),
+                new ItemStack(Blocks.enchanting_table),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigItems.itemResource, 1, 2),
+                new ItemStack(ConfigItems.itemResource, 1, 2),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemSpellCloth.class)));
     }
 }

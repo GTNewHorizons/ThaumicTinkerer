@@ -30,5 +30,4 @@ public class SlotResearchTableOverride extends Slot {
     public boolean isItemValid(ItemStack par1ItemStack) {
         return par1ItemStack.getItem() instanceof ItemInkwell || par1ItemStack.getItem() instanceof ItemInfusedInkwell;
     }
-
 }

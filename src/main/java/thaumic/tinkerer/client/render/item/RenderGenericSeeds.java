@@ -21,12 +21,9 @@ public class RenderGenericSeeds implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (type == ItemRenderType.INVENTORY)
-            return true;
-        if (type == ItemRenderType.EQUIPPED)
-            return true;
-        if (type == ItemRenderType.ENTITY)
-            return true;
+        if (type == ItemRenderType.INVENTORY) return true;
+        if (type == ItemRenderType.EQUIPPED) return true;
+        if (type == ItemRenderType.ENTITY) return true;
         if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             return true;
         }
@@ -35,10 +32,8 @@ public class RenderGenericSeeds implements IItemRenderer {
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        if (helper == ItemRendererHelper.ENTITY_BOBBING)
-            return true;
-        if (helper == ItemRendererHelper.ENTITY_ROTATION)
-            return true;
+        if (helper == ItemRendererHelper.ENTITY_BOBBING) return true;
+        if (helper == ItemRendererHelper.ENTITY_ROTATION) return true;
         return false;
     }
 
@@ -82,7 +77,15 @@ public class RenderGenericSeeds implements IItemRenderer {
     private void renderItemInEquipped(ItemStack itemstack, Aspect aspect, IIcon icon) {
         Tessellator tessellator = Tessellator.instance;
         setColorForAspect(aspect);
-        ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+        ItemRenderer.renderItemIn2D(
+                tessellator,
+                icon.getMaxU(),
+                icon.getMinV(),
+                icon.getMinU(),
+                icon.getMaxV(),
+                icon.getIconWidth(),
+                icon.getIconHeight(),
+                0.0625F);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
     }
 
@@ -99,7 +102,15 @@ public class RenderGenericSeeds implements IItemRenderer {
         float scale = 0.7F;
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
-        ItemRenderer.renderItemIn2D(tesselator, texture.getMaxU(), texture.getMinV(), texture.getMinU(), texture.getMaxV(), texture.getIconWidth(), texture.getIconHeight(), .05F);
+        ItemRenderer.renderItemIn2D(
+                tesselator,
+                texture.getMaxU(),
+                texture.getMinV(),
+                texture.getMinU(),
+                texture.getMaxV(),
+                texture.getIconWidth(),
+                texture.getIconHeight(),
+                .05F);
         GL11.glPopMatrix();
     }
 
@@ -114,11 +125,11 @@ public class RenderGenericSeeds implements IItemRenderer {
     }
 
     private void setColorForAspect(Aspect aspect) {
-        //if(!aspect.isPrimal()){
+        // if(!aspect.isPrimal()){
         //    float r = (aspect.getColor() >> 16 & 0xFF) / 255.0F;
         //    float g = (aspect.getColor() >> 8 & 0xFF) / 255.0F;
         //    float b = (aspect.getColor() & 0xFF) / 255.0F;
         //    GL11.glColor3f(r, g, b);
-        //}
+        // }
     }
 }

@@ -1,8 +1,7 @@
 package thaumic.tinkerer.common.registry;
 
-import net.minecraft.item.ItemStack;
-
 import java.util.Comparator;
+import net.minecraft.item.ItemStack;
 
 /**
  * Created by pixlepix on 8/3/14.

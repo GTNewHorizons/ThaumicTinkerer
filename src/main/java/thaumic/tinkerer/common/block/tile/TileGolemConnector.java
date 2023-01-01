@@ -5,6 +5,7 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import java.util.*;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -18,11 +19,9 @@ import thaumcraft.common.entities.golems.Marker;
 import thaumic.tinkerer.common.core.golems.EnumGolemCores;
 import thaumic.tinkerer.common.core.golems.EnumGolemDecorations;
 
-import java.util.*;
-
 @Optional.InterfaceList({
-        @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
-        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+    @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
+    @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 })
 public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleComponent {
     private static final String TAG_UUID_MOST = "UUIDMost";
@@ -36,12 +35,11 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     public void verifyGolem() {
-        if (golemConnected == null)
-            return;
-        List list = this.worldObj.getEntitiesWithinAABB(EntityGolemBase.class,
-                AxisAlignedBB.getBoundingBox(xCoord - 30, yCoord - 30,
-                        zCoord - 30, xCoord + 30, yCoord + 30, zCoord + 30)
-        );
+        if (golemConnected == null) return;
+        List list = this.worldObj.getEntitiesWithinAABB(
+                EntityGolemBase.class,
+                AxisAlignedBB.getBoundingBox(
+                        xCoord - 30, yCoord - 30, zCoord - 30, xCoord + 30, yCoord + 30, zCoord + 30));
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
@@ -60,8 +58,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     public Object[] getGolemDecorationsImplementation() throws LuaException {
-        if (golem == null || golem.decoration == null || golem.decoration.length() == 0)
-            return new String[]{};
+        if (golem == null || golem.decoration == null || golem.decoration.length() == 0) return new String[] {};
         HashMap<Double, String> decorations = new HashMap<Double, String>();
         for (int i = 0; i < golem.decoration.length(); i++) {
             EnumGolemDecorations golemDec = EnumGolemDecorations.getFromChar(golem.decoration.charAt(i));
@@ -70,23 +67,18 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
             decorations.put((double) i, StatCollector.translateToLocal(golemDec.getName()));
         }
 
-        return new Object[]{decorations};
-
+        return new Object[] {decorations};
     }
 
     public String[] getGolemCoreImplementation() throws LuaException {
-        if (golem == null)
-            return new String[]{};
-        if (golem.getCore() == -1)
-            return new String[]{StatCollector.translateToLocal("item.ItemGolemCore.100.name")};
+        if (golem == null) return new String[] {};
+        if (golem.getCore() == -1) return new String[] {StatCollector.translateToLocal("item.ItemGolemCore.100.name")};
         String[] decorations = new String[1];
         EnumGolemCores golemCore = EnumGolemCores.getFromByte(golem.getCore());
-        if (golemCore == null)
-            throw new LuaException("Golem has Unknown core: " + golem.getCore());
+        if (golemCore == null) throw new LuaException("Golem has Unknown core: " + golem.getCore());
         decorations[0] = StatCollector.translateToLocal(golemCore.getName());
 
         return decorations;
-
     }
 
     @Override
@@ -108,8 +100,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
 
     public void ConnectGolem(UUID golemID) {
         golemConnected = golemID;
-        if (golemID == null)
-            golem = null;
+        if (golemID == null) golem = null;
         else {
             verifyGolem();
         }
@@ -120,40 +111,52 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
         super.readCustomNBT(cmp);
         if (cmp.hasKey(TAG_UUID_LEAST) && cmp.hasKey(TAG_UUID_MOST)) {
             golemConnected = new UUID(cmp.getLong(TAG_UUID_MOST), cmp.getLong(TAG_UUID_LEAST));
-            //verifyGolem();
+            // verifyGolem();
         }
-
     }
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"getDecorations", "getPosition", "getType", "getHealth", "getCore", "getHome", "setHome", "getMarkers", "setMarkers", "newMarker", "addMarker", "saveMarker", "deleteMarker", "getMarker", "getMarkerCount"};
+        return new String[] {
+            "getDecorations",
+            "getPosition",
+            "getType",
+            "getHealth",
+            "getCore",
+            "getHome",
+            "setHome",
+            "getMarkers",
+            "setMarkers",
+            "newMarker",
+            "addMarker",
+            "saveMarker",
+            "deleteMarker",
+            "getMarker",
+            "getMarkerCount"
+        };
     }
 
     @Override
     @Optional.Method(modid = "ComputerCraft")
-    public Object[] callMethod(IComputerAccess computer, ILuaContext context,
-                               int method, Object[] arguments) throws LuaException {
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments)
+            throws LuaException {
         switch (method) {
             case 0:
                 return getGolemDecorationsImplementation();
             case 1:
-                if (golem == null)
-                    return new Integer[]{};
-                return new Integer[]{(int) golem.posX, (int) golem.posY, (int) golem.posZ};
+                if (golem == null) return new Integer[] {};
+                return new Integer[] {(int) golem.posX, (int) golem.posY, (int) golem.posZ};
             case 2:
                 return getGolemTypeImplementation();
             case 3:
-                if (golem == null)
-                    return new Float[]{};
-                return new Float[]{golem.getHealth()};
+                if (golem == null) return new Float[] {};
+                return new Float[] {golem.getHealth()};
             case 4:
                 return getGolemCoreImplementation();
             case 5:
                 return getHomeImplementation();
             case 6:
-                if (arguments.length != 4)
-                    throw new LuaException("Invalid arguments");
+                if (arguments.length != 4) throw new LuaException("Invalid arguments");
                 double x = (Double) arguments[0];
                 double y = (Double) arguments[1];
                 double z = (Double) arguments[2];
@@ -162,26 +165,21 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
             case 7:
                 return getMarkersImplementation();
             case 8:
-                if (arguments.length != 1)
-                    throw new LuaException("setMarkers takes 1 argument");
+                if (arguments.length != 1) throw new LuaException("setMarkers takes 1 argument");
                 return setMarkersImplementation((HashMap<Double, HashMap<String, Object>>) arguments[0]);
             case 9:
                 return newMarkerImplementation();
             case 10:
-                if (arguments.length != 1)
-                    throw new LuaException("addMarker must have 1 argument");
+                if (arguments.length != 1) throw new LuaException("addMarker must have 1 argument");
                 return addMarkerImplementation((Map) arguments[0]);
             case 11:
-                if (arguments.length != 2)
-                    throw new LuaException("saveMarker must have 2 arguments");
+                if (arguments.length != 2) throw new LuaException("saveMarker must have 2 arguments");
                 return saveMarkerImplementation((Double) arguments[0], (Map) arguments[1]);
             case 12:
-                if (arguments.length != 1)
-                    throw new LuaException("deleteMarker must have 1 argument");
+                if (arguments.length != 1) throw new LuaException("deleteMarker must have 1 argument");
                 return deleteMarkerImplementation((Double) arguments[0]);
             case 13:
-                if (arguments.length != 1)
-                    throw new LuaException("getMarker must have 1 argument");
+                if (arguments.length != 1) throw new LuaException("getMarker must have 1 argument");
                 return getMarkerImplementation((Double) arguments[0]);
             case 14:
                 return getMarkerCountImplementation();
@@ -190,39 +188,34 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     private Object[] getMarkerCountImplementation() {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
-        if (markers == null)
-            return new Object[]{0};
-        return new Object[]{(double) markers.size()};
+        if (markers == null) return new Object[] {0};
+        return new Object[] {(double) markers.size()};
     }
 
     private Object[] getMarkerImplementation(Double arguments) throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
         if (markers == null || markers.size() <= arguments)
             throw new LuaException("marker " + (int) (double) arguments + " does not exist");
         Marker mark = markers.get((int) (double) arguments);
 
-        return new Object[]{fromMarkerImplementation(mark)};
+        return new Object[] {fromMarkerImplementation(mark)};
     }
 
     private Object[] deleteMarkerImplementation(double arguments) throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
         if (markers == null || markers.size() <= arguments)
             throw new LuaException("marker " + (int) (double) arguments + " does not exist");
         markers.remove((int) (double) arguments);
         golem.setMarkers(markers);
-        return new String[]{};
+        return new String[] {};
     }
 
     private Object[] saveMarkerImplementation(double markerNum, Map markerArg) throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
         if (markers == null || markers.size() <= markerNum)
             throw new LuaException("marker " + (int) (double) markerNum + " does not exist");
@@ -234,11 +227,9 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
 
     @SuppressWarnings("unchecked")
     private Object[] addMarkerImplementation(Map arguments) throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
-        if (markers == null)
-            markers = new ArrayList<Marker>();
+        if (markers == null) markers = new ArrayList<Marker>();
         Marker mark = toMarkerImplementation(arguments);
         markers.add(mark);
         golem.setMarkers(markers);
@@ -253,13 +244,12 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
         mark.put("dim", this.worldObj.provider.dimensionId);
         mark.put("color", -1);
         mark.put("side", 1);
-        return new Object[]{mark};
+        return new Object[] {mark};
     }
 
     @SuppressWarnings("unchecked")
     private Object[] setMarkersImplementation(Map arguments) throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
 
         ArrayList<Marker> arrList = new ArrayList<Marker>();
 
@@ -267,7 +257,6 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
             Marker mark = toMarkerImplementation((Map) map);
 
             arrList.add(mark);
-
         }
         golem.setMarkers(arrList);
         return getMarkersImplementation();
@@ -288,8 +277,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     private Object[] getMarkersImplementation() {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
         HashMap<Integer, HashMap<String, Object>> luaMarkers = new HashMap<Integer, HashMap<String, Object>>();
         int i = 1;
@@ -297,7 +285,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
             HashMap<String, Object> luaMarker = fromMarkerImplementation(mark);
             luaMarkers.put(i++, luaMarker);
         }
-        return new Object[]{luaMarkers};
+        return new Object[] {luaMarkers};
     }
 
     /**
@@ -317,8 +305,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     private Object[] setHomeImplementation(double x, double y, double z, double facing) throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
 
         golem.setHomeArea((int) x, (int) y, (int) z, 35);
         golem.homeFacing = (int) facing;
@@ -326,32 +313,30 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     private Object[] getHomeImplementation() {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         ChunkCoordinates home = golem.getHomePosition();
-        return new Integer[]{home.posX, home.posY, home.posZ, golem.homeFacing};
+        return new Integer[] {home.posX, home.posY, home.posZ, golem.homeFacing};
     }
 
     private String[] getGolemTypeImplementation() throws LuaException {
-        if (golem == null)
-            return new String[]{};
+        if (golem == null) return new String[] {};
         switch (golem.getGolemType()) {
             case CLAY:
-                return new String[]{"Clay"};
+                return new String[] {"Clay"};
             case FLESH:
-                return new String[]{"Flesh"};
+                return new String[] {"Flesh"};
             case IRON:
-                return new String[]{"Iron"};
+                return new String[] {"Iron"};
             case STONE:
-                return new String[]{"Stone"};
+                return new String[] {"Stone"};
             case STRAW:
-                return new String[]{"Straw"};
+                return new String[] {"Straw"};
             case TALLOW:
-                return new String[]{"Tallow"};
+                return new String[] {"Tallow"};
             case THAUMIUM:
-                return new String[]{"Thaumium"};
+                return new String[] {"Thaumium"};
             case WOOD:
-                return new String[]{"Wood"};
+                return new String[] {"Wood"};
             default:
                 throw new LuaException("Unknown Golem Type: " + golem.getGolemType());
         }
@@ -375,7 +360,6 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     @Optional.Method(modid = "ComputerCraft")
     public boolean equals(IPeripheral other) {
         return this.equals((Object) other);
-
     }
 
     @Override
@@ -392,7 +376,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     @Callback(doc = "function():x:number,y:number,z:number -- Returns The golems current position")
     @Optional.Method(modid = "OpenComputers")
     public Object[] getPosition(Context context, Arguments args) {
-        return new Double[]{golem.posX, golem.posY, golem.posZ};
+        return new Double[] {golem.posX, golem.posY, golem.posZ};
     }
 
     @Callback(doc = "function():string -- Returns The golems type")
@@ -404,7 +388,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     @Callback(doc = "function():number -- Returns The golems health")
     @Optional.Method(modid = "OpenComputers")
     public Object[] getHealth(Context context, Arguments args) throws LuaException {
-        return new Float[]{golem.getHealth()};
+        return new Float[] {golem.getHealth()};
     }
 
     @Callback(doc = "function():string -- Returns The golems core")
@@ -422,7 +406,8 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     @Callback(doc = "function(x:number,y:number,z:number,facing:number):nill -- Sets The golems home position")
     @Optional.Method(modid = "OpenComputers")
     public Object[] setHome(Context context, Arguments args) throws LuaException {
-        return setHomeImplementation(args.checkDouble(0), args.checkDouble(1), args.checkDouble(2), args.checkDouble(3));
+        return setHomeImplementation(
+                args.checkDouble(0), args.checkDouble(1), args.checkDouble(2), args.checkDouble(3));
     }
 
     @Callback(doc = "function():table -- Gets list of markers")
@@ -472,5 +457,4 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     public Object[] getMarkerCount(Context context, Arguments args) throws LuaException {
         return getMarkerCountImplementation();
     }
-
 }

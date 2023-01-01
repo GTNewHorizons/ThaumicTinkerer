@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.peripheral.OpenComputers;
 
-
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -33,45 +32,54 @@ public class DriverEssentiaTransport extends DriverTileEntity {
 
         @Callback(doc = "function(direction:number):boolean -- returns is the pipe connectable from this direction")
         public Object[] isConnectable(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.isConnectable(ForgeDirection.getOrientation(arguments.checkInteger(0)))};
+            return new Object[] {this.tileEntity.isConnectable(ForgeDirection.getOrientation(arguments.checkInteger(0)))
+            };
         }
 
         @Callback(doc = "function(direction:number):boolean -- can pipe input from direction")
         public Object[] canInputFrom(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.canInputFrom(ForgeDirection.getOrientation(arguments.checkInteger(0)))};
+            return new Object[] {this.tileEntity.canInputFrom(ForgeDirection.getOrientation(arguments.checkInteger(0)))
+            };
         }
 
         @Callback(doc = "function(direction:number):boolean -- can pipe output to direction")
         public Object[] canOutputTo(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.canOutputTo(ForgeDirection.getOrientation(arguments.checkInteger(0)))};
+            return new Object[] {this.tileEntity.canOutputTo(ForgeDirection.getOrientation(arguments.checkInteger(0)))};
         }
 
         @Callback(doc = "function(direction:number):string -- returns which aspect suction")
         public Object[] getSuctionType(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.getSuctionType(ForgeDirection.getOrientation(arguments.checkInteger(0))).getTag()};
+            return new Object[] {
+                this.tileEntity
+                        .getSuctionType(ForgeDirection.getOrientation(arguments.checkInteger(0)))
+                        .getTag()
+            };
         }
 
         @Callback(doc = "function(direction:number):number -- returnd amount of suction")
         public Object[] getSuctionAmount(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.getSuctionAmount(ForgeDirection.getOrientation(arguments.checkInteger(0)))};
+            return new Object[] {
+                this.tileEntity.getSuctionAmount(ForgeDirection.getOrientation(arguments.checkInteger(0)))
+            };
         }
 
         @Callback(doc = "function(direction:number):string -- returns which essentia in pipe")
         public Object[] getEssentiaType(final Context context, final Arguments arguments) {
-            Aspect aspect=this.tileEntity.getEssentiaType(ForgeDirection.getOrientation(arguments.checkInteger(0)));
-            if(aspect==null)
-                return new Object[]{};
-            return new Object[]{aspect.getTag()};
+            Aspect aspect = this.tileEntity.getEssentiaType(ForgeDirection.getOrientation(arguments.checkInteger(0)));
+            if (aspect == null) return new Object[] {};
+            return new Object[] {aspect.getTag()};
         }
 
         @Callback(doc = "function(direction:number):number -- returnd amount of essentia")
         public Object[] getEssentiaAmount(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.getEssentiaAmount(ForgeDirection.getOrientation(arguments.checkInteger(0)))};
+            return new Object[] {
+                this.tileEntity.getEssentiaAmount(ForgeDirection.getOrientation(arguments.checkInteger(0)))
+            };
         }
 
         @Callback(doc = "function():number -- returns minimum suction")
         public Object[] getMinimumSuction(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.getMinimumSuction()};
+            return new Object[] {this.tileEntity.getMinimumSuction()};
         }
     }
 }

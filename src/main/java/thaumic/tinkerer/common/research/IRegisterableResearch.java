@@ -6,5 +6,4 @@ package thaumic.tinkerer.common.research;
 public interface IRegisterableResearch {
 
     public void registerResearch();
-
 }

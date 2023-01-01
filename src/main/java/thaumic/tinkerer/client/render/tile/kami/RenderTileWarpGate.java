@@ -33,5 +33,4 @@ public class RenderTileWarpGate extends TileEntitySpecialRenderer {
         cubes.renderSpinningCubes(12, repeat, repeat);
         GL11.glPopMatrix();
     }
-
 }

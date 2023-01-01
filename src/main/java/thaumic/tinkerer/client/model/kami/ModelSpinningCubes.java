@@ -79,8 +79,7 @@ public class ModelSpinningCubes extends ModelBase {
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightmapX, lightmapY);
             spinningCube.render(1F / 16F);
 
-            if (repeat < origRepeat)
-                GL11.glDisable(GL11.GL_BLEND);
+            if (repeat < origRepeat) GL11.glDisable(GL11.GL_BLEND);
 
             GL11.glPopMatrix();
         }
@@ -88,8 +87,6 @@ public class ModelSpinningCubes extends ModelBase {
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-        if (repeat != 0)
-            renderSpinningCubes(cubes, repeat - 1, origRepeat);
+        if (repeat != 0) renderSpinningCubes(cubes, repeat - 1, origRepeat);
     }
-
 }

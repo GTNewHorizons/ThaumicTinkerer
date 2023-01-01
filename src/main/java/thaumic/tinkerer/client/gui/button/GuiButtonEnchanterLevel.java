@@ -32,13 +32,11 @@ public class GuiButtonEnchanterLevel extends GuiButton {
 
     @Override
     public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
-        if (!enabled)
-            return;
+        if (!enabled) return;
 
         int x = 218 + (plus ? 7 : 0);
 
         par1Minecraft.renderEngine.bindTexture(gui);
         drawTexturedModalRect(xPosition, yPosition, x, 0, 7, 7);
     }
-
 }

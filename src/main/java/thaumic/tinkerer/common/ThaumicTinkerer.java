@@ -14,7 +14,6 @@
  */
 package thaumic.tinkerer.common;
 
-
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -24,6 +23,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import java.util.Arrays;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
@@ -42,8 +42,6 @@ import thaumic.tinkerer.common.lib.LibMisc;
 import thaumic.tinkerer.common.peripheral.PeripheralHandler;
 import thaumic.tinkerer.common.registry.TTRegistry;
 import thaumic.tinkerer.common.research.KamiResearchItem;
-
-import java.util.Arrays;
 
 @Mod(modid = LibMisc.MOD_ID, name = LibMisc.MOD_NAME, version = LibMisc.VERSION, dependencies = LibMisc.DEPENDENCIES)
 public class ThaumicTinkerer {
@@ -67,9 +65,9 @@ public class ThaumicTinkerer {
         tcProxy = Thaumcraft.proxy;
         proxy.preInit(event);
         if (Loader.isModLoaded("Waila")) {
-            FMLInterModComms.sendMessage("Waila", "register", "thaumic.tinkerer.common.compat.TTinkererProvider.callbackRegister");
+            FMLInterModComms.sendMessage(
+                    "Waila", "register", "thaumic.tinkerer.common.compat.TTinkererProvider.callbackRegister");
         }
-
     }
 
     @EventHandler
@@ -89,17 +87,14 @@ public class ThaumicTinkerer {
                 String[] values = message.getStringValue().split(",");
                 KamiResearchItem.Blacklist.addAll(Arrays.asList(values));
             }
-            if(message.key.equalsIgnoreCase(InterModCommsOperations.ADD_CC_BLACKLIST))
-            {
-                if(Loader.isModLoaded("ComputerCraft"))
-                    blackListCCDevices(message.getStringValue());
+            if (message.key.equalsIgnoreCase(InterModCommsOperations.ADD_CC_BLACKLIST)) {
+                if (Loader.isModLoaded("ComputerCraft")) blackListCCDevices(message.getStringValue());
             }
         }
     }
 
     @Optional.Method(modid = "ComputerCraft")
-    public void blackListCCDevices(String classname)
-    {
+    public void blackListCCDevices(String classname) {
         PeripheralHandler.Blacklist.add(classname);
     }
 
@@ -115,6 +110,5 @@ public class ThaumicTinkerer {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-
     }
 }

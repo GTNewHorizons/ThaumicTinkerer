@@ -31,9 +31,7 @@ public abstract class PacketTile<T extends TileEntity> implements IMessage {
     protected transient T tile;
     protected transient EntityPlayer player;
 
-    public PacketTile() {
-
-    }
+    public PacketTile() {}
 
     public PacketTile(T tile) {
         this.tile = tile;
@@ -60,11 +58,9 @@ public abstract class PacketTile<T extends TileEntity> implements IMessage {
         dim = byteBuf.readInt();
     }
 
-
     public IMessage onMessage(PacketTile message, MessageContext ctx) {
         MinecraftServer server = MiscHelper.server();
-        if (ctx.side.isClient())
-            message.player = TTClientProxy.getPlayer();
+        if (ctx.side.isClient()) message.player = TTClientProxy.getPlayer();
         else {
             message.player = ctx.getServerHandler().playerEntity;
         }

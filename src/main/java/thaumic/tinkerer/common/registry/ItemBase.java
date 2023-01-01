@@ -16,12 +16,11 @@ package thaumic.tinkerer.common.registry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
-
-import java.util.ArrayList;
 
 public abstract class ItemBase extends Item implements ITTinkererItem {
 

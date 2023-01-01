@@ -14,6 +14,9 @@
  */
 package thaumic.tinkerer.client.gui.kami;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
@@ -31,10 +34,6 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
 import thaumic.tinkerer.common.item.kami.ItemSkyPearl;
 import thaumic.tinkerer.common.network.packet.kami.PacketWarpGateTeleport;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiWarpGateDestinations extends GuiScreen {
 
@@ -92,7 +91,9 @@ public class GuiWarpGateDestinations extends GuiScreen {
         if (par2 >= 2 && par2 < 12) {
             int num = par2 - 2;
             ItemStack stack = warpGate.getStackInSlot(num);
-            if (stack != null && ItemSkyPearl.isAttuned(stack) && ItemSkyPearl.getDim(stack) == warpGate.getWorldObj().provider.dimensionId) {
+            if (stack != null
+                    && ItemSkyPearl.isAttuned(stack)
+                    && ItemSkyPearl.getDim(stack) == warpGate.getWorldObj().provider.dimensionId) {
                 int x = ItemSkyPearl.getX(stack);
                 int z = ItemSkyPearl.getZ(stack);
 
@@ -119,15 +120,13 @@ public class GuiWarpGateDestinations extends GuiScreen {
             ItemStack stack = warpGate.getStackInSlot(i);
             if (stack != null && ItemSkyPearl.isAttuned(stack)) {
                 int dim = ItemSkyPearl.getDim(stack);
-                if (warpGate.getWorldObj().provider.dimensionId != dim)
-                    continue;
+                if (warpGate.getWorldObj().provider.dimensionId != dim) continue;
 
                 int x = ItemSkyPearl.getX(stack);
                 int y = ItemSkyPearl.getY(stack);
                 int z = ItemSkyPearl.getZ(stack);
 
-                if (y != -1)
-                    coords.add(new Object[]{x - this.x, z - this.y, stack, i});
+                if (y != -1) coords.add(new Object[] {x - this.x, z - this.y, stack, i});
             }
         }
 
@@ -148,17 +147,25 @@ public class GuiWarpGateDestinations extends GuiScreen {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
 
-        fontRendererObj.drawStringWithShadow(EnumChatFormatting.UNDERLINE + StatCollector.translateToLocal("ttmisc.destinations"), 3, 40, 0xFFFFFF);
+        fontRendererObj.drawStringWithShadow(
+                EnumChatFormatting.UNDERLINE + StatCollector.translateToLocal("ttmisc.destinations"), 3, 40, 0xFFFFFF);
         GL11.glColor4f(1F, 1F, 1F, 1F);
         drawPearlAt(0, null, gateX, gateY, par1, par2);
         for (Object[] coords_ : coords)
-            drawPearlAt((Integer) coords_[3], (ItemStack) coords_[2], (Integer) coords_[0], (Integer) coords_[1], par1, par2);
+            drawPearlAt(
+                    (Integer) coords_[3],
+                    (ItemStack) coords_[2],
+                    (Integer) coords_[0],
+                    (Integer) coords_[1],
+                    par1,
+                    par2);
 
-        if (!tooltip.isEmpty())
-            ClientHelper.renderTooltip(par1, par2, tooltip);
+        if (!tooltip.isEmpty()) ClientHelper.renderTooltip(par1, par2, tooltip);
 
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal("ttmisc.numberKeys"), width / 2, 5, 0xFFFFFF);
-        drawCenteredString(fontRendererObj, StatCollector.translateToLocal("ttmisc.spaceToReset"), width / 2, 16, 0xFFFFFF);
+        drawCenteredString(
+                fontRendererObj, StatCollector.translateToLocal("ttmisc.numberKeys"), width / 2, 5, 0xFFFFFF);
+        drawCenteredString(
+                fontRendererObj, StatCollector.translateToLocal("ttmisc.spaceToReset"), width / 2, 16, 0xFFFFFF);
     }
 
     public void drawPearlAt(int index, ItemStack stack, int xp, int yp, int mx, int my) {
@@ -171,22 +178,33 @@ public class GuiWarpGateDestinations extends GuiScreen {
         GL11.glPushMatrix();
         GL11.glTranslatef(xp, yp, 0);
         GL11.glScalef(0.5F, 0.5F, 1F);
-        render.renderIcon(-8, -8, ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class).getIconFromDamage(0), 16, 16);
+        render.renderIcon(
+                -8,
+                -8,
+                ThaumicTinkerer.registry
+                        .getFirstItemFromClass(ItemSkyPearl.class)
+                        .getIconFromDamage(0),
+                16,
+                16);
         GL11.glPopMatrix();
 
-        String destNum = " " + EnumChatFormatting.ITALIC + String.format(StatCollector.translateToLocal("ttmisc.destinationInd"), index + 1);
-        if (stack != null && stack.hasDisplayName())
-            destName = stack.getDisplayName();
+        String destNum = " " + EnumChatFormatting.ITALIC
+                + String.format(StatCollector.translateToLocal("ttmisc.destinationInd"), index + 1);
+        if (stack != null && stack.hasDisplayName()) destName = stack.getDisplayName();
         else destName = StatCollector.translateToLocal(stack == null ? "ttmisc.entrancePoint" : "ttmisc.destination");
 
-        if (stack != null)
-            fontRendererObj.drawString((index + 1) + ": " + destName, 5, 54 + index * 11, 0xFFFFFF);
+        if (stack != null) fontRendererObj.drawString((index + 1) + ": " + destName, 5, 54 + index * 11, 0xFFFFFF);
 
         if (mx >= xp - 4 && mx <= xp + 4 && my >= yp - 4 && my < yp + 4) {
             tooltip.add(EnumChatFormatting.AQUA + destName + destNum);
 
             if (stack != null) {
-                ItemSkyPearl.addInfo(stack, warpGate.getWorldObj().provider.dimensionId, Vector3.fromTileEntity(warpGate), tooltip, true);
+                ItemSkyPearl.addInfo(
+                        stack,
+                        warpGate.getWorldObj().provider.dimensionId,
+                        Vector3.fromTileEntity(warpGate),
+                        tooltip,
+                        true);
                 tooltip.add(StatCollector.translateToLocal("ttmisc.clickToTeleport"));
             } else {
                 tooltip.add("X: " + x);
@@ -218,5 +236,4 @@ public class GuiWarpGateDestinations extends GuiScreen {
         tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, par1);
         tessellator.draw();
     }
-
 }

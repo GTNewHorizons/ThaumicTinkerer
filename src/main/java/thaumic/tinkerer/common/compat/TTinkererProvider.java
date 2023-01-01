@@ -1,5 +1,6 @@
 package thaumic.tinkerer.common.compat;
 
+import java.util.List;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -21,8 +22,6 @@ import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
 import thaumic.tinkerer.common.block.transvector.BlockTransvectorInterface;
 
-import java.util.List;
-
 public class TTinkererProvider implements IWailaDataProvider {
 
     public static void callbackRegister(IWailaRegistrar registrar) {
@@ -34,22 +33,19 @@ public class TTinkererProvider implements IWailaDataProvider {
     }
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor,
-                                   IWailaConfigHandler config) {
+    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return null;
     }
 
     @Override
-    public List<String> getWailaHead(ItemStack itemStack,
-                                     List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+    public List<String> getWailaHead(
+            ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
-    public List<String> getWailaBody(ItemStack itemStack,
-                                     List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+    public List<String> getWailaBody(
+            ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (accessor.getBlock() == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class)) {
             TileAnimationTablet tileAn = (TileAnimationTablet) accessor.getTileEntity();
             String currentTool;
@@ -67,25 +63,21 @@ public class TTinkererProvider implements IWailaDataProvider {
                 } else {
                     currenttip.add(StatCollector.translateToLocal("ttwaila.rightClick"));
                 }
-                if (tileAn.redstone)
-                    currenttip.add(StatCollector.translateToLocal("ttwaila.redstone"));
-                else
-                    currenttip.add(StatCollector.translateToLocal("ttwaila.autonomous"));
+                if (tileAn.redstone) currenttip.add(StatCollector.translateToLocal("ttwaila.redstone"));
+                else currenttip.add(StatCollector.translateToLocal("ttwaila.autonomous"));
             }
-            //currenttip.add("Owned by: "+tileAn.Owner);
+            // currenttip.add("Owned by: "+tileAn.Owner);
         }
         if (accessor.getBlock() == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorInterface.class)) {
             TileTransvectorInterface tileTrans = (TileTransvectorInterface) accessor.getTileEntity();
             String currentBlock;
             TileEntity tile = tileTrans.getTile();
-            if (tile == null)
-                currentBlock = StatCollector.translateToLocal("ttwaila.nothing");
+            if (tile == null) currentBlock = StatCollector.translateToLocal("ttwaila.nothing");
             else {
                 currentBlock = tile.getBlockType().getLocalizedName();
             }
             currenttip.add(StatCollector.translateToLocalFormatted("ttwaila.connected", currentBlock));
-            if (tile != null)
-                currenttip.add(String.format("x: %d y: %d z: %d", tile.xCoord, tile.yCoord, tile.zCoord));
+            if (tile != null) currenttip.add(String.format("x: %d y: %d z: %d", tile.xCoord, tile.yCoord, tile.zCoord));
         }
         if (accessor.getBlock() == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockRepairer.class)) {
             TileRepairer tileRepair = (TileRepairer) accessor.getTileEntity();
@@ -94,34 +86,29 @@ public class TTinkererProvider implements IWailaDataProvider {
                 if (item.getItemDamage() > 0)
                     currenttip.add(StatCollector.translateToLocalFormatted("ttwaila.repairing", item.getDisplayName()));
                 else
-                    currenttip.add(StatCollector.translateToLocalFormatted("ttwaila.finishedRepairing", item.getDisplayName()));
+                    currenttip.add(StatCollector.translateToLocalFormatted(
+                            "ttwaila.finishedRepairing", item.getDisplayName()));
             }
-
         }
         if (accessor.getBlock() == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockWarpGate.class)) {
             TileWarpGate tileWarp = (TileWarpGate) accessor.getTileEntity();
-            if (tileWarp.locked)
-                currenttip.add(StatCollector.translateToLocal("ttwaila.allowIncoming"));
-            else
-                currenttip.add(StatCollector.translateToLocal("ttwaila.disallowIncoming"));
+            if (tileWarp.locked) currenttip.add(StatCollector.translateToLocal("ttwaila.allowIncoming"));
+            else currenttip.add(StatCollector.translateToLocal("ttwaila.disallowIncoming"));
         }
         return currenttip;
     }
 
     @Override
-    public List<String> getWailaTail(ItemStack itemStack,
-                                     List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+    public List<String> getWailaTail(
+            ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         // TODO Auto-generated method stub
         return currenttip;
     }
 
-	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te,
-			NBTTagCompound tag, World world, int x, int y, int z) {
-		// TODO Auto-generated method stub
-		return tag;
-	}
-
+    @Override
+    public NBTTagCompound getNBTData(
+            EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+        // TODO Auto-generated method stub
+        return tag;
+    }
 }
-

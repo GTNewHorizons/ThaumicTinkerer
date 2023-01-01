@@ -14,6 +14,9 @@
  */
 package thaumic.tinkerer.common.item.kami;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -38,10 +41,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererInfusionRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-
 public class ItemSkyPearl extends ItemKamiBase {
 
     public static final String TAG_X = "x";
@@ -60,14 +59,18 @@ public class ItemSkyPearl extends ItemKamiBase {
             int y = getY(stack);
             int z = getZ(stack);
             list.add("X: " + x);
-            if (!simpleMode)
-                list.add("Y: " + y);
+            if (!simpleMode) list.add("Y: " + y);
             list.add("Z: " + z);
             if (getDim(stack) != dim) {
                 if (!simpleMode)
                     list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("ttmisc.differentDim"));
             } else
-                list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("ttmisc.distance") + ": " + new BigDecimal(MiscHelper.pointDistanceSpace(x, simpleMode ? 0 : y, z, pos.x, simpleMode ? 0 : pos.y, pos.z)).setScale(2, RoundingMode.UP).toString() + "m");
+                list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("ttmisc.distance") + ": "
+                        + new BigDecimal(MiscHelper.pointDistanceSpace(
+                                        x, simpleMode ? 0 : y, z, pos.x, simpleMode ? 0 : pos.y, pos.z))
+                                .setScale(2, RoundingMode.UP)
+                                .toString()
+                        + "m");
         }
     }
 
@@ -83,37 +86,44 @@ public class ItemSkyPearl extends ItemKamiBase {
     }
 
     public static int getX(ItemStack stack) {
-        if (!isAttuned(stack))
-            return 0;
+        if (!isAttuned(stack)) return 0;
 
         return ItemNBTHelper.getInt(stack, TAG_X, 0);
     }
 
     public static int getY(ItemStack stack) {
-        if (!isAttuned(stack))
-            return 0;
+        if (!isAttuned(stack)) return 0;
 
         return ItemNBTHelper.getInt(stack, TAG_Y, 0);
     }
 
     public static int getZ(ItemStack stack) {
-        if (!isAttuned(stack))
-            return 0;
+        if (!isAttuned(stack)) return 0;
 
         return ItemNBTHelper.getInt(stack, TAG_Z, 0);
     }
 
     public static int getDim(ItemStack stack) {
-        if (!isAttuned(stack))
-            return 0;
+        if (!isAttuned(stack)) return 0;
 
         return ItemNBTHelper.getInt(stack, TAG_DIM, 0);
     }
 
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
+    public boolean onItemUse(
+            ItemStack par1ItemStack,
+            EntityPlayer par2EntityPlayer,
+            World par3World,
+            int par4,
+            int par5,
+            int par6,
+            int par7,
+            float par8,
+            float par9,
+            float par10) {
         Block block = par3World.getBlock(par4, par5, par6);
-        if (block == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockWarpGate.class) && !isAttuned(par1ItemStack)) {
+        if (block == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockWarpGate.class)
+                && !isAttuned(par1ItemStack)) {
             setValues(par1ItemStack, par4, par5, par6, par2EntityPlayer.dimension);
             par3World.playSoundAtEntity(par2EntityPlayer, "random.orb", 0.3F, 0.1F);
         }
@@ -158,8 +168,20 @@ public class ItemSkyPearl extends ItemKamiBase {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_SKY_PEARL, LibResearch.KEY_WARP_GATE, new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class), 2), 6, new AspectList().add(Aspect.TRAVEL, 32).add(Aspect.ELDRITCH, 32).add(Aspect.FLIGHT, 32).add(Aspect.AIR, 16), new ItemStack(Items.ender_pearl),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 7), new ItemStack(Blocks.lapis_block), new ItemStack(Items.diamond));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_SKY_PEARL,
+                LibResearch.KEY_WARP_GATE,
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class), 2),
+                6,
+                new AspectList()
+                        .add(Aspect.TRAVEL, 32)
+                        .add(Aspect.ELDRITCH, 32)
+                        .add(Aspect.FLIGHT, 32)
+                        .add(Aspect.AIR, 16),
+                new ItemStack(Items.ender_pearl),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 7),
+                new ItemStack(Blocks.lapis_block),
+                new ItemStack(Items.diamond));
     }
 }

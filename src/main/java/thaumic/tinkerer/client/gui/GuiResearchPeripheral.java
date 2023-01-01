@@ -16,12 +16,11 @@ package thaumic.tinkerer.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.*;
+import java.net.URI;
 import net.minecraft.util.StatCollector;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.client.gui.GuiResearchRecipe;
-
-import java.awt.*;
-import java.net.URI;
 
 @SideOnly(Side.CLIENT)
 public class GuiResearchPeripheral extends GuiResearchRecipe {
@@ -41,5 +40,4 @@ public class GuiResearchPeripheral extends GuiResearchRecipe {
             }
         } else super.keyTyped(par1, par2);
     }
-
 }

@@ -14,6 +14,8 @@
  */
 package thaumic.tinkerer.common.block.transvector;
 
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
@@ -44,9 +46,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class BlockTransvectorDislocator extends BlockCamo {
 
     IIcon[] icons = new IIcon[2];
@@ -58,7 +57,16 @@ public class BlockTransvectorDislocator extends BlockCamo {
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityPlayer par5EntityPlayer,
+            int par6,
+            float par7,
+            float par8,
+            float par9) {
         TileEntity tile = par1World.getTileEntity(par2, par3, par4);
 
         TileTransvectorDislocator dislocator = (TileTransvectorDislocator) tile;
@@ -78,18 +86,17 @@ public class BlockTransvectorDislocator extends BlockCamo {
 
     @Override
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5) {
-        if (par1World.isRemote)
-            return;
+        if (par1World.isRemote) return;
 
-        boolean power = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4) || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
+        boolean power = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4)
+                || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
         int meta = par1World.getBlockMetadata(par2, par3, par4);
         boolean on = meta != 0;
 
         if (power && !on) {
             par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
             par1World.setBlockMetadataWithNotify(par2, par3, par4, 1, 4);
-        } else if (!power && on)
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 4);
+        } else if (!power && on) par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 4);
     }
 
     @Override
@@ -123,9 +130,16 @@ public class BlockTransvectorDislocator extends BlockCamo {
     }
 
     @Override
-    public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
+    public void onBlockPlacedBy(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityLivingBase par5EntityLivingBase,
+            ItemStack par6ItemStack) {
         TileEntity tile = par1World.getTileEntity(par2, par3, par4);
-        ((TileTransvectorDislocator) tile).orientation = BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
+        ((TileTransvectorDislocator) tile).orientation =
+                BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
         par1World.markBlockForUpdate(par2, par3, par4);
     }
 
@@ -170,8 +184,21 @@ public class BlockTransvectorDislocator extends BlockCamo {
             return null;
         }
 
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_DISLOCATOR, new AspectList().add(Aspect.TRAVEL, 2).add(Aspect.MECHANISM, 1).add(Aspect.ELDRITCH, 1), -6, 1, 3, new ItemStack(this)).setConcealed().setParents(LibResearch.KEY_INTERFACE).setParentsHidden("MIRROR")
-                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_DISLOCATOR)).setSecondary();
+        return (IRegisterableResearch) new TTResearchItem(
+                        LibResearch.KEY_DISLOCATOR,
+                        new AspectList()
+                                .add(Aspect.TRAVEL, 2)
+                                .add(Aspect.MECHANISM, 1)
+                                .add(Aspect.ELDRITCH, 1),
+                        -6,
+                        1,
+                        3,
+                        new ItemStack(this))
+                .setConcealed()
+                .setParents(LibResearch.KEY_INTERFACE)
+                .setParentsHidden("MIRROR")
+                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_DISLOCATOR))
+                .setSecondary();
     }
 
     @Override
@@ -179,10 +206,19 @@ public class BlockTransvectorDislocator extends BlockCamo {
         if (!Config.allowMirrors) {
             return null;
         }
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_DISLOCATOR, LibResearch.KEY_DISLOCATOR, new ItemStack(this), new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5),
-                " M ", " I ", " C ",
-                'M', new ItemStack(ConfigItems.itemResource, 1, 10),
-                'I', new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorInterface.class)),
-                'C', new ItemStack(Items.comparator));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_DISLOCATOR,
+                LibResearch.KEY_DISLOCATOR,
+                new ItemStack(this),
+                new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5),
+                " M ",
+                " I ",
+                " C ",
+                'M',
+                new ItemStack(ConfigItems.itemResource, 1, 10),
+                'I',
+                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTransvectorInterface.class)),
+                'C',
+                new ItemStack(Items.comparator));
     }
 }

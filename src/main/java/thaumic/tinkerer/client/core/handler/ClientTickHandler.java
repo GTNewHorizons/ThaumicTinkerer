@@ -33,9 +33,13 @@ public class ClientTickHandler {
     public void tickEnd(TickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Minecraft mc = ClientHelper.minecraft();
-            if (mc.currentScreen != null && mc.currentScreen instanceof GuiResearchRecipe && !(mc.currentScreen instanceof GuiResearchPeripheral)) {
-                ResearchItem research = ReflectionHelper.getPrivateValue(GuiResearchRecipe.class, (GuiResearchRecipe) mc.currentScreen, 9);
-                if (research.key.equals(LibResearch.KEY_PERIPHERALS) || research.key.equals(LibResearch.KEY_GOLEMCONNECTOR))
+            if (mc.currentScreen != null
+                    && mc.currentScreen instanceof GuiResearchRecipe
+                    && !(mc.currentScreen instanceof GuiResearchPeripheral)) {
+                ResearchItem research = ReflectionHelper.getPrivateValue(
+                        GuiResearchRecipe.class, (GuiResearchRecipe) mc.currentScreen, 9);
+                if (research.key.equals(LibResearch.KEY_PERIPHERALS)
+                        || research.key.equals(LibResearch.KEY_GOLEMCONNECTOR))
                     mc.displayGuiScreen(new GuiResearchPeripheral(research));
             }
 
@@ -44,5 +48,4 @@ public class ClientTickHandler {
             ++elapsedTicks;
         }
     }
-
 }

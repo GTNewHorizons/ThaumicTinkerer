@@ -23,6 +23,5 @@ public final class LibRenderIDs {
 
     public static int idFire = -1;
 
-
     public static int idGrain = -1;
 }

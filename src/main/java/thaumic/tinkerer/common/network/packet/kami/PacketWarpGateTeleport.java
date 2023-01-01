@@ -22,7 +22,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
 import thaumic.tinkerer.common.network.packet.PacketTile;
 
-public class PacketWarpGateTeleport extends PacketTile<TileWarpGate> implements IMessageHandler<PacketWarpGateTeleport, IMessage> {
+public class PacketWarpGateTeleport extends PacketTile<TileWarpGate>
+        implements IMessageHandler<PacketWarpGateTeleport, IMessage> {
 
     private static final long serialVersionUID = 2247241734524685744L;
     int index;

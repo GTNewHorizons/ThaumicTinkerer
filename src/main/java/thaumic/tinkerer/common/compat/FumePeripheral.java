@@ -16,23 +16,20 @@ public class FumePeripheral implements IPeripheral {
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{};
+        return new String[] {};
     }
 
     @Override
-    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
-        return new Object[]{};
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments)
+            throws LuaException, InterruptedException {
+        return new Object[] {};
     }
 
     @Override
-    public void attach(IComputerAccess computer) {
-
-    }
+    public void attach(IComputerAccess computer) {}
 
     @Override
-    public void detach(IComputerAccess computer) {
-
-    }
+    public void detach(IComputerAccess computer) {}
 
     @Override
     public boolean equals(IPeripheral other) {

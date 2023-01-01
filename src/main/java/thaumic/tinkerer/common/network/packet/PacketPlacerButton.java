@@ -9,7 +9,8 @@ import thaumic.tinkerer.common.block.tile.TileRPlacer;
 /**
  * Created by nekosune on 30/06/14.
  */
-public class PacketPlacerButton extends PacketTile<TileRPlacer> implements IMessageHandler<PacketPlacerButton, IMessage> {
+public class PacketPlacerButton extends PacketTile<TileRPlacer>
+        implements IMessageHandler<PacketPlacerButton, IMessage> {
 
     public int blocks;
 

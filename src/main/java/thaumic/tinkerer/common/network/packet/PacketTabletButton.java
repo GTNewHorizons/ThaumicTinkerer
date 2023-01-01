@@ -20,7 +20,8 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 
-public class PacketTabletButton extends PacketTile<TileAnimationTablet> implements IMessageHandler<PacketTabletButton, IMessage> {
+public class PacketTabletButton extends PacketTile<TileAnimationTablet>
+        implements IMessageHandler<PacketTabletButton, IMessage> {
 
     private static final long serialVersionUID = -6507755382924554527L;
     boolean leftClick, redstone;

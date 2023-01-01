@@ -15,7 +15,6 @@
 package thaumic.tinkerer.common.core.handler;
 
 import java.io.File;
-
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import thaumic.tinkerer.common.dim.OreClusterGenerator;
@@ -30,10 +29,10 @@ public final class ConfigHandler {
     public static boolean enableDebugCommands;
     public static boolean useOreDictMetal;
     public static boolean repairTConTools;
-    
+
     public static String[] forbiddenDimensions;
     public static String[] blockBlacklist;
-    
+
     public static boolean enableFire;
     public static boolean enableCake;
     public static boolean enableFireMechanics;
@@ -43,18 +42,17 @@ public final class ConfigHandler {
     public static int potionWaterId;
     public static int potionEarthId;
     public static int potionAirId;
-    
+
     public static boolean enableKami;
     public static boolean showPlacementMirrorBlocks = true;
     public static int netherDimensionID;
     public static int endDimensionID;
     public static int bedrockDimensionID = 19;
-    
-	public static int soulHeartHeight;
-    
-    
+
+    public static int soulHeartHeight;
+
     private static Configuration config;
-    
+
     public static void loadConfig(File configFile) {
         config = new Configuration(configFile);
 
@@ -66,55 +64,128 @@ public final class ConfigHandler {
 
         config.load();
 
-        forbiddenDimensions = config.getStringList("Forbidden Dimensions", "general", new String[]{""}, "Disallow Bottomless Pouch inventory for certain dimension ID's");
+        forbiddenDimensions = config.getStringList(
+                "Forbidden Dimensions",
+                "general",
+                new String[] {""},
+                "Disallow Bottomless Pouch inventory for certain dimension ID's");
 
-        blockBlacklist = config.getStringList("Focus of Dislocation Blacklist", "general", new String[]{"avaritiaddons:CompressedChest", "avaritiaddons:InfinityChest"}, "These blocks will be disallowed for Focus of Dislocation");
+        blockBlacklist = config.getStringList(
+                "Focus of Dislocation Blacklist",
+                "general",
+                new String[] {"avaritiaddons:CompressedChest", "avaritiaddons:InfinityChest"},
+                "These blocks will be disallowed for Focus of Dislocation");
 
         enableKami = config.getBoolean("kami.forceenabled", "general", true, "Set to true to enable all KAMI stuff");
 
-        useTootlipIndicators = config.getBoolean("tooltipIndicators.enabled", "general", true, "Set to false to disable the [TT] tooltips in the thauminomicon.");
+        useTootlipIndicators = config.getBoolean(
+                "tooltipIndicators.enabled",
+                "general",
+                true,
+                "Set to false to disable the [TT] tooltips in the thauminomicon.");
 
-        enableSurvivalShareTome = config.getBoolean("shareTome.survival.enabled", "general", true, "Set to false to disable the crafting recipe for the Tome of Research Sharing.");
+        enableSurvivalShareTome = config.getBoolean(
+                "shareTome.survival.enabled",
+                "general",
+                true,
+                "Set to false to disable the crafting recipe for the Tome of Research Sharing.");
 
-        enableDebugCommands = config.getBoolean("debugCommands.enabled", "general", false, "Set to true to enable debugging commands.");
+        enableDebugCommands = config.getBoolean(
+                "debugCommands.enabled", "general", false, "Set to true to enable debugging commands.");
 
-        enableFlight = config.getBoolean("modFlight.enabled", "general", true, "Set to true to enable flight in this mod.");
+        enableFlight =
+                config.getBoolean("modFlight.enabled", "general", true, "Set to true to enable flight in this mod.");
 
-        repairTConTools = config.getBoolean("repairTconTools.enabled", "general", false, "Can Thaumic Tinkerer repair Tinkers Construct tools.");
+        repairTConTools = config.getBoolean(
+                "repairTconTools.enabled", "general", false, "Can Thaumic Tinkerer repair Tinkers Construct tools.");
 
-        useOreDictMetal = config.getBoolean("oreDictMetal.enabled", "general", true, "Set to false to disable usage of ore dictionary metals (tin and copper).");
+        useOreDictMetal = config.getBoolean(
+                "oreDictMetal.enabled",
+                "general",
+                true,
+                "Set to false to disable usage of ore dictionary metals (tin and copper).");
 
         enableFire = config.getBoolean("imbuedFire.enabled", "general", true, "Set to false to disable imbued fire.");
 
-        enableFireMechanics = config.getBoolean("imbuedFireSpread.enabled", "general", true, "Set to false to disable imbued fire spreading/acting mechanism.");
-        
-        enableCake = config.getBoolean("imbuedFire.cake.enabled", "general", true, "Set to false to disable imbued fire making cake. For those people who don't like cake");
+        enableFireMechanics = config.getBoolean(
+                "imbuedFireSpread.enabled",
+                "general",
+                true,
+                "Set to false to disable imbued fire spreading/acting mechanism.");
 
-        cropsAllowBonemeal = config.getBoolean("cropsAllowBonemeal.enabled", "general", false, "Allows crops to be grown using bonemeal. Useful for debug purposes.");
-        
-        soulHeartHeight = config.getInt("soulHeart.height", "general", 49, 0, 256, "The height of the Soul Heart bar. You can change this if you have a mod that adds a bar in that spot.");
-        
+        enableCake = config.getBoolean(
+                "imbuedFire.cake.enabled",
+                "general",
+                true,
+                "Set to false to disable imbued fire making cake. For those people who don't like cake");
+
+        cropsAllowBonemeal = config.getBoolean(
+                "cropsAllowBonemeal.enabled",
+                "general",
+                false,
+                "Allows crops to be grown using bonemeal. Useful for debug purposes.");
+
+        soulHeartHeight = config.getInt(
+                "soulHeart.height",
+                "general",
+                49,
+                0,
+                256,
+                "The height of the Soul Heart bar. You can change this if you have a mod that adds a bar in that spot.");
 
         // Potions
         potionFireId = config.getInt("Fire Potion id", "potions", 88, 30, 1023, "Set to the potion id for fire potion");
-        potionEarthId = config.getInt("Earth Potion id", "potions", 87, 30, 1023, "Set to the potion id for earth potion");
-        potionWaterId = config.getInt("Water Potion id", "potions", 89, 30, 1023, "Set to the potion id for water potion");
+        potionEarthId =
+                config.getInt("Earth Potion id", "potions", 87, 30, 1023, "Set to the potion id for earth potion");
+        potionWaterId =
+                config.getInt("Water Potion id", "potions", 89, 30, 1023, "Set to the potion id for water potion");
         potionAirId = config.getInt("Air Potion id", "potions", 86, 30, 1023, "Set to the potion id for air potion");
-
 
         if (enableKami) {
 
-            bedrockDimensionID = config.getInt("Bedrock dimension id", "general.kami", -19, -1023, 1023, "Set to the dimension id wished for bedrock dimension, or 0 to disable");
-            
-            OreClusterGenerator.blacklist = config.getStringList("Bedrock dimension ore Blacklist", "general.kami", new String[]{"oreFirestone"}, "These ores will not be spawned in the bedrock dimension");
+            bedrockDimensionID = config.getInt(
+                    "Bedrock dimension id",
+                    "general.kami",
+                    -19,
+                    -1023,
+                    1023,
+                    "Set to the dimension id wished for bedrock dimension, or 0 to disable");
 
-            OreClusterGenerator.density = config.getInt("Bedrock Dimension ore density", "general", 1, 0, 1023, "The number of vertical veins of ore per chunk. Default: 1");
+            OreClusterGenerator.blacklist = config.getStringList(
+                    "Bedrock dimension ore Blacklist",
+                    "general.kami",
+                    new String[] {"oreFirestone"},
+                    "These ores will not be spawned in the bedrock dimension");
 
-            showPlacementMirrorBlocks = config.getBoolean("placementMirror.blocks.show", "general.kami", true, "Set to false to remove the phantom blocks displayed by the Worldshaper's Seeing Glass.");
-            
-            netherDimensionID = config.getInt("dimension.nether.id", "general.kami", -1, -1023, 1023, "The Dimension ID for the Nether, leave at -1 if you don't modify it with another mod/plugin.");
-            
-            endDimensionID = config.getInt("dimension.end.id", "general.kami", 1, -1023, 1023, "The Dimension ID for the End, leave at 1 if you don't modify it with another mod/plugin.");
+            OreClusterGenerator.density = config.getInt(
+                    "Bedrock Dimension ore density",
+                    "general",
+                    1,
+                    0,
+                    1023,
+                    "The number of vertical veins of ore per chunk. Default: 1");
+
+            showPlacementMirrorBlocks = config.getBoolean(
+                    "placementMirror.blocks.show",
+                    "general.kami",
+                    true,
+                    "Set to false to remove the phantom blocks displayed by the Worldshaper's Seeing Glass.");
+
+            netherDimensionID = config.getInt(
+                    "dimension.nether.id",
+                    "general.kami",
+                    -1,
+                    -1023,
+                    1023,
+                    "The Dimension ID for the Nether, leave at -1 if you don't modify it with another mod/plugin.");
+
+            endDimensionID = config.getInt(
+                    "dimension.end.id",
+                    "general.kami",
+                    1,
+                    -1023,
+                    1023,
+                    "The Dimension ID for the End, leave at 1 if you don't modify it with another mod/plugin.");
         }
 
         LibEnchantIDs.idAscentBoost = loadEnchant(LibEnchantNames.ASCENT_BOOST, LibEnchantIDs.idAscentBoost);
@@ -139,5 +210,4 @@ public final class ConfigHandler {
     private static int loadEnchant(String label, int defaultID) {
         return config.get("enchantments", "id_enchant." + label, defaultID).getInt(defaultID);
     }
-    
 }

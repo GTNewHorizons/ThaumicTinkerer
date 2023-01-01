@@ -17,6 +17,8 @@ package thaumic.tinkerer.common.item.kami.armor;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,9 +43,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemGemChest extends ItemIchorclothArmorAdv {
 
     public static List<String> playersWithFlight = new ArrayList();
@@ -58,7 +57,11 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
 
     private static boolean shouldPlayerHaveFlight(EntityPlayer player) {
         ItemStack armor = player.getCurrentArmor(2);
-        return armor != null && armor.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemGemChest.class) && ThaumicTinkerer.proxy.armorStatus(player) && armor.getItemDamage() == 0 && ConfigHandler.enableFlight;
+        return armor != null
+                && armor.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemGemChest.class)
+                && ThaumicTinkerer.proxy.armorStatus(player)
+                && armor.getItemDamage() == 0
+                && ConfigHandler.enableFlight;
     }
 
     @Override
@@ -75,8 +78,7 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
     @Override
     void tickPlayer(EntityPlayer player) {
         ItemStack armor = player.getCurrentArmor(2);
-        if (armor.getItemDamage() == 1 || !ThaumicTinkerer.proxy.armorStatus(player))
-            return;
+        if (armor.getItemDamage() == 1 || !ThaumicTinkerer.proxy.armorStatus(player)) return;
 
         ItemFocusDeflect.protectFromProjectiles(player, null);
     }
@@ -88,18 +90,50 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHORCLOTH_CHEST_GEM, new AspectList().add(Aspect.AIR, 2).add(Aspect.MOTION, 1).add(Aspect.FLIGHT, 1).add(Aspect.ELDRITCH, 1), 17, 7, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHORCLOTH_ARMOR)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_ICHORCLOTH_CHEST_GEM,
+                        new AspectList()
+                                .add(Aspect.AIR, 2)
+                                .add(Aspect.MOTION, 1)
+                                .add(Aspect.FLIGHT, 1)
+                                .add(Aspect.ELDRITCH, 1),
+                        17,
+                        7,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHORCLOTH_ARMOR)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHORCLOTH_CHEST_GEM));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ICHORCLOTH_CHEST_GEM, new ItemStack(this), 13, new AspectList().add(Aspect.AIR, 50).add(Aspect.ARMOR, 32).add(Aspect.FLIGHT, 32).add(Aspect.ORDER, 32).add(Aspect.LIGHT, 64).add(Aspect.ELDRITCH, 16).add(Aspect.SENSES, 16), new ItemStack(ThaumicTinkerer.registry.getItemFromClassAndName(ItemIchorclothArmor.class, LibItemNames.ICHOR_CHEST)),
-                new ItemStack(Items.diamond, 1), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemFocusPrimal), new ItemStack(ConfigItems.itemThaumonomicon), new ItemStack(Items.golden_chestplate), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusFlight.class)), new ItemStack(ConfigItems.itemHoverHarness), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusDeflect.class)), new ItemStack(Items.feather), new ItemStack(Items.ghast_tear), new ItemStack(Items.arrow));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_ICHORCLOTH_CHEST_GEM,
+                new ItemStack(this),
+                13,
+                new AspectList()
+                        .add(Aspect.AIR, 50)
+                        .add(Aspect.ARMOR, 32)
+                        .add(Aspect.FLIGHT, 32)
+                        .add(Aspect.ORDER, 32)
+                        .add(Aspect.LIGHT, 64)
+                        .add(Aspect.ELDRITCH, 16)
+                        .add(Aspect.SENSES, 16),
+                new ItemStack(ThaumicTinkerer.registry.getItemFromClassAndName(
+                        ItemIchorclothArmor.class, LibItemNames.ICHOR_CHEST)),
+                new ItemStack(Items.diamond, 1),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ConfigItems.itemFocusPrimal),
+                new ItemStack(ConfigItems.itemThaumonomicon),
+                new ItemStack(Items.golden_chestplate),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusFlight.class)),
+                new ItemStack(ConfigItems.itemHoverHarness),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusDeflect.class)),
+                new ItemStack(Items.feather),
+                new ItemStack(Items.ghast_tear),
+                new ItemStack(Items.arrow));
     }
 
     @SubscribeEvent
@@ -108,12 +142,10 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
 
             ItemStack armor = player.getCurrentArmor(3 - armorType);
-            if (armor != null && armor.getItem() == this)
-                tickPlayer(player);
+            if (armor != null && armor.getItem() == this) tickPlayer(player);
 
             if (playersWithFlight.contains(playerStr(player))) {
-                if (shouldPlayerHaveFlight(player))
-                    player.capabilities.allowFlying = true;
+                if (shouldPlayerHaveFlight(player)) player.capabilities.allowFlying = true;
                 else {
                     if (!player.capabilities.isCreativeMode) {
                         player.capabilities.allowFlying = false;
@@ -128,5 +160,4 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
             }
         }
     }
-
 }

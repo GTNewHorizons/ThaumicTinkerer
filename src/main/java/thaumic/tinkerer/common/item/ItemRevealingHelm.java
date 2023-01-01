@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -50,10 +52,8 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ItemRevealingHelm extends ItemArmor implements IRepairable, IRevealer, IGoggles, IVisDiscountGear, IRunicArmor, ITTinkererItem {
+public class ItemRevealingHelm extends ItemArmor
+        implements IRepairable, IRevealer, IGoggles, IVisDiscountGear, IRunicArmor, ITTinkererItem {
 
     public ItemRevealingHelm() {
         super(ThaumcraftApi.armorMatThaumium, 2, 0);
@@ -80,7 +80,8 @@ public class ItemRevealingHelm extends ItemArmor implements IRepairable, IReveal
     @Override
     public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean par4) {
 
-        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + this.getVisDiscount(stack, player, null) + "%");
+        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
+                + this.getVisDiscount(stack, player, null) + "%");
     }
 
     @Override
@@ -95,18 +96,19 @@ public class ItemRevealingHelm extends ItemArmor implements IRepairable, IReveal
 
     @Override
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
-        return par2ItemStack.isItemEqual(new ItemStack(ConfigItems.itemResource, 1, 2)) || super.getIsRepairable(par1ItemStack, par2ItemStack);
+        return par2ItemStack.isItemEqual(new ItemStack(ConfigItems.itemResource, 1, 2))
+                || super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
     @Override
     public int getVisDiscount(ItemStack Itemstack, EntityPlayer Player, Aspect Aspect) {
         return 5;
     }
-    
-	@Override
-	public int getRunicCharge(ItemStack arg0) {
-		return 0;
-	}
+
+    @Override
+    public int getRunicCharge(ItemStack arg0) {
+        return 0;
+    }
 
     @Override
     public ArrayList<Object> getSpecialParameters() {
@@ -131,29 +133,67 @@ public class ItemRevealingHelm extends ItemArmor implements IRepairable, IReveal
     @Override
     public IRegisterableResearch getResearchItem() {
         IRegisterableResearch research;
-        research = (TTResearchItem) new TTResearchItem(LibResearch.KEY_REVEALING_HELM, new AspectList().add(Aspect.AURA, 2).add(Aspect.ARMOR, 1), 0, 0, 1, new ItemStack(this)).setParents("GOGGLES").setParentsHidden("THAUMIUM");
-        ((TTResearchItem) research).setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_REVEALING_HELM));
+        research = (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_REVEALING_HELM,
+                        new AspectList().add(Aspect.AURA, 2).add(Aspect.ARMOR, 1),
+                        0,
+                        0,
+                        1,
+                        new ItemStack(this))
+                .setParents("GOGGLES")
+                .setParentsHidden("THAUMIUM");
+        ((TTResearchItem) research)
+                .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_REVEALING_HELM));
         return research;
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_REVEALING_HELM, LibResearch.KEY_REVEALING_HELM, new ItemStack(this), new AspectList().add(Aspect.EARTH, 5).add(Aspect.FIRE, 5).add(Aspect.WATER, 5).add(Aspect.AIR, 5).add(Aspect.ORDER, 5).add(Aspect.ENTROPY, 5),
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_REVEALING_HELM,
+                LibResearch.KEY_REVEALING_HELM,
+                new ItemStack(this),
+                new AspectList()
+                        .add(Aspect.EARTH, 5)
+                        .add(Aspect.FIRE, 5)
+                        .add(Aspect.WATER, 5)
+                        .add(Aspect.AIR, 5)
+                        .add(Aspect.ORDER, 5)
+                        .add(Aspect.ENTROPY, 5),
                 "GH",
-                'G', new ItemStack(ConfigItems.itemGoggles),
-                'H', new ItemStack(ConfigItems.itemHelmetThaumium));
+                'G',
+                new ItemStack(ConfigItems.itemGoggles),
+                'H',
+                new ItemStack(ConfigItems.itemHelmetThaumium));
     }
 
     @Override
-    public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
-        TileEntity tile=p_77648_3_.getTileEntity(p_77648_4_,p_77648_5_,p_77648_6_);
-        if(tile!=null)
-            p_77648_2_.addChatComponentMessage(new ChatComponentText("Tile Entity: "+tile.getClass().toString()));
-        else
-            p_77648_2_.addChatComponentMessage(new ChatComponentText("Tile Entity: null"));
-        return super.onItemUse(p_77648_1_, p_77648_2_, p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_);
+    public boolean onItemUse(
+            ItemStack p_77648_1_,
+            EntityPlayer p_77648_2_,
+            World p_77648_3_,
+            int p_77648_4_,
+            int p_77648_5_,
+            int p_77648_6_,
+            int p_77648_7_,
+            float p_77648_8_,
+            float p_77648_9_,
+            float p_77648_10_) {
+        TileEntity tile = p_77648_3_.getTileEntity(p_77648_4_, p_77648_5_, p_77648_6_);
+        if (tile != null)
+            p_77648_2_.addChatComponentMessage(
+                    new ChatComponentText("Tile Entity: " + tile.getClass().toString()));
+        else p_77648_2_.addChatComponentMessage(new ChatComponentText("Tile Entity: null"));
+        return super.onItemUse(
+                p_77648_1_,
+                p_77648_2_,
+                p_77648_3_,
+                p_77648_4_,
+                p_77648_5_,
+                p_77648_6_,
+                p_77648_7_,
+                p_77648_8_,
+                p_77648_9_,
+                p_77648_10_);
     }
-
-
 }

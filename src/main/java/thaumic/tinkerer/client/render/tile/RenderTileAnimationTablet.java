@@ -36,11 +36,11 @@ public class RenderTileAnimationTablet extends TileEntitySpecialRenderer {
     private static final ResourceLocation overlayRight = new ResourceLocation(LibResources.MISC_AT_RIGHT);
     private static final ResourceLocation overlayIndent = new ResourceLocation(LibResources.MISC_AT_INDENT);
 
-    private static final float[][] TRANSLATIONS = new float[][]{
-            {0F, 0F, -1F},
-            {-1F, 0F, 0F},
-            {0F, 0F, 0F},
-            {-1F, 0F, -1F}
+    private static final float[][] TRANSLATIONS = new float[][] {
+        {0F, 0F, -1F},
+        {-1F, 0F, 0F},
+        {0F, 0F, 0F},
+        {-1F, 0F, -1F}
     };
 
     @Override
@@ -48,16 +48,14 @@ public class RenderTileAnimationTablet extends TileEntitySpecialRenderer {
         TileAnimationTablet tile = (TileAnimationTablet) tileentity;
 
         int meta = tile.getBlockMetadata() & 7;
-        if (meta < 2)
-            meta = 2; // Just in case
+        if (meta < 2) meta = 2; // Just in case
 
         int rotation = meta == 2 ? 270 : meta == 3 ? 90 : meta == 4 ? 0 : 180;
 
         GL11.glPushMatrix();
         GL11.glTranslated(d0, d1, d2);
         renderOverlay(tile, overlayCenter, -1, false, false, 0.65, 0.13F, 0F);
-        if (tile.leftClick)
-            renderOverlay(tile, overlayLeft, 1, false, true, 1, 0.13F, 0F);
+        if (tile.leftClick) renderOverlay(tile, overlayLeft, 1, false, true, 1, 0.13F, 0F);
         else renderOverlay(tile, overlayRight, 1, false, true, 1, 0.131F, 0F);
         renderOverlay(tile, overlayIndent, 0, false, false, 0.5F, 0.13F, rotation + 90F);
 
@@ -83,10 +81,8 @@ public class RenderTileAnimationTablet extends TileEntitySpecialRenderer {
             entityitem.hoverStart = 0.0F;
             GL11.glPushMatrix();
             GL11.glTranslatef(0.5F, 0.55F, 0F);
-            if (stack.getItem() instanceof ItemBlock)
-                GL11.glScalef(2.5F, 2.5F, 2.5F);
-            else
-                GL11.glScalef(1.5F, 1.5F, 1.5F);
+            if (stack.getItem() instanceof ItemBlock) GL11.glScalef(2.5F, 2.5F, 2.5F);
+            else GL11.glScalef(1.5F, 1.5F, 1.5F);
             RenderItem.renderInFrame = true;
             RenderManager.instance.renderEntityWithPosYaw(entityitem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
             RenderItem.renderInFrame = false;
@@ -94,13 +90,20 @@ public class RenderTileAnimationTablet extends TileEntitySpecialRenderer {
         }
     }
 
-    private void renderOverlay(TileAnimationTablet tablet, ResourceLocation texture, int rotationMod, boolean useLighting, boolean useBlend, double size, float height, float forceDeg) {
+    private void renderOverlay(
+            TileAnimationTablet tablet,
+            ResourceLocation texture,
+            int rotationMod,
+            boolean useLighting,
+            boolean useBlend,
+            double size,
+            float height,
+            float forceDeg) {
         Minecraft mc = ClientHelper.minecraft();
         mc.renderEngine.bindTexture(texture);
         GL11.glPushMatrix();
         GL11.glDepthMask(false);
-        if (!useLighting)
-            GL11.glDisable(GL11.GL_LIGHTING);
+        if (!useLighting) GL11.glDisable(GL11.GL_LIGHTING);
         if (useBlend) {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -119,8 +122,7 @@ public class RenderTileAnimationTablet extends TileEntitySpecialRenderer {
         tess.addVertexWithUV(size2, 0, size2, 0, 0);
         tess.draw();
         GL11.glDepthMask(true);
-        if (!useLighting)
-            GL11.glEnable(GL11.GL_LIGHTING);
+        if (!useLighting) GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }
 }

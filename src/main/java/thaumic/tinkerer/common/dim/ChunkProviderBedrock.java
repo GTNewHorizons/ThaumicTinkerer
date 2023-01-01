@@ -1,5 +1,7 @@
 package thaumic.tinkerer.common.dim;
 
+import java.util.List;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -12,14 +14,11 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.FlatLayerInfo;
 
-import java.util.List;
-import java.util.Random;
-
 public class ChunkProviderBedrock implements IChunkProvider {
 
     private final byte[] cachedBlockIDs = new byte[256];
     private final byte[] cachedBlockMetadata = new byte[256];
-    //Basic on ChunkProviderFlat code
+    // Basic on ChunkProviderFlat code
     private World worldObj;
     private Random random;
     private OreClusterGenerator generator;
@@ -35,7 +34,6 @@ public class ChunkProviderBedrock implements IChunkProvider {
             this.cachedBlockIDs[j] = (byte) (Block.getIdFromBlock(flatlayerinfo.func_151536_b()) & 255);
             this.cachedBlockMetadata[j] = (byte) flatlayerinfo.getFillBlockMeta();
         }
-
     }
 
     /**
@@ -63,14 +61,16 @@ public class ChunkProviderBedrock implements IChunkProvider {
 
             for (int i1 = 0; i1 < 16; ++i1) {
                 for (int j1 = 0; j1 < 16; ++j1) {
-                    extendedblockstorage.func_150818_a(i1, k & 15, j1, Block.getBlockById(this.cachedBlockIDs[k] & 255));
+                    extendedblockstorage.func_150818_a(
+                            i1, k & 15, j1, Block.getBlockById(this.cachedBlockIDs[k] & 255));
                     extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, this.cachedBlockMetadata[k]);
                 }
             }
         }
 
         chunk.generateSkylightMap();
-        BiomeGenBase[] abiomegenbase = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(null, par1 * 16, par2 * 16, 16, 16);
+        BiomeGenBase[] abiomegenbase =
+                this.worldObj.getWorldChunkManager().loadBlockGeneratorData(null, par1 * 16, par2 * 16, 16, 16);
         byte[] abyte = chunk.getBiomeArray();
 
         for (int k1 = 0; k1 < abyte.length; ++k1) {
@@ -110,7 +110,6 @@ public class ChunkProviderBedrock implements IChunkProvider {
             i2 = l + this.random.nextInt(16) + 8;
             this.generator.generate(this.random, par2, par3, this.worldObj, this, this);
         }
-
     }
 
     /**
@@ -125,8 +124,7 @@ public class ChunkProviderBedrock implements IChunkProvider {
      * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
      * unimplemented.
      */
-    public void saveExtraData() {
-    }
+    public void saveExtraData() {}
 
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
@@ -166,7 +164,5 @@ public class ChunkProviderBedrock implements IChunkProvider {
         return 0;
     }
 
-    public void recreateStructures(int par1, int par2) {
-    }
-
+    public void recreateStructures(int par1, int par2) {}
 }

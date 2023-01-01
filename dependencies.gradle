@@ -16,6 +16,7 @@ dependencies {
     compileOnly('com.github.GTNewHorizons:CodeChickenLib:1.1.5.3:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:OpenComputers:1.7.5.23-GTNH:api') {transitive=false}
 
+    compileOnly('curse.maven:automagy-222153:2285272')
     compileOnly('curse.maven:computercraft-67504:2269339')
     compileOnly('curse.maven:cofh-lib-220333:2388748')
     compileOnly('curse.maven:cofh-core-69162:2388751')

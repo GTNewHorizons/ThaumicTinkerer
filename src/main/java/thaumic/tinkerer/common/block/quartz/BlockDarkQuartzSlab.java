@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block.quartz;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,9 +35,6 @@ import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCraftingBenchRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class BlockDarkQuartzSlab extends BlockSlab implements ITTinkererBlock {
 
@@ -60,7 +59,9 @@ public class BlockDarkQuartzSlab extends BlockSlab implements ITTinkererBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int par2) {
-        return ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class).getBlockTextureFromSide(par1);
+        return ThaumicTinkerer.registry
+                .getFirstBlockFromClass(BlockDarkQuartz.class)
+                .getBlockTextureFromSide(par1);
     }
 
     @Override
@@ -68,10 +69,10 @@ public class BlockDarkQuartzSlab extends BlockSlab implements ITTinkererBlock {
         return Item.getItemFromBlock(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class));
     }
 
-    //@Override
-    //public int idDropped(int par1, Random par2Random, int par3) {
+    // @Override
+    // public int idDropped(int par1, Random par2Random, int par3) {
     //	return ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class).blockID;
-    //}
+    // }
 
     @Override
     public ItemStack createStackedBlock(int par1) {
@@ -131,8 +132,11 @@ public class BlockDarkQuartzSlab extends BlockSlab implements ITTinkererBlock {
         if (isOpaqueCube()) {
             return null;
         }
-        return new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_DARK_QUARTZ + 2, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class), 6),
+        return new ThaumicTinkererCraftingBenchRecipe(
+                LibResearch.KEY_DARK_QUARTZ + 2,
+                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class), 6),
                 "QQQ",
-                'Q', ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class));
+                'Q',
+                ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class));
     }
 }

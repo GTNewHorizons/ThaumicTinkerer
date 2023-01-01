@@ -23,11 +23,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import thaumic.tinkerer.common.block.tile.TileEnchanter;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 
-public class PacketEnchanterAddEnchant extends PacketTile<TileEnchanter> implements IMessageHandler<PacketEnchanterAddEnchant, IMessage> {
+public class PacketEnchanterAddEnchant extends PacketTile<TileEnchanter>
+        implements IMessageHandler<PacketEnchanterAddEnchant, IMessage> {
 
     private static final long serialVersionUID = -2182522429849764376L;
     int enchant;
     int level;
+
     public PacketEnchanterAddEnchant() {
         super();
     }
@@ -57,24 +59,32 @@ public class PacketEnchanterAddEnchant extends PacketTile<TileEnchanter> impleme
         super.onMessage(message, ctx);
         if (!ctx.side.isServer())
             throw new IllegalStateException("received PacketEnchanterAddEnchant " + message + "on client side!");
-        if (message.tile.working)
-            return null;
+        if (message.tile.working) return null;
 
         if (message.level == -1) {
             int index = message.tile.enchantments.indexOf(message.enchant);
-            if(index!=-1) {
+            if (index != -1) {
                 message.tile.removeLevel(index);
                 message.tile.removeEnchant(index);
             }
         } else {
             if (!message.tile.enchantments.contains(message.enchant)) {
-                if (message.player != null && EnchantmentManager.canApply(message.tile.getStackInSlot(0), Enchantment.enchantmentsList[message.enchant], message.tile.enchantments) && EnchantmentManager.canEnchantmentBeUsed(((EntityPlayer) message.player).getGameProfile().getName(), Enchantment.enchantmentsList[message.enchant])) {
+                if (message.player != null
+                        && EnchantmentManager.canApply(
+                                message.tile.getStackInSlot(0),
+                                Enchantment.enchantmentsList[message.enchant],
+                                message.tile.enchantments)
+                        && EnchantmentManager.canEnchantmentBeUsed(
+                                ((EntityPlayer) message.player).getGameProfile().getName(),
+                                Enchantment.enchantmentsList[message.enchant])) {
                     message.tile.appendEnchant(message.enchant);
                     message.tile.appendLevel(1);
                 }
             } else {
                 int maxLevel = Enchantment.enchantmentsList[message.enchant].getMaxLevel();
-                message.tile.setLevel(message.tile.enchantments.indexOf(message.enchant), Math.max(1, Math.min(maxLevel, message.level)));
+                message.tile.setLevel(
+                        message.tile.enchantments.indexOf(message.enchant),
+                        Math.max(1, Math.min(maxLevel, message.level)));
             }
         }
         message.tile.updateAspectList();

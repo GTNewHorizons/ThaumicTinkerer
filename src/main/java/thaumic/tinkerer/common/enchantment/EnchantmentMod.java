@@ -36,5 +36,4 @@ public class EnchantmentMod extends Enchantment {
     public int getMaxLevel() {
         return maxLevel;
     }
-
 }

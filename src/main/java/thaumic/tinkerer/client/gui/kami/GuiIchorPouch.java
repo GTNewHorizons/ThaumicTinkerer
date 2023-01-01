@@ -30,8 +30,8 @@ public class GuiIchorPouch extends GuiContainer {
         super(par1Container);
     }
 
-    //Overridden to prevent a dupe
-    //See issue 367
+    // Overridden to prevent a dupe
+    // See issue 367
     protected boolean checkHotbarKeys(int slot) {
         if (this.mc.gameSettings.keyBindsHotbar[this.mc.thePlayer.inventory.currentItem].getKeyCode() != slot) {
             super.checkHotbarKeys(slot);
@@ -57,5 +57,4 @@ public class GuiIchorPouch extends GuiContainer {
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
         GL11.glDisable(GL11.GL_BLEND);
     }
-
 }

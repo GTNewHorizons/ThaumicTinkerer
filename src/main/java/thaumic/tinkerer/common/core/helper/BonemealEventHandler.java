@@ -5,11 +5,8 @@ import net.minecraft.block.IGrowable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.blocks.BlockCustomPlant;
 import thaumcraft.common.config.ConfigItems;
-import thaumcraft.common.items.equipment.ItemElementalHoe;
 import thaumic.tinkerer.common.block.BlockInfusedGrain;
-import thaumic.tinkerer.common.block.tile.TileInfusedGrain;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 /**
@@ -27,6 +24,7 @@ public class BonemealEventHandler {
             }
         }
     }
+
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (!event.world.isRemote) {
@@ -41,7 +39,6 @@ public class BonemealEventHandler {
                                     igrowable.func_149853_b(event.world, event.world.rand, event.x, event.y, event.z);
                                 }
                             }
-
                         }
                         event.entityPlayer.getCurrentEquippedItem().damageItem(25, event.entityPlayer);
                         Thaumcraft.proxy.blockSparkle(event.world, event.x, event.y, event.z, 0, 2);
@@ -50,5 +47,4 @@ public class BonemealEventHandler {
             }
         }
     }
-
 }

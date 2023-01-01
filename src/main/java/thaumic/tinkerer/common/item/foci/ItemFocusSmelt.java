@@ -1,5 +1,7 @@
 package thaumic.tinkerer.common.item.foci;
 
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -22,15 +24,13 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ItemFocusSmelt extends ItemModFocus {
 
-    private static final AspectList visUsage = new AspectList().add(Aspect.FIRE, 45).add(Aspect.ENTROPY, 12);
+    private static final AspectList visUsage =
+            new AspectList().add(Aspect.FIRE, 45).add(Aspect.ENTROPY, 12);
     public static Map<String, SmeltData> playerData = new HashMap();
-	
-	private int soundCooldown = 3; // In ticks
+
+    private int soundCooldown = 3; // In ticks
 
     public ItemFocusSmelt() {
         super();
@@ -43,18 +43,35 @@ public class ItemFocusSmelt extends ItemModFocus {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_FOCUS_SMELT, new AspectList().add(Aspect.FIRE, 2).add(Aspect.ENERGY, 1).add(Aspect.MAGIC, 1), -2, -2, 2, new ItemStack(this)).setParents("FOCUSEXCAVATION").setConcealed()
+        return (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_FOCUS_SMELT,
+                        new AspectList()
+                                .add(Aspect.FIRE, 2)
+                                .add(Aspect.ENERGY, 1)
+                                .add(Aspect.MAGIC, 1),
+                        -2,
+                        -2,
+                        2,
+                        new ItemStack(this))
+                .setParents("FOCUSEXCAVATION")
+                .setConcealed()
                 .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_FOCUS_SMELT));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_FOCUS_SMELT, LibResearch.KEY_FOCUS_SMELT, new ItemStack(this), new AspectList().add(Aspect.FIRE, 10).add(Aspect.ORDER, 5).add(Aspect.ENTROPY, 6),
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_FOCUS_SMELT,
+                LibResearch.KEY_FOCUS_SMELT,
+                new ItemStack(this),
+                new AspectList().add(Aspect.FIRE, 10).add(Aspect.ORDER, 5).add(Aspect.ENTROPY, 6),
                 "FNE",
-                'F', new ItemStack(ConfigItems.itemFocusFire),
-                'E', new ItemStack(ConfigItems.itemFocusExcavation),
-                'N', new ItemStack(ConfigItems.itemResource, 1, 1));
+                'F',
+                new ItemStack(ConfigItems.itemFocusFire),
+                'E',
+                new ItemStack(ConfigItems.itemFocusExcavation),
+                'N',
+                new ItemStack(ConfigItems.itemResource, 1, 1));
     }
 
     @Override
@@ -65,8 +82,7 @@ public class ItemFocusSmelt extends ItemModFocus {
     @Override
     public void onUsingFocusTick(ItemStack stack, EntityPlayer p, int time) {
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
-        if (!wand.consumeAllVis(stack, p, visUsage, false, false))
-            return;
+        if (!wand.consumeAllVis(stack, p, visUsage, false, false)) return;
 
         MovingObjectPosition pos = BlockUtils.getTargetBlock(p.worldObj, p, false);
 
@@ -88,7 +104,13 @@ public class ItemFocusSmelt extends ItemModFocus {
                         decremented = true;
                         if (data.progress <= 0) {
                             if (!p.worldObj.isRemote) {
-                                p.worldObj.setBlock(pos.blockX, pos.blockY, pos.blockZ, Block.getBlockFromItem(result.getItem()), result.getItemDamage(), 1 | 2);
+                                p.worldObj.setBlock(
+                                        pos.blockX,
+                                        pos.blockY,
+                                        pos.blockZ,
+                                        Block.getBlockFromItem(result.getItem()),
+                                        result.getItemDamage(),
+                                        1 | 2);
                                 wand.consumeAllVis(stack, p, visUsage, true, false);
                                 playerData.remove(p.getGameProfile().getName());
                                 decremented = false;
@@ -104,20 +126,28 @@ public class ItemFocusSmelt extends ItemModFocus {
                                 double y = pos.blockY + Math.random();
                                 double z = pos.blockZ + Math.random();
 
-                                ThaumicTinkerer.tcProxy.wispFX2(p.worldObj, x, y, z, (float) Math.random() / 2F, 4, true, true, (float) -Math.random() / 10F);
+                                ThaumicTinkerer.tcProxy.wispFX2(
+                                        p.worldObj,
+                                        x,
+                                        y,
+                                        z,
+                                        (float) Math.random() / 2F,
+                                        4,
+                                        true,
+                                        true,
+                                        (float) -Math.random() / 10F);
                             }
                         }
                     }
                 }
 
                 if (!decremented) {
-                	int potency = wand.getFocusPotency(stack); //TODO review what this does
+                    int potency = wand.getFocusPotency(stack); // TODO review what this does
                     playerData.put(p.getGameProfile().getName(), new SmeltData(pos, 20 - Math.min(3, potency) * 5));
-                } else{
+                } else {
                     //  Sound
                     ////////////////////
-                    if (time % soundCooldown == 0)
-                            p.worldObj.playSoundAtEntity(p, "fire.fire", 0.2F, 1F);
+                    if (time % soundCooldown == 0) p.worldObj.playSoundAtEntity(p, "fire.fire", 0.2F, 1F);
                     //  Particle
                     ////////////////////
                     for (int i = 0; i < 2; i++) {
@@ -125,19 +155,38 @@ public class ItemFocusSmelt extends ItemModFocus {
                         double y = pos.blockY + Math.random();
                         double z = pos.blockZ + Math.random();
 
-                        ThaumicTinkerer.tcProxy.wispFX2(p.worldObj, x, y, z, (float) Math.random() / 2F, 4, true, true, (float) -Math.random() / 10F);
+                        ThaumicTinkerer.tcProxy.wispFX2(
+                                p.worldObj,
+                                x,
+                                y,
+                                z,
+                                (float) Math.random() / 2F,
+                                4,
+                                true,
+                                true,
+                                (float) -Math.random() / 10F);
                     }
                 }
 
                 if (p.worldObj.isRemote)
-                    ThaumicTinkerer.tcProxy.beamCont(p.worldObj, p, pos.blockX + 0.5, pos.blockY + 0.5, pos.blockZ + 0.5, 2, 0xFF0000, true, 0F, null, 1);
+                    ThaumicTinkerer.tcProxy.beamCont(
+                            p.worldObj,
+                            p,
+                            pos.blockX + 0.5,
+                            pos.blockY + 0.5,
+                            pos.blockZ + 0.5,
+                            2,
+                            0xFF0000,
+                            true,
+                            0F,
+                            null,
+                            1);
             }
         }
     }
 
-    public String getSortingHelper(ItemStack itemstack)
-    {
-      return "TTEF" + super.getSortingHelper(itemstack);
+    public String getSortingHelper(ItemStack itemstack) {
+        return "TTEF" + super.getSortingHelper(itemstack);
     }
 
     @Override
@@ -156,22 +205,20 @@ public class ItemFocusSmelt extends ItemModFocus {
     }
 
     @Override
-    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank)
-    {
-      switch (rank)
-      {
-      case 1: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 2: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 3: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 4: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      case 5: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal/*, FocusUpgradeType.potency*/};
-      }
-      return null;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        switch (rank) {
+            case 1:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal /*, FocusUpgradeType.potency*/};
+            case 2:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal /*, FocusUpgradeType.potency*/};
+            case 3:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal /*, FocusUpgradeType.potency*/};
+            case 4:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal /*, FocusUpgradeType.potency*/};
+            case 5:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal /*, FocusUpgradeType.potency*/};
+        }
+        return null;
     }
 
     static class SmeltData {
@@ -187,5 +234,4 @@ public class ItemFocusSmelt extends ItemModFocus {
             return pos.blockX == this.pos.blockX && pos.blockY == this.pos.blockY && pos.blockZ == this.pos.blockZ;
         }
     }
-
 }

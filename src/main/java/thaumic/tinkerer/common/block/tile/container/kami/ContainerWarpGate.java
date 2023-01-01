@@ -33,8 +33,7 @@ public class ContainerWarpGate extends ContainerPlayerInv {
         this.gate = gate;
 
         for (int y = 0; y < 2; y++)
-            for (int x = 0; x < 5; x++)
-                addSlotToContainer(new SlotSkyPearl(gate, y * 5 + x, 30 + x * 25, 27 + y * 25));
+            for (int x = 0; x < 5; x++) addSlotToContainer(new SlotSkyPearl(gate, y * 5 + x, 30 + x * 25, 27 + y * 25));
 
         initPlayerInv();
     }
@@ -56,18 +55,14 @@ public class ContainerWarpGate extends ContainerPlayerInv {
                 var3 = var5.copy();
 
                 if (par2 < 10) {
-                    if (!mergeItemStack(var5, 10, 36, false))
-                        return null;
-                } else if (var3.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class) && !mergeItemStack(var5, 0, 10, false))
-                    return null;
+                    if (!mergeItemStack(var5, 10, 36, false)) return null;
+                } else if (var3.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemSkyPearl.class)
+                        && !mergeItemStack(var5, 0, 10, false)) return null;
 
-                if (var5.stackSize == 0)
-                    var4.putStack(null);
-                else
-                    var4.onSlotChanged();
+                if (var5.stackSize == 0) var4.putStack(null);
+                else var4.onSlotChanged();
 
-                if (var5.stackSize == var3.stackSize)
-                    return null;
+                if (var5.stackSize == var3.stackSize) return null;
 
                 var4.onPickupFromSlot(par1EntityPlayer, var5);
             }
@@ -75,5 +70,4 @@ public class ContainerWarpGate extends ContainerPlayerInv {
 
         return var3;
     }
-
 }

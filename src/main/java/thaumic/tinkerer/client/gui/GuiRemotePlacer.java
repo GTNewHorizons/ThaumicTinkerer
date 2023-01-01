@@ -1,5 +1,7 @@
 package thaumic.tinkerer.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,9 +16,6 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileRPlacer;
 import thaumic.tinkerer.common.block.tile.container.ContainerRemotePlacer;
 import thaumic.tinkerer.common.network.packet.PacketPlacerButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by nekosune on 30/06/14.
@@ -46,19 +45,16 @@ public class GuiRemotePlacer extends GuiContainer {
         addButton(new GuiButtonRPRadio(2, x + 100, y + 26, placer.blocks == 3, radioButtons));
         addButton(new GuiButtonRPRadio(3, x + 100, y + 39, placer.blocks == 4, radioButtons));
         buttonList = buttonListRP;
-
     }
 
     private void addButton(GuiButtonRP button) {
         buttonListRP.add(button);
-        if (button instanceof IRadioButton)
-            radioButtons.add((IRadioButton) button);
+        if (button instanceof IRadioButton) radioButtons.add((IRadioButton) button);
     }
 
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
-        if (par1GuiButton instanceof IRadioButton)
-            ((IRadioButton) par1GuiButton).enableFromClick();
+        if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
         else buttonListRP.get(0).buttonEnabled = !buttonListRP.get(0).buttonEnabled;
 
         placer.blocks = par1GuiButton.id + 1;
@@ -77,6 +73,4 @@ public class GuiRemotePlacer extends GuiContainer {
         fontRendererObj.drawString("4", x + 120, y + 41, 0x999999);
         GL11.glColor3f(1F, 1F, 1F);
     }
-
-
 }

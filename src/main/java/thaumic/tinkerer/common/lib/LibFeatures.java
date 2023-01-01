@@ -18,9 +18,8 @@ import thaumcraft.api.aspects.Aspect;
 
 public final class LibFeatures {
 
-    public static final Aspect[] PRIMAL_ASPECTS = new Aspect[]{
-            Aspect.AIR, Aspect.EARTH, Aspect.FIRE, Aspect.WATER, Aspect.ORDER, Aspect.ENTROPY
-    };
+    public static final Aspect[] PRIMAL_ASPECTS =
+            new Aspect[] {Aspect.AIR, Aspect.EARTH, Aspect.FIRE, Aspect.WATER, Aspect.ORDER, Aspect.ENTROPY};
 
     public static final int INTERFACE_DISTANCE = 4;
     public static final int DISLOCATOR_DISTANCE = 16;
@@ -34,5 +33,4 @@ public final class LibFeatures {
     public static final int CLEANSING_TALISMAN_USES = 100;
 
     public static final float MOVEMENT_MODIFIER = 1F;
-
 }

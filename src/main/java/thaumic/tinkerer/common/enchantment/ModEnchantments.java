@@ -47,11 +47,13 @@ public final class ModEnchantments {
         quickDraw = new EnchantmentQuickDraw(LibEnchantIDs.idQuickDraw).setName(LibEnchantNames.QUICK_DRAW);
         vampirism = new EnchantmentVampirism(LibEnchantIDs.idVampirism).setName(LibEnchantNames.VAMPIRISM);
 
-        dispersedStrikes = new EnchantmentDispersedStrikes(LibEnchantIDs.dispersedStrikes).setName(LibEnchantNames.dispersedStrikes);
+        dispersedStrikes = new EnchantmentDispersedStrikes(LibEnchantIDs.dispersedStrikes)
+                .setName(LibEnchantNames.dispersedStrikes);
 
         finalStrike = new EnchantmentFinalStrike(LibEnchantIDs.finalStrike).setName(LibEnchantNames.finalStrike);
 
-        focusedStrike = new EnchantmentFocusedStrikes(LibEnchantIDs.focusedStrike).setName(LibEnchantNames.focusedStrike);
+        focusedStrike =
+                new EnchantmentFocusedStrikes(LibEnchantIDs.focusedStrike).setName(LibEnchantNames.focusedStrike);
 
         pounce = new EnchantmentPounce(LibEnchantIDs.pounce).setName(LibEnchantNames.pounce);
         shatter = new EnchantmentShatter(LibEnchantIDs.shatter).setName(LibEnchantNames.shatter);
@@ -64,5 +66,4 @@ public final class ModEnchantments {
 
         MinecraftForge.EVENT_BUS.register(new ModEnchantmentHandler());
     }
-
 }

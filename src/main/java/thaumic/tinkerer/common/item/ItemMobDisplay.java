@@ -1,5 +1,6 @@
 package thaumic.tinkerer.common.item;
 
+import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
@@ -11,8 +12,6 @@ import thaumic.tinkerer.common.registry.ItemBase;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.List;
-
 /**
  * Created by Katrina on 11/03/14.
  */
@@ -22,7 +21,9 @@ public class ItemMobDisplay extends ItemBase {
     public ItemMobDisplay() {
         super();
         setHasSubtypes(true); // This allows the item to be marked as a metadata item.
-        setMaxDamage(0); // This makes it so your item doesn't have the damage bar at the bottom of its icon, when "damaged" similar to the Tools.
+        setMaxDamage(
+                0); // This makes it so your item doesn't have the damage bar at the bottom of its icon, when "damaged"
+        // similar to the Tools.
     }
 
     @Override
@@ -62,7 +63,6 @@ public class ItemMobDisplay extends ItemBase {
             ItemStack item = new ItemStack(this);
             this.setEntityType(item, name);
             list.add(item);
-
         }
     }
 

@@ -27,5 +27,4 @@ public class EnchantmentQuickDraw extends EnchantmentMod {
     public boolean canApplyTogether(Enchantment par1Enchantment) {
         return par1Enchantment.effectId != Enchantment.punch.effectId;
     }
-
 }

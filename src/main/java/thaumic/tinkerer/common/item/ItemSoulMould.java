@@ -16,6 +16,7 @@ package thaumic.tinkerer.common.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,8 +33,6 @@ import thaumic.tinkerer.common.registry.ItemBase;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCrucibleRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.List;
 
 public class ItemSoulMould extends ItemBase {
 
@@ -67,23 +66,25 @@ public class ItemSoulMould extends ItemBase {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_MAGNETS, new ItemStack(this), new ItemStack(Items.ender_pearl), new AspectList().add(Aspect.BEAST, 4).add(Aspect.MIND, 8).add(Aspect.SENSES, 8));
+        return new ThaumicTinkererCrucibleRecipe(
+                LibResearch.KEY_MAGNETS,
+                new ItemStack(this),
+                new ItemStack(Items.ender_pearl),
+                new AspectList().add(Aspect.BEAST, 4).add(Aspect.MIND, 8).add(Aspect.SENSES, 8));
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase) {
-        if(par3EntityLivingBase instanceof  EntityPlayer)
-            return true;
-        if (par2EntityPlayer != null)
-            setPattern(par2EntityPlayer.getCurrentEquippedItem(), par3EntityLivingBase);
+    public boolean itemInteractionForEntity(
+            ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase) {
+        if (par3EntityLivingBase instanceof EntityPlayer) return true;
+        if (par2EntityPlayer != null) setPattern(par2EntityPlayer.getCurrentEquippedItem(), par3EntityLivingBase);
         else setPattern(par1ItemStack, par3EntityLivingBase);
         return true;
     }
 
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        if (par3EntityPlayer.isSneaking())
-            clearPattern(par1ItemStack);
+        if (par3EntityPlayer.isSneaking()) clearPattern(par1ItemStack);
 
         return par1ItemStack;
     }
@@ -93,10 +94,11 @@ public class ItemSoulMould extends ItemBase {
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         String name = getPatternName(par1ItemStack);
 
-        if (name.isEmpty())
-            par3List.add(StatCollector.translateToLocal("ttmisc.soulMould.nonAssigned"));
+        if (name.isEmpty()) par3List.add(StatCollector.translateToLocal("ttmisc.soulMould.nonAssigned"));
         else
-            par3List.add(String.format(StatCollector.translateToLocal("ttmisc.soulMould.pattern"), StatCollector.translateToLocal("entity." + name + ".name")));
+            par3List.add(String.format(
+                    StatCollector.translateToLocal("ttmisc.soulMould.pattern"),
+                    StatCollector.translateToLocal("entity." + name + ".name")));
     }
 
     @Override

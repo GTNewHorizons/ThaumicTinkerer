@@ -36,15 +36,13 @@ public class PacketToggleArmor implements IMessage, IMessageHandler<PacketToggle
     @Override
     public IMessage onMessage(PacketToggleArmor message, MessageContext ctx) {
         EntityPlayer player;
-        if (ctx.side.isClient())
-            player = TTClientProxy.getPlayer();
+        if (ctx.side.isClient()) player = TTClientProxy.getPlayer();
         else {
             player = ctx.getServerHandler().playerEntity;
         }
         if (player instanceof EntityPlayer) {
 
             ThaumicTinkerer.proxy.setArmor(player, message.armorStatus);
-
         }
         return null;
     }

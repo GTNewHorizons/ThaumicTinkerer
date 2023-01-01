@@ -34,5 +34,4 @@ public class EnchantmentData {
         this.aspects = aspects;
         this.research = research;
     }
-
 }

@@ -24,5 +24,4 @@ public class TTResearchItemMulti implements IRegisterableResearch {
     public void addResearch(TTResearchItem researchItem) {
         researches.add(researchItem);
     }
-
 }

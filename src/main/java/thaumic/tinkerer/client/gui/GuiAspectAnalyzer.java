@@ -14,6 +14,8 @@
  */
 package thaumic.tinkerer.client.gui;
 
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,9 +32,6 @@ import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.block.tile.TileAspectAnalyzer;
 import thaumic.tinkerer.common.block.tile.container.ContainerAspectAnalyzer;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class GuiAspectAnalyzer extends GuiContainer {
 
@@ -66,7 +65,9 @@ public class GuiAspectAnalyzer extends GuiContainer {
         if (stack != null) {
             int h = ScanManager.generateItemHash(stack.getItem(), stack.getItemDamage());
 
-            List<String> list = Thaumcraft.proxy.getScannedObjects().get(ClientHelper.clientPlayer().getGameProfile().getName());
+            List<String> list = Thaumcraft.proxy
+                    .getScannedObjects()
+                    .get(ClientHelper.clientPlayer().getGameProfile().getName());
             if (list != null && (list.contains("@" + h) || list.contains("#" + h))) {
                 AspectList tags = ThaumcraftCraftingManager.getObjectTags(stack);
                 tags = ThaumcraftCraftingManager.getBonusTags(stack, tags);
@@ -77,8 +78,7 @@ public class GuiAspectAnalyzer extends GuiContainer {
                         int y = this.y + 58;
                         UtilsFX.drawTag(x, y, aspect, tags.getAmount(aspect), 0, zLevel);
 
-                        if (mx > x && mx < x + 16 && my > y && my < y + 16)
-                            aspectHovered = aspect;
+                        if (mx > x && mx < x + 16 && my > y && my < y + 16) aspectHovered = aspect;
 
                         i++;
                     }
@@ -90,9 +90,13 @@ public class GuiAspectAnalyzer extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mx, int my) {
         if (aspectHovered != null)
-            ClientHelper.renderTooltip(mx - x, my - y, Arrays.asList(EnumChatFormatting.AQUA + aspectHovered.getName(), EnumChatFormatting.GRAY + aspectHovered.getLocalizedDescription()));
+            ClientHelper.renderTooltip(
+                    mx - x,
+                    my - y,
+                    Arrays.asList(
+                            EnumChatFormatting.AQUA + aspectHovered.getName(),
+                            EnumChatFormatting.GRAY + aspectHovered.getLocalizedDescription()));
 
         super.drawGuiContainerForegroundLayer(mx, my);
     }
-
 }

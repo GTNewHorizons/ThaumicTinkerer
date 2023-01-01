@@ -26,11 +26,15 @@ public class RodIchorcloth extends WandRod {
     ResourceLocation res = new ResourceLocation(LibResources.MODEL_ROD_ICHORCLOTH);
 
     public RodIchorcloth() {
-        super("ICHORCLOTH", 1000, new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 5), 10);
+        super(
+                "ICHORCLOTH",
+                1000,
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 5),
+                10);
         setGlowing(true);
     }
 
-    //Used as patch for changing the name
+    // Used as patch for changing the name
     public RodIchorcloth(String s) {
         super(s, 1000, new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 9), 10);
         setGlowing(true);
@@ -40,5 +44,4 @@ public class RodIchorcloth extends WandRod {
     public ResourceLocation getTexture() {
         return res;
     }
-
 }

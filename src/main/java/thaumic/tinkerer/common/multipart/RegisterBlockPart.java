@@ -16,7 +16,8 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-// This class is used by FMP to recreate a part during loading and to convert already existing non-mutlipart blocks into multiparts.
+// This class is used by FMP to recreate a part during loading and to convert already existing non-mutlipart blocks into
+// multiparts.
 // this is copied from the version FMP uses for vanilla torches
 public class RegisterBlockPart implements IPartFactory, IPartConverter {
     Block block = null;
@@ -24,9 +25,9 @@ public class RegisterBlockPart implements IPartFactory, IPartConverter {
     String name = "";
 
     public RegisterBlockPart(Block block, Class<? extends TMultiPart> part) {
-//Autoloads the multi-parts name
+        // Autoloads the multi-parts name
         try {
-            name = part.getConstructor().newInstance(new Object[]{}).getType();
+            name = part.getConstructor().newInstance(new Object[] {}).getType();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,12 +51,11 @@ public class RegisterBlockPart implements IPartFactory, IPartConverter {
         return null;
     }
 
-    //register the converter and the parts
+    // register the converter and the parts
     public void init() {
-        if (name.isEmpty() || block == null || part == null)
-            return;
+        if (name.isEmpty() || block == null || part == null) return;
         MultiPartRegistry.registerConverter(this);
-        MultiPartRegistry.registerParts(this, new String[]{name});
+        MultiPartRegistry.registerParts(this, new String[] {name});
     }
 
     @Override
@@ -69,8 +69,7 @@ public class RegisterBlockPart implements IPartFactory, IPartConverter {
         int meta = world.getBlockMetadata(pos.x, pos.y, pos.z);
         if (blockInQuestion == block) {
             try {
-                if (part.getName().equals("vazkii.tinkerer.common.block.multipart.PartNitor") && meta != 1)
-                    return null;
+                if (part.getName().equals("vazkii.tinkerer.common.block.multipart.PartNitor") && meta != 1) return null;
                 if (part.getDeclaredConstructor(int.class) != null)
                     return part.getDeclaredConstructor(int.class).newInstance(meta);
                 return part.getConstructor().newInstance();

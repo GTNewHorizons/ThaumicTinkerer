@@ -1,5 +1,6 @@
 package thaumic.tinkerer.common.item;
 
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,13 +20,11 @@ import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.*;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-import java.util.List;
-
 public class ItemMobAspect extends ItemBase {
 
-    //Real value is 16
-    //Padding room inclued
-    //To prevent corruption
+    // Real value is 16
+    // Padding room inclued
+    // To prevent corruption
     public static final int aspectCount = 21;
     public static IIcon[] aspectIcons = new IIcon[aspectCount * 3];
 
@@ -75,9 +74,9 @@ public class ItemMobAspect extends ItemBase {
             return true;
         }
 
-        return (stack.stackTagCompound.getInteger("LastX") == tablet.xCoord &&
-                stack.stackTagCompound.getInteger("LastY") == tablet.yCoord &&
-                stack.stackTagCompound.getInteger("LastZ") == tablet.zCoord);
+        return (stack.stackTagCompound.getInteger("LastX") == tablet.xCoord
+                && stack.stackTagCompound.getInteger("LastY") == tablet.yCoord
+                && stack.stackTagCompound.getInteger("LastZ") == tablet.zCoord);
     }
 
     @Override
@@ -90,11 +89,13 @@ public class ItemMobAspect extends ItemBase {
         super.registerIcons(par1IconRegister);
 
         for (NumericAspectHelper aspect : NumericAspectHelper.values) {
-            aspectIcons[aspect.num] = IconHelper.forName(par1IconRegister, aspect.getAspect().getName().toLowerCase());
-            aspectIcons[aspect.num + aspectCount] = IconHelper.forName(par1IconRegister, aspect.getAspect().getName().toLowerCase() + "_condensed");
+            aspectIcons[aspect.num] = IconHelper.forName(
+                    par1IconRegister, aspect.getAspect().getName().toLowerCase());
+            aspectIcons[aspect.num + aspectCount] = IconHelper.forName(
+                    par1IconRegister, aspect.getAspect().getName().toLowerCase() + "_condensed");
 
-            aspectIcons[aspect.num + 2 * aspectCount] = IconHelper.forName(par1IconRegister, aspect.getAspect().getName().toLowerCase());
-
+            aspectIcons[aspect.num + 2 * aspectCount] = IconHelper.forName(
+                    par1IconRegister, aspect.getAspect().getName().toLowerCase());
         }
     }
 
@@ -118,14 +119,27 @@ public class ItemMobAspect extends ItemBase {
         ThaumicTinkererRecipeMulti recipeMulti = new ThaumicTinkererRecipeMulti();
         for (int i = 0; i < NumericAspectHelper.values.size(); i++) {
 
-            ThaumcraftApi.registerObjectTag(new ItemStack(this, 1, i), new int[]{i}, new AspectList().add(NumericAspectHelper.getAspect(i), 8));
-            recipeMulti.addRecipe(new ThaumicTinkererCraftingBenchRecipe(LibResearch.KEY_SUMMON + "1", new ItemStack(this, 1, i + 21), "XXX", "XXX", "XXX", 'X', new ItemStack(this, 1, i)));
+            ThaumcraftApi.registerObjectTag(
+                    new ItemStack(this, 1, i),
+                    new int[] {i},
+                    new AspectList().add(NumericAspectHelper.getAspect(i), 8));
+            recipeMulti.addRecipe(new ThaumicTinkererCraftingBenchRecipe(
+                    LibResearch.KEY_SUMMON + "1",
+                    new ItemStack(this, 1, i + 21),
+                    "XXX",
+                    "XXX",
+                    "XXX",
+                    'X',
+                    new ItemStack(this, 1, i)));
 
             ItemStack input = new ItemStack(this, 1, i + 21);
-            recipeMulti.addRecipe(new ThaumicTinkererInfusionRecipe(LibResearch.KEY_SUMMON, new ItemStack(this, 1, i + 42), 4,
-                    new AspectList().add(getAspect(new ItemStack(this, 1, i)), 10), input,
-                    new ItemStack[]{input, input, input, input, input, input, input, input}));
-
+            recipeMulti.addRecipe(new ThaumicTinkererInfusionRecipe(
+                    LibResearch.KEY_SUMMON,
+                    new ItemStack(this, 1, i + 42),
+                    4,
+                    new AspectList().add(getAspect(new ItemStack(this, 1, i)), 10),
+                    input,
+                    new ItemStack[] {input, input, input, input, input, input, input, input}));
         }
         return recipeMulti;
     }

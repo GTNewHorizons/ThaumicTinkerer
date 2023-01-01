@@ -1,13 +1,12 @@
 package thaumic.tinkerer.common.core.helper;
 
 import com.google.common.base.Function;
+import java.util.IdentityHashMap;
+import java.util.Map;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import thaumcraft.common.entities.projectile.EntityFrostShard;
-
-import java.util.IdentityHashMap;
-import java.util.Map;
 
 public final class ProjectileHelper {
     private static Map<Class<? extends Entity>, Function<Entity, Entity>> ownerGetters =
@@ -29,7 +28,8 @@ public final class ProjectileHelper {
         return null;
     }
 
-    public static void registerOwnerGetter(Class<? extends Entity> projectileClass, Function<Entity, Entity> ownerGetter) {
+    public static void registerOwnerGetter(
+            Class<? extends Entity> projectileClass, Function<Entity, Entity> ownerGetter) {
         ownerGetters.put(projectileClass, ownerGetter);
     }
 

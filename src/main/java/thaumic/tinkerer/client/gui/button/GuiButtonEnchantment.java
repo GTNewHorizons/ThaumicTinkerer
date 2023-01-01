@@ -14,6 +14,8 @@
  */
 package thaumic.tinkerer.client.gui.button;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
@@ -26,9 +28,6 @@ import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.gui.GuiEnchanting;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentData;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiButtonEnchantment extends GuiButton {
 
@@ -46,10 +45,10 @@ public class GuiButtonEnchantment extends GuiButton {
 
     @Override
     public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
-        if (dontRender())
-            return;
+        if (dontRender()) return;
 
-        EnchantmentData data = EnchantmentManager.enchantmentData.get(enchant.effectId).get(1);
+        EnchantmentData data =
+                EnchantmentManager.enchantmentData.get(enchant.effectId).get(1);
         ClientHelper.minecraft().renderEngine.bindTexture(data.texture);
         GL11.glEnable(GL11.GL_BLEND);
         drawTexturedModalRect16(xPosition, yPosition, 0, 0, 16, 16);
@@ -59,9 +58,11 @@ public class GuiButtonEnchantment extends GuiButton {
             List<String> tooltip = new ArrayList();
             tooltip.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal(enchant.getName()));
             for (Aspect aspect : data.aspects.getAspectsSorted())
-                tooltip.add(" \u00a7" + aspect.getChatcolor() + aspect.getName() + '\u00a7' + "r x " + data.aspects.getAmount(aspect) + " " + StatCollector.translateToLocal("ttmisc.baseCost"));
+                tooltip.add(" \u00a7" + aspect.getChatcolor() + aspect.getName() + '\u00a7' + "r x "
+                        + data.aspects.getAmount(aspect) + " " + StatCollector.translateToLocal("ttmisc.baseCost"));
             if (this instanceof GuiButtonFramedEnchantment && !parent.enchanter.working)
-                tooltip.add(EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + " " + StatCollector.translateToLocal("ttmisc.clickToRemove"));
+                tooltip.add(EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + " "
+                        + StatCollector.translateToLocal("ttmisc.clickToRemove"));
 
             parent.tooltip = tooltip;
         }
@@ -78,5 +79,4 @@ public class GuiButtonEnchantment extends GuiButton {
         tessellator.addVertexWithUV(par1, par2, zLevel, (par3) * f, (par4) * f1);
         tessellator.draw();
     }
-
 }

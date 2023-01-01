@@ -33,7 +33,6 @@ import thaumcraft.client.fx.ParticleEngine;
 import thaumic.tinkerer.client.core.handler.ClientTickHandler;
 import thaumic.tinkerer.client.core.handler.GemArmorKeyHandler;
 import thaumic.tinkerer.client.core.handler.HUDHandler;
-
 import thaumic.tinkerer.client.core.handler.kami.KamiArmorClientHandler;
 import thaumic.tinkerer.client.core.handler.kami.PlacementMirrorPredictionRenderer;
 import thaumic.tinkerer.client.core.handler.kami.SoulHeartClientHandler;
@@ -76,10 +75,15 @@ public class TTClientProxy extends TTCommonProxy {
         if (Loader.isModLoaded("ComputerCraft")) {
             MinecraftForge.EVENT_BUS.register(new FumeTool());
         }
-        
+
         if (ConfigHandler.enableKami)
-            //kamiRarity = EnumHelperClient.addRarity("KAMI", 0x6, "Kami");
-            kamiRarity = EnumHelperClient.addEnum(new Class[][]{{EnumRarity.class, EnumChatFormatting.class, String.class}}, EnumRarity.class, "KAMI", EnumChatFormatting.LIGHT_PURPLE, "Kami");
+            // kamiRarity = EnumHelperClient.addRarity("KAMI", 0x6, "Kami");
+            kamiRarity = EnumHelperClient.addEnum(
+                    new Class[][] {{EnumRarity.class, EnumChatFormatting.class, String.class}},
+                    EnumRarity.class,
+                    "KAMI",
+                    EnumChatFormatting.LIGHT_PURPLE,
+                    "Kami");
     }
 
     @Override
@@ -101,7 +105,6 @@ public class TTClientProxy extends TTCommonProxy {
                 MinecraftForge.EVENT_BUS.register(new PlacementMirrorPredictionRenderer());
         }
     }
-
 
     private void registerTiles() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileAnimationTablet.class, new RenderTileAnimationTablet());
@@ -125,22 +128,27 @@ public class TTClientProxy extends TTCommonProxy {
         RenderingRegistry.registerBlockHandler(new RenderMagnet());
         RenderingRegistry.registerBlockHandler(new RenderRepairer());
 
-        MinecraftForgeClient.registerItemRenderer(ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class), new RenderMobDisplay());
-        MinecraftForgeClient.registerItemRenderer(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class), new RenderGenericSeeds());
+        MinecraftForgeClient.registerItemRenderer(
+                ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class), new RenderMobDisplay());
+        MinecraftForgeClient.registerItemRenderer(
+                ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class), new RenderGenericSeeds());
 
         if (ConfigHandler.enableKami) {
-            MinecraftForgeClient.registerItemRenderer(ThaumicTinkerer.registry.getFirstItemFromClass(ItemPlacementMirror.class), new RenderPlacementMirror());
+            MinecraftForgeClient.registerItemRenderer(
+                    ThaumicTinkerer.registry.getFirstItemFromClass(ItemPlacementMirror.class),
+                    new RenderPlacementMirror());
 
             LibRenderIDs.idWarpGate = RenderingRegistry.getNextAvailableRenderId();
 
             RenderingRegistry.registerBlockHandler(new RenderWarpGate());
-            //KeyBindingRegistry.registerKeyBinding(new GemArmorKeyHandler());
+            // KeyBindingRegistry.registerKeyBinding(new GemArmorKeyHandler());
         }
     }
 
     @Override
     public void shadowSparkle(World world, float x, float y, float z, int size) {
-        ItemFocusShadowbeam.Particle fx = new ItemFocusShadowbeam.Particle(world, (double)x, (double)y, (double)z, size, 0.001f, 0.001f, 0.001f, 5);
+        ItemFocusShadowbeam.Particle fx = new ItemFocusShadowbeam.Particle(
+                world, (double) x, (double) y, (double) z, size, 0.001f, 0.001f, 0.001f, 5);
         ParticleEngine.instance.addEffect(world, fx);
     }
 
@@ -161,7 +169,6 @@ public class TTClientProxy extends TTCommonProxy {
     @Override
     public boolean armorStatus(EntityPlayer player) {
         return KamiArmorClientHandler.ArmorEnabled;
-
     }
 
     @Override
@@ -176,5 +183,4 @@ public class TTClientProxy extends TTCommonProxy {
     public EntityPlayer getClientPlayer() {
         return ClientHelper.clientPlayer();
     }
-
 }

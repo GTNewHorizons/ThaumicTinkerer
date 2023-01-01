@@ -3,30 +3,25 @@ package thaumic.tinkerer.common.compat;
 import codechicken.enderstorage.api.EnderStorageManager;
 import codechicken.enderstorage.storage.item.EnderItemStorage;
 import codechicken.enderstorage.storage.item.TileEnderChest;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumic.tinkerer.common.item.foci.ItemFocusEnderChest;
 
-import java.util.List;
-
 public class EnderStorageFunctions {
     public static ItemStack onFocusRightClick(ItemStack stack, World world, EntityPlayer p, MovingObjectPosition pos) {
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
         ItemStack focus = wand.getFocusItem(stack);
-        if (world.isRemote)
-            return stack;
-        if (!focus.hasTagCompound())
-            focus.setTagCompound(new NBTTagCompound());
+        if (world.isRemote) return stack;
+        if (!focus.hasTagCompound()) focus.setTagCompound(new NBTTagCompound());
         if (pos != null) {
             TileEntity tile = world.getTileEntity(pos.blockX, pos.blockY, pos.blockZ);
-
 
             if (tile instanceof TileEnderChest && p.isSneaking()) {
                 TileEnderChest chest = (TileEnderChest) tile;
@@ -55,7 +50,7 @@ public class EnderStorageFunctions {
             } else {
                 int freq = focus.getTagCompound().getInteger("freq");
                 ((EnderItemStorage) EnderStorageManager.instance(world.isRemote)
-                        .getStorage(getOwner(focus), freq & 0xFFF, "item"))
+                                .getStorage(getOwner(focus), freq & 0xFFF, "item"))
                         .openSMPGui(p, focus.getDisplayName());
             }
         }
@@ -67,19 +62,16 @@ public class EnderStorageFunctions {
         return stack.hasTagCompound() ? stack.getTagCompound().getString("owner") : "global";
     }
 
-    public static void addFocusInformation(ItemStack stack, EntityPlayer player, List list,
-                                           boolean par4) {
+    public static void addFocusInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
         if (stack.hasTagCompound() && !stack.getTagCompound().getString("owner").equals("global"))
             list.add(stack.getTagCompound().getString("owner"));
     }
 
     public static String getSortingHelper(ItemStack focus) {
         String base = "TTEC";
-        if (!focus.hasTagCompound())
-            return base + "-VANILLA";
+        if (!focus.hasTagCompound()) return base + "-VANILLA";
         boolean vanilla = !focus.getTagCompound().getBoolean("ender");
-        if (vanilla)
-            return base + "-VANILLA";
+        if (vanilla) return base + "-VANILLA";
         int freq = focus.getTagCompound().getInteger("freq");
         return base + Integer.toString(freq) + getOwner(focus);
     }

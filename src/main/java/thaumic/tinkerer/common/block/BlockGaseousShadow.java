@@ -16,13 +16,12 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.lib.LibBlockNames;
-
-import java.util.Random;
 
 public class BlockGaseousShadow extends BlockGas {
 
@@ -35,7 +34,8 @@ public class BlockGaseousShadow extends BlockGas {
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random) {
         if (par5Random.nextFloat() < 0.0075F)
-            ThaumicTinkerer.tcProxy.wispFX2(par1World, par2 + 0.5, par3 + 0.5, par4 + 0.5, 0.125F, 5, true, true, -0.02F);
+            ThaumicTinkerer.tcProxy.wispFX2(
+                    par1World, par2 + 0.5, par3 + 0.5, par4 + 0.5, 0.125F, 5, true, true, -0.02F);
     }
 
     @Override

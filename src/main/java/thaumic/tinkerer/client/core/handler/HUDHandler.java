@@ -73,10 +73,20 @@ public final class HUDHandler {
                         }
 
                         if (new ItemStack(((ItemBlock) pickedBlock.getItem()).field_150939_a).getItem() != null)
-                            renderItem.renderItemIntoGUI(font, ClientHelper.minecraft().renderEngine, new ItemStack(((ItemBlock) pickedBlock.getItem()).field_150939_a), xpos, ypos);
+                            renderItem.renderItemIntoGUI(
+                                    font,
+                                    ClientHelper.minecraft().renderEngine,
+                                    new ItemStack(((ItemBlock) pickedBlock.getItem()).field_150939_a),
+                                    xpos,
+                                    ypos);
                         else {
                             if (((ItemBlock) pickedBlock.getItem()).field_150939_a == Blocks.reeds)
-                                renderItem.renderItemIntoGUI(font, ClientHelper.minecraft().renderEngine, new ItemStack(Items.reeds), xpos, ypos);
+                                renderItem.renderItemIntoGUI(
+                                        font,
+                                        ClientHelper.minecraft().renderEngine,
+                                        new ItemStack(Items.reeds),
+                                        xpos,
+                                        ypos);
                         }
                         font.setUnicodeFlag(unicode);
                     }
@@ -84,5 +94,4 @@ public final class HUDHandler {
             }
         }
     }
-
 }

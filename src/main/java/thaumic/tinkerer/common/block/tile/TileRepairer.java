@@ -1,5 +1,5 @@
 /**
- x * This class was created by <Vazkii>. It's distributed as
+ * x * This class was created by <Vazkii>. It's distributed as
  * part of the ThaumicTinkerer Mod.
  *
  * ThaumicTinkerer is Open Source and distributed under a
@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block.tile;
 
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.Loader;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -36,19 +38,19 @@ import thaumic.tinkerer.common.compat.TinkersConstructCompat;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /*import thaumic.tinkerer.common.compat.TinkersConstructCompat;*/
 
-public class TileRepairer extends TileEntity implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
+public class TileRepairer extends TileEntity
+        implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
 
     private static final Map<Aspect, Integer> repairValues = new HashMap();
+
     static {
         repairValues.put(Aspect.TOOL, 8);
         repairValues.put(Aspect.CRAFT, 5);
         repairValues.put(Aspect.ORDER, 3);
     }
+
     public int ticksExisted = 0;
     public boolean tookLastTick = true;
     int dmgLastTick = 0;
@@ -66,11 +68,16 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
                             TinkersConstructCompat.fixDamage(inventorySlots[0], essentia);
                             markDirty();
                             if (dmgLastTick != 0 && dmgLastTick != dmg) {
-                                ThaumicTinkerer.tcProxy.sparkle((float) (xCoord + 0.25 + Math.random() / 2F), (float) (yCoord + 1 + Math.random() / 2F), (float) (zCoord + 0.25 + Math.random() / 2F), 0);
+                                ThaumicTinkerer.tcProxy.sparkle(
+                                        (float) (xCoord + 0.25 + Math.random() / 2F),
+                                        (float) (yCoord + 1 + Math.random() / 2F),
+                                        (float) (zCoord + 0.25 + Math.random() / 2F),
+                                        0);
                                 tookLastTick = true;
                             } else tookLastTick = false;
                         } else tookLastTick = false;
-                        dmgLastTick = inventorySlots[0] == null ? 0 : TinkersConstructCompat.getDamage(inventorySlots[0]);
+                        dmgLastTick =
+                                inventorySlots[0] == null ? 0 : TinkersConstructCompat.getDamage(inventorySlots[0]);
                         return;
                     }
                 }
@@ -82,7 +89,11 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
                 markDirty();
 
                 if (dmgLastTick != 0 && dmgLastTick != dmg) {
-                    ThaumicTinkerer.tcProxy.sparkle((float) (xCoord + 0.25 + Math.random() / 2F), (float) (yCoord + 1 + Math.random() / 2F), (float) (zCoord + 0.25 + Math.random() / 2F), 0);
+                    ThaumicTinkerer.tcProxy.sparkle(
+                            (float) (xCoord + 0.25 + Math.random() / 2F),
+                            (float) (yCoord + 1 + Math.random() / 2F),
+                            (float) (zCoord + 0.25 + Math.random() / 2F),
+                            0);
                     tookLastTick = true;
                 } else tookLastTick = false;
             } else tookLastTick = false;
@@ -148,8 +159,7 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
             } else {
                 stackAt = inventorySlots[i].splitStack(j);
 
-                if (inventorySlots[i].stackSize == 0)
-                    inventorySlots[i] = null;
+                if (inventorySlots[i].stackSize == 0) inventorySlots[i] = null;
 
                 return stackAt;
             }
@@ -185,18 +195,15 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+                && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
     }
 
     @Override
-    public void openInventory() {
-
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeInventory() {
-
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -224,7 +231,7 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
 
     @Override
     public int[] getAccessibleSlotsFromSide(int var1) {
-        return new int[]{0};
+        return new int[] {0};
     }
 
     @Override
@@ -247,12 +254,12 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
         TileEntity te = ThaumcraftApiHelper.getConnectableTile(worldObj, xCoord, yCoord, zCoord, orientation);
         if (te != null) {
             IEssentiaTransport ic = (IEssentiaTransport) te;
-            if (!ic.canOutputTo(orientation.getOpposite()))
-                return 0;
+            if (!ic.canOutputTo(orientation.getOpposite())) return 0;
 
             for (Aspect aspect : repairValues.keySet())
-                if (ic.getSuctionType(orientation.getOpposite()) == aspect && ic.getSuctionAmount(orientation.getOpposite()) < getSuctionAmount(orientation) && ic.takeEssentia(aspect, 1, orientation.getOpposite()) == 1)
-                    return repairValues.get(aspect);
+                if (ic.getSuctionType(orientation.getOpposite()) == aspect
+                        && ic.getSuctionAmount(orientation.getOpposite()) < getSuctionAmount(orientation)
+                        && ic.takeEssentia(aspect, 1, orientation.getOpposite()) == 1) return repairValues.get(aspect);
         }
         return 0;
     }
@@ -264,8 +271,7 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
     @Override
     public AspectList getAspects() {
         ItemStack stack = inventorySlots[0];
-        if (stack == null)
-            return null;
+        if (stack == null) return null;
         if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
             if (TinkersConstructCompat.isTConstructTool(stack))
                 return new AspectList().add(Aspect.ENTROPY, TinkersConstructCompat.getDamage(stack));
@@ -274,8 +280,7 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
     }
 
     @Override
-    public void setAspects(AspectList paramAspectList) {
-    }
+    public void setAspects(AspectList paramAspectList) {}
 
     @Override
     public boolean doesContainerAccept(Aspect paramAspect) {
@@ -329,8 +334,7 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
     }
 
     @Override
-    public void setSuction(Aspect paramAspect, int paramInt) {
-    }
+    public void setSuction(Aspect paramAspect, int paramInt) {}
 
     @Override
     public int takeEssentia(Aspect paramAspect, int paramInt, ForgeDirection direction) {
@@ -378,8 +382,5 @@ public class TileRepairer extends TileEntity implements ISidedInventory, IAspect
     }
 
     @Override
-    public void doneMoving() {
-
-    }
-
+    public void doneMoving() {}
 }

@@ -12,7 +12,6 @@
  *
  * File Created @ [Dec 11, 2013, 10:03:09 PM (GMT)]
  */
-
 package thaumic.tinkerer.common.peripheral;
 
 import dan200.computercraft.api.lua.ILuaContext;
@@ -39,7 +38,17 @@ public class PeripheralArcaneBore implements IPeripheral {
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"hasPickaxe", "hasFocus", "isPickaxeBroken", "isWorking", "getRadius", "getSpeed", "hasNativeClusters", "getFortune", "hasSilkTouch"};
+        return new String[] {
+            "hasPickaxe",
+            "hasFocus",
+            "isPickaxeBroken",
+            "isWorking",
+            "getRadius",
+            "getSpeed",
+            "hasNativeClusters",
+            "getFortune",
+            "hasSilkTouch"
+        };
     }
 
     @Override
@@ -49,23 +58,30 @@ public class PeripheralArcaneBore implements IPeripheral {
 
         switch (method) {
             case 0:
-                return new Object[]{bore.hasPickaxe};
+                return new Object[] {bore.hasPickaxe};
             case 1:
-                return new Object[]{bore.hasFocus};
+                return new Object[] {bore.hasFocus};
             case 2:
-                return new Object[]{nearBroken};
+                return new Object[] {nearBroken};
             case 3: //noinspection ConstantConditions
-                return new Object[]{bore.gettingPower() && bore.hasFocus && bore.hasPickaxe && pickaxe.isItemStackDamageable() && !nearBroken};
+                return new Object[] {
+                    bore.gettingPower()
+                            && bore.hasFocus
+                            && bore.hasPickaxe
+                            && pickaxe.isItemStackDamageable()
+                            && !nearBroken
+                };
             case 4:
-                return new Object[]{1 + (bore.area + bore.maxRadius) * 2};
+                return new Object[] {1 + (bore.area + bore.maxRadius) * 2};
             case 5:
-                return new Object[]{bore.speed};
+                return new Object[] {bore.speed};
             case 6:
-                return new Object[]{pickaxe != null && pickaxe.getItem() instanceof ItemElementalPickaxe};
+                return new Object[] {pickaxe != null && pickaxe.getItem() instanceof ItemElementalPickaxe};
             case 7:
-                return new Object[]{EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, pickaxe)};
+                return new Object[] {EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, pickaxe)};
             case 8:
-                return new Object[]{EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, pickaxe) > 0};
+                return new Object[] {EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, pickaxe) > 0
+                };
         }
 
         return null;
@@ -85,5 +101,4 @@ public class PeripheralArcaneBore implements IPeripheral {
     public boolean equals(IPeripheral other) {
         return this.equals((Object) other);
     }
-
 }

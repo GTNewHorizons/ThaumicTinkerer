@@ -1,5 +1,6 @@
 package thaumic.tinkerer.common.item;
 
+import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBlock;
@@ -10,8 +11,6 @@ import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ITTinkererItem;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
 
 public class ItemBlockFire extends ItemBlock implements ITTinkererItem {
 

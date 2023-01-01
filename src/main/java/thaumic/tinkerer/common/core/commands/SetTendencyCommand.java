@@ -30,7 +30,8 @@ public class SetTendencyCommand extends CommandBase {
             EntityPlayer player = (EntityPlayer) sender;
             MovingObjectPosition pos = BlockUtils.getTargetBlock(player.worldObj, player, true);
             if (player.worldObj.getTileEntity(pos.blockX, pos.blockY, pos.blockZ) instanceof TileInfusedGrain) {
-                TileInfusedGrain tile = (TileInfusedGrain) player.worldObj.getTileEntity(pos.blockX, pos.blockY, pos.blockZ);
+                TileInfusedGrain tile =
+                        (TileInfusedGrain) player.worldObj.getTileEntity(pos.blockX, pos.blockY, pos.blockZ);
                 for (Aspect a : Aspect.getPrimalAspects()) {
                     if (args[0].toUpperCase().equals(a.getName().toUpperCase())) {
                         try {
@@ -42,7 +43,6 @@ public class SetTendencyCommand extends CommandBase {
                     }
                 }
             }
-
         }
     }
 

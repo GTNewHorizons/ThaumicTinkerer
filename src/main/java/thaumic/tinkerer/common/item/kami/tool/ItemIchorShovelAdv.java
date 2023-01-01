@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.common.item.kami.tool;
 
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -44,8 +45,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-import java.util.List;
-
 public class ItemIchorShovelAdv extends ItemIchorShovel implements IAdvancedTool {
 
     IIcon[] specialIcons = new IIcon[3];
@@ -58,8 +57,7 @@ public class ItemIchorShovelAdv extends ItemIchorShovel implements IAdvancedTool
     @Override
     public void registerIcons(IIconRegister par1IconRegister) {
         super.registerIcons(par1IconRegister);
-        for (int i = 0; i < specialIcons.length; i++)
-            specialIcons[i] = IconHelper.forItem(par1IconRegister, this, i);
+        for (int i = 0; i < specialIcons.length; i++) specialIcons[i] = IconHelper.forItem(par1IconRegister, this, i);
     }
 
     @Override
@@ -81,11 +79,9 @@ public class ItemIchorShovelAdv extends ItemIchorShovel implements IAdvancedTool
     public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
         World world = player.worldObj;
         Material mat = world.getBlock(x, y, z).getMaterial();
-        if (!ToolHandler.isRightMaterial(mat, ToolHandler.materialsShovel))
-            return false;
+        if (!ToolHandler.isRightMaterial(mat, ToolHandler.materialsShovel)) return false;
         MovingObjectPosition block = ToolHandler.raytraceFromEntity(world, player, true, 4.5);
-        if (block == null)
-            return false;
+        if (block == null) return false;
 
         ForgeDirection direction = ForgeDirection.getOrientation(block.sideHit);
         int fortune = EnchantmentHelper.getFortuneModifier(player);
@@ -99,12 +95,28 @@ public class ItemIchorShovelAdv extends ItemIchorShovel implements IAdvancedTool
                 boolean doY = direction.offsetY == 0;
                 boolean doZ = direction.offsetZ == 0;
 
-                ToolHandler.removeBlocksInIteration(player, world, x, y, z, doX ? -2 : 0, doY ? -1 : 0, doZ ? -2 : 0, doX ? 3 : 1, doY ? 4 : 1, doZ ? 3 : 1, null, ToolHandler.materialsShovel, silk, fortune);
+                ToolHandler.removeBlocksInIteration(
+                        player,
+                        world,
+                        x,
+                        y,
+                        z,
+                        doX ? -2 : 0,
+                        doY ? -1 : 0,
+                        doZ ? -2 : 0,
+                        doX ? 3 : 1,
+                        doY ? 4 : 1,
+                        doZ ? 3 : 1,
+                        null,
+                        ToolHandler.materialsShovel,
+                        silk,
+                        fortune);
                 break;
             }
             case 2: {
                 Block blk = world.getBlock(x, y, z);
-                ToolHandler.removeBlocksInIteration(player, world, x, y, z, 0, -8, 0, 1, 8, 1, blk, ToolHandler.materialsShovel, silk, fortune);
+                ToolHandler.removeBlocksInIteration(
+                        player, world, x, y, z, 0, -8, 0, 1, 8, 1, blk, ToolHandler.materialsShovel, silk, fortune);
                 break;
             }
         }
@@ -128,18 +140,48 @@ public class ItemIchorShovelAdv extends ItemIchorShovel implements IAdvancedTool
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        if(!ConfigHandler.enableKami)
-            return null;
-        return (IRegisterableResearch) new KamiResearchItem(LibResearch.KEY_ICHOR_SHOVEL_GEM, new AspectList().add(Aspect.EARTH, 2).add(Aspect.TOOL, 1).add(Aspect.MINE, 1).add(Aspect.EARTH, 1), 15, 15, 5, new ItemStack(this)).setParents(LibResearch.KEY_ICHOR_TOOLS)
+        if (!ConfigHandler.enableKami) return null;
+        return (IRegisterableResearch) new KamiResearchItem(
+                        LibResearch.KEY_ICHOR_SHOVEL_GEM,
+                        new AspectList()
+                                .add(Aspect.EARTH, 2)
+                                .add(Aspect.TOOL, 1)
+                                .add(Aspect.MINE, 1)
+                                .add(Aspect.EARTH, 1),
+                        15,
+                        15,
+                        5,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_ICHOR_TOOLS)
                 .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_ICHOR_SHOVEL_GEM));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_ICHOR_SHOVEL_GEM, new ItemStack(this), 15, new AspectList().add(Aspect.EARTH, 50).add(Aspect.MINE, 64).add(Aspect.TOOL, 32).add(Aspect.EARTH, 32).add(Aspect.HARVEST, 32).add(Aspect.TRAP, 16).add(Aspect.SENSES, 16), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemIchorShovel.class)),
-                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)), new ItemStack(ConfigItems.itemShovelElemental), new ItemStack(ConfigItems.itemFocusExcavation), new ItemStack(Blocks.tnt), new ItemStack(ConfigItems.itemNugget, 1, 21), new ItemStack(ConfigItems.itemNugget, 1, 16), new ItemStack(ConfigItems.itemNugget, 1, 31), new ItemStack(Items.diamond), new ItemStack(ConfigItems.itemFocusExcavation), new ItemStack(ConfigItems.itemShovelElemental), new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_ICHOR_SHOVEL_GEM,
+                new ItemStack(this),
+                15,
+                new AspectList()
+                        .add(Aspect.EARTH, 50)
+                        .add(Aspect.MINE, 64)
+                        .add(Aspect.TOOL, 32)
+                        .add(Aspect.EARTH, 32)
+                        .add(Aspect.HARVEST, 32)
+                        .add(Aspect.TRAP, 16)
+                        .add(Aspect.SENSES, 16),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemIchorShovel.class)),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 2),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
+                new ItemStack(ConfigItems.itemShovelElemental),
+                new ItemStack(ConfigItems.itemFocusExcavation),
+                new ItemStack(Blocks.tnt),
+                new ItemStack(ConfigItems.itemNugget, 1, 21),
+                new ItemStack(ConfigItems.itemNugget, 1, 16),
+                new ItemStack(ConfigItems.itemNugget, 1, 31),
+                new ItemStack(Items.diamond),
+                new ItemStack(ConfigItems.itemFocusExcavation),
+                new ItemStack(ConfigItems.itemShovelElemental),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class), 1, 1));
     }
-
 }

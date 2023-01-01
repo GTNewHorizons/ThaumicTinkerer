@@ -12,7 +12,6 @@
  *
  * File Created @ [13 Sep 2013, 00:58:21 (GMT)]
  */
-
 package thaumic.tinkerer.common.peripheral;
 
 import cpw.mods.fml.common.Optional;
@@ -37,7 +36,7 @@ public class PeripheralAspectContainer implements IPeripheral {
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"getAspects", "getAspectCount"};
+        return new String[] {"getAspects", "getAspectCount"};
     }
 
     @Override
@@ -73,5 +72,4 @@ public class PeripheralAspectContainer implements IPeripheral {
     public boolean equals(IPeripheral other) {
         return this.equals((Object) other);
     }
-
 }

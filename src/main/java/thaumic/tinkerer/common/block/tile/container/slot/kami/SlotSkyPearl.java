@@ -35,5 +35,4 @@ public class SlotSkyPearl extends Slot {
     public int getSlotStackLimit() {
         return 1;
     }
-
 }

@@ -23,5 +23,4 @@ public interface IRadioButton {
     public boolean isEnabled();
 
     public void setEnabled(boolean enabled);
-
 }

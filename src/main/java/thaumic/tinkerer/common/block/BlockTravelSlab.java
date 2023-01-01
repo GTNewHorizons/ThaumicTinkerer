@@ -2,6 +2,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,19 +20,13 @@ import net.minecraft.world.World;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.quartz.BlockDarkQuartz;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.item.ItemTravelSlab;
-import thaumic.tinkerer.common.item.quartz.ItemDarkQuartzSlab;
 import thaumic.tinkerer.common.lib.LibBlockNames;
-import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.ITTinkererBlock;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCraftingBenchRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Katrina on 13/04/2015.
@@ -58,7 +54,7 @@ public class BlockTravelSlab extends BlockSlab implements ITTinkererBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int par2) {
-        return ConfigBlocks.blockCosmeticSolid.getIcon(par1,2);
+        return ConfigBlocks.blockCosmeticSolid.getIcon(par1, 2);
     }
 
     @Override
@@ -66,10 +62,10 @@ public class BlockTravelSlab extends BlockSlab implements ITTinkererBlock {
         return Item.getItemFromBlock(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTravelSlab.class));
     }
 
-    //@Override
-    //public int idDropped(int par1, Random par2Random, int par3) {
+    // @Override
+    // public int idDropped(int par1, Random par2Random, int par3) {
     //	return ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class).blockID;
-    //}
+    // }
 
     @Override
     public ItemStack createStackedBlock(int par1) {
@@ -129,26 +125,27 @@ public class BlockTravelSlab extends BlockSlab implements ITTinkererBlock {
         if (isOpaqueCube()) {
             return null;
         }
-        return new ThaumicTinkererCraftingBenchRecipe("PAVETRAVEL", new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTravelSlab.class), 6),
+        return new ThaumicTinkererCraftingBenchRecipe(
+                "PAVETRAVEL",
+                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockTravelSlab.class), 6),
                 "QQQ",
-                'Q', new ItemStack(ConfigBlocks.blockCosmeticSolid,1,2));
+                'Q',
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 2));
     }
 
     @Override
     public void onEntityWalking(World world, int x, int y, int z, Entity e) {
-        if(world.getBlock(x, y, z) == this) {
-            if(e instanceof EntityLivingBase) {
-                if(world.isRemote) {
+        if (world.getBlock(x, y, z) == this) {
+            if (e instanceof EntityLivingBase) {
+                if (world.isRemote) {
                     Thaumcraft.proxy.blockSparkle(world, x, y, z, '?', 5);
                 }
 
-                ((EntityLivingBase)e).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 40, 1));
-                ((EntityLivingBase)e).addPotionEffect(new PotionEffect(Potion.jump.id, 40, 0));
+                ((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 40, 1));
+                ((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.jump.id, 40, 0));
             }
 
             super.onEntityWalking(world, x, y, z, e);
         }
     }
-
-    
 }

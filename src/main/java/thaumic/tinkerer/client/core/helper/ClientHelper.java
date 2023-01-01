@@ -14,14 +14,13 @@
  */
 package thaumic.tinkerer.client.core.helper;
 
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import java.util.List;
 
 public final class ClientHelper {
 
@@ -53,14 +52,12 @@ public final class ClientHelper {
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
             for (var6 = 0; var6 < tooltipData.size(); ++var6) {
                 var7 = fontRenderer.getStringWidth(tooltipData.get(var6));
-                if (var7 > var5)
-                    var5 = var7;
+                if (var7 > var5) var5 = var7;
             }
             var6 = x + 12;
             var7 = y - 12;
             int var9 = 8;
-            if (tooltipData.size() > 1)
-                var9 += 2 + (tooltipData.size() - 1) * 10;
+            if (tooltipData.size() > 1) var9 += 2 + (tooltipData.size() - 1) * 10;
             float z = 300.0F;
             drawGradientRect(var6 - 3, var7 - 4, z, var6 + var5 + 3, var7 - 3, color2, color2);
             drawGradientRect(var6 - 3, var7 + var9 + 3, z, var6 + var5 + 3, var7 + var9 + 4, color2, color2);
@@ -75,8 +72,7 @@ public final class ClientHelper {
             for (int var13 = 0; var13 < tooltipData.size(); ++var13) {
                 String var14 = tooltipData.get(var13);
                 fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
-                if (var13 == 0)
-                    var7 += 2;
+                if (var13 == 0) var7 += 2;
                 var7 += 10;
             }
         }
@@ -110,5 +106,4 @@ public final class ClientHelper {
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
-
 }

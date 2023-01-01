@@ -15,10 +15,8 @@
 package thaumic.tinkerer.common.core.handler.updater;
 
 public final class UpdateHandler {
-    //TODO: Check if this can be removed
+    // TODO: Check if this can be removed
     public static void initChecking(int type) {
-        if (type == 0) {
-        }
+        if (type == 0) {}
     }
-
 }

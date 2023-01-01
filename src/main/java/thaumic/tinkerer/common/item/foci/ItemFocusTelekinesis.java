@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.common.item.foci;
 
+import java.util.List;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -36,11 +37,10 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.List;
-
 public class ItemFocusTelekinesis extends ItemModFocus {
 
-    private static final AspectList visUsage = new AspectList().add(Aspect.AIR, 5).add(Aspect.ENTROPY, 5);
+    private static final AspectList visUsage =
+            new AspectList().add(Aspect.AIR, 5).add(Aspect.ENTROPY, 5);
 
     @Override
     public void onUsingFocusTick(ItemStack stack, EntityPlayer player, int ticks) {
@@ -50,12 +50,19 @@ public class ItemFocusTelekinesis extends ItemModFocus {
 
         final int range = 6;
         final double distance = range - 1;
-        if (!player.isSneaking())
-            target.add(new Vector3(player.getLookVec()).multiply(distance));
+        if (!player.isSneaking()) target.add(new Vector3(player.getLookVec()).multiply(distance));
 
         target.y += 0.5;
 
-        List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(target.x - range, target.y - range, target.z - range, target.x + range, target.y + range, target.z + range));
+        List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(
+                EntityItem.class,
+                AxisAlignedBB.getBoundingBox(
+                        target.x - range,
+                        target.y - range,
+                        target.z - range,
+                        target.x + range,
+                        target.y + range,
+                        target.z + range));
 
         if (!entities.isEmpty() && wand.consumeAllVis(stack, player, getVisCost(stack), true, false)) {
             for (EntityItem item : entities) {
@@ -64,10 +71,9 @@ public class ItemFocusTelekinesis extends ItemModFocus {
             }
         }
     }
-    
-    public String getSortingHelper(ItemStack itemstack)
-    {
-      return "TTTE" + super.getSortingHelper(itemstack);
+
+    public String getSortingHelper(ItemStack itemstack) {
+        return "TTTE" + super.getSortingHelper(itemstack);
     }
 
     @Override
@@ -89,27 +95,24 @@ public class ItemFocusTelekinesis extends ItemModFocus {
     public boolean isVisCostPerTick(ItemStack stack) {
         return true;
     }
-    
-    //TODO add range upgrades
+
+    // TODO add range upgrades
     @Override
-    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank)
-    {
-      switch (rank)
-      {
-      case 1: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 2: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 3: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 4: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      case 5: 
-        return new FocusUpgradeType[] { FocusUpgradeType.frugal};
-      }
-      return null;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        switch (rank) {
+            case 1:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal};
+            case 2:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal};
+            case 3:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal};
+            case 4:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal};
+            case 5:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal};
+        }
+        return null;
     }
-    
 
     @Override
     public String getItemName() {
@@ -118,14 +121,40 @@ public class ItemFocusTelekinesis extends ItemModFocus {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (TTResearchItem) new TTResearchItem(LibResearch.KEY_FOCUS_TELEKINESIS, new AspectList().add(Aspect.ELDRITCH, 2).add(Aspect.MAGIC, 1).add(Aspect.MOTION, 1), -4, -6, 2, new ItemStack(this)).setParents(LibResearch.KEY_FOCUS_FLIGHT).setConcealed()
-                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_TELEKINESIS)).setSecondary();
+        return (TTResearchItem) new TTResearchItem(
+                        LibResearch.KEY_FOCUS_TELEKINESIS,
+                        new AspectList()
+                                .add(Aspect.ELDRITCH, 2)
+                                .add(Aspect.MAGIC, 1)
+                                .add(Aspect.MOTION, 1),
+                        -4,
+                        -6,
+                        2,
+                        new ItemStack(this))
+                .setParents(LibResearch.KEY_FOCUS_FLIGHT)
+                .setConcealed()
+                .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_FOCUS_TELEKINESIS))
+                .setSecondary();
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererInfusionRecipe(LibResearch.KEY_FOCUS_TELEKINESIS, new ItemStack(this), 5, new AspectList().add(Aspect.MOTION, 10).add(Aspect.AIR, 20).add(Aspect.ENTROPY, 20).add(Aspect.MIND, 10), new ItemStack(Items.ender_pearl),
-                new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(Items.quartz), new ItemStack(Items.iron_ingot), new ItemStack(Items.gold_ingot), new ItemStack(ConfigItems.itemShard, 1, 0));
-
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_FOCUS_TELEKINESIS,
+                new ItemStack(this),
+                5,
+                new AspectList()
+                        .add(Aspect.MOTION, 10)
+                        .add(Aspect.AIR, 20)
+                        .add(Aspect.ENTROPY, 20)
+                        .add(Aspect.MIND, 10),
+                new ItemStack(Items.ender_pearl),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.quartz),
+                new ItemStack(Items.iron_ingot),
+                new ItemStack(Items.gold_ingot),
+                new ItemStack(ConfigItems.itemShard, 1, 0));
     }
 }

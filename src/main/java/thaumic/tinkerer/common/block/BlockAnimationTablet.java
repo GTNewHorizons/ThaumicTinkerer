@@ -16,6 +16,8 @@ package thaumic.tinkerer.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -49,9 +51,6 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class BlockAnimationTablet extends BlockModContainer {
 
     IIcon iconBottom;
@@ -79,27 +78,24 @@ public class BlockAnimationTablet extends BlockModContainer {
     }
 
     @Override
-    public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack par6ItemStack) {
+    public void onBlockPlacedBy(
+            World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack par6ItemStack) {
         byte b0 = 0;
         int l1 = MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-        if (l1 == 0)
-            b0 = 2;
+        if (l1 == 0) b0 = 2;
 
-        if (l1 == 1)
-            b0 = 5;
+        if (l1 == 1) b0 = 5;
 
-        if (l1 == 2)
-            b0 = 3;
+        if (l1 == 2) b0 = 3;
 
-        if (l1 == 3)
-            b0 = 4;
+        if (l1 == 3) b0 = 4;
 
         par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 2);
-        //TileAnimationTablet tablet = (TileAnimationTablet) par1World.getTileEntity(par2, par3, par4);
-        //if(par5EntityLiving instanceof  EntityPlayer) {
+        // TileAnimationTablet tablet = (TileAnimationTablet) par1World.getTileEntity(par2, par3, par4);
+        // if(par5EntityLiving instanceof  EntityPlayer) {
         //    tablet.Owner = ((EntityPlayer) par5EntityLiving).username;
-        //}
+        // }
     }
 
     @Override
@@ -108,8 +104,9 @@ public class BlockAnimationTablet extends BlockModContainer {
 
         if (tablet != null) {
             if (tablet.getIsBreaking()) {
-                //ChunkCoordinates coords = tablet.getTargetLoc();
-                //par1World.destroyBlockInWorldPartially(tablet.getFakePlayer().entityId, coords.posX, coords.posY, coords.posZ, -1);
+                // ChunkCoordinates coords = tablet.getTargetLoc();
+                // par1World.destroyBlockInWorldPartially(tablet.getFakePlayer().entityId, coords.posX, coords.posY,
+                // coords.posZ, -1);
             }
 
             for (int j1 = 0; j1 < tablet.getSizeInventory(); ++j1) {
@@ -120,26 +117,33 @@ public class BlockAnimationTablet extends BlockModContainer {
                     float f1 = random.nextFloat() * 0.8F + 0.1F;
                     EntityItem entityitem;
 
-                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World.spawnEntityInWorld(entityitem)) {
+                    for (float f2 = random.nextFloat() * 0.8F + 0.1F;
+                            itemstack.stackSize > 0;
+                            par1World.spawnEntityInWorld(entityitem)) {
                         int k1 = random.nextInt(21) + 10;
 
-                        if (k1 > itemstack.stackSize)
-                            k1 = itemstack.stackSize;
+                        if (k1 > itemstack.stackSize) k1 = itemstack.stackSize;
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(
+                                par1World,
+                                par2 + f,
+                                par3 + f1,
+                                par4 + f2,
+                                new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (float) random.nextGaussian() * f3;
                         entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
                         entityitem.motionZ = (float) random.nextGaussian() * f3;
 
                         if (itemstack.hasTagCompound())
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)
+                                    itemstack.getTagCompound().copy());
                     }
                 }
             }
 
-            //Look here if something breaks in 1.7
+            // Look here if something breaks in 1.7
             par1World.func_147453_f(par2, par3, par4, par5);
         }
 
@@ -148,18 +152,17 @@ public class BlockAnimationTablet extends BlockModContainer {
 
     @Override
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5) {
-        if (par1World.isRemote)
-            return;
+        if (par1World.isRemote) return;
 
-        boolean power = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4) || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
+        boolean power = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4)
+                || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
         int meta = par1World.getBlockMetadata(par2, par3, par4);
         boolean on = (meta & 8) != 0;
 
         if (power && !on) {
             par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
             par1World.setBlockMetadataWithNotify(par2, par3, par4, meta | 8, 4);
-        } else if (!power && on)
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, meta & 7, 4);
+        } else if (!power && on) par1World.setBlockMetadataWithNotify(par2, par3, par4, meta & 7, 4);
     }
 
     @Override
@@ -175,32 +178,50 @@ public class BlockAnimationTablet extends BlockModContainer {
             if (tablet.redstone && tablet.swingProgress == 0) {
                 tablet.findEntities(tablet.getTargetLoc());
                 tablet.initiateSwing();
-                par1World.addBlockEvent(par2, par3, par4, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class), 0, 0);
+                par1World.addBlockEvent(
+                        par2,
+                        par3,
+                        par4,
+                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class),
+                        0,
+                        0);
             }
         }
     }
 
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+    public boolean onBlockActivated(
+            World par1World,
+            int par2,
+            int par3,
+            int par4,
+            EntityPlayer par5EntityPlayer,
+            int par6,
+            float par7,
+            float par8,
+            float par9) {
         if (!par1World.isRemote) {
             TileEntity tile = par1World.getTileEntity(par2, par3, par4);
             if (tile != null) {
                 TileAnimationTablet tablet = (TileAnimationTablet) tile;
-                if (par5EntityPlayer.getCurrentEquippedItem() != null && par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItemWandCasting) {
+                if (par5EntityPlayer.getCurrentEquippedItem() != null
+                        && par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItemWandCasting) {
                     int meta = par1World.getBlockMetadata(par2, par3, par4);
                     boolean activated = (meta & 8) != 0;
                     if (!activated && !tablet.getIsBreaking() && tablet.swingProgress == 0) {
                         par1World.setBlockMetadataWithNotify(par2, par3, par4, meta == 5 ? 2 : meta + 1, 1 | 2);
                         par1World.playSoundEffect(par2, par3, par4, "thaumcraft:tool", 0.6F, 1F);
                     } else
-                        par5EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.animationTablet.notRotatable"));
+                        par5EntityPlayer.addChatMessage(
+                                new ChatComponentTranslation("ttmisc.animationTablet.notRotatable"));
                     // Rare chance this might happen, but better to cope for it.
 
                     return true;
                 } else {
-                    //if(tablet.Owner==null || tablet.Owner.equals(""))
+                    // if(tablet.Owner==null || tablet.Owner.equals(""))
                     //    tablet.Owner=par5EntityPlayer.username;
-                    par5EntityPlayer.openGui(ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_TABLET, par1World, par2, par3, par4);
+                    par5EntityPlayer.openGui(
+                            ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_TABLET, par1World, par2, par3, par4);
                 }
             }
         }
@@ -211,7 +232,9 @@ public class BlockAnimationTablet extends BlockModContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int par2) {
-        return par1 == ForgeDirection.UP.ordinal() ? iconTop : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSides;
+        return par1 == ForgeDirection.UP.ordinal()
+                ? iconTop
+                : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSides;
     }
 
     @Override
@@ -261,18 +284,36 @@ public class BlockAnimationTablet extends BlockModContainer {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return (IRegisterableResearch) new TTResearchItem(LibResearch.KEY_ANIMATION_TABLET, new AspectList().add(Aspect.MECHANISM, 2).add(Aspect.METAL, 1).add(Aspect.MOTION, 1).add(Aspect.ENERGY, 1), -8, 2, 4, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class))).setWarp(1).setParents(LibResearch.KEY_MAGNETS)
+        return (IRegisterableResearch) new TTResearchItem(
+                        LibResearch.KEY_ANIMATION_TABLET,
+                        new AspectList()
+                                .add(Aspect.MECHANISM, 2)
+                                .add(Aspect.METAL, 1)
+                                .add(Aspect.MOTION, 1)
+                                .add(Aspect.ENERGY, 1),
+                        -8,
+                        2,
+                        4,
+                        new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class)))
+                .setWarp(1)
+                .setParents(LibResearch.KEY_MAGNETS)
                 .setPages(new ResearchPage("0"), ResearchHelper.arcaneRecipePage(LibResearch.KEY_ANIMATION_TABLET));
-
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_ANIMATION_TABLET, LibResearch.KEY_ANIMATION_TABLET, new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class)), new AspectList().add(Aspect.AIR, 25).add(Aspect.ORDER, 15).add(Aspect.FIRE, 10),
-                "GIG", "ICI",
-                'G', new ItemStack(Items.gold_ingot),
-                'I', new ItemStack(Items.iron_ingot),
-                'C', new ItemStack(ConfigItems.itemGolemCore, 1, 100));
-
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_ANIMATION_TABLET,
+                LibResearch.KEY_ANIMATION_TABLET,
+                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockAnimationTablet.class)),
+                new AspectList().add(Aspect.AIR, 25).add(Aspect.ORDER, 15).add(Aspect.FIRE, 10),
+                "GIG",
+                "ICI",
+                'G',
+                new ItemStack(Items.gold_ingot),
+                'I',
+                new ItemStack(Items.iron_ingot),
+                'C',
+                new ItemStack(ConfigItems.itemGolemCore, 1, 100));
     }
 }

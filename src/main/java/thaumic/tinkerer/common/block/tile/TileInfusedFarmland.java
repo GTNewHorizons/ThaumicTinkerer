@@ -1,5 +1,6 @@
 package thaumic.tinkerer.common.block.tile;
 
+import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -8,8 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
-
-import java.util.Random;
 
 /**
  * Created by pixlepix on 8/4/14.
@@ -24,7 +23,6 @@ public class TileInfusedFarmland extends TileEntity implements IAspectContainer 
         super.readFromNBT(nbt);
         readCustomNBT(nbt);
     }
-
 
     public void readCustomNBT(NBTTagCompound nbt) {
 
@@ -57,7 +55,7 @@ public class TileInfusedFarmland extends TileEntity implements IAspectContainer 
         readCustomNBT(pkt.func_148857_g());
     }
 
-    //Ensures that the farmland only holds a maximum of 20 aspects
+    // Ensures that the farmland only holds a maximum of 20 aspects
     public void reduceSaturatedAspects() {
         int sum = 0;
         for (Integer i : aspectList.aspects.values()) {

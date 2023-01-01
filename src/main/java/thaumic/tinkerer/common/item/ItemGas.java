@@ -14,6 +14,7 @@
  */
 package thaumic.tinkerer.common.item;
 
+import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -33,8 +34,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-
-import java.util.ArrayList;
 
 public class ItemGas extends ItemBase {
 
@@ -64,12 +63,30 @@ public class ItemGas extends ItemBase {
     @Override
     public IRegisterableResearch getResearchItem() {
         if (setBlock == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousShadow.class)) {
-            IRegisterableResearch research = (TTResearchItem) new TTResearchItem(LibResearch.KEY_GASEOUS_SHADOW, new AspectList().add(Aspect.DARKNESS, 2).add(Aspect.AIR, 1).add(Aspect.MOTION, 4), -1, -5, 2, new ItemStack(this)).setSecondary().setParents(LibResearch.KEY_GASEOUS_LIGHT)
+            IRegisterableResearch research = (TTResearchItem) new TTResearchItem(
+                            LibResearch.KEY_GASEOUS_SHADOW,
+                            new AspectList()
+                                    .add(Aspect.DARKNESS, 2)
+                                    .add(Aspect.AIR, 1)
+                                    .add(Aspect.MOTION, 4),
+                            -1,
+                            -5,
+                            2,
+                            new ItemStack(this))
+                    .setSecondary()
+                    .setParents(LibResearch.KEY_GASEOUS_LIGHT)
                     .setPages(new ResearchPage("0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_GASEOUS_SHADOW));
             return research;
         }
         if (setBlock == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousLight.class)) {
-            IRegisterableResearch research = (TTResearchItem) new TTResearchItem(LibResearch.KEY_GASEOUS_LIGHT, new AspectList().add(Aspect.LIGHT, 2).add(Aspect.AIR, 1), 0, -3, 1, new ItemStack(this)).setParents("NITOR")
+            IRegisterableResearch research = (TTResearchItem) new TTResearchItem(
+                            LibResearch.KEY_GASEOUS_LIGHT,
+                            new AspectList().add(Aspect.LIGHT, 2).add(Aspect.AIR, 1),
+                            0,
+                            -3,
+                            1,
+                            new ItemStack(this))
+                    .setParents("NITOR")
                     .setPages(new ResearchPage("0"), ResearchHelper.crucibleRecipePage(LibResearch.KEY_GASEOUS_LIGHT));
             return research;
         }
@@ -79,17 +96,30 @@ public class ItemGas extends ItemBase {
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         if (setBlock == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousLight.class)) {
-            return new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_GASEOUS_LIGHT, new ItemStack(this), new ItemStack(ConfigItems.itemEssence, 1, 0), new AspectList().add(Aspect.LIGHT, 16).add(Aspect.AIR, 10).add(Aspect.MOTION, 8));
+            return new ThaumicTinkererCrucibleRecipe(
+                    LibResearch.KEY_GASEOUS_LIGHT,
+                    new ItemStack(this),
+                    new ItemStack(ConfigItems.itemEssence, 1, 0),
+                    new AspectList().add(Aspect.LIGHT, 16).add(Aspect.AIR, 10).add(Aspect.MOTION, 8));
         }
         if (setBlock == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousShadow.class)) {
-            return new ThaumicTinkererCrucibleRecipe(LibResearch.KEY_GASEOUS_SHADOW, new ItemStack(this), new ItemStack(ConfigItems.itemEssence, 1, 0), new AspectList().add(Aspect.DARKNESS, 16).add(Aspect.AIR, 10).add(Aspect.MOTION, 8));
+            return new ThaumicTinkererCrucibleRecipe(
+                    LibResearch.KEY_GASEOUS_SHADOW,
+                    new ItemStack(this),
+                    new ItemStack(ConfigItems.itemEssence, 1, 0),
+                    new AspectList()
+                            .add(Aspect.DARKNESS, 16)
+                            .add(Aspect.AIR, 10)
+                            .add(Aspect.MOTION, 8));
         }
         return null;
     }
 
     @Override
     public String getItemName() {
-        return setBlock == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousShadow.class) ? LibItemNames.GASEOUS_SHADOW : LibItemNames.GASEOUS_LIGHT;
+        return setBlock == ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousShadow.class)
+                ? LibItemNames.GASEOUS_SHADOW
+                : LibItemNames.GASEOUS_LIGHT;
     }
 
     @Override
@@ -99,19 +129,16 @@ public class ItemGas extends ItemBase {
         int z = (int) par3EntityPlayer.posZ;
         boolean air = par2World.isAirBlock(x, y, z);
 
-        if (!par3EntityPlayer.capabilities.isCreativeMode)
-            par1ItemStack.stackSize--;
+        if (!par3EntityPlayer.capabilities.isCreativeMode) par1ItemStack.stackSize--;
 
         par2World.playSoundAtEntity(par3EntityPlayer, "random.pop", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
         if (air) {
-            if (!par2World.isRemote)
-                par2World.setBlock(x, y, z, setBlock, 4, 2);
+            if (!par2World.isRemote) par2World.setBlock(x, y, z, setBlock, 4, 2);
             else par3EntityPlayer.swingItem();
             par2World.scheduleBlockUpdate(x, y, z, setBlock, 10);
         }
 
         return par1ItemStack;
     }
-
 }

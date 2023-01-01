@@ -30,8 +30,7 @@ public class DriverBrainInAJar extends DriverTileEntity {
 
         @Callback(doc = "function():number -- returns the amount of XP in this jar")
         public Object[] getXP(final Context context, final Arguments arguments) {
-            return new Object[]{this.tileEntity.xp};
+            return new Object[] {this.tileEntity.xp};
         }
-
     }
 }

@@ -18,8 +18,5 @@ public class ThreadUpdateChecker extends Thread {
 
     boolean checkBuilds;
 
-    public ThreadUpdateChecker(boolean checkBuilds) {
-
-    }
-
+    public ThreadUpdateChecker(boolean checkBuilds) {}
 }

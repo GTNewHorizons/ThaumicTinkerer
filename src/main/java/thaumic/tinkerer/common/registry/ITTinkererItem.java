@@ -14,5 +14,4 @@ public interface ITTinkererItem extends ITTinkererRegisterable {
     public boolean shouldRegister();
 
     public boolean shouldDisplayInTab();
-
 }

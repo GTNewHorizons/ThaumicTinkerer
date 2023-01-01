@@ -29,10 +29,33 @@ public class GemArmorKeyHandler {
     @SubscribeEvent
     public void keyUp(InputEvent.KeyInputEvent event) {
         if (SpecialAbility.isPressed()) {
-            if ((Minecraft.getMinecraft().thePlayer.getCurrentArmor(0) != null && Minecraft.getMinecraft().thePlayer.getCurrentArmor(0).getItem() instanceof ItemIchorclothArmorAdv) || (Minecraft.getMinecraft().thePlayer.getCurrentArmor(1) != null && Minecraft.getMinecraft().thePlayer.getCurrentArmor(1).getItem() instanceof ItemIchorclothArmorAdv) || (Minecraft.getMinecraft().thePlayer.getCurrentArmor(2) != null && Minecraft.getMinecraft().thePlayer.getCurrentArmor(2).getItem() instanceof ItemIchorclothArmorAdv) || (Minecraft.getMinecraft().thePlayer.getCurrentArmor(3) != null && Minecraft.getMinecraft().thePlayer.getCurrentArmor(3).getItem() instanceof ItemIchorclothArmorAdv)) {
-                KamiArmorClientHandler.SetStatus(!ThaumicTinkerer.proxy.armorStatus(ThaumicTinkerer.proxy.getClientPlayer()));
+            if ((Minecraft.getMinecraft().thePlayer.getCurrentArmor(0) != null
+                            && Minecraft.getMinecraft()
+                                            .thePlayer
+                                            .getCurrentArmor(0)
+                                            .getItem()
+                                    instanceof ItemIchorclothArmorAdv)
+                    || (Minecraft.getMinecraft().thePlayer.getCurrentArmor(1) != null
+                            && Minecraft.getMinecraft()
+                                            .thePlayer
+                                            .getCurrentArmor(1)
+                                            .getItem()
+                                    instanceof ItemIchorclothArmorAdv)
+                    || (Minecraft.getMinecraft().thePlayer.getCurrentArmor(2) != null
+                            && Minecraft.getMinecraft()
+                                            .thePlayer
+                                            .getCurrentArmor(2)
+                                            .getItem()
+                                    instanceof ItemIchorclothArmorAdv)
+                    || (Minecraft.getMinecraft().thePlayer.getCurrentArmor(3) != null
+                            && Minecraft.getMinecraft()
+                                            .thePlayer
+                                            .getCurrentArmor(3)
+                                            .getItem()
+                                    instanceof ItemIchorclothArmorAdv)) {
+                KamiArmorClientHandler.SetStatus(
+                        !ThaumicTinkerer.proxy.armorStatus(ThaumicTinkerer.proxy.getClientPlayer()));
             }
         }
     }
-
 }

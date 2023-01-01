@@ -48,5 +48,4 @@ public enum EnumGolemDecorations {
     public char getChar() {
         return decorationChar;
     }
-
 }

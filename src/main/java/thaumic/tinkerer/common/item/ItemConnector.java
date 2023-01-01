@@ -96,17 +96,35 @@ public class ItemConnector extends ItemBase {
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
 
-        return new ThaumicTinkererArcaneRecipe(LibResearch.KEY_INTERFACE + "1", LibResearch.KEY_INTERFACE, new ItemStack(this), new AspectList().add(Aspect.ORDER, 2),
-                " I ", " WI", "S  ",
-                'I', new ItemStack(Items.iron_ingot),
-                'W', new ItemStack(Items.stick),
-                'S', new ItemStack(ConfigItems.itemShard, 1, 4));
+        return new ThaumicTinkererArcaneRecipe(
+                LibResearch.KEY_INTERFACE + "1",
+                LibResearch.KEY_INTERFACE,
+                new ItemStack(this),
+                new AspectList().add(Aspect.ORDER, 2),
+                " I ",
+                " WI",
+                "S  ",
+                'I',
+                new ItemStack(Items.iron_ingot),
+                'W',
+                new ItemStack(Items.stick),
+                'S',
+                new ItemStack(ConfigItems.itemShard, 1, 4));
     }
 
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
-        if (par3World.isRemote)
-            return false;
+    public boolean onItemUse(
+            ItemStack par1ItemStack,
+            EntityPlayer par2EntityPlayer,
+            World par3World,
+            int par4,
+            int par5,
+            int par6,
+            int par7,
+            float par8,
+            float par9,
+            float par10) {
+        if (par3World.isRemote) return false;
 
         TileEntity tile = par3World.getTileEntity(par4, par5, par6);
 
@@ -116,16 +134,13 @@ public class ItemConnector extends ItemBase {
                 setY(par1ItemStack, par5);
                 setZ(par1ItemStack, par6);
 
-                if (par3World.isRemote)
-                    par2EntityPlayer.swingItem();
+                if (par3World.isRemote) par2EntityPlayer.swingItem();
 
                 playSound(par3World, par4, par5, par6);
                 if (tile instanceof TileTransvector)
                     par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.set"));
-                else
-                    par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.golemconnector.set"));
-            } else
-                par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notinterf"));
+                else par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.golemconnector.set"));
+            } else par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.notinterf"));
         } else {
             int x = getX(par1ItemStack);
             int y = getY(par1ItemStack);
@@ -139,12 +154,16 @@ public class ItemConnector extends ItemBase {
             } else {
                 TileTransvector trans = (TileTransvector) tile1;
 
-                if (tile != null && tile1 instanceof TileTransvectorInterface && tile instanceof TileTransvectorInterface) {
+                if (tile != null
+                        && tile1 instanceof TileTransvectorInterface
+                        && tile instanceof TileTransvectorInterface) {
                     par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.interffail"));
                     return true;
                 }
 
-                if (Math.abs(x - par4) > trans.getMaxDistance() || Math.abs(y - par5) > trans.getMaxDistance() || Math.abs(z - par6) > trans.getMaxDistance()) {
+                if (Math.abs(x - par4) > trans.getMaxDistance()
+                        || Math.abs(y - par5) > trans.getMaxDistance()
+                        || Math.abs(z - par6) > trans.getMaxDistance()) {
                     par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.connector.toofar"));
                     return true;
                 }
@@ -165,8 +184,8 @@ public class ItemConnector extends ItemBase {
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack par1ItemStack,
-                                            EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase) {
+    public boolean itemInteractionForEntity(
+            ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase) {
         par1ItemStack = par2EntityPlayer.getCurrentEquippedItem();
         if (par2EntityPlayer.isSneaking()) {
 
@@ -201,7 +220,11 @@ public class ItemConnector extends ItemBase {
 
                     setY(par1ItemStack, -1);
 
-                    playSound(par3EntityLivingBase.worldObj, (int) par3EntityLivingBase.posX, (int) par3EntityLivingBase.posY, (int) par3EntityLivingBase.posZ);
+                    playSound(
+                            par3EntityLivingBase.worldObj,
+                            (int) par3EntityLivingBase.posX,
+                            (int) par3EntityLivingBase.posY,
+                            (int) par3EntityLivingBase.posZ);
                     par2EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.golemconnector.complete"));
                     par2EntityPlayer.worldObj.markBlockForUpdate(trans.xCoord, trans.yCoord, trans.zCoord);
                 }
@@ -212,8 +235,7 @@ public class ItemConnector extends ItemBase {
     }
 
     private void playSound(World world, int x, int y, int z) {
-        if (!world.isRemote)
-            world.playSoundEffect(x, y, z, "random.orb", 0.8F, 1F);
+        if (!world.isRemote) world.playSoundEffect(x, y, z, "random.orb", 0.8F, 1F);
     }
 
     @Override

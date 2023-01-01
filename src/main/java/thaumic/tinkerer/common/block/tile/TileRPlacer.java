@@ -38,8 +38,7 @@ public class TileRPlacer extends TileCamo implements IInventory {
         for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
             NBTTagCompound var4 = var2.getCompoundTagAt(var3);
             byte var5 = var4.getByte("Slot");
-            if (var5 >= 0 && var5 < inventorySlots.length)
-                inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
+            if (var5 >= 0 && var5 < inventorySlots.length) inventorySlots[var5] = ItemStack.loadItemStackFromNBT(var4);
         }
     }
 
@@ -90,18 +89,15 @@ public class TileRPlacer extends TileCamo implements IInventory {
                 stackAt = inventorySlots[par1];
                 inventorySlots[par1] = null;
 
-                if (!worldObj.isRemote)
-                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                if (!worldObj.isRemote) worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
                 return stackAt;
             } else {
                 stackAt = inventorySlots[par1].splitStack(par2);
 
-                if (inventorySlots[par1].stackSize == 0)
-                    inventorySlots[par1] = null;
+                if (inventorySlots[par1].stackSize == 0) inventorySlots[par1] = null;
 
-                if (!worldObj.isRemote)
-                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                if (!worldObj.isRemote) worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
                 return stackAt;
             }
@@ -119,8 +115,7 @@ public class TileRPlacer extends TileCamo implements IInventory {
     public void setInventorySlotContents(int i, ItemStack itemstack) {
         inventorySlots[i] = itemstack;
 
-        if (!worldObj.isRemote)
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        if (!worldObj.isRemote) worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -140,18 +135,15 @@ public class TileRPlacer extends TileCamo implements IInventory {
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+                && entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
     }
 
     @Override
-    public void openInventory() {
-
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeInventory() {
-
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2) {
@@ -172,8 +164,7 @@ public class TileRPlacer extends TileCamo implements IInventory {
     }
 
     public void receiveRedstonePulse() {
-        if (worldObj.isRemote)
-            return;
+        if (worldObj.isRemote) return;
         if (this.inventorySlots[0] != null) {
             int x, y, z = 0;
             x = 0;
@@ -210,28 +201,30 @@ public class TileRPlacer extends TileCamo implements IInventory {
                     z = this.zCoord;
                     break;
             }
-            //if(this.inventorySlots[0].getItem() instanceof ItemBlock) {
+            // if(this.inventorySlots[0].getItem() instanceof ItemBlock) {
             if (this.worldObj.getBlock(x, y, z) == Blocks.air) {
-                //if (this.worldObj.setBlock(x, y, z, ((ItemBlock) this.inventorySlots[0].getItem()).field_150939_a, this.inventorySlots[0].getItemDamage(), 1 | 2)) {
+                // if (this.worldObj.setBlock(x, y, z, ((ItemBlock) this.inventorySlots[0].getItem()).field_150939_a,
+                // this.inventorySlots[0].getItemDamage(), 1 | 2)) {
                 //  this.decrStackSize(0, 1);
                 // markDirty();
-                //Block block = worldObj.getBlock(x, y, z);
+                // Block block = worldObj.getBlock(x, y, z);
                 boolean done = false;
                 FakePlayer player = FakePlayerFactory.getMinecraft((WorldServer) worldObj);
                 Item item = inventorySlots[0].getItem();
                 ItemStack stack = inventorySlots[0];
                 if (!done)
-                    item.onItemUseFirst(stack, player, worldObj, x, y, z, ForgeDirection.OPPOSITES[orientation], 0F, 0F, 0F);
+                    item.onItemUseFirst(
+                            stack, player, worldObj, x, y, z, ForgeDirection.OPPOSITES[orientation], 0F, 0F, 0F);
                 if (!done)
-                    done = item.onItemUse(stack, player, worldObj, x, y, z, ForgeDirection.OPPOSITES[orientation], 0F, 0F, 0F);
+                    done = item.onItemUse(
+                            stack, player, worldObj, x, y, z, ForgeDirection.OPPOSITES[orientation], 0F, 0F, 0F);
                 if (!done) {
                     item.onItemRightClick(stack, worldObj, player);
                     done = true;
                 }
-
             }
-            //}
-            //}
+            // }
+            // }
 
         }
     }
