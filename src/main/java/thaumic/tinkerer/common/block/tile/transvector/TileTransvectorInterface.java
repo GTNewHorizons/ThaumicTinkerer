@@ -41,8 +41,7 @@ import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumic.tinkerer.common.compat.IndustrialcraftUnloadHelper;
 import thaumic.tinkerer.common.lib.LibFeatures;
 
-import tuhljin.automagy.api.essentia.IAspectContainerWithMax;
-import tuhljin.automagy.api.essentia.IEssentiaLocusReadable;
+
 @Optional.InterfaceList({
     @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
     @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
@@ -52,8 +51,6 @@ import tuhljin.automagy.api.essentia.IEssentiaLocusReadable;
     @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2"),
     @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2"),
     @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyConductor", modid = "IC2"),
-    @Optional.Interface(iface = "tuhljin.automagy.api.essentia.IEssentiaLocusReadable", modid = "Automagy"),
-    @Optional.Interface(iface = "tuhljin.automagy.api.essentia.IAspectContainerWithMax", modid = "Automagy")
 })
 public class TileTransvectorInterface extends TileTransvector
         implements ISidedInventory,
