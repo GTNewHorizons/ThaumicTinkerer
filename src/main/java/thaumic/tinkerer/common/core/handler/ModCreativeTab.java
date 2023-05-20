@@ -12,7 +12,6 @@
 package thaumic.tinkerer.common.core.handler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.block.Block;

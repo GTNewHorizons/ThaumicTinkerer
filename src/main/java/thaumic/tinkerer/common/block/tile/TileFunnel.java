@@ -25,6 +25,7 @@ import net.minecraft.util.Facing;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import appeng.api.movable.IMovableTile;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
@@ -33,7 +34,6 @@ import thaumcraft.common.blocks.ItemJarFilled;
 import thaumcraft.common.tiles.TileJarFillable;
 import thaumcraft.common.tiles.TileJarFillableVoid;
 import thaumic.tinkerer.common.lib.LibBlockNames;
-import appeng.api.movable.IMovableTile;
 
 public class TileFunnel extends TileEntity implements ISidedInventory, IAspectContainer, IMovableTile {
 

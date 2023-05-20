@@ -2,25 +2,24 @@ package thaumic.tinkerer.common.block.tile;
 
 import java.util.*;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.StatCollector;
 
-import thaumcraft.common.entities.golems.EntityGolemBase;
-import thaumcraft.common.entities.golems.Marker;
-import thaumic.tinkerer.common.core.golems.EnumGolemCores;
-import thaumic.tinkerer.common.core.golems.EnumGolemDecorations;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+import thaumcraft.common.entities.golems.EntityGolemBase;
+import thaumcraft.common.entities.golems.Marker;
+import thaumic.tinkerer.common.core.golems.EnumGolemCores;
+import thaumic.tinkerer.common.core.golems.EnumGolemDecorations;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft") })

@@ -10,11 +10,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import thaumcraft.common.items.wands.ItemWandCasting;
-import thaumic.tinkerer.common.item.foci.ItemFocusEnderChest;
 import codechicken.enderstorage.api.EnderStorageManager;
 import codechicken.enderstorage.storage.item.EnderItemStorage;
 import codechicken.enderstorage.storage.item.TileEnderChest;
+import thaumcraft.common.items.wands.ItemWandCasting;
+import thaumic.tinkerer.common.item.foci.ItemFocusEnderChest;
 
 public class EnderStorageFunctions {
 

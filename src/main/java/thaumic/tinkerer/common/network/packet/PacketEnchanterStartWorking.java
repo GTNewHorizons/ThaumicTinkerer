@@ -11,10 +11,10 @@
  */
 package thaumic.tinkerer.common.network.packet;
 
-import thaumic.tinkerer.common.block.tile.TileEnchanter;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import thaumic.tinkerer.common.block.tile.TileEnchanter;
 
 public class PacketEnchanterStartWorking extends PacketTile<TileEnchanter>
         implements IMessageHandler<PacketEnchanterStartWorking, IMessage> {

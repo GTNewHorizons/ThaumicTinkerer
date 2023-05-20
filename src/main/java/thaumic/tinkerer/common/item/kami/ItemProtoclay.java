@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -40,7 +41,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemProtoclay extends ItemKamiBase {
 
@@ -94,52 +94,7 @@ public class ItemProtoclay extends ItemKamiBase {
     }
 
     @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
-        // if (!(par3Entity instanceof EntityPlayer))
-        // return;
-        //
-        // EntityPlayer player = (EntityPlayer) par3Entity;
-        // ItemStack currentStack = player.getCurrentEquippedItem();
-        // if (currentStack == null || !(currentStack.getItem() instanceof IAdvancedTool))
-        // return;
-        // IAdvancedTool tool = (IAdvancedTool) currentStack.getItem();
-        //
-        // if (tool.getType().equals("sword"))
-        // return;
-        //
-        // MovingObjectPosition pos = ToolHandler.raytraceFromEntity(par2World, par3Entity, true, 4.5F);
-        // String typeToFind = "";
-        //
-        // if (player.isSwingInProgress && pos != null) {
-        // Block block = par2World.getBlock(pos.blockX, pos.blockY, pos.blockZ);
-        //
-        // if (block != null) {
-        // Material mat = block.getMaterial();
-        // if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsPick))
-        // typeToFind = "pick";
-        // else if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsShovel))
-        // typeToFind = "shovel";
-        // else if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsAxe))
-        // typeToFind = "axe";
-        // }
-        // }
-        //
-        // if (tool.getType().equals(typeToFind) || typeToFind.isEmpty())
-        // return;
-        //
-        // for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-        // ItemStack stackInSlot = player.inventory.getStackInSlot(i);
-        // if (stackInSlot != null && stackInSlot.getItem() instanceof IAdvancedTool && stackInSlot !=
-        // currentStack) {
-        // IAdvancedTool toolInSlot = (IAdvancedTool) stackInSlot.getItem();
-        // if (toolInSlot.getType().equals(typeToFind)) {
-        // player.inventory.setInventorySlotContents(player.inventory.currentItem, stackInSlot);
-        // player.inventory.setInventorySlotContents(i, currentStack);
-        // break;
-        // }
-        // }
-        // }
-    }
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {}
 
     @Override
     public EnumRarity getRarity(ItemStack par1ItemStack) {

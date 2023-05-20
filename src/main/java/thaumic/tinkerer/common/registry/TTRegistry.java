@@ -13,24 +13,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
-import thaumic.tinkerer.client.lib.LibResources;
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.core.handler.ModCreativeTab;
-import thaumic.tinkerer.common.research.IRegisterableResearch;
-
 import com.google.common.reflect.ClassPath;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import thaumic.tinkerer.client.lib.LibResources;
+import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.core.handler.ModCreativeTab;
+import thaumic.tinkerer.common.research.IRegisterableResearch;
 
 public class TTRegistry {
 
-    private ArrayList<Class> itemClasses = new ArrayList<Class>();
-    private HashMap<Class, ArrayList<Item>> itemRegistry = new HashMap<Class, ArrayList<Item>>();
+    private ArrayList<Class> itemClasses = new ArrayList<>();
+    private HashMap<Class, ArrayList<Item>> itemRegistry = new HashMap<>();
 
-    private ArrayList<Class> blockClasses = new ArrayList<Class>();
-    private HashMap<Class, ArrayList<Block>> blockRegistry = new HashMap<Class, ArrayList<Block>>();
+    private ArrayList<Class> blockClasses = new ArrayList<>();
+    private HashMap<Class, ArrayList<Block>> blockRegistry = new HashMap<>();
 
     public void registerClasses() {
         try {
@@ -77,7 +76,7 @@ public class TTRegistry {
                 Block newBlock = (Block) clazz.newInstance();
                 if (((ITTinkererBlock) newBlock).shouldRegister()) {
                     newBlock.setBlockName(((ITTinkererBlock) newBlock).getBlockName());
-                    ArrayList<Block> blockList = new ArrayList<Block>();
+                    ArrayList<Block> blockList = new ArrayList<>();
                     blockList.add(newBlock);
 
                     if (newBlock == null) {
@@ -105,18 +104,13 @@ public class TTRegistry {
                         Item newItem = ((ITTinkererBlock) newBlock).getItemBlock().getConstructor(Block.class)
                                 .newInstance(newBlock);
                         newItem.setUnlocalizedName(((ITTinkererItem) newItem).getItemName());
-                        ArrayList<Item> itemList = new ArrayList<Item>();
+                        ArrayList<Item> itemList = new ArrayList<>();
                         itemList.add(newItem);
                         itemRegistry.put(((ITTinkererBlock) newBlock).getItemBlock(), itemList);
                     }
                 }
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
+                    | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -125,7 +119,7 @@ public class TTRegistry {
                 Item newItem = (Item) clazz.newInstance();
                 if (((ITTinkererItem) newItem).shouldRegister()) {
                     newItem.setUnlocalizedName(((ITTinkererItem) newItem).getItemName());
-                    ArrayList<Item> itemList = new ArrayList<Item>();
+                    ArrayList<Item> itemList = new ArrayList<>();
                     itemList.add(newItem);
                     if (newItem == null) {
                         ThaumicTinkerer.log.debug(clazz.getName() + " Returned a null item upon registration");
@@ -146,11 +140,7 @@ public class TTRegistry {
                     }
                     itemRegistry.put(clazz, itemList);
                 }
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

@@ -2,10 +2,10 @@ package thaumic.tinkerer.common.compat;
 
 import net.minecraftforge.common.MinecraftForge;
 
-import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
+import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
 
 /**
  * Created by pixlepix on 8/26/14.

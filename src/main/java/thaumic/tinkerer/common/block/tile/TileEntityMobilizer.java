@@ -6,11 +6,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 import appeng.api.AEApi;
 import appeng.api.IAppEngApi;
 import appeng.api.movable.IMovableTile;
+import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 
 public class TileEntityMobilizer extends TileEntity {
 

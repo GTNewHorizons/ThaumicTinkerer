@@ -66,14 +66,15 @@ public class ItemSkyPearl extends ItemKamiBase {
             } else list.add(
                     EnumChatFormatting.BLUE + StatCollector.translateToLocal("ttmisc.distance")
                             + ": "
-                            + new BigDecimal(
+                            + BigDecimal.valueOf(
                                     MiscHelper.pointDistanceSpace(
                                             x,
                                             simpleMode ? 0 : y,
                                             z,
                                             pos.x,
                                             simpleMode ? 0 : pos.y,
-                                            pos.z)).setScale(2, RoundingMode.UP).toString()
+                                            pos.z))
+                                    .setScale(2, RoundingMode.UP).toString()
                             + "m");
         }
     }

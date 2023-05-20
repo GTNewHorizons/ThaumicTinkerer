@@ -14,12 +14,12 @@ package thaumic.tinkerer.common.network.packet;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 
-import thaumic.tinkerer.common.block.tile.TileEnchanter;
-import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import thaumic.tinkerer.common.block.tile.TileEnchanter;
+import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 
 public class PacketEnchanterAddEnchant extends PacketTile<TileEnchanter>
         implements IMessageHandler<PacketEnchanterAddEnchant, IMessage> {

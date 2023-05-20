@@ -16,10 +16,10 @@ import java.net.URI;
 
 import net.minecraft.util.StatCollector;
 
-import thaumcraft.api.research.ResearchItem;
-import thaumcraft.client.gui.GuiResearchRecipe;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumcraft.api.research.ResearchItem;
+import thaumcraft.client.gui.GuiResearchRecipe;
 
 @SideOnly(Side.CLIENT)
 public class GuiResearchPeripheral extends GuiResearchRecipe {

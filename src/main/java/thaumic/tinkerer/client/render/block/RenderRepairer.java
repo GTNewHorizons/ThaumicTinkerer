@@ -18,9 +18,9 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderRepairer implements ISimpleBlockRenderingHandler {
 

@@ -17,8 +17,8 @@ import java.lang.reflect.Modifier;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
 
-import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
+import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public final class ModPotions {
 

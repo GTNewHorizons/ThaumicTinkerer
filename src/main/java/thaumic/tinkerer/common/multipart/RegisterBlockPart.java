@@ -8,13 +8,13 @@ package thaumic.tinkerer.common.multipart;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
+import com.google.common.collect.Lists;
+
 import codechicken.lib.vec.BlockCoord;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartConverter;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
-
-import com.google.common.collect.Lists;
 
 // This class is used by FMP to recreate a part during loading and to convert already existing non-mutlipart blocks into
 // multiparts.

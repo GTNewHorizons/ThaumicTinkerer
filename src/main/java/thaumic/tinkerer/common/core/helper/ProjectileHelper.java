@@ -7,9 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 
-import thaumcraft.common.entities.projectile.EntityFrostShard;
-
 import com.google.common.base.Function;
+
+import thaumcraft.common.entities.projectile.EntityFrostShard;
 
 public final class ProjectileHelper {
 

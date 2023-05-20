@@ -11,10 +11,10 @@
  */
 package thaumic.tinkerer.common.peripheral;
 
-import thaumcraft.common.tiles.TileDeconstructionTable;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import thaumcraft.common.tiles.TileDeconstructionTable;
 
 public class PeripheralDeconstructor implements IPeripheral {
 

@@ -11,10 +11,10 @@
  */
 package thaumic.tinkerer.common.peripheral;
 
-import thaumcraft.common.tiles.TileJarBrain;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import thaumcraft.common.tiles.TileJarBrain;
 
 public class PeripheralBrainInAJar implements IPeripheral {
 

@@ -21,6 +21,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.block.BlockMod;
 import thaumic.tinkerer.common.block.tile.kami.TileBedrockPortal;
@@ -31,9 +34,6 @@ import thaumic.tinkerer.common.dim.WorldProviderBedrock;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBedrockPortal extends BlockMod {
 

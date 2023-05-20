@@ -13,12 +13,12 @@ package thaumic.tinkerer.common.network.packet.kami;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
-import thaumic.tinkerer.common.network.packet.PacketTile;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
+import thaumic.tinkerer.common.network.packet.PacketTile;
 
 public class PacketWarpGateTeleport extends PacketTile<TileWarpGate>
         implements IMessageHandler<PacketWarpGateTeleport, IMessage> {

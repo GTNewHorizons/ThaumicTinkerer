@@ -9,9 +9,9 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 
-import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public class WorldProviderBedrock extends WorldProvider {
 

@@ -18,10 +18,10 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.client.render.tile.RenderTileMagnet;
 import thaumic.tinkerer.common.block.tile.TileMagnet;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderMagnet implements ISimpleBlockRenderingHandler {
 

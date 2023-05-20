@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-import thaumic.tinkerer.client.core.helper.IconHelper;
-import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.client.core.helper.IconHelper;
+import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 
 public abstract class ItemBase extends Item implements ITTinkererItem {
 

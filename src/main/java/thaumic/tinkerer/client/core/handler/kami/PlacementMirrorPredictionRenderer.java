@@ -16,9 +16,9 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.item.kami.ItemPlacementMirror;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class PlacementMirrorPredictionRenderer {
 

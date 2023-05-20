@@ -28,6 +28,9 @@ import net.minecraftforge.common.util.Constants;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.Thaumcraft;
@@ -37,9 +40,6 @@ import thaumic.tinkerer.common.core.helper.Tuple4Int;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibFeatures;
-import appeng.api.movable.IMovableTile;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 
 public class TileEnchanter extends TileEntity implements ISidedInventory, IMovableTile {
 

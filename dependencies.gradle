@@ -1,10 +1,10 @@
 // Add your dependencies here
 
 dependencies {
-    compile('com.github.GTNewHorizons:Baubles:1.0.1.14:dev')
-    compile('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-195-GTNH:api')
+    api('com.github.GTNewHorizons:Baubles:1.0.1.14:dev')
+    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-195-GTNH:api')
 
-    compile('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
+    api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
 
     compileOnly('com.github.GTNewHorizons:Botania:1.9.1-GTNH:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:EnderCore:0.2.6:dev') {transitive=false}

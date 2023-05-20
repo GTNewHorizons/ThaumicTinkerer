@@ -9,6 +9,8 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import com.google.common.collect.Maps;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.InfusionRecipe;
@@ -21,8 +23,6 @@ import thaumic.tinkerer.common.block.BlockSummon;
 import thaumic.tinkerer.common.item.ItemMobAspect;
 import thaumic.tinkerer.common.item.ItemMobDisplay;
 import thaumic.tinkerer.common.lib.LibResearch;
-
-import com.google.common.collect.Maps;
 
 public enum EnumMobAspect {
 

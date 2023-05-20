@@ -23,12 +23,12 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.common.item.foci.ItemFocusDislocation;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class HUDHandler {
 

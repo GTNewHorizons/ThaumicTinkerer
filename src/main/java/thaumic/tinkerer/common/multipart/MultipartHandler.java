@@ -13,11 +13,11 @@ package thaumic.tinkerer.common.multipart;
 
 import net.minecraft.block.Block;
 
+import codechicken.microblock.BlockMicroMaterial;
+import codechicken.microblock.MicroMaterialRegistry;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.quartz.BlockDarkQuartz;
-import codechicken.microblock.BlockMicroMaterial;
-import codechicken.microblock.MicroMaterialRegistry;
 
 public class MultipartHandler {
 

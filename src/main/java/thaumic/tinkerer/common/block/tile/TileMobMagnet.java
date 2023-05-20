@@ -11,12 +11,7 @@
  */
 package thaumic.tinkerer.common.block.tile;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-
 import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,12 +24,15 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.Constants;
 
-import thaumic.tinkerer.common.item.ItemSoulMould;
-import thaumic.tinkerer.common.lib.LibBlockNames;
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import thaumic.tinkerer.common.item.ItemSoulMould;
+import thaumic.tinkerer.common.lib.LibBlockNames;
 
 public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTile {
 

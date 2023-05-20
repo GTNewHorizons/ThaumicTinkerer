@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
-import thaumcraft.common.config.ConfigResearch;
 import cpw.mods.fml.common.registry.GameRegistry;
+import thaumcraft.common.config.ConfigResearch;
 
 public class ThaumicTinkererCraftingBenchRecipe extends ThaumicTinkererRecipe {
 

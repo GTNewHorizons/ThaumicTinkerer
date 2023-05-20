@@ -5,15 +5,15 @@ import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
 
-import thaumic.tinkerer.client.core.handler.kami.KamiArmorClientHandler;
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.item.kami.armor.ItemIchorclothArmorAdv;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.client.core.handler.kami.KamiArmorClientHandler;
+import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.item.kami.armor.ItemIchorclothArmorAdv;
 
 /**
  * Created by Katrina on 28/02/14.

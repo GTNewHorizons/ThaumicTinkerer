@@ -7,10 +7,10 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import thaumcraft.api.aspects.Aspect;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.common.block.BlockInfusedGrain;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 /**
  * Created by pixlepix on 8/4/14.

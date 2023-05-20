@@ -27,9 +27,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import thaumic.tinkerer.common.block.tile.TileCamo;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.common.block.tile.TileCamo;
 
 public abstract class BlockCamo extends BlockModContainer<TileCamo> {
 

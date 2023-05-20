@@ -14,6 +14,10 @@ package thaumic.tinkerer.common.network;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.relauncher.Side;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.kami.KamiArmorHandler;
 import thaumic.tinkerer.common.item.foci.ItemFocusHeal;
@@ -21,10 +25,6 @@ import thaumic.tinkerer.common.item.foci.ItemFocusSmelt;
 import thaumic.tinkerer.common.item.kami.armor.ItemGemBoots;
 import thaumic.tinkerer.common.item.kami.armor.ItemGemChest;
 import thaumic.tinkerer.common.network.packet.kami.PacketToggleArmor;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.relauncher.Side;
 
 public class PlayerTracker {
 

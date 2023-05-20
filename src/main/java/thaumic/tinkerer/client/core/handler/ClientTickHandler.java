@@ -13,15 +13,15 @@ package thaumic.tinkerer.client.core.handler;
 
 import net.minecraft.client.Minecraft;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.client.gui.GuiResearchRecipe;
 import thaumic.tinkerer.client.core.handler.kami.ToolModeHUDHandler;
 import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.gui.GuiResearchPeripheral;
 import thaumic.tinkerer.common.lib.LibResearch;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientTickHandler {
 

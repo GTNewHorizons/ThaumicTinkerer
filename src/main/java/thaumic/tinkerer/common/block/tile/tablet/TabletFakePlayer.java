@@ -18,9 +18,9 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
-import thaumcraft.common.lib.FakeThaumcraftPlayer;
-
 import com.mojang.authlib.GameProfile;
+
+import thaumcraft.common.lib.FakeThaumcraftPlayer;
 
 public class TabletFakePlayer extends FakeThaumcraftPlayer {
 

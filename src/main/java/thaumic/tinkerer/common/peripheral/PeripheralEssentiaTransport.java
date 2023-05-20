@@ -2,11 +2,11 @@ package thaumic.tinkerer.common.peripheral;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
-import thaumcraft.api.aspects.IEssentiaTransport;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import thaumcraft.api.aspects.IEssentiaTransport;
 
 /**
  * Created by Katrina on 03/03/14.

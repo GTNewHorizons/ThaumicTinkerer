@@ -16,11 +16,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import thaumic.tinkerer.client.core.proxy.TTClientProxy;
-import thaumic.tinkerer.common.core.helper.MiscHelper;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import thaumic.tinkerer.client.core.proxy.TTClientProxy;
+import thaumic.tinkerer.common.core.helper.MiscHelper;
 
 public abstract class PacketTile<T extends TileEntity> implements IMessage {
 

@@ -4,8 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import thaumic.tinkerer.common.ThaumicTinkerer;
 import appeng.api.movable.IMovableTile;
+import thaumic.tinkerer.common.ThaumicTinkerer;
 
 public class TileEntityRelay extends TileEntity implements IMovableTile {
 

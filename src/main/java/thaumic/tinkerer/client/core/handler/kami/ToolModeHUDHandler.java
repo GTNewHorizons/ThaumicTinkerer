@@ -22,10 +22,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 import org.lwjgl.opengl.GL11;
 
-import thaumic.tinkerer.client.core.handler.ClientTickHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.client.core.handler.ClientTickHandler;
 
 public final class ToolModeHUDHandler {
 

@@ -11,12 +11,12 @@
  */
 package thaumic.tinkerer.common.peripheral;
 
-import thaumcraft.api.aspects.IAspectContainer;
-import thaumic.tinkerer.common.peripheral.implementation.IAspectContainerImplementation;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import thaumcraft.api.aspects.IAspectContainer;
+import thaumic.tinkerer.common.peripheral.implementation.IAspectContainerImplementation;
 
 public class PeripheralAspectContainer implements IPeripheral {
 

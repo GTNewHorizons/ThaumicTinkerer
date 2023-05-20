@@ -20,12 +20,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
-import thaumic.tinkerer.client.lib.LibResources;
-import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.client.lib.LibResources;
+import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public final class SoulHeartClientHandler {
 

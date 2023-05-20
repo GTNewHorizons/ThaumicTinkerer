@@ -31,6 +31,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -47,8 +49,6 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockAnimationTablet extends BlockModContainer {
 
@@ -91,10 +91,6 @@ public class BlockAnimationTablet extends BlockModContainer {
         if (l1 == 3) b0 = 4;
 
         par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 2);
-        // TileAnimationTablet tablet = (TileAnimationTablet) par1World.getTileEntity(par2, par3, par4);
-        // if(par5EntityLiving instanceof EntityPlayer) {
-        // tablet.Owner = ((EntityPlayer) par5EntityLiving).username;
-        // }
     }
 
     @Override
@@ -102,11 +98,7 @@ public class BlockAnimationTablet extends BlockModContainer {
         TileAnimationTablet tablet = (TileAnimationTablet) par1World.getTileEntity(par2, par3, par4);
 
         if (tablet != null) {
-            if (tablet.getIsBreaking()) {
-                // ChunkCoordinates coords = tablet.getTargetLoc();
-                // par1World.destroyBlockInWorldPartially(tablet.getFakePlayer().entityId, coords.posX, coords.posY,
-                // coords.posZ, -1);
-            }
+            if (tablet.getIsBreaking()) {}
 
             for (int j1 = 0; j1 < tablet.getSizeInventory(); ++j1) {
                 ItemStack itemstack = tablet.getStackInSlot(j1);
@@ -206,8 +198,6 @@ public class BlockAnimationTablet extends BlockModContainer {
 
                     return true;
                 } else {
-                    // if(tablet.Owner==null || tablet.Owner.equals(""))
-                    // tablet.Owner=par5EntityPlayer.username;
                     par5EntityPlayer
                             .openGui(ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_TABLET, par1World, par2, par3, par4);
                 }

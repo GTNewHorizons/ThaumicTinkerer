@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.block.tile;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;

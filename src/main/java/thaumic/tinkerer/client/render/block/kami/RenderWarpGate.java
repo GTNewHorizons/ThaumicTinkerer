@@ -19,10 +19,10 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import thaumcraft.client.renderers.block.BlockRenderer;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.common.block.kami.BlockWarpGate;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderWarpGate extends BlockRenderer implements ISimpleBlockRenderingHandler {
 

@@ -20,10 +20,10 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.lib.LibMisc;
 import thaumic.tinkerer.common.network.packet.kami.PacketSoulHearts;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class SoulHeartHandler {
 

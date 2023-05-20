@@ -18,6 +18,9 @@ import java.util.Map;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.config.Config;
@@ -27,9 +30,6 @@ import thaumic.tinkerer.common.core.helper.MiscHelper;
 import thaumic.tinkerer.common.enchantment.ModEnchantments;
 import thaumic.tinkerer.common.enchantment.core.rule.BasicCompatibilityRule;
 import thaumic.tinkerer.common.lib.LibResearch;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 
 public final class EnchantmentManager {
 

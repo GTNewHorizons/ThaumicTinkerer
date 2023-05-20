@@ -126,12 +126,5 @@ public class RenderGenericSeeds implements IItemRenderer {
         tesselator.draw();
     }
 
-    private void setColorForAspect(Aspect aspect) {
-        // if(!aspect.isPrimal()){
-        // float r = (aspect.getColor() >> 16 & 0xFF) / 255.0F;
-        // float g = (aspect.getColor() >> 8 & 0xFF) / 255.0F;
-        // float b = (aspect.getColor() & 0xFF) / 255.0F;
-        // GL11.glColor3f(r, g, b);
-        // }
-    }
+    private void setColorForAspect(Aspect aspect) {}
 }

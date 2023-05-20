@@ -7,18 +7,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.BlockInfusedFarmland;
-import thaumic.tinkerer.common.block.BlockInfusedGrain;
-import thaumic.tinkerer.common.block.tile.TileInfusedGrain;
-import thaumic.tinkerer.common.item.ItemInfusedSeeds;
-
 import com.enderio.core.common.compat.ICompat;
 import com.enderio.core.common.util.BlockCoord;
 
 import crazypants.enderio.machine.farm.TileFarmStation;
 import crazypants.enderio.machine.farm.farmers.IHarvestResult;
 import crazypants.enderio.machine.farm.farmers.PlantableFarmer;
+import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.block.BlockInfusedFarmland;
+import thaumic.tinkerer.common.block.BlockInfusedGrain;
+import thaumic.tinkerer.common.block.tile.TileInfusedGrain;
+import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 
 /**
  * Created by katsw on 02/02/2016.

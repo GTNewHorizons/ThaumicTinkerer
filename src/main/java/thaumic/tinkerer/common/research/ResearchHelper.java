@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 
+import cpw.mods.fml.common.Loader;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
@@ -34,7 +35,6 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizerRelay;
 import thaumic.tinkerer.common.lib.LibResearch;
-import cpw.mods.fml.common.Loader;
 
 public final class ResearchHelper {
 

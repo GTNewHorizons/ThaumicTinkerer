@@ -15,11 +15,11 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 
-import thaumcraft.common.items.equipment.ItemElementalPickaxe;
-import thaumcraft.common.tiles.TileArcaneBore;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import thaumcraft.common.items.equipment.ItemElementalPickaxe;
+import thaumcraft.common.tiles.TileArcaneBore;
 
 public class PeripheralArcaneBore implements IPeripheral {
 
