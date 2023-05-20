@@ -95,8 +95,6 @@ public final class SoulHeartClientHandler {
             }
         }
 
-        // GL11.glEnable(3008);
-        // GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(Gui.icons);
     }
 }

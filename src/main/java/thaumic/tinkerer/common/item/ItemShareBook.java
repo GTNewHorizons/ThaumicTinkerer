@@ -112,7 +112,7 @@ public class ItemShareBook extends ItemBase {
     }
 
     private List<String> getPlayerResearch(ItemStack par1ItemStack) {
-        List<String> retVals = new ArrayList<String>();
+        List<String> retVals = new ArrayList<>();
         NBTTagCompound cmp = ItemNBTHelper.getNBT(par1ItemStack);
         if (!cmp.hasKey("research")) return retVals;
         NBTTagList list = cmp.getTagList("research", Constants.NBT.TAG_STRING);

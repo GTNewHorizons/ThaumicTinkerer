@@ -13,7 +13,7 @@ import thaumcraft.common.entities.projectile.EntityFrostShard;
 
 public final class ProjectileHelper {
 
-    private static Map<Class<? extends Entity>, Function<Entity, Entity>> ownerGetters = new IdentityHashMap<Class<? extends Entity>, Function<Entity, Entity>>();
+    private static Map<Class<? extends Entity>, Function<Entity, Entity>> ownerGetters = new IdentityHashMap<>();
 
     public static Entity getOwner(Entity projectile) {
         Function<Entity, Entity> ownerGetterForClass = ownerGetters.get(projectile.getClass());

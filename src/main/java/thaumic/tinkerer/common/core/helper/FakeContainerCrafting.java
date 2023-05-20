@@ -23,7 +23,7 @@ public class FakeContainerCrafting extends Container {
         return false;
     }
 
-    private class FakeInventory implements IInventory {
+    private static class FakeInventory implements IInventory {
 
         ItemStack itemStack;
 

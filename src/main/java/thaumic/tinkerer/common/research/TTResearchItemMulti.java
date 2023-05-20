@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class TTResearchItemMulti implements IRegisterableResearch {
 
-    private ArrayList<TTResearchItem> researches = new ArrayList<TTResearchItem>();
+    private ArrayList<TTResearchItem> researches = new ArrayList<>();
 
     public TTResearchItemMulti(ArrayList<TTResearchItem> researches) {
         this.researches = researches;
     }
 
     public TTResearchItemMulti() {
-        this.researches = new ArrayList<TTResearchItem>();
+        this.researches = new ArrayList<>();
     }
 
     @Override

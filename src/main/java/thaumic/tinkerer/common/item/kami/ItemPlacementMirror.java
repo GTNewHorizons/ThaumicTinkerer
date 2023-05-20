@@ -58,7 +58,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
         int required = blocks.length;
         int current = 0;
         ItemStack reqStack = new ItemStack(getBlock(stack), 1, getBlockMeta(stack));
-        List<ItemStack> talismansToCheck = new ArrayList();
+        List<ItemStack> talismansToCheck = new ArrayList<>();
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack stackInSlot = player.inventory.getStackInSlot(i);
             if (stackInSlot != null && stackInSlot.getItem() == reqStack.getItem()
@@ -86,7 +86,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
     }
 
     public static ChunkCoordinates[] getBlocksToPlace(ItemStack stack, EntityPlayer player) {
-        List<ChunkCoordinates> coords = new ArrayList();
+        List<ChunkCoordinates> coords = new ArrayList<>();
         MovingObjectPosition pos = ToolHandler.raytraceFromEntity(player.worldObj, player, true, 5);
         if (pos != null) {
             Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
@@ -198,7 +198,7 @@ public class ItemPlacementMirror extends ItemKamiBase {
 
         if (player.capabilities.isCreativeMode) return;
 
-        List<ItemStack> talismansToCheck = new ArrayList();
+        List<ItemStack> talismansToCheck = new ArrayList<>();
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack stackInSlot = player.inventory.getStackInSlot(i);
             if (stackInSlot != null && stackInSlot.getItem() == blockToPlace.getItem()

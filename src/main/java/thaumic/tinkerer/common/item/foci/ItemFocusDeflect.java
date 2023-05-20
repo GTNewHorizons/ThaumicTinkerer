@@ -46,7 +46,7 @@ import vazkii.botania.api.internal.IManaBurst;
 
 public class ItemFocusDeflect extends ItemModFocus {
 
-    public static List<Class<?>> DeflectBlacklist = new ArrayList<Class<?>>();
+    public static List<Class<?>> DeflectBlacklist = new ArrayList<>();
     private static final AspectList visUsage = new AspectList().add(Aspect.ORDER, 8).add(Aspect.AIR, 4);
 
     public static void setupBlackList() {

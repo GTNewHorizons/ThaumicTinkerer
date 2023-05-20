@@ -28,8 +28,8 @@ public class GuiRemotePlacer extends GuiContainer {
     private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_ASPECT_ANALYZER);
 
     int x, y;
-    List<IRadioButton> radioButtons = new ArrayList();
-    List<GuiButtonRP> buttonListRP = new ArrayList();
+    List<IRadioButton> radioButtons = new ArrayList<>();
+    List<GuiButtonRP> buttonListRP = new ArrayList<>();
     TileRPlacer placer;
     Aspect aspectHovered = null;
 

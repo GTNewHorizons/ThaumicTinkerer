@@ -344,8 +344,6 @@ public class TileTransvectorInterface extends TileTransvector
 
     @Override
     public boolean isConnectable(ForgeDirection forgeDirection) {
-        // TileEntity tile = getTile();
-        // return tile instanceof IEssentiaTransport && ((IEssentiaTransport) tile).isConnectable(forgeDirection);
         return true;
     }
 

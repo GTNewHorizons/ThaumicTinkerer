@@ -20,8 +20,6 @@ public class RenderPlacementMirror implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        // return type != ItemRenderType.INVENTORY && type!=ItemRenderType.ENTITY;
-        // return type != ItemRenderType.INVENTORY ;
         return true;
     }
 

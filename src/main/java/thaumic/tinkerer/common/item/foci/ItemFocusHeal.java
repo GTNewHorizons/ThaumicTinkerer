@@ -39,7 +39,7 @@ public class ItemFocusHeal extends ItemModFocus {
 
     private static final AspectList visUsage = new AspectList().add(Aspect.EARTH, 45).add(Aspect.WATER, 45);
 
-    public static Map<String, Integer> playerHealData = new HashMap();
+    public static Map<String, Integer> playerHealData = new HashMap<>();
 
     public ItemFocusHeal() {
         super();
@@ -128,13 +128,6 @@ public class ItemFocusHeal extends ItemModFocus {
         }
         return null;
     }
-
-    // public static FocusUpgradeType chainlightning = new FocusUpgradeType(17, new ResourceLocation("thaumcraft",
-    // "textures/foci/chainlightning.png"), "focus.upgrade.chainlightning.name", "focus.upgrade.chainlightning.text",
-    // new AspectList().add(Aspect.WEATHER, 1));
-    // public static FocusUpgradeType earthshock = new FocusUpgradeType(18, new ResourceLocation("thaumcraft",
-    // "textures/foci/earthshock.png"), "focus.upgrade.earthshock.name", "focus.upgrade.earthshock.text", new
-    // AspectList().add(Aspect.WEATHER, 1));
 
     @Override
     public String getItemName() {

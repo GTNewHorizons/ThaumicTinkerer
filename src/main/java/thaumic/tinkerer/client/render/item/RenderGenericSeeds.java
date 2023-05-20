@@ -126,5 +126,6 @@ public class RenderGenericSeeds implements IItemRenderer {
         tesselator.draw();
     }
 
-    private void setColorForAspect(Aspect aspect) {}
+    private void setColorForAspect(Aspect aspect) {
+    }
 }

@@ -42,8 +42,8 @@ public class GuiMobMagnet extends GuiContainer {
     ItemStack stack = null;
     TileMobMagnet mobMagnet;
 
-    List<GuiButtonMM> buttonListMM = new ArrayList();
-    List<IRadioButton> radioButtons = new ArrayList();
+    List<GuiButtonMM> buttonListMM = new ArrayList<>();
+    List<IRadioButton> radioButtons = new ArrayList<>();
 
     public GuiMobMagnet(TileMobMagnet tile, InventoryPlayer playerInv) {
         super(new ContainerMobMagnet(tile, playerInv));

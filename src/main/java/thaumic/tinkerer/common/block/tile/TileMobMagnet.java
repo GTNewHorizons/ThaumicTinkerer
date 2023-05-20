@@ -42,24 +42,20 @@ public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTil
 
     @Override
     IEntitySelector getEntitySelector() {
-        return new IEntitySelector() {
+        return entity -> {
+            if (!(entity instanceof EntityLivingBase) || entity instanceof EntityPlayer) return false;
 
-            @Override
-            public boolean isEntityApplicable(Entity entity) {
-                if (!(entity instanceof EntityLivingBase) || entity instanceof EntityPlayer) return false;
+            boolean can = false;
+            if (entity instanceof EntityAgeable) can = adult != ((EntityAgeable) entity).isChild();
+            else can = true;
 
-                boolean can = false;
-                if (entity instanceof EntityAgeable) can = adult != ((EntityAgeable) entity).isChild();
-                else can = true;
-
-                if (can && inventorySlots[0] != null) {
-                    String pattern = ItemSoulMould.getPatternName(inventorySlots[0]);
-                    String name = EntityList.getEntityString(entity);
-                    return name != null && name.equals(pattern);
-                }
-
-                return can;
+            if (can && inventorySlots[0] != null) {
+                String pattern = ItemSoulMould.getPatternName(inventorySlots[0]);
+                String name = EntityList.getEntityString(entity);
+                return name != null && name.equals(pattern);
             }
+
+            return can;
         };
     }
 

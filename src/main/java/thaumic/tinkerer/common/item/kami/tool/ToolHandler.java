@@ -57,8 +57,6 @@ public final class ToolHandler {
     }
 
     public static boolean isRightMaterial(Material material, Material[] materialsListing) {
-        // if(material.isToolNotRequired())
-        // return true;
         for (Material mat : materialsListing) if (material == mat) return true;
 
         return false;
@@ -75,8 +73,6 @@ public final class ToolHandler {
                     if (x == x1 + x && y == y1 + y && z == z1 + z) continue;
                     Block lock2 = world.getBlock(x1 + x, y1 + y, z1 + z);
 
-                    // ToolHandler.removeBlockWithDrops(player, world, x1 + x, y1 + y, z1 + z, x, y, z, lock2,
-                    // materialsListing, silk, fortune, blockHardness,metadata);
                     breakExtraBlock(player.worldObj, x1 + x, y1 + y, z1 + z, player, x, y, z, materialsListing);
                 }
             }

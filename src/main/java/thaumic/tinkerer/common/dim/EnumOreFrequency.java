@@ -82,7 +82,7 @@ public enum EnumOreFrequency {
     }
 
     public static ArrayList<EnumOreFrequency> getValidOres() {
-        ArrayList<EnumOreFrequency> result = new ArrayList<EnumOreFrequency>();
+        ArrayList<EnumOreFrequency> result = new ArrayList<>();
         for (EnumOreFrequency e : EnumOreFrequency.values()) {
             if (e.isValid()) {
                 result.add(e);

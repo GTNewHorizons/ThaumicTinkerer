@@ -13,7 +13,7 @@ public class ThaumicTinkererRecipeMulti extends ThaumicTinkererRecipe {
     }
 
     public ThaumicTinkererRecipeMulti() {
-        this.recipes = new ArrayList<ThaumicTinkererRecipe>();
+        this.recipes = new ArrayList<>();
     }
 
     public void addRecipe(ThaumicTinkererRecipe recipe) {

@@ -19,8 +19,8 @@ import thaumic.tinkerer.common.block.BlockForcefield;
  */
 public class PotionEffectHandler {
 
-    public static HashMap<Entity, Long> airPotionHit = new HashMap<Entity, Long>();
-    public static HashMap<Entity, Long> firePotionHit = new HashMap<Entity, Long>();
+    public static HashMap<Entity, Long> airPotionHit = new HashMap<>();
+    public static HashMap<Entity, Long> firePotionHit = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingAttackEvent e) {
@@ -89,7 +89,7 @@ public class PotionEffectHandler {
     @SubscribeEvent
     public void onTick(TickEvent.ServerTickEvent e) {
 
-        Iterator iter = airPotionHit.keySet().iterator();
+        Iterator<Entity> iter = airPotionHit.keySet().iterator();
         while (iter.hasNext()) {
             Entity target = (Entity) iter.next();
             if (target.isEntityAlive()) {

@@ -135,18 +135,6 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
     @Override
     public ItemStack getStackInSlot(int i) {
         AspectList aspects = getAspects();
-        // if(inventorySlots[i] != null && inventorySlots[i].itemID == ConfigItems.itemJarFilled.itemID && aspects ==
-        // null) {
-        // Aspect filter=((ItemJarFilled)inventorySlots[i].getItem()).getFilter(inventorySlots[i]);
-        // inventorySlots[i] = new ItemStack(ConfigBlocks.blockJar,1,inventorySlots[i].getItemDamage());
-        // if(filter!=null)
-        // {
-        // if(inventorySlots[i].getTagCompound()==null)
-        // inventorySlots[i].setTagCompound(new NBTTagCompound());
-        // inventorySlots[i].getTagCompound().setString("AspectFilter",filter.getTag());
-        // }
-        // onInventoryChanged();
-        // }
 
         return inventorySlots[i];
     }

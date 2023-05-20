@@ -195,7 +195,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
 
     public Object[] getAspectsMethod() {
         AspectList aspects = getAspectList();
-        Map<Double, String> retVals = new HashMap<Double, String>();
+        Map<Double, String> retVals = new HashMap<>();
         if (aspects == null) return new Object[] { retVals };
         double i = 1;
         for (Aspect aspect : aspects.getAspectsSorted()) retVals.put(i++, aspect.getTag());
@@ -204,7 +204,7 @@ public class TileAspectAnalyzer extends TileEntity implements IInventory, Simple
 
     public Object[] getAspectsAmountsMethod() {
         AspectList aspects = getAspectList();
-        Map<String, Double> retVals = new HashMap<String, Double>();
+        Map<String, Double> retVals = new HashMap<>();
         if (aspects == null) return new Object[] { retVals };
         for (Aspect aspect : aspects.getAspectsSorted())
             retVals.put(aspect.getTag(), (double) aspects.getAmount(aspect));

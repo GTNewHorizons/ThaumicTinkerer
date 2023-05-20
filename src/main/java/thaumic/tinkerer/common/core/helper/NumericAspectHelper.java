@@ -6,7 +6,7 @@ import thaumcraft.api.aspects.Aspect;
 
 public class NumericAspectHelper {
 
-    public static ArrayList<NumericAspectHelper> values = new ArrayList<NumericAspectHelper>();
+    public static ArrayList<NumericAspectHelper> values = new ArrayList<>();
     private static int nextNum = 0;
     public int num;
     private Aspect aspect;

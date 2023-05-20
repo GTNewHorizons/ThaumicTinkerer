@@ -94,7 +94,8 @@ public class ItemProtoclay extends ItemKamiBase {
     }
 
     @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {}
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
+    }
 
     @Override
     public EnumRarity getRarity(ItemStack par1ItemStack) {

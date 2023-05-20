@@ -44,7 +44,7 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class ItemGemBoots extends ItemIchorclothArmorAdv {
 
-    public static List<String> playersWith1Step = new ArrayList();
+    public static List<String> playersWith1Step = new ArrayList<>();
 
     public ItemGemBoots() {
         super(3);

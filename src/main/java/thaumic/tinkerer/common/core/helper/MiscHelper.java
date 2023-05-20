@@ -66,8 +66,7 @@ public final class MiscHelper {
         AspectList newList = list.copy();
         if (multiplier == 1) return newList;
 
-        for (Aspect aspect : newList.aspects.keySet())
-            newList.aspects.put(aspect, (int) ((double) newList.aspects.get(aspect) * multiplier));
+        newList.aspects.replaceAll((a, v) -> (int) ((double) newList.aspects.get(a) * multiplier));
 
         return newList;
     }

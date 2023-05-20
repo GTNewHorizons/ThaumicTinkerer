@@ -26,7 +26,7 @@ import thaumic.tinkerer.common.item.ItemInfusedGrain;
  */
 public class AspectCropLootManager {
 
-    private static HashMap<Aspect, HashMap<ItemStack, Integer>> lootMap = new HashMap<Aspect, HashMap<ItemStack, Integer>>();
+    private static HashMap<Aspect, HashMap<ItemStack, Integer>> lootMap = new HashMap<>();
 
     public static ItemStack getLootForAspect(Aspect aspect) {
         HashMap<ItemStack, Integer> aspectHashmap = lootMap.get(aspect);
@@ -84,7 +84,7 @@ public class AspectCropLootManager {
 
     public static void populateLootMap() {
         for (Aspect a : Aspect.aspects.values()) {
-            lootMap.put(a, new HashMap<ItemStack, Integer>());
+            lootMap.put(a, new HashMap<>());
         }
         addAspectLoot(
                 Aspect.AIR,

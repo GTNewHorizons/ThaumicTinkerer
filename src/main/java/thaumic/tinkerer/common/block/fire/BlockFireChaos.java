@@ -62,7 +62,7 @@ public class BlockFireChaos extends BlockFireBase {
 
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<BlockTuple, BlockTuple>();
+        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
         result.put(
                 new BlockTuple(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockFireAir.class)),
                 new BlockTuple(Blocks.fire));

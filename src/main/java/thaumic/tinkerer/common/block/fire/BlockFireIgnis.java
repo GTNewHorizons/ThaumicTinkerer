@@ -53,7 +53,7 @@ public class BlockFireIgnis extends BlockFireBase {
 
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<BlockTuple, BlockTuple>();
+        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
         result.put(new BlockTuple(Blocks.grass), new BlockTuple(Blocks.netherrack));
         result.put(new BlockTuple(Blocks.dirt), new BlockTuple(Blocks.netherrack));
         result.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.soul_sand));

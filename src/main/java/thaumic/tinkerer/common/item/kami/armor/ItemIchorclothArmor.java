@@ -122,7 +122,7 @@ public class ItemIchorclothArmor extends ItemArmor
 
     @Override
     public ArrayList<Object> getSpecialParameters() {
-        ArrayList<Object> result = new ArrayList<Object>();
+        ArrayList<Object> result = new ArrayList<>();
         result.add(1);
         result.add(2);
         result.add(3);

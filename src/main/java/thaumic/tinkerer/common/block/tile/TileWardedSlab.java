@@ -44,15 +44,14 @@ public class TileWardedSlab extends TileEntity {
                                 (double) (this.yCoord + 3),
                                 (double) (this.zCoord + 1)).expand(0.1D, 0.1D, 0.1D));
                 if (targets.size() > 0) {
-                    Iterator i$ = targets.iterator();
 
-                    while (i$.hasNext()) {
-                        EntityLivingBase e = (EntityLivingBase) i$.next();
+                    for (Object target : targets) {
+                        EntityLivingBase e = (EntityLivingBase) target;
                         if (!e.onGround && !(e instanceof EntityPlayer)) {
                             e.addVelocity(
-                                    (double) (-MathHelper.sin((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F),
-                                    -0.1D,
-                                    (double) (MathHelper.cos((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F));
+                                (double) (-MathHelper.sin((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F),
+                                -0.1D,
+                                (double) (MathHelper.cos((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F));
                         }
                     }
                 }

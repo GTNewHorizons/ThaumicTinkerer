@@ -26,7 +26,7 @@ import thaumic.tinkerer.common.lib.LibResearch;
 
 public class KamiResearchItem extends TTResearchItem {
 
-    public static List<String> Blacklist = new ArrayList<String>();
+    public static List<String> Blacklist = new ArrayList<>();
 
     static {
         Blacklist.add("MINILITH");

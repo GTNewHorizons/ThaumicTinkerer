@@ -38,8 +38,8 @@ public class GuiAnimationTablet extends GuiContainer {
     int x, y;
 
     TileAnimationTablet tablet;
-    List<GuiButtonAT> buttonListAT = new ArrayList();
-    List<IRadioButton> radioButtons = new ArrayList();
+    List<GuiButtonAT> buttonListAT = new ArrayList<>();
+    List<IRadioButton> radioButtons = new ArrayList<>();
 
     public GuiAnimationTablet(TileAnimationTablet tablet, InventoryPlayer playerInv) {
         super(new ContainerAnimationTablet(tablet, playerInv));

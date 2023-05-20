@@ -44,7 +44,7 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class ItemGemChest extends ItemIchorclothArmorAdv {
 
-    public static List<String> playersWithFlight = new ArrayList();
+    public static List<String> playersWithFlight = new ArrayList<>();
 
     public ItemGemChest() {
         super(1);

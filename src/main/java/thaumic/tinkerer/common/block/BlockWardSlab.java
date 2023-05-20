@@ -71,11 +71,6 @@ public class BlockWardSlab extends BlockSlab implements ITTinkererBlock, ITileEn
         return Item.getItemFromBlock(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockWardSlab.class));
     }
 
-    // @Override
-    // public int idDropped(int par1, Random par2Random, int par3) {
-    // return ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class).blockID;
-    // }
-
     @Override
     public ItemStack createStackedBlock(int par1) {
         return new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockWardSlab.class));
@@ -191,23 +186,22 @@ public class BlockWardSlab extends BlockSlab implements ITTinkererBlock, ITileEn
                                                 (double) (y + 1),
                                                 (double) (z + 1)).expand(1.0D, 1.0D, 1.0D));
                                 if (!var10.isEmpty()) {
-                                    Iterator iterator = var10.iterator();
 
-                                    while (iterator.hasNext()) {
-                                        Entity entity = (Entity) iterator.next();
+                                    for (Object o : var10) {
+                                        Entity entity = (Entity) o;
                                         if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
                                             Thaumcraft.proxy.blockRunes(
-                                                    world,
-                                                    (double) x,
-                                                    (double) ((float) y + 0.6F
-                                                            + world.rand.nextFloat()
-                                                                    * Math.max(0.8F, entity.getEyeHeight())),
-                                                    (double) z,
-                                                    0.6F + world.rand.nextFloat() * 0.4F,
-                                                    0.0F,
-                                                    0.3F + world.rand.nextFloat() * 0.7F,
-                                                    20,
-                                                    0.0F);
+                                                world,
+                                                (double) x,
+                                                (double) ((float) y + 0.6F + world.rand.nextFloat() * Math.max(
+                                                    0.8F,
+                                                    entity.getEyeHeight())),
+                                                (double) z,
+                                                0.6F + world.rand.nextFloat() * 0.4F,
+                                                0.0F,
+                                                0.3F + world.rand.nextFloat() * 0.7F,
+                                                20,
+                                                0.0F);
                                             break;
                                         }
                                     }

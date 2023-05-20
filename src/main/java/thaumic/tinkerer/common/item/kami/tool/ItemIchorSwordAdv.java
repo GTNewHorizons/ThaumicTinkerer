@@ -118,8 +118,6 @@ public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         par3List.add(EnumChatFormatting.DARK_AQUA + ToolHandler.getToolModeStr(this, par1ItemStack));
-        // list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " +
-        // this.getVisDiscount(stack, player, null) + "%");
     }
 
     @Override

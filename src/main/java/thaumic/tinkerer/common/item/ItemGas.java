@@ -49,7 +49,7 @@ public class ItemGas extends ItemBase {
 
     @Override
     public ArrayList<Object> getSpecialParameters() {
-        ArrayList<Object> result = new ArrayList<Object>();
+        ArrayList<Object> result = new ArrayList<>();
         result.add(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousLight.class));
         return result;
     }

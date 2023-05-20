@@ -98,8 +98,8 @@ public class ItemCatAmulet extends ItemKamiBase implements IBauble {
                         player.posZ + range));
 
         for (EntityLiving entity : entities) {
-            List<EntityAITasks.EntityAITaskEntry> entries = new ArrayList(entity.tasks.taskEntries);
-            entries.addAll(new ArrayList(entity.targetTasks.taskEntries));
+            List<EntityAITasks.EntityAITaskEntry> entries = new ArrayList<>(entity.tasks.taskEntries);
+            entries.addAll(new ArrayList<>(entity.targetTasks.taskEntries));
 
             boolean avoidsOcelots = false;
             for (EntityAITasks.EntityAITaskEntry entry : entries) {

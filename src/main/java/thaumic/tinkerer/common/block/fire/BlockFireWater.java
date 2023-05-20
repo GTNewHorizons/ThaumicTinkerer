@@ -57,7 +57,7 @@ public class BlockFireWater extends BlockFireBase {
 
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<BlockTuple, BlockTuple>();
+        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
         result.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.ice));
         result.put(new BlockTuple(Blocks.netherrack), new BlockTuple(Blocks.snow));
         result.put(new BlockTuple(Blocks.soul_sand), new BlockTuple(Blocks.ice));

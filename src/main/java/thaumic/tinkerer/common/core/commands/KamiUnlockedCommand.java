@@ -48,14 +48,10 @@ public class KamiUnlockedCommand extends CommandBase {
             ((EntityPlayer) icommandsender).addChatComponentMessage(new ChatComponentText("Yes"));
         else {
             ((EntityPlayer) icommandsender).addChatComponentMessage(new ChatComponentText("No"));
-            List<String> list = new ArrayList<String>(parents);
+            List<String> list = new ArrayList<>(parents);
             list.removeAll(unlocked);
             ((EntityPlayer) icommandsender)
                     .addChatComponentMessage(new ChatComponentText("Remaining: " + StringUtils.join(list, ',')));
-            // EntityPlayer player=(EntityPlayer)icommandsender;
-            // EntityGiantBrainyZombie bat=new EntityGiantBrainyZombie(player.worldObj);
-            // bat.setPositionAndRotation(player.posX,player.posY,player.posZ,1,1);
-            // player.worldObj.spawnEntityInWorld(bat);
         }
     }
 

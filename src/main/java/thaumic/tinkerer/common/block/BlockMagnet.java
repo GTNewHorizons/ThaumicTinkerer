@@ -284,7 +284,7 @@ public class BlockMagnet extends BlockModContainer implements IMultiTileEntityBl
 
     @Override
     public HashMap<Class<? extends TileEntity>, String> getAdditionalTileEntities() {
-        HashMap<Class<? extends TileEntity>, String> r = new HashMap<Class<? extends TileEntity>, String>();
+        HashMap<Class<? extends TileEntity>, String> r = new HashMap<>();
         r.put(TileMobMagnet.class, LibBlockNames.MOB_MAGNET);
         return r;
     }

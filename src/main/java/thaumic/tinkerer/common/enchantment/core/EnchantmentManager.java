@@ -33,7 +33,7 @@ import thaumic.tinkerer.common.lib.LibResearch;
 
 public final class EnchantmentManager {
 
-    public static final Map<Integer, Map<Integer, EnchantmentData>> enchantmentData = new HashMap();
+    public static final Map<Integer, Map<Integer, EnchantmentData>> enchantmentData = new HashMap<>();
 
     public static final Multimap<Integer, IEnchantmentRule> rules = ArrayListMultimap.create();
 
@@ -312,7 +312,7 @@ public final class EnchantmentManager {
     }
 
     private static void registerData(int enchantment, int level, EnchantmentData data) {
-        if (!enchantmentData.containsKey(enchantment)) enchantmentData.put(enchantment, new HashMap());
+        if (!enchantmentData.containsKey(enchantment)) enchantmentData.put(enchantment, new HashMap<>());
 
         enchantmentData.get(enchantment).put(level, data);
     }

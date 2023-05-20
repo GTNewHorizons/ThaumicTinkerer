@@ -31,7 +31,7 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireOrder extends BlockFireBase {
 
-    public HashMap<BlockTuple, BlockTuple> fireResults = new HashMap<BlockTuple, BlockTuple>();
+    public HashMap<BlockTuple, BlockTuple> fireResults = new HashMap<>();
     private HashMap<Block, Block> oreDictinaryOresCache;
 
     public BlockFireOrder() {
@@ -85,7 +85,7 @@ public class BlockFireOrder extends BlockFireBase {
 
     public HashMap<Block, Block> getOreDictionaryOres() {
         if (oreDictinaryOresCache == null) {
-            HashMap<Block, Block> result = new HashMap<Block, Block>();
+            HashMap<Block, Block> result = new HashMap<>();
             for (String ore : OreDictionary.getOreNames()) {
                 if (ore.startsWith("ore")) {
                     for (String block : OreDictionary.getOreNames()) {

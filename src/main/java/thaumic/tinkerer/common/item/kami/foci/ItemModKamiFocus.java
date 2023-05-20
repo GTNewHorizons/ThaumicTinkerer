@@ -91,8 +91,6 @@ public abstract class ItemModKamiFocus extends ItemFocusBasic implements ITTinke
         super.addInformation(stack, player, list, par4);
         AspectList cost = getVisCost(stack);
         if (cost != null) {
-            // list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" :
-            // "item.Focus.cost1"));
             addVisCostTooltip(cost, stack, player, list, par4);
         }
     }

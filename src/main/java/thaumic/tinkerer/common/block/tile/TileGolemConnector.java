@@ -41,10 +41,9 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
                 EntityGolemBase.class,
                 AxisAlignedBB
                         .getBoundingBox(xCoord - 30, yCoord - 30, zCoord - 30, xCoord + 30, yCoord + 30, zCoord + 30));
-        Iterator iterator = list.iterator();
 
-        while (iterator.hasNext()) {
-            EntityGolemBase entityGolem = (EntityGolemBase) iterator.next();
+        for (Object o : list) {
+            EntityGolemBase entityGolem = (EntityGolemBase) o;
 
             if (entityGolem.getUniqueID().equals(golemConnected)) {
                 this.golem = entityGolem;
@@ -60,7 +59,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
 
     public Object[] getGolemDecorationsImplementation() throws LuaException {
         if (golem == null || golem.decoration == null || golem.decoration.length() == 0) return new String[] {};
-        HashMap<Double, String> decorations = new HashMap<Double, String>();
+        HashMap<Double, String> decorations = new HashMap<>();
         for (int i = 0; i < golem.decoration.length(); i++) {
             EnumGolemDecorations golemDec = EnumGolemDecorations.getFromChar(golem.decoration.charAt(i));
             if (golemDec == null)
@@ -217,7 +216,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     private Object[] addMarkerImplementation(Map arguments) throws LuaException {
         if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
-        if (markers == null) markers = new ArrayList<Marker>();
+        if (markers == null) markers = new ArrayList<>();
         Marker mark = toMarkerImplementation(arguments);
         markers.add(mark);
         golem.setMarkers(markers);
@@ -225,7 +224,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     }
 
     private Object[] newMarkerImplementation() {
-        HashMap<String, Object> mark = new HashMap<String, Object>();
+        HashMap<String, Object> mark = new HashMap<>();
         mark.put("posX", xCoord);
         mark.put("posY", yCoord);
         mark.put("posZ", zCoord);
@@ -239,7 +238,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     private Object[] setMarkersImplementation(Map arguments) throws LuaException {
         if (golem == null) return new String[] {};
 
-        ArrayList<Marker> arrList = new ArrayList<Marker>();
+        ArrayList<Marker> arrList = new ArrayList<>();
 
         for (Object map : arguments.values()) {
             Marker mark = toMarkerImplementation((Map) map);
@@ -267,7 +266,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
     private Object[] getMarkersImplementation() {
         if (golem == null) return new String[] {};
         ArrayList<Marker> markers = golem.getMarkers();
-        HashMap<Integer, HashMap<String, Object>> luaMarkers = new HashMap<Integer, HashMap<String, Object>>();
+        HashMap<Integer, HashMap<String, Object>> luaMarkers = new HashMap<>();
         int i = 1;
         for (Marker mark : markers) {
             HashMap<String, Object> luaMarker = fromMarkerImplementation(mark);
@@ -281,7 +280,7 @@ public class TileGolemConnector extends TileCamo implements IPeripheral, SimpleC
      * @return
      */
     private HashMap<String, Object> fromMarkerImplementation(Marker mark) {
-        HashMap<String, Object> luaMarker = new HashMap<String, Object>();
+        HashMap<String, Object> luaMarker = new HashMap<>();
 
         luaMarker.put("posX", mark.x);
         luaMarker.put("posY", mark.y);

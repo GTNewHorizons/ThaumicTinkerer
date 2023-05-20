@@ -62,7 +62,7 @@ public class ReflectionHelper {
         while (clazz != null) {
             try {
                 return clazz.getDeclaredMethod(name, argsTypes);
-            } catch (NoSuchMethodException e) {} catch (Exception e) {
+            } catch (NoSuchMethodException ignored) {} catch (Exception e) {
                 throw Throwables.propagate(e);
             }
             clazz = clazz.getSuperclass();

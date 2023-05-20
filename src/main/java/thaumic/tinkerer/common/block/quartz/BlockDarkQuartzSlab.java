@@ -66,11 +66,6 @@ public class BlockDarkQuartzSlab extends BlockSlab implements ITTinkererBlock {
         return Item.getItemFromBlock(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class));
     }
 
-    // @Override
-    // public int idDropped(int par1, Random par2Random, int par3) {
-    // return ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class).blockID;
-    // }
-
     @Override
     public ItemStack createStackedBlock(int par1) {
         return new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class));

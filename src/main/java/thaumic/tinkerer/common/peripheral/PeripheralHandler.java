@@ -29,7 +29,7 @@ import thaumcraft.common.tiles.TileSensor;
 
 public final class PeripheralHandler implements IPeripheralProvider {
 
-    public static List<String> Blacklist = new ArrayList<String>();
+    public static List<String> Blacklist = new ArrayList<>();
 
     public IPeripheral getPeripheral(TileEntity tile) {
         for (String s : Blacklist) {

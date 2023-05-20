@@ -51,7 +51,7 @@ public class GuiButtonEnchant extends GuiButton {
                 && par3 >= yPosition
                 && par3 < yPosition + 15
                 && !enchanter.working) {
-            List<String> tooltip = new ArrayList();
+            List<String> tooltip = new ArrayList<>();
             tooltip.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("ttmisc.startEnchant"));
             parent.tooltip = tooltip;
         }

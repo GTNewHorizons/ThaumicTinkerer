@@ -118,7 +118,7 @@ public abstract class BlockGas extends BlockMod implements ITTinkererBlock {
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        return new ArrayList(); // Empty List
+        return new ArrayList<>(); // Empty List
     }
 
     @Override

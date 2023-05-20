@@ -42,7 +42,7 @@ import thaumic.tinkerer.common.lib.LibBlockNames;
 public class TileRepairer extends TileEntity
         implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
 
-    private static final Map<Aspect, Integer> repairValues = new HashMap();
+    private static final Map<Aspect, Integer> repairValues = new HashMap<>();
 
     static {
         repairValues.put(Aspect.TOOL, 8);

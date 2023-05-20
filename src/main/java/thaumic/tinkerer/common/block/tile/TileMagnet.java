@@ -79,13 +79,7 @@ public class TileMagnet extends TileEntity implements IPeripheral, IMovableTile,
     }
 
     IEntitySelector getEntitySelector() {
-        return new IEntitySelector() {
-
-            @Override
-            public boolean isEntityApplicable(Entity entity) {
-                return entity instanceof EntityItem;
-            }
-        };
+        return entity -> entity instanceof EntityItem;
     }
 
     @Override

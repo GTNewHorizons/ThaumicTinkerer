@@ -32,7 +32,7 @@ public class ModCreativeTab extends CreativeTabs {
 
     public static ModCreativeTab INSTANCE;
     // Holds the registered items and blocks before they are sorted
-    public ArrayList<ItemStack> creativeTabQueue = new ArrayList<ItemStack>();
+    public ArrayList<ItemStack> creativeTabQueue = new ArrayList<>();
     ItemStack displayItem;
     List list = new ArrayList();
 
@@ -91,7 +91,7 @@ public class ModCreativeTab extends CreativeTabs {
     }
 
     public void addAllItemsAndBlocks() {
-        Collections.sort(creativeTabQueue, new ItemStackCompatator());
+        creativeTabQueue.sort(new ItemStackCompatator());
         list.addAll(creativeTabQueue);
     }
 }

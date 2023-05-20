@@ -29,7 +29,7 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 public class ItemFocusSmelt extends ItemModFocus {
 
     private static final AspectList visUsage = new AspectList().add(Aspect.FIRE, 45).add(Aspect.ENTROPY, 12);
-    public static Map<String, SmeltData> playerData = new HashMap();
+    public static Map<String, SmeltData> playerData = new HashMap<>();
 
     private int soundCooldown = 3; // In ticks
 

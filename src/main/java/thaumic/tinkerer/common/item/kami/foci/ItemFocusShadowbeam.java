@@ -161,32 +161,6 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
             this.setGravity(-0.7f);
             //////////////////////////////////////////////////
             // For more check the parent class
-            //////////////////////////////////////////////////
-            // this.leyLineEffect = false;
-            // this.multiplier = 2;
-            // this.shrink = true;
-            // this.particle = 16;
-            // this.tinkle = false;
-            // this.blendmode = 1;
-            // this.slowdown = true;
-            // this.currentColor = 0;
-            // if(f1 == 0.0F) {
-            // f1 = 1.0F;
-            // }
-            // this.particleRed = f1;
-            // this.particleGreen = f2;
-            // this.particleBlue = f3;
-            // this.particleGravity = 0.0F;
-            // this.motionX = this.motionY = this.motionZ = 0.0D;
-            // this.particleScale *= f;
-            // this.particleMaxAge = 3 * m;
-            // this.multiplier = m;
-            // this.noClip = false;
-            // this.setSize(0.01F, 0.01F);
-            // this.prevPosX = this.posX;
-            // this.prevPosY = this.posY;
-            // this.prevPosZ = this.posZ;
-            //////////////////////////////////////////////////
         }
     }
 

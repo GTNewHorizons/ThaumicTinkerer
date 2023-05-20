@@ -42,7 +42,7 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
 
         if (!player.worldObj.isRemote) try {
             ((InventoryIchorPouch) inv).stackList = ((ItemFocusPouch) pouch.getItem()).getInventory(pouch);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     @Override

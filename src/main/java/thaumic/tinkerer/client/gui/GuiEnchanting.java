@@ -43,7 +43,7 @@ public class GuiEnchanting extends GuiContainer {
 
     private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_ENCHANTER);
     public TileEnchanter enchanter;
-    public List<String> tooltip = new ArrayList();
+    public List<String> tooltip = new ArrayList<>();
     int x, y;
     GuiButtonEnchantment[] enchantButtons = new GuiButtonEnchantment[16];
     List<Integer> lastTickEnchants;
@@ -56,8 +56,8 @@ public class GuiEnchanting extends GuiContainer {
         this.enchanter = enchanter;
         lastTickStack = enchanter.getStackInSlot(0);
         currentStack = enchanter.getStackInSlot(0);
-        lastTickEnchants = new ArrayList(enchanter.enchantments);
-        lastTickLevels = new ArrayList(enchanter.levels);
+        lastTickEnchants = new ArrayList<>(enchanter.enchantments);
+        lastTickLevels = new ArrayList<>(enchanter.levels);
     }
 
     @Override
@@ -173,8 +173,8 @@ public class GuiEnchanting extends GuiContainer {
             buildButtonList();
 
         lastTickStack = currentStack;
-        lastTickEnchants = new ArrayList(enchanter.enchantments);
-        lastTickLevels = new ArrayList(enchanter.enchantments);
+        lastTickEnchants = new ArrayList<>(enchanter.enchantments);
+        lastTickLevels = new ArrayList<>(enchanter.enchantments);
     }
 
     @Override
@@ -231,7 +231,7 @@ public class GuiEnchanting extends GuiContainer {
         }
 
         if (mx > x && mx <= x + 10 && my > y - size && my <= y) {
-            List<String> tooltip = new ArrayList();
+            List<String> tooltip = new ArrayList<>();
             tooltip.add('\u00a7' + aspect.getChatcolor() + aspect.getName());
             tooltip.add(current + "/" + totalCost);
             this.tooltip = tooltip;

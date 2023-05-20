@@ -12,7 +12,7 @@ import thaumcraft.common.tiles.TileJarFillable;
 public class IAspectContainerImplementation {
 
     public static Object[] getAspects(IAspectContainer container) {
-        HashMap<Double, String> returnStuff = new HashMap<Double, String>();
+        HashMap<Double, String> returnStuff = new HashMap<>();
         double i = 1;
         if (container instanceof TileJarFillable && ((TileJarFillable) container).aspectFilter != null) {
             returnStuff.put(i++, ((TileJarFillable) container).aspectFilter.getTag());

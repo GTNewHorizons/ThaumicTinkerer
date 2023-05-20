@@ -44,7 +44,7 @@ public class GuiWarpGateDestinations extends GuiScreen {
     int lastMouseX, lastMouseY;
     int x, y;
     int ticks;
-    List<String> tooltip = new ArrayList();
+    List<String> tooltip = new ArrayList<>();
 
     public GuiWarpGateDestinations(TileWarpGate warpGate) {
         this.warpGate = warpGate;
@@ -113,7 +113,7 @@ public class GuiWarpGateDestinations extends GuiScreen {
         int gateY = warpGate.zCoord - y;
         mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
 
-        List<Object[]> coords = new ArrayList();
+        List<Object[]> coords = new ArrayList<>();
 
         for (int i = 0; i < warpGate.getSizeInventory(); i++) {
             ItemStack stack = warpGate.getStackInSlot(i);

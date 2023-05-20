@@ -53,7 +53,7 @@ public class BlockFireAir extends BlockFireBase {
 
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<BlockTuple, BlockTuple>();
+        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
         result.put(new BlockTuple(Blocks.log), new BlockTuple(Blocks.sand));
         result.put(new BlockTuple(Blocks.leaves), new BlockTuple(Blocks.sandstone));
         result.put(new BlockTuple(Blocks.leaves2), new BlockTuple(Blocks.sandstone));

@@ -54,7 +54,7 @@ public class GuiButtonEnchantment extends GuiButton {
         GL11.glDisable(GL11.GL_BLEND);
 
         if (par2 >= xPosition && par2 < xPosition + 16 && par3 >= yPosition && par3 < yPosition + 16) {
-            List<String> tooltip = new ArrayList();
+            List<String> tooltip = new ArrayList<>();
             tooltip.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal(enchant.getName()));
             for (Aspect aspect : data.aspects.getAspectsSorted()) tooltip.add(
                     " \u00a7" + aspect.getChatcolor()
