@@ -109,8 +109,8 @@ public class TTRegistry {
                         itemRegistry.put(((ITTinkererBlock) newBlock).getItemBlock(), itemList);
                     }
                 }
-            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |
-                IllegalAccessException e) {
+            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
+                    | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

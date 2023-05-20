@@ -23,10 +23,12 @@ public class TileWardedSlab extends TileEntity {
         return this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
     }
 
+    @Override
     public boolean canUpdate() {
         return true;
     }
 
+    @Override
     public void updateEntity() {
         if (!this.worldObj.isRemote) {
             if (this.count == 0) {
@@ -49,9 +51,9 @@ public class TileWardedSlab extends TileEntity {
                         EntityLivingBase e = (EntityLivingBase) target;
                         if (!e.onGround && !(e instanceof EntityPlayer)) {
                             e.addVelocity(
-                                (double) (-MathHelper.sin((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F),
-                                -0.1D,
-                                (double) (MathHelper.cos((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F));
+                                    (double) (-MathHelper.sin((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F),
+                                    -0.1D,
+                                    (double) (MathHelper.cos((e.rotationYaw + 180.0F) * 3.1415927F / 180.0F) * 0.2F));
                         }
                     }
                 }

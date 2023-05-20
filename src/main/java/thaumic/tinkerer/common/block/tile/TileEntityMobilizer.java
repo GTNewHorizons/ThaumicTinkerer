@@ -67,6 +67,7 @@ public class TileEntityMobilizer extends TileEntity {
         }
     }
 
+    @Override
     public void updateEntity() {
 
         // Check for ghost TEs

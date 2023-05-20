@@ -239,6 +239,7 @@ public class ItemInfusedSeeds extends ItemSeeds implements ITTinkererItem {
                         new ItemStack(ConfigItems.itemShard, 1, 5)));
     }
 
+    @Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World world, int x, int y, int z,
             int par7, float par8, float par9, float par10) {
         if (par7 != 1) {

@@ -152,6 +152,7 @@ public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererI
         return false;
     }
 
+    @Override
     public boolean canApplyUpgrade(ItemStack focusstack, EntityPlayer player, FocusUpgradeType type, int rank) {
         return true;
     }

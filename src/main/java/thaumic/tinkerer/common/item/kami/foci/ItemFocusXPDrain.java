@@ -40,6 +40,7 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
         return true;
     }
 
+    @Override
     public String getSortingHelper(ItemStack itemstack) {
         return "TTKXP" + super.getSortingHelper(itemstack);
     }

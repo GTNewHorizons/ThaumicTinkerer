@@ -46,6 +46,7 @@ public class ItemFocusRecall extends ItemModKamiFocus {
         super();
     }
 
+    @Override
     public String getSortingHelper(ItemStack itemstack) {
         return "TTKCR" + super.getSortingHelper(itemstack);
     }

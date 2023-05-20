@@ -70,6 +70,7 @@ public class ItemFocusTelekinesis extends ItemModFocus {
         }
     }
 
+    @Override
     public String getSortingHelper(ItemStack itemstack) {
         return "TTTE" + super.getSortingHelper(itemstack);
     }

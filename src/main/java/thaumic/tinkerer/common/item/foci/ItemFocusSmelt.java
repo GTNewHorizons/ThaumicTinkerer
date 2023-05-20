@@ -180,6 +180,7 @@ public class ItemFocusSmelt extends ItemModFocus {
         }
     }
 
+    @Override
     public String getSortingHelper(ItemStack itemstack) {
         return "TTEF" + super.getSortingHelper(itemstack);
     }

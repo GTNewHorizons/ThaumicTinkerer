@@ -126,6 +126,7 @@ public class ItemFocusDeflect extends ItemModFocus {
         if (wand.consumeAllVis(stack, p, getVisCost(stack), true, false)) protectFromProjectiles(p, stack);
     }
 
+    @Override
     public String getSortingHelper(ItemStack itemstack) {
         return "TTDF" + super.getSortingHelper(itemstack);
     }

@@ -48,6 +48,7 @@ public class ItemFocusShadowbeam extends ItemModKamiFocus {
         EntityRegistry.registerModEntity(Beam.class, "ShadowbeamStaffBeam", 0, ThaumicTinkerer.instance, 0, 0, false);
     }
 
+    @Override
     public String getSortingHelper(ItemStack itemstack) {
         return "TTKSH" + super.getSortingHelper(itemstack);
     }

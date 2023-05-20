@@ -113,11 +113,13 @@ public class BlockInfusedFarmland extends BlockFarmland implements ITTinkererBlo
     @Override
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {}
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
         return p_149691_1_ == 1 ? (iconWet) : Blocks.dirt.getBlockTextureFromSide(p_149691_1_);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_) {
         this.iconWet = IconHelper.forBlock(p_149651_1_, this);

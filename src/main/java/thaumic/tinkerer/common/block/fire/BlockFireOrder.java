@@ -170,6 +170,7 @@ public class BlockFireOrder extends BlockFireBase {
         return fireResults;
     }
 
+    @Override
     public boolean isTransmutationTarget(BlockTuple block, World w, int x, int y, int z) {
         return getBlockTransformation(w, x, y, z).keySet().contains(block)
                 && getBlockTransformation().get(block) != null

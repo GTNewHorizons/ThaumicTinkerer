@@ -31,6 +31,7 @@ public class GuiIchorPouch extends GuiContainer {
 
     // Overridden to prevent a dupe
     // See issue 367
+    @Override
     protected boolean checkHotbarKeys(int slot) {
         if (this.mc.gameSettings.keyBindsHotbar[this.mc.thePlayer.inventory.currentItem].getKeyCode() != slot) {
             super.checkHotbarKeys(slot);

@@ -98,6 +98,7 @@ public class BlockBedrockPortal extends BlockMod {
         return false;
     }
 
+    @Override
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
         if (par5 != 1 && par5 != 0 && !super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5)) {
             return false;

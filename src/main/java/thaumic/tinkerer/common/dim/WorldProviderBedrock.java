@@ -17,16 +17,19 @@ public class WorldProviderBedrock extends WorldProvider {
 
     private float[] colorsSunriseSunset = new float[4];
 
+    @Override
     public void registerWorldChunkManager() {
         this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.beach, this.dimensionId);
         this.dimensionId = ConfigHandler.bedrockDimensionID;
         this.hasNoSky = false;
     }
 
+    @Override
     public IChunkProvider createChunkGenerator() {
         return new ChunkProviderBedrock(this.worldObj, this.worldObj.getSeed(), false);
     }
 
+    @Override
     public int getAverageGroundLevel() {
         return 1;
     }
@@ -36,6 +39,7 @@ public class WorldProviderBedrock extends WorldProvider {
         return false;
     }
 
+    @Override
     public String getDimensionName() {
         return "Bedrock";
     }
@@ -68,10 +72,12 @@ public class WorldProviderBedrock extends WorldProvider {
         return 8.0F;
     }
 
+    @Override
     public boolean canRespawnHere() {
         return false;
     }
 
+    @Override
     public boolean isSurfaceWorld() {
         return false;
     }
@@ -81,14 +87,17 @@ public class WorldProviderBedrock extends WorldProvider {
         return 0F;
     }
 
+    @Override
     public boolean canCoordinateBeSpawn(int par1, int par2) {
         return false;
     }
 
+    @Override
     public ChunkCoordinates getEntrancePortalLocation() {
         return new ChunkCoordinates(50, 5, 0);
     }
 
+    @Override
     protected void generateLightBrightnessTable() {
         float f = 12.0F;
         for (int i = 0; i <= 15; i++) {
@@ -97,11 +106,13 @@ public class WorldProviderBedrock extends WorldProvider {
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public String getWelcomeMessage() {
         return null;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public float[] calcSunriseSunsetColors(float par1, float par2) {
         float f2 = 0.4F;
@@ -121,6 +132,7 @@ public class WorldProviderBedrock extends WorldProvider {
         return null;
     }
 
+    @Override
     public float calculateCelestialAngle(long par1, float par3) {
         int j = (int) (par1 % 24000L);
         float f1 = (j + par3) / 24000.0F - 0.25F;
@@ -136,6 +148,7 @@ public class WorldProviderBedrock extends WorldProvider {
         return f1;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float par1, float par2) {
         int i = 10518688;

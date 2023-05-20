@@ -71,6 +71,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         return false;
     }
 
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_,
             int p_149668_4_) {
         return null;
@@ -80,22 +81,27 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         return 1;
     }
 
+    @Override
     public boolean isOpaqueCube() {
         return false;
     }
 
+    @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
 
+    @Override
     public int getRenderType() {
         return 3;
     }
 
+    @Override
     public int quantityDropped(Random p_149745_1_) {
         return 0;
     }
 
+    @Override
     public int tickRate(World p_149738_1_) {
         return ConfigHandler.enableFireMechanics ? 200 : 0x7ffffff0;
     }
@@ -116,6 +122,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         }
     }
 
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
 
         if (world.getGameRules().getGameRuleBooleanValue("doFireTick") && ConfigHandler.enableFire
@@ -239,6 +246,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         }
     }
 
+    @Override
     public boolean func_149698_L() {
         return false;
     }
@@ -303,6 +311,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     /**
      * Returns if this block is collidable (only used by Fire). Args: x, y, z
      */
+    @Override
     public boolean isCollidable() {
         return false;
     }
@@ -310,11 +319,13 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     /**
      * Checks the specified block coordinate to see if it can catch fire. Args: blockAccess, x, y, z
      */
+    @Override
     @Deprecated
     public boolean canBlockCatchFire(IBlockAccess p_149844_1_, int p_149844_2_, int p_149844_3_, int p_149844_4_) {
         return canCatchFire(p_149844_1_, p_149844_2_, p_149844_3_, p_149844_4_, UP);
     }
 
+    @Override
     @Deprecated
     public int func_149846_a(World p_149846_1_, int p_149846_2_, int p_149846_3_, int p_149846_4_, int p_149846_5_) {
         return getChanceToEncourageFire(p_149846_1_, p_149846_2_, p_149846_3_, p_149846_4_, p_149846_5_, UP);
@@ -330,14 +341,17 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
      */
+    @Override
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_) {
         return true;
     }
 
+    @Override
     public boolean canCatchFire(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
         return getBlockFlammability(world, x, y, z, face) > 0;
     }
 
+    @Override
     public int getChanceToEncourageFire(IBlockAccess world, int x, int y, int z, int oldChance, ForgeDirection face) {
         int newChance = world.getBlock(x, y, z).getFireSpreadSpeed(world, x, y, z, face);
 
@@ -348,6 +362,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor Block
      */
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (!World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !this.canNeighborBurn(world, x, y, z)) {
             world.setBlockToAir(x, y, z);
@@ -357,6 +372,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     /**
      * Called whenever the block is added into the world. Args: world, x, y, z
      */
+    @Override
     public void onBlockAdded(World world, int x, int y, int z) {
         if (world.provider.dimensionId > 0 || !Blocks.portal.func_150000_e(world, x, y, z)) {
             world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + world.rand.nextInt(10));
@@ -366,6 +382,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     /**
      * A randomly called display update to be able to add particles or other items for display
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         if (rand.nextInt(24) == 0) {
@@ -440,6 +457,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         }
     }
 
+    @Override
     public MapColor getMapColor(int p_149728_1_) {
         return MapColor.tntColor;
     }
@@ -469,6 +487,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         return ItemBlockFire.class;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         this.icons = new IIcon[] { IconHelper.forName(iconRegister, this.getBlockName() + "_layer_0"),
@@ -497,6 +516,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         itemIcon = IconHelper.forName(iconRegister, s);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getFireIcon(int p_149840_1_) {
         return this.icons[p_149840_1_];
@@ -505,6 +525,7 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     /**
      * Gets the block's texture. Args: side, meta
      */
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
         return itemIcon;

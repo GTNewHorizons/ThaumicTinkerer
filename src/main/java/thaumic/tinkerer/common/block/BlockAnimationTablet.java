@@ -98,8 +98,7 @@ public class BlockAnimationTablet extends BlockModContainer {
         TileAnimationTablet tablet = (TileAnimationTablet) par1World.getTileEntity(par2, par3, par4);
 
         if (tablet != null) {
-            if (tablet.getIsBreaking()) {
-            }
+            if (tablet.getIsBreaking()) {}
 
             for (int j1 = 0; j1 < tablet.getSizeInventory(); ++j1) {
                 ItemStack itemstack = tablet.getStackInSlot(j1);

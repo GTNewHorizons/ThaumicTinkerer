@@ -173,6 +173,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         }
     }
 
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
         // Prevent normal growth from occuring
         // Growth takes place in the tile entity

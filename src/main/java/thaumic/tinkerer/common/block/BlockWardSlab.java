@@ -191,17 +191,17 @@ public class BlockWardSlab extends BlockSlab implements ITTinkererBlock, ITileEn
                                         Entity entity = (Entity) o;
                                         if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
                                             Thaumcraft.proxy.blockRunes(
-                                                world,
-                                                (double) x,
-                                                (double) ((float) y + 0.6F + world.rand.nextFloat() * Math.max(
-                                                    0.8F,
-                                                    entity.getEyeHeight())),
-                                                (double) z,
-                                                0.6F + world.rand.nextFloat() * 0.4F,
-                                                0.0F,
-                                                0.3F + world.rand.nextFloat() * 0.7F,
-                                                20,
-                                                0.0F);
+                                                    world,
+                                                    (double) x,
+                                                    (double) ((float) y + 0.6F
+                                                            + world.rand.nextFloat()
+                                                                    * Math.max(0.8F, entity.getEyeHeight())),
+                                                    (double) z,
+                                                    0.6F + world.rand.nextFloat() * 0.4F,
+                                                    0.0F,
+                                                    0.3F + world.rand.nextFloat() * 0.7F,
+                                                    20,
+                                                    0.0F);
                                             break;
                                         }
                                     }
