@@ -22,6 +22,8 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireWater extends BlockFireBase {
 
+    private static HashMap<BlockTuple, BlockTuple> blockTransformation = null;
+
     public BlockFireWater() {
         super();
     }
@@ -55,16 +57,23 @@ public class BlockFireWater extends BlockFireBase {
                 new AspectList().add(Aspect.FIRE, 5).add(Aspect.MAGIC, 5).add(Aspect.WATER, 5));
     }
 
+    private static void initBlockTransformation() {
+        blockTransformation = new HashMap<>();
+        blockTransformation.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.ice));
+        blockTransformation.put(new BlockTuple(Blocks.netherrack), new BlockTuple(Blocks.snow));
+        blockTransformation.put(new BlockTuple(Blocks.soul_sand), new BlockTuple(Blocks.ice));
+        blockTransformation.put(new BlockTuple(Blocks.glowstone), new BlockTuple(Blocks.ice));
+        blockTransformation.put(new BlockTuple(Blocks.lava), new BlockTuple(Blocks.obsidian));
+        blockTransformation.put(new BlockTuple(Blocks.flowing_lava), new BlockTuple(Blocks.obsidian));
+    }
+
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
-        result.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.ice));
-        result.put(new BlockTuple(Blocks.netherrack), new BlockTuple(Blocks.snow));
-        result.put(new BlockTuple(Blocks.soul_sand), new BlockTuple(Blocks.ice));
-        result.put(new BlockTuple(Blocks.glowstone), new BlockTuple(Blocks.ice));
-        result.put(new BlockTuple(Blocks.lava), new BlockTuple(Blocks.obsidian));
-        result.put(new BlockTuple(Blocks.flowing_lava), new BlockTuple(Blocks.obsidian));
-        return result;
+        if (blockTransformation == null) {
+            initBlockTransformation();
+        }
+
+        return blockTransformation;
     }
 
     @Override

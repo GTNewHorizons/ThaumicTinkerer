@@ -23,6 +23,8 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireChaos extends BlockFireBase {
 
+    private static HashMap<BlockTuple, BlockTuple> blockTransformation = null;
+
     @Override
     public String getBlockName() {
         return LibBlockNames.BLOCK_FIRE_CHAOS;
@@ -60,26 +62,32 @@ public class BlockFireChaos extends BlockFireBase {
         return 1;
     }
 
-    @Override
-    public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
-        result.put(
+    private static void initBlockTransformation() {
+        blockTransformation = new HashMap<>();
+        blockTransformation.put(
                 new BlockTuple(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockFireAir.class)),
                 new BlockTuple(Blocks.fire));
-        result.put(
+        blockTransformation.put(
                 new BlockTuple(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockFireWater.class)),
                 new BlockTuple(Blocks.fire));
-        result.put(
+        blockTransformation.put(
                 new BlockTuple(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockFireEarth.class)),
                 new BlockTuple(Blocks.fire));
-        result.put(
+        blockTransformation.put(
                 new BlockTuple(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockFireIgnis.class)),
                 new BlockTuple(Blocks.fire));
-        result.put(
+        blockTransformation.put(
                 new BlockTuple(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockFireOrder.class)),
                 new BlockTuple(Blocks.fire));
+    }
 
-        return result;
+    @Override
+    public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
+        if (blockTransformation == null) {
+            initBlockTransformation();
+        }
+
+        return blockTransformation;
     }
 
     @Override

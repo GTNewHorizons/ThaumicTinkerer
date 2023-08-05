@@ -22,6 +22,8 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireIgnis extends BlockFireBase {
 
+    private static HashMap<BlockTuple, BlockTuple> blockTransformation = null;
+
     @Override
     public String getBlockName() {
         return LibBlockNames.BLOCK_FIRE_FIRE;
@@ -51,29 +53,36 @@ public class BlockFireIgnis extends BlockFireBase {
                 new AspectList().add(Aspect.FIRE, 10).add(Aspect.AIR, 5));
     }
 
+    private static void initBlockTransformation() {
+        blockTransformation = new HashMap<>();
+        blockTransformation.put(new BlockTuple(Blocks.grass), new BlockTuple(Blocks.netherrack));
+        blockTransformation.put(new BlockTuple(Blocks.dirt), new BlockTuple(Blocks.netherrack));
+        blockTransformation.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.soul_sand));
+        blockTransformation.put(new BlockTuple(Blocks.gravel), new BlockTuple(Blocks.soul_sand));
+        blockTransformation.put(new BlockTuple(Blocks.clay), new BlockTuple(Blocks.glowstone));
+        blockTransformation.put(new BlockTuple(Blocks.coal_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.iron_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.diamond_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.emerald_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.gold_block), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.lapis_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.redstone_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.lit_redstone_ore), new BlockTuple(Blocks.quartz_ore));
+        blockTransformation.put(new BlockTuple(Blocks.water), new BlockTuple(Blocks.lava));
+        blockTransformation.put(new BlockTuple(Blocks.wheat), new BlockTuple(Blocks.nether_wart));
+        blockTransformation.put(new BlockTuple(Blocks.potatoes), new BlockTuple(Blocks.nether_wart));
+        blockTransformation.put(new BlockTuple(Blocks.carrots), new BlockTuple(Blocks.nether_wart));
+        blockTransformation.put(new BlockTuple(Blocks.red_flower), new BlockTuple(Blocks.brown_mushroom));
+        blockTransformation.put(new BlockTuple(Blocks.yellow_flower), new BlockTuple(Blocks.yellow_flower));
+    }
+
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
-        result.put(new BlockTuple(Blocks.grass), new BlockTuple(Blocks.netherrack));
-        result.put(new BlockTuple(Blocks.dirt), new BlockTuple(Blocks.netherrack));
-        result.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.soul_sand));
-        result.put(new BlockTuple(Blocks.gravel), new BlockTuple(Blocks.soul_sand));
-        result.put(new BlockTuple(Blocks.clay), new BlockTuple(Blocks.glowstone));
-        result.put(new BlockTuple(Blocks.coal_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.iron_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.diamond_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.emerald_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.gold_block), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.lapis_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.redstone_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.lit_redstone_ore), new BlockTuple(Blocks.quartz_ore));
-        result.put(new BlockTuple(Blocks.water), new BlockTuple(Blocks.lava));
-        result.put(new BlockTuple(Blocks.wheat), new BlockTuple(Blocks.nether_wart));
-        result.put(new BlockTuple(Blocks.potatoes), new BlockTuple(Blocks.nether_wart));
-        result.put(new BlockTuple(Blocks.carrots), new BlockTuple(Blocks.nether_wart));
-        result.put(new BlockTuple(Blocks.red_flower), new BlockTuple(Blocks.brown_mushroom));
-        result.put(new BlockTuple(Blocks.yellow_flower), new BlockTuple(Blocks.yellow_flower));
-        return result;
+        if (blockTransformation == null) {
+            initBlockTransformation();
+        }
+
+        return blockTransformation;
     }
 
     @Override

@@ -90,7 +90,7 @@ public class BlockFireOrder extends BlockFireBase {
                 if (ore.startsWith("ore")) {
                     for (String block : OreDictionary.getOreNames()) {
                         if (block.startsWith("block") && block.substring(5).equalsIgnoreCase(ore.substring(3))) {
-                            if (OreDictionary.getOres(block).size() > 0 && OreDictionary.getOres(ore).size() > 0) {
+                            if (!OreDictionary.getOres(block).isEmpty() && !OreDictionary.getOres(ore).isEmpty()) {
                                 result.put(
                                         ((ItemBlock) OreDictionary.getOres(ore).get(0).getItem()).field_150939_a,
                                         ((ItemBlock) OreDictionary.getOres(block).get(0).getItem()).field_150939_a);
@@ -112,7 +112,7 @@ public class BlockFireOrder extends BlockFireBase {
 
     @Override
     public boolean isTransmutationResult(BlockTuple block, World w, int x, int y, int z) {
-        return getBlockTransformation(w, x, y, z).values().contains(block);
+        return getBlockTransformation(w, x, y, z).containsValue(block);
     }
 
     public ItemStack getBlockCraftingResult(World w, ItemStack itemStack) {
@@ -150,7 +150,7 @@ public class BlockFireOrder extends BlockFireBase {
             int resultMeta = 0;
 
             ArrayList<ItemStack> drops = block.getDrops(w, x, y, z, meta, 0);
-            if (drops.size() > 0 && (drops.size() == 1 || allEqual(drops))) {
+            if (!drops.isEmpty() && (drops.size() == 1 || allEqual(drops))) {
 
                 ItemStack stack = drops.get(0);
 
@@ -172,8 +172,7 @@ public class BlockFireOrder extends BlockFireBase {
 
     @Override
     public boolean isTransmutationTarget(BlockTuple block, World w, int x, int y, int z) {
-        return getBlockTransformation(w, x, y, z).keySet().contains(block)
-                && getBlockTransformation().get(block) != null
+        return getBlockTransformation(w, x, y, z).containsKey(block) && getBlockTransformation().get(block) != null
                 && getBlockTransformation().get(block).block != null;
     }
 }

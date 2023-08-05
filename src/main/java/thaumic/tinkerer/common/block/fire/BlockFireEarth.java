@@ -22,6 +22,8 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireEarth extends BlockFireBase {
 
+    private static HashMap<BlockTuple, BlockTuple> blockTransformation = null;
+
     public BlockFireEarth() {
         super();
     }
@@ -55,28 +57,36 @@ public class BlockFireEarth extends BlockFireBase {
                 new AspectList().add(Aspect.FIRE, 5).add(Aspect.MAGIC, 5).add(Aspect.EARTH, 5));
     }
 
+    private static void initBlockTransformation() {
+        blockTransformation = new HashMap<>();
+        blockTransformation = new HashMap<>();
+        blockTransformation.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.dirt));
+        blockTransformation.put(new BlockTuple(Blocks.gravel), new BlockTuple(Blocks.clay));
+        blockTransformation.put(new BlockTuple(Blocks.nether_brick), new BlockTuple(Blocks.planks));
+        blockTransformation.put(new BlockTuple(Blocks.nether_brick_fence), new BlockTuple(Blocks.fence));
+        blockTransformation.put(new BlockTuple(Blocks.nether_brick_stairs), new BlockTuple(Blocks.oak_stairs));
+        blockTransformation.put(new BlockTuple(Blocks.cactus), new BlockTuple(Blocks.log));
+        blockTransformation.put(new BlockTuple(Blocks.snow_layer), new BlockTuple(Blocks.tallgrass));
+        blockTransformation.put(new BlockTuple(Blocks.stone), new BlockTuple(Blocks.dirt));
+        blockTransformation.put(new BlockTuple(Blocks.mob_spawner), new BlockTuple(Blocks.iron_block));
+        blockTransformation.put(new BlockTuple(Blocks.log), new BlockTuple(Blocks.dirt));
+
+        blockTransformation.put(new BlockTuple(Blocks.log2), new BlockTuple(Blocks.dirt));
+
+        blockTransformation.put(new BlockTuple(Blocks.leaves), new BlockTuple(Blocks.dirt));
+        blockTransformation.put(new BlockTuple(Blocks.leaves2), new BlockTuple(Blocks.dirt));
+        blockTransformation.put(new BlockTuple(Blocks.cobblestone), new BlockTuple(Blocks.dirt));
+        blockTransformation.put(new BlockTuple(Blocks.planks), new BlockTuple(Blocks.dirt));
+        blockTransformation.put(new BlockTuple(Blocks.glass), new BlockTuple(Blocks.dirt));
+    }
+
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
-        result.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.dirt));
-        result.put(new BlockTuple(Blocks.gravel), new BlockTuple(Blocks.clay));
-        result.put(new BlockTuple(Blocks.nether_brick), new BlockTuple(Blocks.planks));
-        result.put(new BlockTuple(Blocks.nether_brick_fence), new BlockTuple(Blocks.fence));
-        result.put(new BlockTuple(Blocks.nether_brick_stairs), new BlockTuple(Blocks.oak_stairs));
-        result.put(new BlockTuple(Blocks.cactus), new BlockTuple(Blocks.log));
-        result.put(new BlockTuple(Blocks.snow_layer), new BlockTuple(Blocks.tallgrass));
-        result.put(new BlockTuple(Blocks.stone), new BlockTuple(Blocks.dirt));
-        result.put(new BlockTuple(Blocks.mob_spawner), new BlockTuple(Blocks.iron_block));
-        result.put(new BlockTuple(Blocks.log), new BlockTuple(Blocks.dirt));
+        if (blockTransformation == null) {
+            initBlockTransformation();
+        }
 
-        result.put(new BlockTuple(Blocks.log2), new BlockTuple(Blocks.dirt));
-
-        result.put(new BlockTuple(Blocks.leaves), new BlockTuple(Blocks.dirt));
-        result.put(new BlockTuple(Blocks.leaves2), new BlockTuple(Blocks.dirt));
-        result.put(new BlockTuple(Blocks.cobblestone), new BlockTuple(Blocks.dirt));
-        result.put(new BlockTuple(Blocks.planks), new BlockTuple(Blocks.dirt));
-        result.put(new BlockTuple(Blocks.glass), new BlockTuple(Blocks.dirt));
-        return result;
+        return blockTransformation;
     }
 
     @Override

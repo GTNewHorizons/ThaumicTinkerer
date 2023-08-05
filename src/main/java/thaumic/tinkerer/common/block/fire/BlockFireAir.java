@@ -22,6 +22,8 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireAir extends BlockFireBase {
 
+    private static HashMap<BlockTuple, BlockTuple> blockTransformation = null;
+
     @Override
     public String getBlockName() {
         return LibBlockNames.BLOCK_FIRE_AIR;
@@ -51,20 +53,27 @@ public class BlockFireAir extends BlockFireBase {
                 new AspectList().add(Aspect.FIRE, 5).add(Aspect.MAGIC, 5).add(Aspect.AIR, 5));
     }
 
+    private static void initBlockTransformation() {
+        blockTransformation = new HashMap<>();
+        blockTransformation.put(new BlockTuple(Blocks.log), new BlockTuple(Blocks.sand));
+        blockTransformation.put(new BlockTuple(Blocks.leaves), new BlockTuple(Blocks.sandstone));
+        blockTransformation.put(new BlockTuple(Blocks.leaves2), new BlockTuple(Blocks.sandstone));
+        blockTransformation.put(new BlockTuple(Blocks.log2), new BlockTuple(Blocks.sand));
+        blockTransformation.put(new BlockTuple(Blocks.ice), new BlockTuple(Blocks.glass));
+        if (ConfigHandler.enableCake) {
+            blockTransformation.put(new BlockTuple(Blocks.water), new BlockTuple(Blocks.cake));
+        }
+        blockTransformation.put(new BlockTuple(Blocks.dirt), new BlockTuple(Blocks.sand));
+        blockTransformation.put(new BlockTuple(Blocks.grass), new BlockTuple(Blocks.sand));
+    }
+
     @Override
     public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
-        HashMap<BlockTuple, BlockTuple> result = new HashMap<>();
-        result.put(new BlockTuple(Blocks.log), new BlockTuple(Blocks.sand));
-        result.put(new BlockTuple(Blocks.leaves), new BlockTuple(Blocks.sandstone));
-        result.put(new BlockTuple(Blocks.leaves2), new BlockTuple(Blocks.sandstone));
-        result.put(new BlockTuple(Blocks.log2), new BlockTuple(Blocks.sand));
-        result.put(new BlockTuple(Blocks.ice), new BlockTuple(Blocks.glass));
-        if (ConfigHandler.enableCake) {
-            result.put(new BlockTuple(Blocks.water), new BlockTuple(Blocks.cake));
+        if (blockTransformation == null) {
+            initBlockTransformation();
         }
-        result.put(new BlockTuple(Blocks.dirt), new BlockTuple(Blocks.sand));
-        result.put(new BlockTuple(Blocks.grass), new BlockTuple(Blocks.sand));
-        return result;
+
+        return blockTransformation;
     }
 
     @Override
