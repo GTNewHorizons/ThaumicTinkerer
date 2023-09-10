@@ -1,17 +1,11 @@
 package thaumic.tinkerer.common.block.fire;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -77,7 +71,6 @@ public class BlockFireOrder extends BlockFireBase {
     public boolean isTransmutationResult(Block block, IBlockAccess w, int x, int y, int z) {
         return getBlockTransformation(w, x, y, z).containsValue(block);
     }
-
 
     @Override
     public HashMap<Block, Block> getBlockTransformation(IBlockAccess w, int x, int y, int z) {
