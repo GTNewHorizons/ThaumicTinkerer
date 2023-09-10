@@ -123,7 +123,15 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
                 world.setBlock(xT, yT, zT, targetTransform, 0, 3);
             }
         }
-        if (blockMeta >= 15) {
+
+        if (blockMeta < 15 && blockMeta > 0) {
+            // Randomly increase the age of a fire
+            // 0 meta is considered a source and never increases, for any other meta we have a chance to increase
+            final int newMeta = Math.min(blockMeta + rand.nextInt(3) / 2, 15);
+            if (newMeta > blockMeta) {
+                world.setBlockMetadataWithNotify(x, y, z, newMeta, 4);
+            }
+        } else if (blockMeta >= 15) {
             // No spreading if we're at max meta
             return;
         }
