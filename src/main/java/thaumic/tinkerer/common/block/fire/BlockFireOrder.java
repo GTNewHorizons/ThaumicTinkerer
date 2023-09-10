@@ -79,15 +79,6 @@ public class BlockFireOrder extends BlockFireBase {
     }
 
 
-    private boolean allEqual(ArrayList<ItemStack> list) {
-        for (ItemStack o : list) {
-            if (!o.isItemEqual(list.get(0))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
     public HashMap<Block, Block> getBlockTransformation(IBlockAccess w, int x, int y, int z) {
         return getBlockTransformation();
