@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8.3-GTNH",
+  "package": "thaumic.tinkerer.mixins.early",
+  "refmap": "mixins.ThaumicTinkerer.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8"
+}
+

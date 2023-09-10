@@ -2,16 +2,16 @@ package thaumic.tinkerer.common.block.fire;
 
 import java.util.HashMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockAccess;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
-import thaumic.tinkerer.common.core.helper.BlockTuple;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCrucibleRecipe;
@@ -22,7 +22,7 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireIgnis extends BlockFireBase {
 
-    private static HashMap<BlockTuple, BlockTuple> blockTransformation = null;
+    private static HashMap<Block, Block> blockTransformation = null;
 
     @Override
     public String getBlockName() {
@@ -55,29 +55,29 @@ public class BlockFireIgnis extends BlockFireBase {
 
     private static void initBlockTransformation() {
         blockTransformation = new HashMap<>();
-        blockTransformation.put(new BlockTuple(Blocks.grass), new BlockTuple(Blocks.netherrack));
-        blockTransformation.put(new BlockTuple(Blocks.dirt), new BlockTuple(Blocks.netherrack));
-        blockTransformation.put(new BlockTuple(Blocks.sand), new BlockTuple(Blocks.soul_sand));
-        blockTransformation.put(new BlockTuple(Blocks.gravel), new BlockTuple(Blocks.soul_sand));
-        blockTransformation.put(new BlockTuple(Blocks.clay), new BlockTuple(Blocks.glowstone));
-        blockTransformation.put(new BlockTuple(Blocks.coal_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.iron_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.diamond_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.emerald_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.gold_block), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.lapis_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.redstone_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.lit_redstone_ore), new BlockTuple(Blocks.quartz_ore));
-        blockTransformation.put(new BlockTuple(Blocks.water), new BlockTuple(Blocks.lava));
-        blockTransformation.put(new BlockTuple(Blocks.wheat), new BlockTuple(Blocks.nether_wart));
-        blockTransformation.put(new BlockTuple(Blocks.potatoes), new BlockTuple(Blocks.nether_wart));
-        blockTransformation.put(new BlockTuple(Blocks.carrots), new BlockTuple(Blocks.nether_wart));
-        blockTransformation.put(new BlockTuple(Blocks.red_flower), new BlockTuple(Blocks.brown_mushroom));
-        blockTransformation.put(new BlockTuple(Blocks.yellow_flower), new BlockTuple(Blocks.yellow_flower));
+        blockTransformation.put(Blocks.grass, Blocks.netherrack);
+        blockTransformation.put(Blocks.dirt, Blocks.netherrack);
+        blockTransformation.put(Blocks.sand, Blocks.soul_sand);
+        blockTransformation.put(Blocks.gravel, Blocks.soul_sand);
+        blockTransformation.put(Blocks.clay, Blocks.glowstone);
+        blockTransformation.put(Blocks.coal_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.iron_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.diamond_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.emerald_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.gold_block, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.lapis_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.redstone_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.lit_redstone_ore, Blocks.quartz_ore);
+        blockTransformation.put(Blocks.water, Blocks.lava);
+        blockTransformation.put(Blocks.wheat, Blocks.nether_wart);
+        blockTransformation.put(Blocks.potatoes, Blocks.nether_wart);
+        blockTransformation.put(Blocks.carrots, Blocks.nether_wart);
+        blockTransformation.put(Blocks.red_flower, Blocks.brown_mushroom);
+        blockTransformation.put(Blocks.yellow_flower, Blocks.yellow_flower);
     }
 
     @Override
-    public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
+    public HashMap<Block, Block> getBlockTransformation() {
         if (blockTransformation == null) {
             initBlockTransformation();
         }
@@ -86,8 +86,7 @@ public class BlockFireIgnis extends BlockFireBase {
     }
 
     @Override
-    public HashMap<thaumic.tinkerer.common.core.helper.BlockTuple, thaumic.tinkerer.common.core.helper.BlockTuple> getBlockTransformation(
-            World w, int x, int y, int z) {
+    public HashMap<Block, Block> getBlockTransformation(IBlockAccess w, int x, int y, int z) {
         return getBlockTransformation();
     }
 }

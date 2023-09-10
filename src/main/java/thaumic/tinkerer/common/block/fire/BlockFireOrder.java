@@ -8,19 +8,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
-import thaumic.tinkerer.common.core.helper.BlockTuple;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.ThaumicTinkererCrucibleRecipe;
@@ -31,15 +28,15 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockFireOrder extends BlockFireBase {
 
-    public HashMap<BlockTuple, BlockTuple> fireResults = new HashMap<>();
+    public HashMap<Block, Block> fireResults = new HashMap<>();
     private HashMap<Block, Block> oreDictinaryOresCache;
 
     public BlockFireOrder() {
         super();
-        fireResults.put(new BlockTuple(Blocks.stone), null);
-        fireResults.put(new BlockTuple(Blocks.glass), null);
-        fireResults.put(new BlockTuple(Blocks.sand), null);
-        fireResults.put(new BlockTuple(Blocks.gravel), null);
+        fireResults.put(Blocks.stone, null);
+        fireResults.put(Blocks.glass, null);
+        fireResults.put(Blocks.sand, null);
+        fireResults.put(Blocks.gravel, null);
     }
 
     @Override
@@ -72,64 +69,15 @@ public class BlockFireOrder extends BlockFireBase {
     }
 
     @Override
-    public int getDecayChance(World world, int x, int y, int z) {
-        int dropSize = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0).size();
-        if (dropSize == 2) {
-            return 2;
-        }
-        if (dropSize >= 3) {
-            return 1;
-        }
-        return 3;
-    }
-
-    public HashMap<Block, Block> getOreDictionaryOres() {
-        if (oreDictinaryOresCache == null) {
-            HashMap<Block, Block> result = new HashMap<>();
-            for (String ore : OreDictionary.getOreNames()) {
-                if (ore.startsWith("ore")) {
-                    for (String block : OreDictionary.getOreNames()) {
-                        if (block.startsWith("block") && block.substring(5).equalsIgnoreCase(ore.substring(3))) {
-                            if (!OreDictionary.getOres(block).isEmpty() && !OreDictionary.getOres(ore).isEmpty()) {
-                                result.put(
-                                        ((ItemBlock) OreDictionary.getOres(ore).get(0).getItem()).field_150939_a,
-                                        ((ItemBlock) OreDictionary.getOres(block).get(0).getItem()).field_150939_a);
-                            }
-                        }
-                    }
-                }
-            }
-
-            oreDictinaryOresCache = result;
-        }
-        return oreDictinaryOresCache;
-    }
-
-    @Override
-    public HashMap<BlockTuple, BlockTuple> getBlockTransformation() {
+    public HashMap<Block, Block> getBlockTransformation() {
         return fireResults;
     }
 
     @Override
-    public boolean isTransmutationResult(BlockTuple block, World w, int x, int y, int z) {
+    public boolean isTransmutationResult(Block block, IBlockAccess w, int x, int y, int z) {
         return getBlockTransformation(w, x, y, z).containsValue(block);
     }
 
-    public ItemStack getBlockCraftingResult(World w, ItemStack itemStack) {
-        InventoryCrafting blockCraftInventory = new InventoryCrafting(new Container() {
-
-            @Override
-            public boolean canInteractWith(EntityPlayer entityPlayer) {
-                return false;
-            }
-        }, 3, 3);
-
-        for (int i = 0; i < 9; i++) {
-            blockCraftInventory.setInventorySlotContents(i, itemStack);
-        }
-
-        return CraftingManager.getInstance().findMatchingRecipe(blockCraftInventory, w);
-    }
 
     private boolean allEqual(ArrayList<ItemStack> list) {
         for (ItemStack o : list) {
@@ -141,38 +89,12 @@ public class BlockFireOrder extends BlockFireBase {
     }
 
     @Override
-    public HashMap<BlockTuple, BlockTuple> getBlockTransformation(World w, int x, int y, int z) {
-
-        Block block = w.getBlock(x, y, z);
-        int meta = w.getBlockMetadata(x, y, z);
-        if (!fireResults.containsKey(new BlockTuple(block, meta))) {
-            Block result = null;
-            int resultMeta = 0;
-
-            ArrayList<ItemStack> drops = block.getDrops(w, x, y, z, meta, 0);
-            if (!drops.isEmpty() && (drops.size() == 1 || allEqual(drops))) {
-
-                ItemStack stack = drops.get(0);
-
-                ItemStack blockStack = getBlockCraftingResult(w, stack);
-                if (blockStack == null) {
-                    ItemStack ingotStack = FurnaceRecipes.smelting().getSmeltingResult(stack);
-                    blockStack = getBlockCraftingResult(w, ingotStack);
-                }
-                if (blockStack != null && Block.getBlockFromItem(blockStack.getItem()) != null) {
-                    result = Block.getBlockFromItem(blockStack.getItem());
-                    resultMeta = blockStack.getItemDamage();
-                }
-            }
-
-            fireResults.put(new BlockTuple(block, meta), new BlockTuple(result, resultMeta));
-        }
-        return fireResults;
+    public HashMap<Block, Block> getBlockTransformation(IBlockAccess w, int x, int y, int z) {
+        return getBlockTransformation();
     }
 
     @Override
-    public boolean isTransmutationTarget(BlockTuple block, World w, int x, int y, int z) {
-        return getBlockTransformation(w, x, y, z).containsKey(block) && getBlockTransformation().get(block) != null
-                && getBlockTransformation().get(block).block != null;
+    public boolean isTransmutationTarget(Block block, IBlockAccess w, int x, int y, int z) {
+        return getBlockTransformation(w, x, y, z).containsKey(block) && getBlockTransformation().get(block) != null;
     }
 }

@@ -1,6 +1,11 @@
 package thaumic.tinkerer.common.block.fire;
 
-import static net.minecraftforge.common.util.ForgeDirection.*;
+import static net.minecraftforge.common.util.ForgeDirection.DOWN;
+import static net.minecraftforge.common.util.ForgeDirection.EAST;
+import static net.minecraftforge.common.util.ForgeDirection.NORTH;
+import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
+import static net.minecraftforge.common.util.ForgeDirection.UP;
+import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +31,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
-import thaumic.tinkerer.common.core.helper.BlockTuple;
 import thaumic.tinkerer.common.item.ItemBlockFire;
 import thaumic.tinkerer.common.registry.ITTinkererBlock;
 
@@ -38,42 +42,30 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
 
     private static final Random random = new Random();
 
-    public abstract HashMap<BlockTuple, BlockTuple> getBlockTransformation();
+    public abstract HashMap<Block, Block> getBlockTransformation();
 
-    public boolean isTransmutationTarget(Block block, World w, int x, int y, int z) {
-
-        return isTransmutationTarget(new BlockTuple(block), w, x, y, z);
-    }
-
-    public boolean isTransmutationResult(Block block, World w, int x, int y, int z) {
-        return isTransmutationResult(new BlockTuple(block), w, x, y, z);
-    }
-
-    public boolean isTransmutationTarget(BlockTuple block, World w, int x, int y, int z) {
+    public boolean isTransmutationTarget(Block block, IBlockAccess w, int x, int y, int z) {
         return getBlockTransformation(w, x, y, z).containsKey(block);
     }
 
-    public boolean isTransmutationResult(BlockTuple block, World w, int x, int y, int z) {
+    public boolean isTransmutationResult(Block block, IBlockAccess w, int x, int y, int z) {
         return getBlockTransformation(w, x, y, z).containsValue(block);
     }
 
-    public abstract HashMap<BlockTuple, BlockTuple> getBlockTransformation(World w, int x, int y, int z);
+    public abstract HashMap<Block, Block> getBlockTransformation(IBlockAccess w, int x, int y, int z);
 
     public boolean isNeighborTarget(World w, int x, int y, int z) {
         for (final ForgeDirection f : ForgeDirection.VALID_DIRECTIONS) {
             final int xTar = x + f.offsetX;
             final int yTar = y + f.offsetY;
             final int zTar = z + f.offsetZ;
-            final Block targetBlock = w.getBlock(xTar, yTar, zTar);
-            if (w.blockExists(xTar, yTar, zTar) && isTransmutationTarget(targetBlock, w, xTar, yTar, zTar)) {
+            if (!w.blockExists(xTar, yTar, zTar)) continue;
+
+            if (isTransmutationTarget(w.getBlock(xTar, yTar, zTar), w, xTar, yTar, zTar)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public int getDecayChance(World w, int x, int y, int z) {
-        return 1;
     }
 
     @Override
@@ -82,12 +74,12 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     }
 
     public void setBlockWithTransmutationTarget(World world, int x, int y, int z, int meta, Block block) {
-        final Block targetBlock = world.getBlock(x, z, y);
-        if (isTransmutationTarget(targetBlock, world, x, y, z) && random.nextInt(getDecayChance(world, x, y, z)) == 0) {
-            final BlockTuple targetTransform = getBlockTransformation(world, x, y, z).get(new BlockTuple(targetBlock));
-            world.setBlock(x, z, y, targetTransform.block, targetTransform.meta, 3);
+        final Block targetBlock = world.getBlock(x, y, z);
+        if (isTransmutationTarget(targetBlock, world, x, y, z)) {
+            final Block targetTransform = getBlockTransformation(world, x, y, z).get(targetBlock);
+            world.setBlock(x, y, z, targetTransform, 0, 3);
         } else {
-            world.setBlock(x, z, y, block, meta, 3);
+            world.setBlock(x, y, z, block, meta, 3);
         }
     }
 
@@ -103,58 +95,59 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
                 || world.canLightningStrikeAt(x + 1, y, z)
                 || world.canLightningStrikeAt(x, y, z - 1)
                 || world.canLightningStrikeAt(x, y, z + 1))) {
+            // Check if it's raining and if it can be put out by rain
             world.setBlockToAir(x, y, z);
             return;
         }
-        if (!isNeighborTarget(world, x, y, z)) {
+        final int blockMeta = world.getBlockMetadata(x, y, z);
+
+        // Source block doesn't burn out
+        if (blockMeta != 0 && !isNeighborTarget(world, x, y, z)) {
+            // Extinguish if there's no valid fuel around
             world.setBlockToAir(x, y, z);
+            return;
+
         }
+
+        // Check Transforms
         if (rand.nextInt(20) == 0 && (isNeighborTarget(world, x, y, z))) {
             for (final ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-                final int xTar = x + dir.offsetX;
-                final int yTar = y + dir.offsetY;
-                final int zTar = z + dir.offsetZ;
-                final Block targetBlock = world.getBlock(xTar, yTar, zTar);
+                final int xT = x + dir.offsetX;
+                final int yT = y + dir.offsetY;
+                final int zT = z + dir.offsetZ;
+                final Block targetBlock = world.getBlock(xT, yT, zT);
 
-                if (!isTransmutationTarget(targetBlock, world, xTar, yTar, zTar)) {
-                    continue;
-                }
-                if (random.nextInt(getDecayChance(world, xTar, yTar, zTar)) == 0) {
-                    final BlockTuple targetTransform = getBlockTransformation(world, xTar, yTar, zTar)
-                            .get(new BlockTuple(targetBlock));
+                final Block targetTransform = getBlockTransformation(world, xT, yT, zT).get(targetBlock);
+                if (targetTransform == null) continue;
 
-                    world.setBlock(xTar, yTar, zTar, targetTransform.block, targetTransform.meta, 3);
-                } else {
-                    world.setBlockToAir(xTar, yTar, zTar);
-                }
+                world.setBlock(xT, yT, zT, targetTransform, 0, 3);
             }
-
         }
-        final int BlockMeta = world.getBlockMetadata(x, y, z);
-
-        if (BlockMeta < 15) {
-            world.setBlockMetadataWithNotify(x, y, z, BlockMeta + rand.nextInt(3) / 2, 4);
+        if (blockMeta >= 15) {
+            // No spreading if we're at max meta
+            return;
         }
 
         world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + rand.nextInt(3));
 
         final boolean highHumidity = world.isBlockHighHumidity(x, y, z);
-        byte strengthMod = 0;
+        byte strMod = 0;
 
         if (highHumidity) {
-            strengthMod = -50;
+            strMod = -50;
         }
 
-        for (final ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+        // Spread
+        for (final ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             this.tryCatchFire(
                     world,
-                    x + direction.offsetX,
-                    y + direction.offsetY,
-                    z + direction.offsetZ,
-                    300 + strengthMod,
+                    x + dir.offsetX,
+                    y + dir.offsetY,
+                    z + dir.offsetZ,
+                    300 + strMod,
                     rand,
-                    BlockMeta,
-                    direction);
+                    blockMeta,
+                    dir);
         }
 
         for (int xt = x - 1; xt <= x + 1; xt++) {
@@ -163,18 +156,17 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
                     if (xt == x && yt == y && zt == z) {
                         continue;
                     }
-                    final int fireChance = this.getChanceOfNeighborsEncouragingFire(world, xt, yt, zt);
+                    int fireChance = this.getChanceOfNeighborsEncouragingFire(world, xt, yt, zt);
 
                     if (fireChance <= 0) {
                         continue;
                     }
-                    int modifiedFireChance = (fireChance + 70) / (BlockMeta + 30);
-                    modifiedFireChance += 70;
+                    fireChance = ((fireChance + 70) / (blockMeta + 30)) + 70;
                     if (highHumidity) {
-                        modifiedFireChance /= 2;
+                        fireChance /= 2;
                     }
 
-                    if (modifiedFireChance <= 0 || rand.nextInt(100) > modifiedFireChance
+                    if (fireChance <= 0 || rand.nextInt(100) > fireChance
                             || (world.isRaining() && world.canLightningStrikeAt(xt, yt, zt))
                             || world.canLightningStrikeAt(xt - 1, yt, z)
                             || world.canLightningStrikeAt(xt + 1, yt, zt)
@@ -182,12 +174,8 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
                             || world.canLightningStrikeAt(xt, yt, zt + 1)) {
                         continue;
                     }
-                    int targetMeta = BlockMeta + rand.nextInt(5) / 4;
-
-                    if (targetMeta > 15) {
-                        targetMeta = 15;
-                    }
-                    setBlockWithTransmutationTarget(world, xt, zt, yt, targetMeta, this);
+                    final int targetMeta = Math.min(blockMeta + 1, 15);
+                    setBlockWithTransmutationTarget(world, xt, yt, zt, targetMeta, this);
                 }
             }
         }
@@ -195,10 +183,10 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
 
     public int getBlockFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
         final Block block = world.getBlock(x, y, z);
-        if (isTransmutationTarget(block, (World) world, x, y, z)) {
+        if (isTransmutationTarget(block, world, x, y, z)) {
             return 100;
         }
-        if (isTransmutationResult(block, (World) world, x, y, z)) {
+        if (isTransmutationResult(block, world, x, y, z)) {
             return 0;
         }
 
@@ -206,8 +194,8 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     }
 
     private void tryCatchFire(World world, int x, int y, int z, int strength, Random rand, int meta,
-            ForgeDirection face) {
-        final int blockFlammability = getBlockFlammability(world, x, y, z, face);
+            ForgeDirection dir) {
+        final int blockFlammability = getBlockFlammability(world, x, y, z, dir);
 
         if (rand.nextInt(strength) >= blockFlammability) {
             return;
@@ -215,12 +203,8 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
         final boolean isTnt = world.getBlock(x, y, z) == Blocks.tnt;
 
         if (rand.nextInt(meta + 10) < 5 && !world.canLightningStrikeAt(x, y, z)) {
-            int nextMeta = meta + rand.nextInt(5) / 4;
-
-            if (nextMeta > 15) {
-                nextMeta = 15;
-            }
-
+            // Newer fires have a higher chance of transmuting
+            final int nextMeta = Math.max(Math.min(meta + rand.nextInt(5) / 4, 15), 1);
             setBlockWithTransmutationTarget(world, x, y, z, nextMeta, this);
         } else {
             setBlockWithTransmutationTarget(world, x, y, z, 0, Blocks.air);
