@@ -11,7 +11,7 @@
  */
 package thaumic.tinkerer.client.gui;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.net.URI;
 
 import net.minecraft.util.StatCollector;

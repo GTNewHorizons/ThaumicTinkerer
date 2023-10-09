@@ -11,7 +11,7 @@
  */
 package thaumic.tinkerer.common.item;
 
-import java.awt.*;
+import java.awt.Color;
 
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;

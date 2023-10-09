@@ -1,6 +1,6 @@
 package thaumic.tinkerer.common.item.kami.foci;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;

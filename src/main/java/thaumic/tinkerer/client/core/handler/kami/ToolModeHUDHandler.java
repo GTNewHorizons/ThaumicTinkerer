@@ -11,7 +11,7 @@
  */
 package thaumic.tinkerer.client.core.handler.kami;
 
-import java.awt.*;
+import java.awt.Color;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

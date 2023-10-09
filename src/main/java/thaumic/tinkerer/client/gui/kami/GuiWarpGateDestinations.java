@@ -11,7 +11,7 @@
  */
 package thaumic.tinkerer.client.gui.kami;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 

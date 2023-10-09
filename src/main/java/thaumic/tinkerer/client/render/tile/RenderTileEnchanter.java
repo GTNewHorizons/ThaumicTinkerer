@@ -11,7 +11,7 @@
  */
 package thaumic.tinkerer.client.render.tile;
 
-import java.awt.*;
+import java.awt.Color;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;

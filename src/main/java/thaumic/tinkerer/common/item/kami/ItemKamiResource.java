@@ -32,8 +32,16 @@ import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
 import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.lib.LibResearch;
-import thaumic.tinkerer.common.registry.*;
-import thaumic.tinkerer.common.research.*;
+import thaumic.tinkerer.common.registry.ItemKamiBase;
+import thaumic.tinkerer.common.registry.ThaumicTinkererArcaneRecipe;
+import thaumic.tinkerer.common.registry.ThaumicTinkererInfusionRecipe;
+import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
+import thaumic.tinkerer.common.registry.ThaumicTinkererRecipeMulti;
+import thaumic.tinkerer.common.research.IRegisterableResearch;
+import thaumic.tinkerer.common.research.KamiResearchItem;
+import thaumic.tinkerer.common.research.ResearchHelper;
+import thaumic.tinkerer.common.research.TTResearchItem;
+import thaumic.tinkerer.common.research.TTResearchItemMulti;
 
 public class ItemKamiResource extends ItemKamiBase {
 

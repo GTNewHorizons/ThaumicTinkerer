@@ -13,7 +13,11 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.lib.LibResearch;
-import thaumic.tinkerer.common.registry.*;
+import thaumic.tinkerer.common.registry.ItemBase;
+import thaumic.tinkerer.common.registry.ThaumicTinkererCraftingBenchRecipe;
+import thaumic.tinkerer.common.registry.ThaumicTinkererInfusionRecipe;
+import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
+import thaumic.tinkerer.common.registry.ThaumicTinkererRecipeMulti;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
 public class ItemInfusedInkwell extends ItemBase implements IScribeTools {
