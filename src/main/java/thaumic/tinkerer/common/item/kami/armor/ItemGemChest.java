@@ -13,6 +13,7 @@ package thaumic.tinkerer.common.item.kami.armor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,6 +46,8 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 public class ItemGemChest extends ItemIchorclothArmorAdv {
 
     public static List<String> playersWithFlight = new ArrayList<>();
+    // Map to Object because ModelBiped is client-only
+    private static final WeakHashMap<EntityLivingBase, Object> armorModels = new WeakHashMap<>();
 
     public ItemGemChest() {
         super(1);
@@ -65,7 +68,7 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
     @Override
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-        return new ModelWings();
+        return (ModelWings) armorModels.computeIfAbsent(entityLiving, ignored -> new ModelWings());
     }
 
     @Override
