@@ -50,6 +50,11 @@ public final class ConfigHandler {
 
     public static int soulHeartHeight;
 
+    public static int visShadowbeamOrder;
+    public static int visShadowbeamAir;
+    public static int visShadowbeamEntropy;
+    public static int baseDamageShadowbeam;
+
     private static Configuration config;
 
     public static void loadConfig(File configFile) {
@@ -58,6 +63,8 @@ public final class ConfigHandler {
         new ConfigCategory("potions");
         new ConfigCategory("enchantments");
         new ConfigCategory("general.kami");
+
+        new ConfigCategory("balance.shadowbeam");
 
         config.addCustomCategoryComment("general.kami", "These will only be used if KAMI is enabled.");
 
@@ -142,6 +149,39 @@ public final class ConfigHandler {
         potionWaterId = config
                 .getInt("Water Potion id", "potions", 89, 30, 1023, "Set to the potion id for water potion");
         potionAirId = config.getInt("Air Potion id", "potions", 86, 30, 1023, "Set to the potion id for air potion");
+
+        // Shadowbeam Balance
+        visShadowbeamAir = config.getInt(
+                "aer vis cost",
+                "balance.shadowbeam",
+                15,
+                Integer.MIN_VALUE,
+                Integer.MAX_VALUE,
+                "vis cost for the aer aspect, 1/100th in-game");
+
+        visShadowbeamOrder = config.getInt(
+                "ordo vis cost",
+                "balance.shadowbeam",
+                25,
+                Integer.MIN_VALUE,
+                Integer.MAX_VALUE,
+                "vis cost for the ordo aspect, 1/100th in-game");
+
+        visShadowbeamEntropy = config.getInt(
+                "perditio vis cost",
+                "balance.shadowbeam",
+                25,
+                Integer.MIN_VALUE,
+                Integer.MAX_VALUE,
+                "vis cost for the perditio aspect, 1/100th in-game");
+
+        baseDamageShadowbeam = config.getInt(
+                "shadowbeam base damage",
+                "balance.shadowbeam",
+                8,
+                Integer.MIN_VALUE,
+                Integer.MAX_VALUE,
+                "base damage of the shadowbeam focus");
 
         if (enableKami) {
 

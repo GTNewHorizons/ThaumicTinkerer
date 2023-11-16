@@ -37,10 +37,10 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class ItemFocusShadowbeam extends ItemModKamiFocus {
 
-    private static final AspectList visUsage = new AspectList().add(Aspect.ORDER, 500).add(Aspect.ENTROPY, 500)
-            .add(Aspect.AIR, 300);
+    private static final AspectList visUsage = new AspectList().add(Aspect.ORDER, ConfigHandler.visShadowbeamOrder)
+            .add(Aspect.ENTROPY, ConfigHandler.visShadowbeamEntropy).add(Aspect.AIR, ConfigHandler.visShadowbeamAir);
 
-    private static final int DAMAGE = 100;
+    private static final int DAMAGE = ConfigHandler.baseDamageShadowbeam;
 
     public ItemFocusShadowbeam() {
         super();
