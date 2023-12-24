@@ -143,6 +143,12 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
     }
 
     @Override
+    public int getItemEnchantability() {
+        // Equivalent to iron.
+        return 10;
+    }
+
+    @Override
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.AMULET;
     }
@@ -186,7 +192,7 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
                     if (removed) {
 
                         par1ItemStack.damageItem(damage, player);
-                        if (par1ItemStack.getItemDamage() <= 0) {
+                        if (par1ItemStack.stackSize <= 0) {
                             BaublesApi.getBaubles((EntityPlayer) player).setInventorySlotContents(0, null); // Slot 0 =
                                                                                                             // Talisman
                                                                                                             // Slot
