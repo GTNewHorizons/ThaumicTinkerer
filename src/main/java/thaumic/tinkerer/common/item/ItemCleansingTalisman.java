@@ -168,6 +168,11 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
                         player.extinguish();
                         removed = true;
                     } else for (PotionEffect potion : potions) {
+                        if (potion.duration < 20) {
+                            // Permanent effect, e.g., Dolly, TiC Cleaver, ...
+                            continue;
+                        }
+
                         int id = potion.getPotionID();
                         boolean badEffect;
                         badEffect = ReflectionHelper.getPrivateValue(
