@@ -11,9 +11,11 @@
  */
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -61,8 +63,8 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
 
     private static final int EFFECT_BURNING = -1;
     // 0 = no effect, otherwise either EFFECT_BURNING or the ID of the effect removed.
-    private int lastEffectRemoved = 0;
-    private final Collection<Integer> permanentEffects = new ArrayList<>();
+    private HashMap<UUID, Integer> mLastEffectRemoved = new HashMap<>();
+    private final HashMap<UUID, Collection<Integer>> mPermanentEffects = new HashMap<>();
 
     public ItemCleansingTalisman() {
         setMaxStackSize(1);
@@ -164,8 +166,22 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
             if (player.ticksExisted % 20 == 0) {
                 if (player instanceof EntityPlayer) {
 
+                    int lastEffectRemoved;
+                    Collection<Integer> permanentEffects;
+
+                    UUID uuid = player.getUniqueID();
+                    if (mPermanentEffects.containsKey(uuid)) {
+                        lastEffectRemoved = mLastEffectRemoved.get(uuid);
+                        permanentEffects = mPermanentEffects.get(uuid);
+                    } else {
+                        lastEffectRemoved = 0;
+                        permanentEffects = new HashSet<>();
+                        mLastEffectRemoved.put(uuid, lastEffectRemoved);
+                        mPermanentEffects.put(uuid, permanentEffects);
+                    }
+
                     // All effects we try to remove in this operation, including permanent effects.
-                    Collection<Integer> effectsToRemove = new ArrayList<>();
+                    Collection<Integer> effectsToRemove = new HashSet<>();
                     // One new effect we remove this operation, with a durability cost.
                     int effectRemoved = 0;
 
@@ -250,6 +266,7 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
                     }
 
                     lastEffectRemoved = effectRemoved;
+                    mLastEffectRemoved.put(uuid, lastEffectRemoved);
                 }
             }
         }
