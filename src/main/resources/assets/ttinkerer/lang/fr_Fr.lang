@@ -441,7 +441,7 @@ ttresearch.page.REVEALING_HELM.0=As it turns out, goggles don't offer much prote
 # -- THAUMIC REHABILITATOR
 ttresearch.name.REPAIRER=Réparateur thaumique
 ttresearch.lore.REPAIRER=L'outil du parfait Patrick
-ttresearch.page.REPAIRER.0=You created a new contraption to restore broken tools. By right clicking this block with a broken tool and hooking it to essentia tubes, it'll gather essentia to repair the tool.<BR><BR>The essentia that will repair, items is Instrumentum.<BR><BR>Looking at the block with goggles of revealing also shows how worn down the item in it still is. Redstone current will be emitted while an item is being repaired.
+ttresearch.page.REPAIRER.0=You created a new contraption to restore broken tools. By right clicking this block with a broken tool and hooking it to essentia tubes, it'll gather essentia to repair the tool.<BR><BR>The essentia that will repair items is Instrumentum.<BR><BR>Looking at the block with goggles of revealing also shows how worn down the item in it still is. Redstone current will be emitted while an item is being repaired.
 
 # -- WAND FOCUS: DISTORTION
 ttresearch.name.FOCUS_DEFLECT=Foci de baguette: Distortion
