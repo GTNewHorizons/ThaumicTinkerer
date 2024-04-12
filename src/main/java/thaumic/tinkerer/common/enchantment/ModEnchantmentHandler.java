@@ -71,7 +71,7 @@ public class ModEnchantmentHandler {
             int finalStrike = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.finalStrike, heldItem);
             if (finalStrike > 0) {
                 Random rand = new Random();
-                if (rand.nextInt(20 - finalStrike) == 0) {
+                if ((finalStrike >= 19 || rand.nextInt(20 - finalStrike) == 0)) {
                     event.ammount *= 3;
                 }
             }
@@ -154,10 +154,14 @@ public class ModEnchantmentHandler {
 
             int quickDraw = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.idQuickDraw, heldItem);
             ItemStack usingItem = player.itemInUse;
-            int time = player.itemInUseCount;
-            if (quickDraw > 0 && usingItem != null && usingItem.getItem() instanceof ItemBow)
-                if ((usingItem.getItem().getMaxItemUseDuration(usingItem) - time) % (6 - quickDraw) == 0)
-                    player.itemInUseCount = time - 1;
+            if (quickDraw > 0 && usingItem != null && usingItem.getItem() instanceof ItemBow) {
+                int speedup = quickDraw / 6;
+                quickDraw = quickDraw % 6;
+                if (player.itemInUseCount % (6 - quickDraw) == 0) {
+                    speedup++;
+                }
+                player.itemInUseCount = Math.max(2, player.itemInUseCount - speedup);
+            }
         }
     }
 
