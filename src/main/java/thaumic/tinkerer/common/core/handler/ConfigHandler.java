@@ -47,6 +47,8 @@ public final class ConfigHandler {
     public static int netherDimensionID;
     public static int endDimensionID;
     public static int bedrockDimensionID = 19;
+    public static boolean shouldKamiLegsDoLightFeature = false;
+    public static boolean shouldKamiBootsDoGrass = true;
 
     public static int soulHeartHeight;
 
@@ -228,6 +230,16 @@ public final class ConfigHandler {
                     -1023,
                     1023,
                     "The Dimension ID for the End, leave at 1 if you don't modify it with another mod/plugin.");
+            shouldKamiLegsDoLightFeature = config.getBoolean(
+                    "Kami Leggings Light Placing Feature Enabled",
+                    "general.kami",
+                    shouldKamiLegsDoLightFeature,
+                    "Sets if Legs of the Burning Mantle (Awakened Kami leggings) will do the effect where it places lights near you.");
+            shouldKamiBootsDoGrass = config.getBoolean(
+                    "Kami Boots Dirt into Grass Feature Enabled",
+                    "general.kami",
+                    shouldKamiBootsDoGrass,
+                    "Sets if Boots of the Horizontal Shield (Awakened Kami Boots) will do the effect where dirt under you turns into grass.");
         }
 
         LibEnchantIDs.idAscentBoost = loadEnchant(LibEnchantNames.ASCENT_BOOST, LibEnchantIDs.idAscentBoost);
