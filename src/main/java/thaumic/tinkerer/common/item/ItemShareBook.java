@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,9 +16,12 @@ import net.minecraftforge.common.util.Constants;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
+import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigItems;
+import thaumcraft.common.lib.research.PlayerKnowledge;
 import thaumcraft.common.lib.research.ResearchManager;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
@@ -36,7 +38,9 @@ import thaumic.tinkerer.common.research.TTResearchItem;
 public class ItemShareBook extends ItemBase {
 
     private static final String TAG_PLAYER = "player";
-    private static final String NON_ASIGNED = "[none]";
+    private static final String TAG_RESEARCH = "research";
+    private static final String TAG_ASPECTS = "aspects";
+    private static final String NON_ASSIGNED = "[none]";
 
     public ItemShareBook() {
         super();
@@ -83,44 +87,57 @@ public class ItemShareBook extends ItemBase {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        String name = getPlayerName(par1ItemStack);
-        if (name.endsWith(NON_ASIGNED)) {
-            setPlayerName(par1ItemStack, par3EntityPlayer.getGameProfile().getName());
-            setPlayerResearch(par1ItemStack, par3EntityPlayer.getGameProfile().getName());
-            if (!par2World.isRemote)
-                par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.write"));
-        } else sync: {
-            List<String> researchesDone = ResearchManager.getResearchForPlayer(name);
-
-            if (researchesDone == null) {
-                if (par2World.isRemote) researchesDone = getPlayerResearch(par1ItemStack);
-                else {
-                    par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.sync"));
-                    break sync;
-                }
+    public ItemStack onItemRightClick(ItemStack bookStack, World world, EntityPlayer player) {
+        String name = getPlayerName(bookStack);
+        if (name.endsWith(NON_ASSIGNED)) {
+            setPlayerName(bookStack, player.getGameProfile().getName());
+            savePlayerResearch(ItemNBTHelper.getNBT(bookStack), player.getGameProfile().getName());
+            if (!world.isRemote) {
+                player.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.write"));
+            }
+        } else {
+            // Try to load latest research for the saved player, fall back to the stored NBT if it fails.
+            final NBTTagCompound researchSource;
+            if (ResearchManager.getResearchForPlayer(name) != null) {
+                researchSource = new NBTTagCompound();
+                savePlayerResearch(researchSource, name);
+            } else {
+                researchSource = ItemNBTHelper.getNBT(bookStack);
             }
 
-            for (String key : researchesDone)
-                ThaumicTinkerer.tcProxy.getResearchManager().completeResearch(par3EntityPlayer, key);
+            loadPlayerResearch(researchSource, player);
 
-            if (!par2World.isRemote)
-                par3EntityPlayer.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.sync"));
+            if (!world.isRemote) {
+                player.addChatMessage(new ChatComponentTranslation("ttmisc.shareTome.sync"));
+            }
         }
 
-        return par1ItemStack;
+        return bookStack;
     }
 
-    private List<String> getPlayerResearch(ItemStack par1ItemStack) {
-        List<String> retVals = new ArrayList<>();
-        NBTTagCompound cmp = ItemNBTHelper.getNBT(par1ItemStack);
-        if (!cmp.hasKey("research")) return retVals;
-        NBTTagList list = cmp.getTagList("research", Constants.NBT.TAG_STRING);
-        for (int i = 0; i < list.tagCount(); i++) {
-
-            retVals.add(list.getStringTagAt(i));
+    private void loadPlayerResearch(NBTTagCompound cmp, EntityPlayer player) {
+        // Ensure full TC player data gets loaded
+        final String playerName = player.getGameProfile().getName();
+        ResearchManager.getResearchForPlayer(playerName);
+        if (cmp.hasKey(TAG_RESEARCH)) {
+            final NBTTagList list = cmp.getTagList(TAG_RESEARCH, Constants.NBT.TAG_STRING);
+            for (int i = 0; i < list.tagCount(); i++) {
+                final String research = list.getStringTagAt(i);
+                ThaumicTinkerer.tcProxy.getResearchManager().completeResearch(player, research);
+            }
         }
-        return retVals;
+        if (cmp.hasKey(TAG_ASPECTS)) {
+            final PlayerKnowledge pk = ThaumicTinkerer.tcProxy.getPlayerKnowledge();
+            final NBTTagList list = cmp.getTagList(TAG_ASPECTS, Constants.NBT.TAG_STRING);
+            for (int i = 0; i < list.tagCount(); i++) {
+                final String aspectTag = list.getStringTagAt(i);
+                final Aspect aspect = Aspect.getAspect(aspectTag);
+                if (aspect != null) {
+                    pk.addDiscoveredAspect(playerName, aspect);
+                }
+            }
+            ResearchManager.scheduleSave(player);
+        }
     }
 
     @Override
@@ -134,7 +151,7 @@ public class ItemShareBook extends ItemBase {
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         String name = getPlayerName(par1ItemStack);
         par3List.add(
-                name.equals(NON_ASIGNED) ? StatCollector.translateToLocal("ttmisc.shareTome.noAssign")
+                name.equals(NON_ASSIGNED) ? StatCollector.translateToLocal("ttmisc.shareTome.noAssign")
                         : String.format(StatCollector.translateToLocal("ttmisc.shareTome.playerName"), name));
     }
 
@@ -144,21 +161,32 @@ public class ItemShareBook extends ItemBase {
     }
 
     private String getPlayerName(ItemStack stack) {
-        return ItemNBTHelper.getString(stack, TAG_PLAYER, NON_ASIGNED);
+        return ItemNBTHelper.getString(stack, TAG_PLAYER, NON_ASSIGNED);
     }
 
     private void setPlayerName(ItemStack stack, String playerName) {
         ItemNBTHelper.setString(stack, TAG_PLAYER, playerName);
     }
 
-    private void setPlayerResearch(ItemStack stack, String playername) {
-        List<String> researchesDone = ResearchManager.getResearchForPlayer(playername);
-        NBTTagCompound cmp = ItemNBTHelper.getNBT(stack);
-        NBTTagList list = new NBTTagList();
-        for (String tag : researchesDone) {
-            list.appendTag(new NBTTagString(tag));
+    private void savePlayerResearch(NBTTagCompound target, String playername) {
+        // also loads the aspect list
+        final List<String> researchesDone = ResearchManager.getResearchForPlayer(playername);
+        // Save all unlocked research notes.
+        final NBTTagList researchList = new NBTTagList();
+        for (final String tag : researchesDone) {
+            researchList.appendTag(new NBTTagString(tag));
         }
-        cmp.setTag("research", list);
+        target.setTag(TAG_RESEARCH, researchList);
+        // Save all discovered aspect types.
+        final PlayerKnowledge pk = Thaumcraft.proxy.getPlayerKnowledge();
+        final NBTTagList aspectsToSave = new NBTTagList();
+        final AspectList aspectsDiscovered = pk.getAspectsDiscovered(playername);
+        if (aspectsDiscovered == null) {
+            return;
+        }
+        aspectsDiscovered.aspects.keySet().stream().map(Aspect::getTag).sorted().map(NBTTagString::new)
+                .forEach(aspectsToSave::appendTag);
+        target.setTag(TAG_ASPECTS, aspectsToSave);
     }
 
     @Override
