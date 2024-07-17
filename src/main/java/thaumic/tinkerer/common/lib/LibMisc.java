@@ -11,11 +11,13 @@
  */
 package thaumic.tinkerer.common.lib;
 
+import thaumic.tinkerer.Tags;
+
 public final class LibMisc {
 
     public static final String MOD_ID = "ThaumicTinkerer";
     public static final String MOD_NAME = "Thaumic Tinkerer";
-    public static final String VERSION = "GRADLETOKEN_VERSION";
+    public static final String VERSION = Tags.VERSION;
 
     public static final String NETWORK_CHANNEL = MOD_ID;
 
