@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -13,8 +16,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.api.MetallurgicInfuserRecipeMap;
 import thaumic.tinkerer.client.core.helper.IconHelper;
+import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileMetallurgicInfuser;
+import thaumic.tinkerer.common.lib.LibGuiIDs;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
@@ -24,15 +30,37 @@ public class BlockMetallurgicInfuser extends BlockModContainer {
     IIcon iconTop;
     IIcon iconSides;
 
-    protected BlockMetallurgicInfuser(Material par2Material) {
+    public BlockMetallurgicInfuser() {
         super(Material.iron);
         setHardness(5F);
         setResistance(10F);
+
+        MetallurgicInfuserRecipeMap.putRecipe(new ItemStack(Items.bed), new ItemStack(Items.spider_eye));
     }
 
-    public BlockMetallurgicInfuser() {
-        super(Material.iron);
+    @Override
+    public Class<? extends TileEntity> getTileEntity() {
+        return TileMetallurgicInfuser.class;
+    }
 
+    @Override
+    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer,
+            int par6, float par7, float par8, float par9) {
+        if (!par1World.isRemote) {
+            TileEntity tile = par1World.getTileEntity(par2, par3, par4);
+            if (tile != null) {
+                par1World.markBlockForUpdate(par2, par3, par4);
+                par5EntityPlayer.openGui(
+                        ThaumicTinkerer.instance,
+                        LibGuiIDs.GUI_ID_METALLURGIC_INFUSER,
+                        par1World,
+                        par2,
+                        par3,
+                        par4);
+            }
+        }
+
+        return true;
     }
 
     @Override
