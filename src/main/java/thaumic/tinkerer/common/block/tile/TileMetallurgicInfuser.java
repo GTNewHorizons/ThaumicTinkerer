@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.Constants;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.visnet.VisNetHandler;
+import thaumic.tinkerer.api.MetallurgicInfuserRecipe;
 import thaumic.tinkerer.api.MetallurgicInfuserRecipeMap;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
@@ -19,17 +20,35 @@ public class TileMetallurgicInfuser extends TileEntity implements IInventory {
 
     private static final String TAG_INTERNAL_VIS = "internalVis";
 
+    private int tickCounter;
     private int internalVis = 0;
+    private boolean working = false;
+    private ItemStack currentOutput;
+    private Aspect cvType;
+    private int requiredVis;
 
     ItemStack[] inventorySlots = new ItemStack[2];
 
     @Override
     public void updateEntity() {
-        internalVis += VisNetHandler.drainVis(this.worldObj, this.xCoord, this.yCoord, this.zCoord, Aspect.FIRE, 1);
-        ItemStack output = MetallurgicInfuserRecipeMap.lookup(getStackInSlot(0));
-        if (output != null) {
-            decrStackSize(0, 1);
-            setInventorySlotContents(1, output);
+        tickCounter++;
+        if (tickCounter % 20 != 0) return;
+        if (!working) {
+            MetallurgicInfuserRecipe recipe = MetallurgicInfuserRecipeMap.lookup(getStackInSlot(0));
+            if (recipe != null) {
+                working = true;
+                cvType = recipe.getCentivisType();
+                requiredVis = recipe.getCentivisCost();
+                currentOutput = recipe.getOutput();
+            }
+        } else {
+            internalVis += VisNetHandler.drainVis(this.worldObj, this.xCoord, this.yCoord, this.zCoord, cvType, 5);
+            if (internalVis >= requiredVis) {
+                decrStackSize(0, 1);
+                setInventorySlotContents(1, currentOutput);
+                internalVis = 0;
+                working = false;
+            }
         }
     }
 

@@ -16,6 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumcraft.api.aspects.Aspect;
 import thaumic.tinkerer.api.MetallurgicInfuserRecipeMap;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
@@ -35,7 +36,10 @@ public class BlockMetallurgicInfuser extends BlockModContainer {
         setHardness(5F);
         setResistance(10F);
 
-        MetallurgicInfuserRecipeMap.putRecipe(new ItemStack(Items.bed), new ItemStack(Items.spider_eye));
+        MetallurgicInfuserRecipeMap
+                .putRecipe(25, Aspect.FIRE, new ItemStack(Items.bed), new ItemStack(Items.spider_eye));
+        MetallurgicInfuserRecipeMap
+            .putRecipe(50, Aspect.EARTH, new ItemStack(Items.brick), new ItemStack(Items.netherbrick));
     }
 
     @Override
