@@ -15,8 +15,8 @@ public class ContainerMetallurgicInfuser extends ContainerPlayerInv {
         super(playerInv);
         this.metallurgicInfuser = metallurgicInfuser;
 
-        addSlotToContainer(new Slot(metallurgicInfuser, 0, 6, 6));
-        addSlotToContainer(new Slot(metallurgicInfuser, 1, 6, 31));
+        addSlotToContainer(new Slot(metallurgicInfuser, 0, 20, 30));
+        addSlotToContainer(new Slot(metallurgicInfuser, 1, 140, 30));
 
         initPlayerInv();
     }

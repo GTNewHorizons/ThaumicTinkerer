@@ -21,7 +21,7 @@ import thaumic.tinkerer.common.block.tile.container.ContainerMetallurgicInfuser;
 
 public class GUIMetallurgicInfuser extends GuiContainer {
 
-    private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_ENCHANTER);
+    private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_METALLURGIC_INFUSER);
     public TileMetallurgicInfuser metallurgicInfuser;
     public List<String> tooltip = new ArrayList<>();
     int x, y;
@@ -54,11 +54,6 @@ public class GUIMetallurgicInfuser extends GuiContainer {
         GL11.glColor4f(1F, 1F, 1F, 1F);
         mc.renderEngine.bindTexture(gui);
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-
-        ItemStack itemToEnchant = metallurgicInfuser.getStackInSlot(0);
-
-        if (itemToEnchant != null && !itemToEnchant.isItemEnchanted())
-            drawTexturedModalRect(x + 30, y + 50, 0, ySize, 147, 24);
     }
 
     @Override
