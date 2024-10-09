@@ -16,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.network.IGuiHandler;
-import thaumic.tinkerer.client.gui.GUIMetallurgicInfuser;
+import thaumic.tinkerer.client.gui.GUIVisweaver;
 import thaumic.tinkerer.client.gui.GuiAnimationTablet;
 import thaumic.tinkerer.client.gui.GuiAspectAnalyzer;
 import thaumic.tinkerer.client.gui.GuiEnchanting;
@@ -27,15 +27,15 @@ import thaumic.tinkerer.client.gui.kami.GuiWarpGate;
 import thaumic.tinkerer.client.gui.kami.GuiWarpGateDestinations;
 import thaumic.tinkerer.common.block.tile.TileAspectAnalyzer;
 import thaumic.tinkerer.common.block.tile.TileEnchanter;
-import thaumic.tinkerer.common.block.tile.TileMetallurgicInfuser;
 import thaumic.tinkerer.common.block.tile.TileMobMagnet;
 import thaumic.tinkerer.common.block.tile.TileRPlacer;
+import thaumic.tinkerer.common.block.tile.TileVisweaver;
 import thaumic.tinkerer.common.block.tile.container.ContainerAnimationTablet;
 import thaumic.tinkerer.common.block.tile.container.ContainerAspectAnalyzer;
 import thaumic.tinkerer.common.block.tile.container.ContainerEnchanter;
-import thaumic.tinkerer.common.block.tile.container.ContainerMetallurgicInfuser;
 import thaumic.tinkerer.common.block.tile.container.ContainerMobMagnet;
 import thaumic.tinkerer.common.block.tile.container.ContainerRemotePlacer;
+import thaumic.tinkerer.common.block.tile.container.ContainerVisweaver;
 import thaumic.tinkerer.common.block.tile.container.kami.ContainerIchorPouch;
 import thaumic.tinkerer.common.block.tile.container.kami.ContainerWarpGate;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
@@ -61,8 +61,8 @@ public class GuiHandler implements IGuiHandler {
             case LibGuiIDs.GUI_ID_ASPECT_ANALYZER:
                 return new ContainerAspectAnalyzer((TileAspectAnalyzer) tile, player.inventory);
 
-            case LibGuiIDs.GUI_ID_METALLURGIC_INFUSER:
-                return new ContainerMetallurgicInfuser((TileMetallurgicInfuser) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_VISWEAVER:
+                return new ContainerVisweaver((TileVisweaver) tile, player.inventory);
 
             case LibGuiIDs.GUI_ID_ICHOR_POUCH:
                 if (!isDimensionAllowed(player)) return null;
@@ -92,8 +92,8 @@ public class GuiHandler implements IGuiHandler {
             case LibGuiIDs.GUI_ID_ASPECT_ANALYZER:
                 return new GuiAspectAnalyzer((TileAspectAnalyzer) tile, player.inventory);
 
-            case LibGuiIDs.GUI_ID_METALLURGIC_INFUSER:
-                return new GUIMetallurgicInfuser((TileMetallurgicInfuser) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_VISWEAVER:
+                return new GUIVisweaver((TileVisweaver) tile, player.inventory);
 
             case LibGuiIDs.GUI_ID_ICHOR_POUCH:
                 if (!isDimensionAllowed(player)) return null;

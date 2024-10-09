@@ -5,18 +5,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import thaumic.tinkerer.common.block.tile.TileMetallurgicInfuser;
+import thaumic.tinkerer.common.block.tile.TileVisweaver;
 
-public class ContainerMetallurgicInfuser extends ContainerPlayerInv {
+public class ContainerVisweaver extends ContainerPlayerInv {
 
-    TileMetallurgicInfuser metallurgicInfuser;
+    TileVisweaver visweaver;
 
-    public ContainerMetallurgicInfuser(TileMetallurgicInfuser metallurgicInfuser, InventoryPlayer playerInv) {
+    public ContainerVisweaver(TileVisweaver visweaver, InventoryPlayer playerInv) {
         super(playerInv);
-        this.metallurgicInfuser = metallurgicInfuser;
+        this.visweaver = visweaver;
 
-        addSlotToContainer(new Slot(metallurgicInfuser, 0, 20, 30));
-        addSlotToContainer(new Slot(metallurgicInfuser, 1, 140, 30));
+        addSlotToContainer(new Slot(visweaver, 0, 20, 30));
+        addSlotToContainer(new Slot(visweaver, 1, 140, 30));
 
         initPlayerInv();
     }
@@ -37,6 +37,6 @@ public class ContainerMetallurgicInfuser extends ContainerPlayerInv {
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return metallurgicInfuser.isUseableByPlayer(player);
+        return visweaver.isUseableByPlayer(player);
     }
 }

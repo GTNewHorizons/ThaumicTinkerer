@@ -32,7 +32,7 @@ public final class LibResources {
     public static final String GUI_ICHOR_POUCH = PREFIX_GUI + "ichorPouch.png";
     public static final String GUI_WARP_GATE = PREFIX_GUI + "warpGate.png";
     public static final String GUI_REMOTE_PLACER = PREFIX_GUI + "remotePlacer.png";
-    public static final String GUI_METALLURGIC_INFUSER = PREFIX_GUI + "metallurgicInfuser.png";
+    public static final String GUI_VISWEAVER = PREFIX_GUI + "visweaver.png";
 
     public static final String MISC_R_ENCHANTING = PREFIX_MISC + "r_enchanting.png";
     public static final String MISC_AT_CENTER = PREFIX_MISC + "atCenter.png";

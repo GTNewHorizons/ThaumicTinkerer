@@ -37,5 +37,5 @@ public final class LibBlockIDs {
     public static int idSpawner = 2633;
     public static int idPortal = 2816;
     public static int idGolemConnector = 2817;
-    public static int idMetallurgicInfuser = 2818;
+    public static int idVisweaver = 2818;
 }

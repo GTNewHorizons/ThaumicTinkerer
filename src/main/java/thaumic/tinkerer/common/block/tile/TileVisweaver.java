@@ -12,11 +12,11 @@ import net.minecraftforge.common.util.Constants;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.visnet.VisNetHandler;
-import thaumic.tinkerer.api.MetallurgicInfuserRecipe;
-import thaumic.tinkerer.api.MetallurgicInfuserRecipeMap;
+import thaumic.tinkerer.api.VisweaverRecipe;
+import thaumic.tinkerer.api.VisweaverRecipeMap;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
-public class TileMetallurgicInfuser extends TileEntity implements IInventory {
+public class TileVisweaver extends TileEntity implements IInventory {
 
     private static final String TAG_INTERNAL_VIS = "internalVis";
 
@@ -34,7 +34,7 @@ public class TileMetallurgicInfuser extends TileEntity implements IInventory {
         tickCounter++;
         if (tickCounter % 20 != 0) return;
         if (!working) {
-            MetallurgicInfuserRecipe recipe = MetallurgicInfuserRecipeMap.lookup(getStackInSlot(0));
+            VisweaverRecipe recipe = VisweaverRecipeMap.lookup(getStackInSlot(0));
             if (recipe != null) {
                 working = true;
                 cvType = recipe.getCentivisType();
@@ -94,7 +94,7 @@ public class TileMetallurgicInfuser extends TileEntity implements IInventory {
 
     @Override
     public String getInventoryName() {
-        return LibBlockNames.METALLURGIC_INFUSER;
+        return LibBlockNames.VISWEAVER;
     }
 
     @Override

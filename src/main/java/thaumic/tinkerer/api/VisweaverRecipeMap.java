@@ -6,22 +6,22 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 import thaumcraft.api.aspects.Aspect;
 import thaumic.tinkerer.common.core.helper.ItemHashStrategy;
 
-public class MetallurgicInfuserRecipeMap {
+public class VisweaverRecipeMap {
 
     /*
      * Hashmap using a hashing strategy suited to comparing items
      */
-    private static final Object2ObjectOpenCustomHashMap<ItemStack, MetallurgicInfuserRecipe> recipeMap = new Object2ObjectOpenCustomHashMap<>(
+    private static final Object2ObjectOpenCustomHashMap<ItemStack, VisweaverRecipe> recipeMap = new Object2ObjectOpenCustomHashMap<>(
             new ItemHashStrategy());
 
-    private MetallurgicInfuserRecipeMap() {}
+    private VisweaverRecipeMap() {}
 
-    public static MetallurgicInfuserRecipe lookup(ItemStack input) {
+    public static VisweaverRecipe lookup(ItemStack input) {
         return recipeMap.get(input);
     }
 
     public static void putRecipe(int centivisCost, Aspect centivisType, ItemStack input, ItemStack output) {
-        MetallurgicInfuserRecipe recipe = new MetallurgicInfuserRecipe(centivisCost, centivisType, input, output);
+        VisweaverRecipe recipe = new VisweaverRecipe(centivisCost, centivisType, input, output);
         recipeMap.put(input, recipe);
     }
 }

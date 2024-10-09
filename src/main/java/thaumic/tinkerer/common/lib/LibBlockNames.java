@@ -69,5 +69,5 @@ public final class LibBlockNames {
 
     public static final String FORCEFIELD = "forcefield";
 
-    public static final String METALLURGIC_INFUSER = "metallurgicinfuser";
+    public static final String VISWEAVER = "visweaver";
 }

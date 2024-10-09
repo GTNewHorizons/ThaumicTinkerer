@@ -1,6 +1,6 @@
 package thaumic.tinkerer.common.block;
 
-import static thaumic.tinkerer.common.lib.LibBlockNames.METALLURGIC_INFUSER;
+import static thaumic.tinkerer.common.lib.LibBlockNames.VISWEAVER;
 
 import java.util.ArrayList;
 
@@ -17,34 +17,32 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
-import thaumic.tinkerer.api.MetallurgicInfuserRecipeMap;
+import thaumic.tinkerer.api.VisweaverRecipeMap;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.tile.TileMetallurgicInfuser;
+import thaumic.tinkerer.common.block.tile.TileVisweaver;
 import thaumic.tinkerer.common.lib.LibGuiIDs;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-public class BlockMetallurgicInfuser extends BlockModContainer {
+public class BlockVisweaver extends BlockModContainer {
 
     IIcon iconBottom;
     IIcon iconTop;
     IIcon iconSides;
 
-    public BlockMetallurgicInfuser() {
+    public BlockVisweaver() {
         super(Material.iron);
         setHardness(5F);
         setResistance(10F);
 
-        MetallurgicInfuserRecipeMap
-                .putRecipe(25, Aspect.FIRE, new ItemStack(Items.bed), new ItemStack(Items.spider_eye));
-        MetallurgicInfuserRecipeMap
-            .putRecipe(50, Aspect.EARTH, new ItemStack(Items.brick), new ItemStack(Items.netherbrick));
+        VisweaverRecipeMap.putRecipe(25, Aspect.FIRE, new ItemStack(Items.bed), new ItemStack(Items.spider_eye));
+        VisweaverRecipeMap.putRecipe(50, Aspect.EARTH, new ItemStack(Items.brick), new ItemStack(Items.netherbrick));
     }
 
     @Override
     public Class<? extends TileEntity> getTileEntity() {
-        return TileMetallurgicInfuser.class;
+        return TileVisweaver.class;
     }
 
     @Override
@@ -54,13 +52,8 @@ public class BlockMetallurgicInfuser extends BlockModContainer {
             TileEntity tile = par1World.getTileEntity(par2, par3, par4);
             if (tile != null) {
                 par1World.markBlockForUpdate(par2, par3, par4);
-                par5EntityPlayer.openGui(
-                        ThaumicTinkerer.instance,
-                        LibGuiIDs.GUI_ID_METALLURGIC_INFUSER,
-                        par1World,
-                        par2,
-                        par3,
-                        par4);
+                par5EntityPlayer
+                        .openGui(ThaumicTinkerer.instance, LibGuiIDs.GUI_ID_VISWEAVER, par1World, par2, par3, par4);
             }
         }
 
@@ -84,7 +77,7 @@ public class BlockMetallurgicInfuser extends BlockModContainer {
 
     @Override
     public TileEntity createNewTileEntity(World world, int var2) {
-        return new TileMetallurgicInfuser();
+        return new TileVisweaver();
     }
 
     @Override
@@ -94,7 +87,7 @@ public class BlockMetallurgicInfuser extends BlockModContainer {
 
     @Override
     public String getBlockName() {
-        return METALLURGIC_INFUSER;
+        return VISWEAVER;
     }
 
     @Override

@@ -4,14 +4,14 @@ import net.minecraft.item.ItemStack;
 
 import thaumcraft.api.aspects.Aspect;
 
-public class MetallurgicInfuserRecipe {
+public class VisweaverRecipe {
 
     private final int centivisCost;
     private final Aspect centivisType;
     private final ItemStack input;
     private final ItemStack output;
 
-    MetallurgicInfuserRecipe(int centivisCost, Aspect centivisType, ItemStack input, ItemStack output) {
+    VisweaverRecipe(int centivisCost, Aspect centivisType, ItemStack input, ItemStack output) {
         this.centivisCost = centivisCost;
         this.centivisType = centivisType;
         this.input = input;

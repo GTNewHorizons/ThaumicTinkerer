@@ -22,5 +22,5 @@ public final class LibGuiIDs {
     public static final int GUI_ID_ICHOR_POUCH = 50;
     public static final int GUI_ID_WARP_GATE = 51;
     public static final int GUI_ID_WARP_GATE_DESTINATIONS = 52;
-    public static final int GUI_ID_METALLURGIC_INFUSER = 53;
+    public static final int GUI_ID_VISWEAVER = 53;
 }

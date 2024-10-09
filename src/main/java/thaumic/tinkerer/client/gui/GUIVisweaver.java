@@ -1,9 +1,5 @@
 package thaumic.tinkerer.client.gui;
 
-import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
-import static tconstruct.client.TProxyClient.mc;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,23 +12,23 @@ import org.lwjgl.opengl.GL11;
 
 import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.lib.LibResources;
-import thaumic.tinkerer.common.block.tile.TileMetallurgicInfuser;
-import thaumic.tinkerer.common.block.tile.container.ContainerMetallurgicInfuser;
+import thaumic.tinkerer.common.block.tile.TileVisweaver;
+import thaumic.tinkerer.common.block.tile.container.ContainerVisweaver;
 
-public class GUIMetallurgicInfuser extends GuiContainer {
+public class GUIVisweaver extends GuiContainer {
 
-    private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_METALLURGIC_INFUSER);
-    public TileMetallurgicInfuser metallurgicInfuser;
+    private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_VISWEAVER);
+    public TileVisweaver visweaver;
     public List<String> tooltip = new ArrayList<>();
     int x, y;
     ItemStack lastTickStack;
     ItemStack currentStack;
 
-    public GUIMetallurgicInfuser(TileMetallurgicInfuser metallurgicInfuser, InventoryPlayer inv) {
-        super(new ContainerMetallurgicInfuser(metallurgicInfuser, inv));
-        this.metallurgicInfuser = metallurgicInfuser;
-        lastTickStack = metallurgicInfuser.getStackInSlot(0);
-        currentStack = metallurgicInfuser.getStackInSlot(0);
+    public GUIVisweaver(TileVisweaver visweaver, InventoryPlayer inv) {
+        super(new ContainerVisweaver(visweaver, inv));
+        this.visweaver = visweaver;
+        lastTickStack = visweaver.getStackInSlot(0);
+        currentStack = visweaver.getStackInSlot(0);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class GUIMetallurgicInfuser extends GuiContainer {
 
     @Override
     public void updateScreen() {
-        currentStack = metallurgicInfuser.getStackInSlot(0);
+        currentStack = visweaver.getStackInSlot(0);
         lastTickStack = currentStack;
     }
 
