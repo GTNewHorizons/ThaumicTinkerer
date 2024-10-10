@@ -17,13 +17,22 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.research.ResearchPage;
+import thaumcraft.common.config.ConfigBlocks;
+import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.api.VisweaverRecipeMap;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileVisweaver;
+import thaumic.tinkerer.common.item.ItemSpellCloth;
 import thaumic.tinkerer.common.lib.LibGuiIDs;
+import thaumic.tinkerer.common.lib.LibResearch;
+import thaumic.tinkerer.common.registry.ThaumicTinkererInfusionRecipe;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
+import thaumic.tinkerer.common.research.ResearchHelper;
+import thaumic.tinkerer.common.research.TTResearchItem;
 
 public class BlockVisweaver extends BlockModContainer {
 
@@ -90,8 +99,10 @@ public class BlockVisweaver extends BlockModContainer {
         return VISWEAVER;
     }
 
+    // Only register as part of the GTNH modpack
     @Override
     public boolean shouldRegister() {
+        // return Loader.isModLoaded("dreamcraft");
         return true;
     }
 
@@ -102,11 +113,33 @@ public class BlockVisweaver extends BlockModContainer {
 
     @Override
     public IRegisterableResearch getResearchItem() {
-        return null;
+        return (IRegisterableResearch) new TTResearchItem(
+                LibResearch.KEY_VISWEAVER,
+                new AspectList().add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.AIR, 1)
+                        .add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1),
+                -4,
+                0,
+                2,
+                new ItemStack(this)).setParents(LibResearch.KEY_SPELL_CLOTH)
+                        .setPages(new ResearchPage("0"), ResearchHelper.infusionPage(LibResearch.KEY_VISWEAVER));
     }
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
-        return null;
+        return new ThaumicTinkererInfusionRecipe(
+                LibResearch.KEY_VISWEAVER,
+                new ItemStack(this),
+                15,
+                new AspectList().add(Aspect.MAGIC, 50).add(Aspect.ENERGY, 20).add(Aspect.ELDRITCH, 20)
+                        .add(Aspect.VOID, 20).add(Aspect.MIND, 10),
+                new ItemStack(Items.bed),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigBlocks.blockCosmeticSolid, 1, 1),
+                new ItemStack(ConfigItems.itemResource, 1, 2),
+                new ItemStack(ConfigItems.itemResource, 1, 2),
+                new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemSpellCloth.class)));
     }
 }
