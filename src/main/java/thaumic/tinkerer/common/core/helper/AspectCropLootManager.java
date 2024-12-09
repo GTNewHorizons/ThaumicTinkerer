@@ -208,7 +208,6 @@ public class AspectCropLootManager {
 
         addAspectLoot(Aspect.ENERGY, new ItemStack(ConfigItems.itemResource, 12));
 
-        // addAspectLoot(Aspect.MAGIC, "materialAspectShard");		//produces crash, replaced by adding the shards directly
         addAspectLoot(Aspect.MAGIC, new ItemStack(ConfigItems.itemShard, 1, 0));
         addAspectLoot(Aspect.MAGIC, new ItemStack(ConfigItems.itemShard, 1, 1));
         addAspectLoot(Aspect.MAGIC, new ItemStack(ConfigItems.itemShard, 1, 2));
