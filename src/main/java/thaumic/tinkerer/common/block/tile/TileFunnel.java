@@ -31,6 +31,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
 import thaumcraft.common.blocks.ItemJarFilled;
+import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.tiles.TileJarFillable;
 import thaumcraft.common.tiles.TileJarFillableVoid;
 import thaumic.tinkerer.common.lib.LibBlockNames;
@@ -51,7 +52,7 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
                     Aspect aspect = aspectList.getAspects()[0];
 
                     TileEntity tile = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-                    if (tile != null && tile instanceof TileEntityHopper) {
+                    if (tile instanceof TileEntityHopper) {
                         TileEntity tile1 = getHopperFacing(
                                 tile.xCoord,
                                 tile.yCoord,
@@ -68,6 +69,18 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
                                             && (aspectList1.getAmount(aspectList1.getAspects()[0]) < 64 || voidJar)) {
                                 jar1.addToContainer(aspect, 1);
                                 item.setAspects(jar, aspectList.remove(aspect, 1));
+                            }
+                            // "AspectFilter" is used for the jar label
+                            if (aspectList.getAmount(aspectList.getAspects()[0]) == 0
+                                    && !jar.stackTagCompound.hasKey("AspectFilter")) {
+                                String itemName = jar.getUnlocalizedName();
+                                if (itemName.equals("item.BlockJarFilledItem")) {
+                                    setInventorySlotContents(0, new ItemStack(ConfigBlocks.blockJar));
+                                } else if (itemName.equals("item.BlockJarFilledItem.void")) {
+                                    setInventorySlotContents(0, new ItemStack(ConfigBlocks.blockJar));
+                                    getStackInSlot(0).setItemDamage(3);
+                                }
+                                this.markDirty();
                             }
                         }
                     }
