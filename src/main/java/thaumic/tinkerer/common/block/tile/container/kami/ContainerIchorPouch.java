@@ -46,6 +46,17 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
     }
 
     @Override
+    public void detectAndSendChanges() {
+        if (!player.worldObj.isRemote) {
+            if (player.getCurrentEquippedItem() != pouch) {
+                player.closeScreen();
+                return;
+            }
+        }
+        super.detectAndSendChanges();
+    }
+
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slot) {
         if (slot == blockSlot) return null;
 
