@@ -2,7 +2,7 @@
 
 dependencies {
     api('com.github.GTNewHorizons:Baubles:1.0.4:dev')
-    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-549-GTNH:api')
+    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-554-GTNH:api')
 
     api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
 
