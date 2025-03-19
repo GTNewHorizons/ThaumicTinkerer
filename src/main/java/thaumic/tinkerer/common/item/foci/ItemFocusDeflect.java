@@ -43,6 +43,7 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.ResearchHelper;
 import thaumic.tinkerer.common.research.TTResearchItem;
 import vazkii.botania.api.internal.IManaBurst;
+import vazkii.botania.common.entity.EntityMagicMissile;
 
 public class ItemFocusDeflect extends ItemModFocus {
 
@@ -87,6 +88,15 @@ public class ItemFocusDeflect extends ItemModFocus {
             e.posX += motionVec.x;
             e.posY += motionVec.y;
             e.posZ += motionVec.z;
+
+            checkBotaniaMagicMissile(e);
+        }
+    }
+
+    private static void checkBotaniaMagicMissile(Entity e) {
+        if (!Loader.isModLoaded("Botania")) return;
+        if (e instanceof EntityMagicMissile) {
+            ((EntityMagicMissile) e).setTarget(null);
         }
     }
 
