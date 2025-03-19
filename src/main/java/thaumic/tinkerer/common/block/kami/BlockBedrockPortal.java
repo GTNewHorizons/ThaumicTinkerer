@@ -130,17 +130,16 @@ public class BlockBedrockPortal extends BlockMod {
                                 (EntityPlayerMP) entity,
                                 ConfigHandler.bedrockDimensionID,
                                 new TeleporterBedrock((WorldServer) par1World));
-                if (entity.worldObj.getBlock(par2, 250, par4) == Blocks.bedrock) {
-                    entity.worldObj.setBlock(par2, 250, par4, Blocks.air);
+                if (entity.worldObj.isAirBlock(par2, 249, par4)) {
+                    entity.worldObj.setBlock(par2, 249, par4, Blocks.stone);
                 }
-                if (entity.worldObj.getBlock(par2, 251, par4) == Blocks.bedrock) {
-                    entity.worldObj.setBlock(par2, 251, par4, Blocks.air);
-                }
-                if (entity.worldObj.getBlock(par2, 252, par4) == Blocks.bedrock) {
-                    entity.worldObj.setBlock(par2, 252, par4, Blocks.air);
-                }
-                if (entity.worldObj.getBlock(par2, 253, par4) == Blocks.bedrock) {
-                    entity.worldObj.setBlock(par2, 253, par4, Blocks.air);
+                for (int i = 250; i < 254; i++) {
+                    Block block = entity.worldObj.getBlock(par2, i, par4);
+                    // something seems to be turning our bedrock to plain stone
+                    // let's also check that
+                    if (block == Blocks.stone || block == Blocks.bedrock) {
+                        entity.worldObj.setBlockToAir(par2, i, par4);
+                    }
                 }
                 if (entity.worldObj.getBlock(par2, 254, par4) == Blocks.bedrock) {
                     entity.worldObj.setBlock(par2, 254, par4, this);
