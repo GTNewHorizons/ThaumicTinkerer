@@ -34,7 +34,8 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.helper.MiscHelper;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
-        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft") })
+        @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
+        @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2") })
 public class TileMagnet extends TileEntity implements IPeripheral, IMovableTile, SimpleComponent {
 
     @Override
@@ -146,11 +147,13 @@ public class TileMagnet extends TileEntity implements IPeripheral, IMovableTile,
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 
     @Callback(doc = "function():boolean -- Returns Whether magnet is pushing or pulling")

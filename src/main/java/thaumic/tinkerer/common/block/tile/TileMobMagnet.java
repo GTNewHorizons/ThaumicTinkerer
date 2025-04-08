@@ -34,6 +34,7 @@ import li.cil.oc.api.machine.Context;
 import thaumic.tinkerer.common.item.ItemSoulMould;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTile {
 
     private static final String TAG_ADULT = "adultCheck";
@@ -230,10 +231,12 @@ public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTil
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 }

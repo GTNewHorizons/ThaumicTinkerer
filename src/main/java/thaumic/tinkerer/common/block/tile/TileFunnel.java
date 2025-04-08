@@ -26,6 +26,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
@@ -36,6 +37,7 @@ import thaumcraft.common.tiles.TileJarFillable;
 import thaumcraft.common.tiles.TileJarFillableVoid;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileFunnel extends TileEntity implements ISidedInventory, IAspectContainer, IMovableTile {
 
     ItemStack[] inventorySlots = new ItemStack[1];
@@ -290,10 +292,12 @@ public class TileFunnel extends TileEntity implements ISidedInventory, IAspectCo
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 }
