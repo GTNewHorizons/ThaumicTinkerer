@@ -18,7 +18,9 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileCamo extends TileEntity implements IMovableTile {
 
     private static final String TAG_CAMO = "camo";

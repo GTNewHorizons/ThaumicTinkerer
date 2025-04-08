@@ -9,6 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import appeng.api.AEApi;
 import appeng.api.IAppEngApi;
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Loader;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 
@@ -117,16 +118,13 @@ public class TileEntityMobilizer extends TileEntity {
                 if (!worldObj.isRemote) {
 
                     TileEntity passenger = worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-                    IAppEngApi api = AEApi.instance();
 
                     // Prevent the passenger from popping off. Not sent to clients.
                     worldObj.setBlock(targetX, yCoord, targetZ, Block.getBlockFromName("stone"), 0, 0);
                     // Move non-TE blocks
                     Block passengerId = worldObj.getBlock(xCoord, yCoord + 1, zCoord);
-
                     if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)
                             || passengerId.canPlaceBlockAt(worldObj, targetX, yCoord + 1, targetZ)) {
-
                         if (passenger == null) {
                             if (passengerId != Block.getBlockFromName("bedrock")
                                     && passengerId != Block.getBlockFromName("")) {
@@ -143,7 +141,8 @@ public class TileEntityMobilizer extends TileEntity {
                                 }
                             }
                             // If AE is installed, use its handler
-                        } else if (api != null) {
+                        } else if (Loader.isModLoaded("AppliedEnergistics")) {
+                            IAppEngApi api = AEApi.instance();
                             if (api.registries().movable().askToMove(passenger)) {
                                 worldObj.setBlock(
                                         targetX,
@@ -164,7 +163,9 @@ public class TileEntityMobilizer extends TileEntity {
                         } else if (passenger instanceof IMovableTile
                                 || passenger.getClass().getName().startsWith("net.minecraft.tileentity")) {
                                     boolean imovable = passenger instanceof IMovableTile;
-                                    if (imovable) ((IMovableTile) passenger).prepareToMove();
+                                    if (imovable) {
+                                        ((IMovableTile) passenger).prepareToMove();
+                                    }
                                     worldObj.setBlock(
                                             targetX,
                                             yCoord + 1,

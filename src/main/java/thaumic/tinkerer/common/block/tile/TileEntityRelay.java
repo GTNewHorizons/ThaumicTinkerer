@@ -5,8 +5,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
+import cpw.mods.fml.common.Optional;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileEntityRelay extends TileEntity implements IMovableTile {
 
     public boolean hasPartner;

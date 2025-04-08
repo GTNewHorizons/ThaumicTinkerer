@@ -30,6 +30,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -41,6 +42,7 @@ import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibFeatures;
 
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileEnchanter extends TileEntity implements ISidedInventory, IMovableTile {
 
     private static final String TAG_ENCHANTS = "enchantsIntArray";

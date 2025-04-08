@@ -27,6 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -38,7 +39,7 @@ import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
 /* import thaumic.tinkerer.common.compat.TinkersConstructCompat; */
-
+@Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = "appliedenergistics2")
 public class TileRepairer extends TileEntity
         implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
 
