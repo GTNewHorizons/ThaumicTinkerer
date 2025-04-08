@@ -147,11 +147,13 @@ public class TileMagnet extends TileEntity implements IPeripheral, IMovableTile,
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 
     @Callback(doc = "function():boolean -- Returns Whether magnet is pushing or pulling")

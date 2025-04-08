@@ -8,7 +8,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.AEApi;
 import appeng.api.IAppEngApi;
-import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.Loader;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
@@ -141,7 +140,7 @@ public class TileEntityMobilizer extends TileEntity {
                                 }
                             }
                             // If AE is installed, use its handler
-                        } else if (Loader.isModLoaded("AppliedEnergistics")) {
+                        } else if (Loader.isModLoaded("appliedenergistics2")) {
                             IAppEngApi api = AEApi.instance();
                             if (api.registries().movable().askToMove(passenger)) {
                                 worldObj.setBlock(
@@ -158,36 +157,29 @@ public class TileEntityMobilizer extends TileEntity {
                                 api.registries().movable().doneMoving(passenger);
                                 passenger.validate();
                             }
-
                             // Handler IMovableTiles and vanilla TEs without AE
-                        } else if (passenger instanceof IMovableTile
-                                || passenger.getClass().getName().startsWith("net.minecraft.tileentity")) {
-                                    boolean imovable = passenger instanceof IMovableTile;
-                                    if (imovable) {
-                                        ((IMovableTile) passenger).prepareToMove();
-                                    }
-                                    worldObj.setBlock(
-                                            targetX,
-                                            yCoord + 1,
-                                            targetZ,
-                                            worldObj.getBlock(xCoord, yCoord + 1, zCoord),
-                                            worldObj.getBlockMetadata(xCoord, yCoord + 1, zCoord),
-                                            3);
-                                    passenger.invalidate();
-                                    worldObj.setBlockToAir(xCoord, yCoord + 1, zCoord);
+                        } else if (passenger.getClass().getName().startsWith("net.minecraft.tileentity")) {
+                            worldObj.setBlock(
+                                    targetX,
+                                    yCoord + 1,
+                                    targetZ,
+                                    worldObj.getBlock(xCoord, yCoord + 1, zCoord),
+                                    worldObj.getBlockMetadata(xCoord, yCoord + 1, zCoord),
+                                    3);
+                            passenger.invalidate();
+                            worldObj.setBlockToAir(xCoord, yCoord + 1, zCoord);
 
-                                    // IMovableHandler default code
-                                    Chunk c = worldObj.getChunkFromBlockCoords(targetX, targetZ);
+                            // IMovableHandler default code
+                            Chunk c = worldObj.getChunkFromBlockCoords(targetX, targetZ);
 
-                                    c.func_150812_a(targetX & 0xF, yCoord + 1, targetZ & 0xF, passenger);
+                            c.func_150812_a(targetX & 0xF, yCoord + 1, targetZ & 0xF, passenger);
 
-                                    if (c.isChunkLoaded) {
-                                        worldObj.addTileEntity(passenger);
-                                        worldObj.markBlockForUpdate(targetX, yCoord + 1, targetZ);
-                                    }
-                                    if (imovable) ((IMovableTile) passenger).doneMoving();
-                                    passenger.validate();
-                                }
+                            if (c.isChunkLoaded) {
+                                worldObj.addTileEntity(passenger);
+                                worldObj.markBlockForUpdate(targetX, yCoord + 1, targetZ);
+                            }
+                            passenger.validate();
+                        }
                     }
                     // Move self
                     this.invalidate();

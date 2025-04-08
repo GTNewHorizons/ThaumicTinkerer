@@ -231,10 +231,12 @@ public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTil
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 }

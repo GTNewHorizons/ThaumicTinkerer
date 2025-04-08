@@ -634,12 +634,14 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         stopBreaking();
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 
     @Override

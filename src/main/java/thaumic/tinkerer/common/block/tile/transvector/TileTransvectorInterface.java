@@ -257,35 +257,35 @@ public class TileTransvectorInterface extends TileTransvector
     }
 
     @Override
-    @Optional.Method(modid = "CoFHLib")
+    @Optional.Method(modid = "CoFHCore")
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
         TileEntity tile = getTile();
         return tile instanceof IEnergyHandler ? ((IEnergyHandler) tile).receiveEnergy(from, maxReceive, simulate) : 0;
     }
 
     @Override
-    @Optional.Method(modid = "CoFHLib")
+    @Optional.Method(modid = "CoFHCore")
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
         TileEntity tile = getTile();
         return tile instanceof IEnergyHandler ? ((IEnergyHandler) tile).extractEnergy(from, maxExtract, simulate) : 0;
     }
 
     @Override
-    @Optional.Method(modid = "CoFHLib")
+    @Optional.Method(modid = "CoFHCore")
     public int getEnergyStored(ForgeDirection from) {
         TileEntity tile = getTile();
         return tile instanceof IEnergyHandler ? ((IEnergyHandler) tile).getEnergyStored(from) : 0;
     }
 
     @Override
-    @Optional.Method(modid = "CoFHLib")
+    @Optional.Method(modid = "CoFHCore")
     public int getMaxEnergyStored(ForgeDirection from) {
         TileEntity tile = getTile();
         return tile instanceof IEnergyHandler ? ((IEnergyHandler) tile).getMaxEnergyStored(from) : 0;
     }
 
     @Override
-    @Optional.Method(modid = "CoFHLib")
+    @Optional.Method(modid = "CoFHCore")
     public boolean canConnectEnergy(ForgeDirection from) {
         TileEntity tile = getTile();
         return tile instanceof IEnergyHandler ? ((IEnergyHandler) tile).canConnectEnergy(from) : false;

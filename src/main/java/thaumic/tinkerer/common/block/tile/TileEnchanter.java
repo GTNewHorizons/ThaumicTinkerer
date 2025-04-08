@@ -496,10 +496,12 @@ public class TileEnchanter extends TileEntity implements ISidedInventory, IMovab
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public boolean prepareToMove() {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
 }
