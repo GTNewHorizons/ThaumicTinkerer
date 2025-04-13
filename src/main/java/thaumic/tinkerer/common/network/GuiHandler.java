@@ -60,7 +60,7 @@ public class GuiHandler implements IGuiHandler {
 
             case LibGuiIDs.GUI_ID_ICHOR_POUCH:
                 if (!isDimensionAllowed(player)) return null;
-                return new ContainerIchorPouch(player);
+                return new ContainerIchorPouch(player, player.getCurrentEquippedItem());
 
             case LibGuiIDs.GUI_ID_WARP_GATE:
                 return new ContainerWarpGate((TileWarpGate) tile, player.inventory);
@@ -87,8 +87,8 @@ public class GuiHandler implements IGuiHandler {
                 return new GuiAspectAnalyzer((TileAspectAnalyzer) tile, player.inventory);
 
             case LibGuiIDs.GUI_ID_ICHOR_POUCH:
-                if (!isDimensionAllowed(player)) return null;
-                return new GuiIchorPouch(new ContainerIchorPouch(player));
+                if ((!isDimensionAllowed(player))) return null;
+                return new GuiIchorPouch(new ContainerIchorPouch(player, player.getCurrentEquippedItem()));
 
             case LibGuiIDs.GUI_ID_WARP_GATE:
                 return new GuiWarpGate((TileWarpGate) tile, player.inventory);

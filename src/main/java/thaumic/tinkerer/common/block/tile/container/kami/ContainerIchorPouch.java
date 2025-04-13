@@ -29,13 +29,11 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
     ItemStack pouch;
     int blockSlot;
 
-    public ContainerIchorPouch(EntityPlayer player) {
+    public ContainerIchorPouch(EntityPlayer player, ItemStack bag) {
         super(player.inventory);
-
+        pouch = bag;
         this.player = player;
-        pouch = player.getCurrentEquippedItem();
         blockSlot = player.inventory.currentItem + 27 + 13 * 9;
-
         for (int y = 0; y < 9; y++) for (int x = 0; x < 13; x++)
             addSlotToContainer(new SlotNoPouches(inv, y * 13 + x, 12 + x * 18, 8 + y * 18));
         initPlayerInv();
@@ -43,17 +41,6 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
         if (!player.worldObj.isRemote) try {
             ((InventoryIchorPouch) inv).stackList = ((ItemFocusPouch) pouch.getItem()).getInventory(pouch);
         } catch (Exception ignored) {}
-    }
-
-    @Override
-    public void detectAndSendChanges() {
-        if (!player.worldObj.isRemote) {
-            if (player.getCurrentEquippedItem() != pouch) {
-                player.closeScreen();
-                return;
-            }
-        }
-        super.detectAndSendChanges();
     }
 
     @Override
