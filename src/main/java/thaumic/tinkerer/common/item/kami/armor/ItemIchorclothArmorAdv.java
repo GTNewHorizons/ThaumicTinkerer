@@ -22,14 +22,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import gregtech.api.hazards.Hazard;
+import gregtech.api.hazards.IHazardProtector;
 import thaumcraft.api.aspects.Aspect;
 import thaumic.tinkerer.client.core.handler.kami.ToolModeHUDHandler;
 import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
+@Optional.InterfaceList({ @Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech") })
+public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor implements IHazardProtector {
 
     public ItemIchorclothArmorAdv(int par2) {
         super(par2);
@@ -107,5 +111,12 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor {
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
         return null;
+    }
+
+    /// GT5 Hazmat protection
+    @Optional.Method(modid = "gregtech")
+    @Override
+    public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
+        return true;
     }
 }
