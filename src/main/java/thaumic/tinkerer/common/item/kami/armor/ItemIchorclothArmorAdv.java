@@ -32,7 +32,7 @@ import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "dreamcraft") })
+@Optional.InterfaceList({ @Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtechNH") })
 public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor implements IHazardProtector {
 
     public ItemIchorclothArmorAdv(int par2) {
@@ -114,7 +114,7 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
     }
 
     /// GT5 Hazmat protection
-    @Optional.Method(modid = "dreamcraft")
+    @Optional.Method(modid = "gregtechNH")
     @Override
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
