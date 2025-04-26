@@ -96,7 +96,7 @@ public class ItemFocusDeflect extends ItemModFocus {
     private static void checkBotaniaMagicMissile(Entity e) {
         if (!Loader.isModLoaded("Botania")) return;
         if (e instanceof EntityMagicMissile) {
-            ((EntityMagicMissile) e).setTarget(null);
+            e.setDead();
         }
     }
 
