@@ -117,7 +117,7 @@ public class ItemFocusDislocation extends ItemModFocus {
                                 stack.getItemDamage(),
                                 1 | 2);
                         ((ItemBlock) stack.getItem()).field_150939_a
-                                .onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, itemstack);
+                                .onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, stack);
                         NBTTagCompound tileCmp = getStackTileEntity(itemstack);
                         if (tileCmp != null && !tileCmp.hasNoTags()) {
                             TileEntity tile1 = TileEntity.createAndLoadEntity(tileCmp);
