@@ -411,7 +411,7 @@ ttresearch.lore.FOCUS_HEAL=Pansements etc.
 ttresearch.page.FOCUS_HEAL.0=You know Pech carry powerful foci that can induce diseases, with that, you devised a way to use them to your benefits.<BR><BR>This focus will slowly mend the caster's wounds as they're using it, using vis from the wand in the process.
 
 # -- WAND FOCUS: ENDER RIFT
-ttresearch.name.FOCUS_ENDER_Foci de baguette: Crevasse du Néant
+ttresearch.name.FOCUS_ENDER_CHEST=Foci de baguette: Crevasse du Néant
 ttresearch.lore.FOCUS_ENDER_CHEST=Une poche de la quatrième dimension
 ttresearch.page.FOCUS_ENDER_CHEST.0=By combining a Hand Mirror with a portable hole, you managed to construct a focus that tears a rift in the ender, allowing you to access the contents of your Ender Chest remotely.
 ttresearch.page.FOCUS_ENDER_CHEST.ES=By combining a Hand Mirror with a portable hole, you managed to construct a focus that tears a rift in the ender, allowing you to access the contents of your Ender Chests remotely. <BR> Shift right click on an ender chest to set the focus to that colour, or shift right click on a block of obsidian to set the focus to the vanilla ender storage.
