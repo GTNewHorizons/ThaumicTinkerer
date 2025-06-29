@@ -4,6 +4,10 @@ dependencies {
     api('com.github.GTNewHorizons:Baubles-Expanded:2.1.8-GTNH:dev')
     api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
     api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-629-GTNH:api')
+    api('com.github.GTNewHorizons:ThaumicBoots:1.4.7:dev') {
+        exclude group: 'com.github.GTNewHorizons', module: 'Electro-Magic-Tools'
+        exclude module: 'Baubles'
+    }
 
     compileOnly('com.github.GTNewHorizons:Botania:1.12.10-GTNH:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:EnderCore:0.4.8:dev') {transitive=false}

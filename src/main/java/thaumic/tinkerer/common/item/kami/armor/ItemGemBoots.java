@@ -14,23 +14,28 @@ package thaumic.tinkerer.common.item.kami.armor;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
+import cpw.mods.fml.common.Optional.Interface;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
+import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
+import thaumcraft.common.items.armor.Hover;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.item.kami.ItemKamiResource;
@@ -41,8 +46,12 @@ import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
+import thaumicboots.api.IBoots;
 
-public class ItemGemBoots extends ItemIchorclothArmorAdv {
+@Interface(iface = "thaumicboots.api.IBoots", modid = "thaumicboots")
+public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
+
+    public float speedBonus = 0.075F;
 
     public static List<String> playersWith1Step = new ArrayList<>();
 
@@ -63,7 +72,7 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv {
 
         if (player.worldObj.isRemote) player.stepHeight = player.isSneaking() ? 0.5F : 1F;
         if ((player.onGround || player.capabilities.isFlying) && player.moveForward > 0F)
-            player.moveFlying(0F, 1F, player.capabilities.isFlying ? 0.075F : 0.15F);
+            player.moveFlying(0F, speedBonus, player.capabilities.isFlying ? 0.075F : 0.15F);
         player.jumpMovementFactor = player.isSprinting() ? 0.05F : 0.04F;
         player.fallDistance = 0F;
 
@@ -120,14 +129,59 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv {
                 new ItemStack(Items.lead));
     }
 
+
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+        if (getIntertialState(itemStack) && player.moveForward == 0
+            && player.moveStrafing == 0
+            && player.capabilities.isFlying) {
+            player.motionX *= 0.5;
+            player.motionZ *= 0.5;
+        }
+        boolean omniMode = false;
+        if (ThaumicTinkerer.isBootsActive) {
+            omniMode = isOmniEnabled(itemStack);
+            if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
+                || (player.moveForward <= 0F && !omniMode)) {
+                return;
+            }
+        }
+        if (player.moveForward != 0.0F || player.moveStrafing != 0.0F) {
+            if (player.worldObj.isRemote && !player.isSneaking()) {
+                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(player.getEntityId())) {
+                    Thaumcraft.instance.entityEventHandler.prevStep.put(player.getEntityId(), player.stepHeight);
+                }
+                player.stepHeight = 1.0F;
+            }
+            float speedMod = (float) getSpeedModifier(itemStack);
+            if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
+                float bonus = speedBonus;
+                if (player.isInWater()) {
+                    bonus /= 4.0F;
+                }
+
+                if (player.isSneaking()) {
+                    bonus /= 2.0F;
+                }
+                bonus *= speedMod;
+                if (ThaumicTinkerer.isBootsActive) {
+                    applyOmniState(player, bonus, itemStack);
+                } else if (player.moveForward > 0.0) {
+                    player.moveFlying(0.0F, player.moveForward, bonus);
+                }
+            }
+        }
+    }
+
     @SubscribeEvent
     public void onPlayerJump(LivingJumpEvent event) {
         if (event.entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entityLiving;
+            ItemStack boots = player.getCurrentArmor(0);
             boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == this;
 
             if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player) && player.getCurrentArmor(0).getItemDamage() == 0)
-                player.motionY += 0.3;
+                player.motionY += 0.3 * (float) getJumpModifier(boots);;
         }
     }
 
@@ -163,5 +217,44 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv {
                 player.stepHeight = 0.5F;
             }
         }
+    }
+
+    @Optional.Method(modid = "thaumicboots")
+    public void applyOmniState(EntityPlayer player, float bonus, ItemStack itemStack) {
+        if (player.moveForward != 0.0) {
+            player.moveFlying(0.0F, player.moveForward, bonus);
+        }
+        if (player.moveStrafing != 0.0 && getOmniState(itemStack)) {
+            player.moveFlying(player.moveStrafing, 0.0F, bonus);
+        }
+    }
+
+    // Avoid NSM Exception when ThaumicBoots is not present.
+    public double getSpeedModifier(ItemStack stack) {
+        if (stack.stackTagCompound != null) {
+            return stack.stackTagCompound.getDouble("speed");
+        }
+        return 1.0;
+    }
+
+    public double getJumpModifier(ItemStack stack) {
+        if (stack.stackTagCompound != null) {
+            return stack.stackTagCompound.getDouble("jump");
+        }
+        return 1.0;
+    }
+
+    public boolean getOmniState(ItemStack stack) {
+        if (stack.stackTagCompound != null) {
+            return stack.stackTagCompound.getBoolean("omni");
+        }
+        return false;
+    }
+
+    public boolean getIntertialState(ItemStack stack) {
+        if (stack.stackTagCompound != null) {
+            return stack.stackTagCompound.getBoolean("inertiacanceling");
+        }
+        return false;
     }
 }
