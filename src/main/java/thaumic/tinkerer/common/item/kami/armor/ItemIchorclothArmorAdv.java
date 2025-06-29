@@ -27,8 +27,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import gregtech.api.hazards.Hazard;
 import gregtech.api.hazards.IHazardProtector;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.items.armor.Hover;
 import thaumic.tinkerer.client.core.handler.kami.ToolModeHUDHandler;
 import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
