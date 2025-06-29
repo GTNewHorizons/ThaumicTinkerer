@@ -14,7 +14,6 @@ package thaumic.tinkerer.common.item.kami.armor;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -26,6 +25,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Interface;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -35,7 +35,6 @@ import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
-import thaumcraft.common.items.armor.Hover;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.item.kami.ItemKamiResource;
@@ -129,12 +128,11 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
                 new ItemStack(Items.lead));
     }
 
-
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (getIntertialState(itemStack) && player.moveForward == 0
-            && player.moveStrafing == 0
-            && player.capabilities.isFlying) {
+                && player.moveStrafing == 0
+                && player.capabilities.isFlying) {
             player.motionX *= 0.5;
             player.motionZ *= 0.5;
         }
@@ -142,7 +140,7 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
         if (ThaumicTinkerer.isBootsActive) {
             omniMode = isOmniEnabled(itemStack);
             if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
-                || (player.moveForward <= 0F && !omniMode)) {
+                    || (player.moveForward <= 0F && !omniMode)) {
                 return;
             }
         }

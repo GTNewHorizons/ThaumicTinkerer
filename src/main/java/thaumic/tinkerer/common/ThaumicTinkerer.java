@@ -13,7 +13,6 @@ package thaumic.tinkerer.common;
 
 import java.util.Arrays;
 
-import cpw.mods.fml.common.*;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
@@ -21,6 +20,7 @@ import net.minecraftforge.common.DimensionManager;
 
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
