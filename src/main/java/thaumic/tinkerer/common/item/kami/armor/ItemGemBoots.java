@@ -20,6 +20,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -76,9 +77,9 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
         player.fallDistance = 0F;
 
         if (ConfigHandler.shouldKamiBootsDoGrass) {
-            int x = (int) player.posX;
-            int y = (int) player.posY - 1;
-            int z = (int) player.posZ;
+            int x = MathHelper.floor_double(player.posX);
+            int y = MathHelper.floor_double(player.posY) - 1;
+            int z = MathHelper.floor_double(player.posZ);
             if (player.worldObj.getBlock(x, y, z) == Blocks.dirt && player.worldObj.getBlockMetadata(x, y, z) == 0)
                 player.worldObj.setBlock(x, y, z, Blocks.grass, 0, 2);
         }
