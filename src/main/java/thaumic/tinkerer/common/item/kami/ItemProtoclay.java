@@ -96,7 +96,7 @@ public class ItemProtoclay extends ItemKamiBase {
         return super.shouldRegister();
     }
 
-    class EventHandler {
+    public class EventHandler {
 
         @SubscribeEvent
         public void Interact(PlayerInteractEvent event) {
