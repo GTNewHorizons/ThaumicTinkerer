@@ -218,15 +218,18 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
         MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
-    public class EventHandler{
+    public class EventHandler {
+
         @SubscribeEvent
         public void onPlayerJump(LivingJumpEvent event) {
             if (event.entityLiving instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) event.entityLiving;
                 ItemStack boots = player.getCurrentArmor(0);
-                boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
+                boolean hasArmor = player.getCurrentArmor(0) != null
+                        && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
 
-                if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player) && player.getCurrentArmor(0).getItemDamage() == 0)
+                if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player)
+                        && player.getCurrentArmor(0).getItemDamage() == 0)
                     player.motionY += 0.3 * (float) getJumpModifier(boots);;
             }
         }
@@ -238,7 +241,8 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
             if (event.entityLiving instanceof EntityPlayer) {
 
                 EntityPlayer player = (EntityPlayer) event.entityLiving;
-                boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
+                boolean hasArmor = player.getCurrentArmor(0) != null
+                        && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
                 if (hasArmor) {
                     event.distance = 0;
                 }
@@ -251,14 +255,15 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
                 EntityPlayer player = (EntityPlayer) event.entityLiving;
 
                 boolean highStepListed = playersWith1Step.contains(player.getGameProfile().getName());
-                boolean hasHighStep = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
+                boolean hasHighStep = player.getCurrentArmor(0) != null
+                        && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
 
                 if (!highStepListed && (hasHighStep && ThaumicTinkerer.proxy.armorStatus(player)
-                    && player.getCurrentArmor(0).getItemDamage() == 0))
+                        && player.getCurrentArmor(0).getItemDamage() == 0))
                     playersWith1Step.add(player.getGameProfile().getName());
 
                 if ((!hasHighStep || !ThaumicTinkerer.proxy.armorStatus(player)
-                    || player.getCurrentArmor(0).getItemDamage() == 1) && highStepListed) {
+                        || player.getCurrentArmor(0).getItemDamage() == 1) && highStepListed) {
                     playersWith1Step.remove(player.getGameProfile().getName());
                     player.stepHeight = 0.5F;
                 }

@@ -96,10 +96,12 @@ public class ItemProtoclay extends ItemKamiBase {
         return super.shouldRegister();
     }
 
-    class EventHandler{
+    class EventHandler {
+
         @SubscribeEvent
         public void Interact(PlayerInteractEvent event) {
-            if (event.entityPlayer.inventory.hasItem(ThaumicTinkerer.registry.getFirstItemFromClass(ItemProtoclay.class))) {
+            if (event.entityPlayer.inventory
+                    .hasItem(ThaumicTinkerer.registry.getFirstItemFromClass(ItemProtoclay.class))) {
                 World par2World = event.world;
                 Entity par3Entity = event.entityPlayer;
                 EntityPlayer player = (EntityPlayer) par3Entity;
@@ -128,7 +130,7 @@ public class ItemProtoclay extends ItemKamiBase {
                 for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
                     ItemStack stackInSlot = player.inventory.getStackInSlot(i);
                     if (stackInSlot != null && stackInSlot.getItem() instanceof IAdvancedTool
-                        && stackInSlot != currentStack) {
+                            && stackInSlot != currentStack) {
                         IAdvancedTool toolInSlot = (IAdvancedTool) stackInSlot.getItem();
                         if (toolInSlot.getType().equals(typeToFind)) {
                             player.inventory.setInventorySlotContents(player.inventory.currentItem, stackInSlot);

@@ -19,7 +19,6 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -136,7 +135,8 @@ public class ItemGemChest extends ItemIchorclothArmorAdv {
         MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
-    public class EventHandler{
+    public class EventHandler {
+
         @SubscribeEvent
         public void updatePlayerFlyStatus(LivingUpdateEvent event) {
             if (event.entityLiving instanceof EntityPlayer) {

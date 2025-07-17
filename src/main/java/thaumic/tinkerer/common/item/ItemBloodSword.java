@@ -22,7 +22,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
@@ -187,7 +186,8 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 new ItemStack(Items.ghast_tear));
     }
 
-    public class EventHandler{
+    public class EventHandler {
+
         @SubscribeEvent
         public void onDrops(LivingDropsEvent event) {
             if (event.source.damageType.equals("player")) {
@@ -195,8 +195,8 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 EntityPlayer player = (EntityPlayer) event.source.getEntity();
                 ItemStack stack = player.getCurrentEquippedItem();
                 if (stack != null && stack.getItem() == ItemBloodSword.this
-                    && stack.stackTagCompound != null
-                    && stack.stackTagCompound.getInteger("Activated") == 1) {
+                        && stack.stackTagCompound != null
+                        && stack.stackTagCompound.getInteger("Activated") == 1) {
                     Aspect[] aspects = EnumMobAspect.getAspectsForEntity(event.entity);
                     // ScanResult sr=new ScanResult((byte)2,0,0,event.entity,"");
                     // AspectList as=ScanManager.getScanAspects(sr,event.entity.worldObj);
@@ -237,7 +237,8 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 if (source != null && source instanceof EntityLivingBase) {
                     EntityLivingBase attacker = (EntityLivingBase) source;
                     ItemStack itemInUse = attacker.getHeldItem();
-                    if (itemInUse != null && itemInUse.getItem() == ItemBloodSword.this) attacker.attackEntityFrom(DamageSource.magic, 2);
+                    if (itemInUse != null && itemInUse.getItem() == ItemBloodSword.this)
+                        attacker.attackEntityFrom(DamageSource.magic, 2);
                 }
             }
         }

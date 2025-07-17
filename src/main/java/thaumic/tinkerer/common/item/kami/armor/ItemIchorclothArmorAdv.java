@@ -86,8 +86,6 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
         return false;
     }
 
-
-
     void tickPlayer(EntityPlayer player) {
         // NO-OP
     }
@@ -116,7 +114,8 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
         if (ticks()) MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
-    public class EventHandler{
+    public class EventHandler {
+
         @SubscribeEvent
         public void onEntityUpdate(LivingUpdateEvent event) {
             if (event.entityLiving instanceof EntityPlayer) {
