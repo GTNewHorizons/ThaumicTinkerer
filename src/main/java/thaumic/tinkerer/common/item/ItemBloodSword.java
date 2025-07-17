@@ -22,6 +22,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,7 +67,7 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
 
     public ItemBloodSword() {
         super(EnumHelper.addToolMaterial("TT_BLOOD", 0, 950, 0, 0, ThaumcraftApi.toolMatThaumium.getEnchantability()));
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
         setCreativeTab(ModCreativeTab.INSTANCE);
     }
 
@@ -110,60 +111,6 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 dropStack);
         entityitem.delayBeforeCanPickup = 10;
         event.drops.add(entityitem);
-    }
-
-    @SubscribeEvent
-    public void onDrops(LivingDropsEvent event) {
-        if (event.source.damageType.equals("player")) {
-
-            EntityPlayer player = (EntityPlayer) event.source.getEntity();
-            ItemStack stack = player.getCurrentEquippedItem();
-            if (stack != null && stack.getItem() == this
-                    && stack.stackTagCompound != null
-                    && stack.stackTagCompound.getInteger("Activated") == 1) {
-                Aspect[] aspects = EnumMobAspect.getAspectsForEntity(event.entity);
-                // ScanResult sr=new ScanResult((byte)2,0,0,event.entity,"");
-                // AspectList as=ScanManager.getScanAspects(sr,event.entity.worldObj);
-                // if(as!=null && as.size()!=0){
-                if (aspects != null) {
-                    event.drops.removeAll(event.drops);
-                    // for(Aspect a:as.getAspects()){
-                    for (Aspect a : aspects) {
-                        addDrops(event, ItemMobAspect.getStackFromAspect(a));
-                    }
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onDamageTaken(LivingAttackEvent event) {
-        if (event.entity == null) return;
-
-        if (event.entity.worldObj.isRemote) return;
-
-        boolean handle = handleNext == 0;
-        if (!handle) handleNext--;
-
-        if (event.entityLiving instanceof EntityPlayer && handle) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
-            ItemStack itemInUse = player.itemInUse;
-            if (itemInUse != null && itemInUse.getItem() == this) {
-
-                event.setCanceled(true);
-                handleNext = 3;
-                player.attackEntityFrom(DamageSource.magic, 3);
-            }
-        }
-
-        if (handle) {
-            Entity source = event.source.getSourceOfDamage();
-            if (source != null && source instanceof EntityLivingBase) {
-                EntityLivingBase attacker = (EntityLivingBase) source;
-                ItemStack itemInUse = attacker.getHeldItem();
-                if (itemInUse != null && itemInUse.getItem() == this) attacker.attackEntityFrom(DamageSource.magic, 2);
-            }
-        }
     }
 
     @Override
@@ -238,5 +185,61 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 new ItemStack(Items.bone),
                 new ItemStack(Items.diamond),
                 new ItemStack(Items.ghast_tear));
+    }
+
+    public class EventHandler{
+        @SubscribeEvent
+        public void onDrops(LivingDropsEvent event) {
+            if (event.source.damageType.equals("player")) {
+
+                EntityPlayer player = (EntityPlayer) event.source.getEntity();
+                ItemStack stack = player.getCurrentEquippedItem();
+                if (stack != null && stack.getItem() == ItemBloodSword.this
+                    && stack.stackTagCompound != null
+                    && stack.stackTagCompound.getInteger("Activated") == 1) {
+                    Aspect[] aspects = EnumMobAspect.getAspectsForEntity(event.entity);
+                    // ScanResult sr=new ScanResult((byte)2,0,0,event.entity,"");
+                    // AspectList as=ScanManager.getScanAspects(sr,event.entity.worldObj);
+                    // if(as!=null && as.size()!=0){
+                    if (aspects != null) {
+                        event.drops.removeAll(event.drops);
+                        // for(Aspect a:as.getAspects()){
+                        for (Aspect a : aspects) {
+                            addDrops(event, ItemMobAspect.getStackFromAspect(a));
+                        }
+                    }
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public void onDamageTaken(LivingAttackEvent event) {
+            if (event.entity == null) return;
+
+            if (event.entity.worldObj.isRemote) return;
+
+            boolean handle = handleNext == 0;
+            if (!handle) handleNext--;
+
+            if (event.entityLiving instanceof EntityPlayer && handle) {
+                EntityPlayer player = (EntityPlayer) event.entityLiving;
+                ItemStack itemInUse = player.itemInUse;
+                if (itemInUse != null && itemInUse.getItem() == ItemBloodSword.this) {
+
+                    event.setCanceled(true);
+                    handleNext = 3;
+                    player.attackEntityFrom(DamageSource.magic, 3);
+                }
+            }
+
+            if (handle) {
+                Entity source = event.source.getSourceOfDamage();
+                if (source != null && source instanceof EntityLivingBase) {
+                    EntityLivingBase attacker = (EntityLivingBase) source;
+                    ItemStack itemInUse = attacker.getHeldItem();
+                    if (itemInUse != null && itemInUse.getItem() == ItemBloodSword.this) attacker.attackEntityFrom(DamageSource.magic, 2);
+                }
+            }
+        }
     }
 }
