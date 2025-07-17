@@ -22,6 +22,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -172,52 +173,6 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
         }
     }
 
-    @SubscribeEvent
-    public void onPlayerJump(LivingJumpEvent event) {
-        if (event.entityLiving instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
-            ItemStack boots = player.getCurrentArmor(0);
-            boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == this;
-
-            if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player) && player.getCurrentArmor(0).getItemDamage() == 0)
-                player.motionY += 0.3 * (float) getJumpModifier(boots);;
-        }
-    }
-
-    // Attempt at fixing a bug with falling on SMP
-    // In theory, this should be redundant
-    @SubscribeEvent
-    public void onFall(LivingFallEvent event) {
-        if (event.entityLiving instanceof EntityPlayer) {
-
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
-            boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == this;
-            if (hasArmor) {
-                event.distance = 0;
-            }
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onLivingUpdate(LivingUpdateEvent event) {
-        if (event.entityLiving instanceof EntityPlayer && event.entityLiving.worldObj.isRemote) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
-
-            boolean highStepListed = playersWith1Step.contains(player.getGameProfile().getName());
-            boolean hasHighStep = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == this;
-
-            if (!highStepListed && (hasHighStep && ThaumicTinkerer.proxy.armorStatus(player)
-                    && player.getCurrentArmor(0).getItemDamage() == 0))
-                playersWith1Step.add(player.getGameProfile().getName());
-
-            if ((!hasHighStep || !ThaumicTinkerer.proxy.armorStatus(player)
-                    || player.getCurrentArmor(0).getItemDamage() == 1) && highStepListed) {
-                playersWith1Step.remove(player.getGameProfile().getName());
-                player.stepHeight = 0.5F;
-            }
-        }
-    }
-
     @Optional.Method(modid = "thaumicboots")
     public void applyOmniState(EntityPlayer player, float bonus, ItemStack itemStack) {
         if (player.moveForward != 0.0) {
@@ -255,5 +210,59 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
             return stack.stackTagCompound.getBoolean("inertiacanceling");
         }
         return false;
+    }
+
+    @Override
+    public void registerEvents() {
+        super.registerEvents();
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
+    }
+
+    public class EventHandler{
+        @SubscribeEvent
+        public void onPlayerJump(LivingJumpEvent event) {
+            if (event.entityLiving instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) event.entityLiving;
+                ItemStack boots = player.getCurrentArmor(0);
+                boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
+
+                if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player) && player.getCurrentArmor(0).getItemDamage() == 0)
+                    player.motionY += 0.3 * (float) getJumpModifier(boots);;
+            }
+        }
+
+        // Attempt at fixing a bug with falling on SMP
+        // In theory, this should be redundant
+        @SubscribeEvent
+        public void onFall(LivingFallEvent event) {
+            if (event.entityLiving instanceof EntityPlayer) {
+
+                EntityPlayer player = (EntityPlayer) event.entityLiving;
+                boolean hasArmor = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
+                if (hasArmor) {
+                    event.distance = 0;
+                }
+            }
+        }
+
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public void onLivingUpdate(LivingUpdateEvent event) {
+            if (event.entityLiving instanceof EntityPlayer && event.entityLiving.worldObj.isRemote) {
+                EntityPlayer player = (EntityPlayer) event.entityLiving;
+
+                boolean highStepListed = playersWith1Step.contains(player.getGameProfile().getName());
+                boolean hasHighStep = player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
+
+                if (!highStepListed && (hasHighStep && ThaumicTinkerer.proxy.armorStatus(player)
+                    && player.getCurrentArmor(0).getItemDamage() == 0))
+                    playersWith1Step.add(player.getGameProfile().getName());
+
+                if ((!hasHighStep || !ThaumicTinkerer.proxy.armorStatus(player)
+                    || player.getCurrentArmor(0).getItemDamage() == 1) && highStepListed) {
+                    playersWith1Step.remove(player.getGameProfile().getName());
+                    player.stepHeight = 0.5F;
+                }
+            }
+        }
     }
 }

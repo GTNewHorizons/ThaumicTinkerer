@@ -38,7 +38,7 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
     public ItemIchorclothArmorAdv(int par2) {
         super(par2);
         setHasSubtypes(true);
-        if (ticks()) MinecraftForge.EVENT_BUS.register(this);
+        registerEvents();
     }
 
     public ItemIchorclothArmorAdv() {
@@ -86,15 +86,7 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
         return false;
     }
 
-    @SubscribeEvent
-    public void onEntityUpdate(LivingUpdateEvent event) {
-        if (event.entityLiving instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
 
-            ItemStack armor = player.getCurrentArmor(3 - armorType);
-            if (armor != null && armor.getItem() == this) tickPlayer(player);
-        }
-    }
 
     void tickPlayer(EntityPlayer player) {
         // NO-OP
@@ -118,5 +110,21 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
     @Override
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
+    }
+
+    protected void registerEvents() {
+        if (ticks()) MinecraftForge.EVENT_BUS.register(new EventHandler());
+    }
+
+    public class EventHandler{
+        @SubscribeEvent
+        public void onEntityUpdate(LivingUpdateEvent event) {
+            if (event.entityLiving instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) event.entityLiving;
+
+                ItemStack armor = player.getCurrentArmor(3 - armorType);
+                if (armor != null && armor.getItem() == ItemIchorclothArmorAdv.this) tickPlayer(player);
+            }
+        }
     }
 }
