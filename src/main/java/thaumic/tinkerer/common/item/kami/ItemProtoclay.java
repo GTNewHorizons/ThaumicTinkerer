@@ -49,50 +49,6 @@ public class ItemProtoclay extends ItemKamiBase {
         setMaxStackSize(1);
     }
 
-    @SubscribeEvent
-    public void Interact(PlayerInteractEvent event) {
-        if (event.entityPlayer.inventory.hasItem(ThaumicTinkerer.registry.getFirstItemFromClass(ItemProtoclay.class))) {
-            World par2World = event.world;
-            Entity par3Entity = event.entityPlayer;
-            EntityPlayer player = (EntityPlayer) par3Entity;
-            ItemStack currentStack = player.getCurrentEquippedItem();
-            if (currentStack == null || !(currentStack.getItem() instanceof IAdvancedTool)) return;
-            IAdvancedTool tool = (IAdvancedTool) currentStack.getItem();
-
-            if (tool.getType().equals("sword")) return;
-
-            MovingObjectPosition pos = ToolHandler.raytraceFromEntity(par2World, par3Entity, true, 4.5F);
-            String typeToFind = "";
-
-            if (player.isSwingInProgress && pos != null) {
-                Block block = par2World.getBlock(pos.blockX, pos.blockY, pos.blockZ);
-
-                if (block != null) {
-                    Material mat = block.getMaterial();
-                    if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsPick)) typeToFind = "pick";
-                    else if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsShovel)) typeToFind = "shovel";
-                    else if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsAxe)) typeToFind = "axe";
-                }
-            }
-
-            if (tool.getType().equals(typeToFind) || typeToFind.isEmpty()) return;
-
-            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                ItemStack stackInSlot = player.inventory.getStackInSlot(i);
-                if (stackInSlot != null && stackInSlot.getItem() instanceof IAdvancedTool
-                        && stackInSlot != currentStack) {
-                    IAdvancedTool toolInSlot = (IAdvancedTool) stackInSlot.getItem();
-                    if (toolInSlot.getType().equals(typeToFind)) {
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, stackInSlot);
-                        player.inventory.setInventorySlotContents(i, currentStack);
-                        break;
-                    }
-                }
-            }
-            event.setCanceled(true);
-        }
-    }
-
     @Override
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {}
 
@@ -136,7 +92,54 @@ public class ItemProtoclay extends ItemKamiBase {
 
     @Override
     public boolean shouldRegister() {
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
         return super.shouldRegister();
+    }
+
+    class EventHandler{
+        @SubscribeEvent
+        public void Interact(PlayerInteractEvent event) {
+            if (event.entityPlayer.inventory.hasItem(ThaumicTinkerer.registry.getFirstItemFromClass(ItemProtoclay.class))) {
+                World par2World = event.world;
+                Entity par3Entity = event.entityPlayer;
+                EntityPlayer player = (EntityPlayer) par3Entity;
+                ItemStack currentStack = player.getCurrentEquippedItem();
+                if (currentStack == null || !(currentStack.getItem() instanceof IAdvancedTool)) return;
+                IAdvancedTool tool = (IAdvancedTool) currentStack.getItem();
+
+                if (tool.getType().equals("sword")) return;
+
+                MovingObjectPosition pos = ToolHandler.raytraceFromEntity(par2World, par3Entity, true, 4.5F);
+                String typeToFind = "";
+
+                if (player.isSwingInProgress && pos != null) {
+                    Block block = par2World.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+
+                    if (block != null) {
+                        Material mat = block.getMaterial();
+                        if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsPick)) typeToFind = "pick";
+                        else if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsShovel)) typeToFind = "shovel";
+                        else if (ToolHandler.isRightMaterial(mat, ToolHandler.materialsAxe)) typeToFind = "axe";
+                    }
+                }
+
+                if (tool.getType().equals(typeToFind) || typeToFind.isEmpty()) return;
+
+                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                    ItemStack stackInSlot = player.inventory.getStackInSlot(i);
+                    if (stackInSlot != null && stackInSlot.getItem() instanceof IAdvancedTool
+                        && stackInSlot != currentStack) {
+                        IAdvancedTool toolInSlot = (IAdvancedTool) stackInSlot.getItem();
+                        if (toolInSlot.getType().equals(typeToFind)) {
+                            player.inventory.setInventorySlotContents(player.inventory.currentItem, stackInSlot);
+                            player.inventory.setInventorySlotContents(i, currentStack);
+                            break;
+                        }
+                    }
+                }
+                event.setCanceled(true);
+            }
+        }
+
     }
 }
