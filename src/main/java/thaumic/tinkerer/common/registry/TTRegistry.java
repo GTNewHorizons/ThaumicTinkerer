@@ -1,9 +1,7 @@
 package thaumic.tinkerer.common.registry;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
-
-import com.google.common.reflect.ClassPath;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -32,27 +28,88 @@ public class TTRegistry {
     private HashMap<Class, ArrayList<Block>> blockRegistry = new HashMap<>();
 
     public void registerClasses() {
-        try {
-            ClassPath classPath = ClassPath.from(this.getClass().getClassLoader());
-            for (ClassPath.ClassInfo classInfo : classPath
-                    .getTopLevelClassesRecursive("thaumic.tinkerer.common.block")) {
-                if (ITTinkererBlock.class.isAssignableFrom(classInfo.load())
-                        && !Modifier.isAbstract(classInfo.load().getModifiers())) {
-                    blockClasses.add(classInfo.load());
-                }
-            }
-            for (ClassPath.ClassInfo classInfo : classPath
-                    .getTopLevelClassesRecursive("thaumic.tinkerer.common.item")) {
-                if (ITTinkererItem.class.isAssignableFrom(classInfo.load())
-                        && !ItemBlock.class.isAssignableFrom(classInfo.load())
-                        && !Modifier.isAbstract(classInfo.load().getModifiers())) {
-                    itemClasses.add(classInfo.load());
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        blockClasses.add(thaumic.tinkerer.common.block.BlockAnimationTablet.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockAspectAnalyzer.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockEnchanter.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockForcefield.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockFunnel.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockGaseousLight.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockGaseousShadow.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockGolemConnector.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockInfusedFarmland.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockInfusedGrain.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockMagnet.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockNitorGas.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockPlatform.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockRPlacer.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockRepairer.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockSummon.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockTravelSlab.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockTravelStairs.class);
+        blockClasses.add(thaumic.tinkerer.common.block.BlockWardSlab.class);
+        blockClasses.add(thaumic.tinkerer.common.block.fire.BlockFireAir.class);
+        blockClasses.add(thaumic.tinkerer.common.block.fire.BlockFireChaos.class);
+        blockClasses.add(thaumic.tinkerer.common.block.fire.BlockFireEarth.class);
+        blockClasses.add(thaumic.tinkerer.common.block.fire.BlockFireIgnis.class);
+        blockClasses.add(thaumic.tinkerer.common.block.fire.BlockFireOrder.class);
+        blockClasses.add(thaumic.tinkerer.common.block.fire.BlockFireWater.class);
+        blockClasses.add(thaumic.tinkerer.common.block.kami.BlockBedrockPortal.class);
+        blockClasses.add(thaumic.tinkerer.common.block.kami.BlockWarpGate.class);
+        blockClasses.add(thaumic.tinkerer.common.block.mobilizer.BlockMobilizer.class);
+        blockClasses.add(thaumic.tinkerer.common.block.mobilizer.BlockMobilizerRelay.class);
+        blockClasses.add(thaumic.tinkerer.common.block.quartz.BlockDarkQuartz.class);
+        blockClasses.add(thaumic.tinkerer.common.block.quartz.BlockDarkQuartzSlab.class);
+        blockClasses.add(thaumic.tinkerer.common.block.quartz.BlockDarkQuartzStairs.class);
+        blockClasses.add(thaumic.tinkerer.common.block.transvector.BlockTransvectorDislocator.class);
+        blockClasses.add(thaumic.tinkerer.common.block.transvector.BlockTransvectorInterface.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemBloodSword.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemBrightNitor.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemCleansingTalisman.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemConnector.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemGas.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemGasRemover.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemInfusedGrain.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemInfusedInkwell.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemInfusedPotion.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemInfusedSeeds.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemMobAspect.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemMobDisplay.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemRevealingHelm.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemShareBook.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemSoulMould.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemSpellCloth.class);
+        itemClasses.add(thaumic.tinkerer.common.item.ItemXPTalisman.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusDeflect.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusDislocation.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusEnderChest.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusFlight.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusHeal.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusSmelt.class);
+        itemClasses.add(thaumic.tinkerer.common.item.foci.ItemFocusTelekinesis.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemBlockTalisman.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemCatAmulet.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemIchorPouch.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemKamiResource.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemPlacementMirror.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemProtoclay.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.ItemSkyPearl.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.armor.ItemGemBoots.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.armor.ItemGemChest.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.armor.ItemGemHelm.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.armor.ItemGemLegs.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.armor.ItemIchorclothArmor.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.foci.ItemFocusRecall.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.foci.ItemFocusShadowbeam.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.foci.ItemFocusXPDrain.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorAxe.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorAxeAdv.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorPick.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorPickAdv.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorShovel.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorShovelAdv.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorSword.class);
+        itemClasses.add(thaumic.tinkerer.common.item.kami.tool.ItemIchorSwordAdv.class);
+        itemClasses.add(thaumic.tinkerer.common.item.quartz.ItemDarkQuartz.class);
     }
 
     public void registerResearch(ITTinkererRegisterable nextItem) {
@@ -78,15 +135,8 @@ public class TTRegistry {
                     newBlock.setBlockName(((ITTinkererBlock) newBlock).getBlockName());
                     ArrayList<Block> blockList = new ArrayList<>();
                     blockList.add(newBlock);
-
-                    if (newBlock == null) {
-                        ThaumicTinkerer.log.debug(clazz.getName() + " Returned a null block upon registration");
-                        continue;
-                    }
-
                     if (((ITTinkererBlock) newBlock).getSpecialParameters() != null) {
                         for (Object param : ((ITTinkererBlock) newBlock).getSpecialParameters()) {
-
                             for (Constructor constructor : clazz.getConstructors()) {
                                 if (constructor.getParameterTypes().length > 0
                                         && constructor.getParameterTypes()[0].isAssignableFrom(param.getClass())) {
