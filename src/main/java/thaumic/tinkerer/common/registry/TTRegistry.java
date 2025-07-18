@@ -15,19 +15,18 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import thaumic.tinkerer.client.lib.LibResources;
-import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
 public class TTRegistry {
 
-    private ArrayList<Class> itemClasses = new ArrayList<>();
-    private HashMap<Class, ArrayList<Item>> itemRegistry = new HashMap<>();
+    private final ArrayList<Class<?>> itemClasses = new ArrayList<>();
+    private final HashMap<Class<?>, ArrayList<Item>> itemRegistry = new HashMap<>();
 
-    private ArrayList<Class> blockClasses = new ArrayList<>();
-    private HashMap<Class, ArrayList<Block>> blockRegistry = new HashMap<>();
+    private final ArrayList<Class<?>> blockClasses = new ArrayList<>();
+    private final HashMap<Class<?>, ArrayList<Block>> blockRegistry = new HashMap<>();
 
-    public void registerClasses() {
+    private void registerClasses() {
         blockClasses.add(thaumic.tinkerer.common.block.BlockAnimationTablet.class);
         blockClasses.add(thaumic.tinkerer.common.block.BlockAspectAnalyzer.class);
         blockClasses.add(thaumic.tinkerer.common.block.BlockEnchanter.class);
@@ -112,14 +111,14 @@ public class TTRegistry {
         itemClasses.add(thaumic.tinkerer.common.item.quartz.ItemDarkQuartz.class);
     }
 
-    public void registerResearch(ITTinkererRegisterable nextItem) {
+    private void registerResearch(ITTinkererRegisterable nextItem) {
         IRegisterableResearch registerableResearch = nextItem.getResearchItem();
         if (registerableResearch != null) {
             registerableResearch.registerResearch();
         }
     }
 
-    public void registerRecipe(ITTinkererRegisterable nextItem) {
+    private void registerRecipe(ITTinkererRegisterable nextItem) {
         ThaumicTinkererRecipe thaumicTinkererRecipe = nextItem.getRecipeItem();
         if (thaumicTinkererRecipe != null) {
             thaumicTinkererRecipe.registerRecipe();
@@ -128,16 +127,17 @@ public class TTRegistry {
 
     public void preInit() {
         registerClasses();
-        for (Class clazz : blockClasses) {
+        for (Class<?> clazz : blockClasses) {
             try {
                 Block newBlock = (Block) clazz.newInstance();
-                if (((ITTinkererBlock) newBlock).shouldRegister()) {
-                    newBlock.setBlockName(((ITTinkererBlock) newBlock).getBlockName());
+                final ITTinkererBlock tinkererBlock = (ITTinkererBlock) newBlock;
+                if (tinkererBlock.shouldRegister()) {
+                    newBlock.setBlockName(tinkererBlock.getBlockName());
                     ArrayList<Block> blockList = new ArrayList<>();
                     blockList.add(newBlock);
-                    if (((ITTinkererBlock) newBlock).getSpecialParameters() != null) {
-                        for (Object param : ((ITTinkererBlock) newBlock).getSpecialParameters()) {
-                            for (Constructor constructor : clazz.getConstructors()) {
+                    if (tinkererBlock.getSpecialParameters() != null) {
+                        for (Object param : tinkererBlock.getSpecialParameters()) {
+                            for (Constructor<?> constructor : clazz.getConstructors()) {
                                 if (constructor.getParameterTypes().length > 0
                                         && constructor.getParameterTypes()[0].isAssignableFrom(param.getClass())) {
                                     Block nextBlock = (Block) clazz.getConstructor(param.getClass()).newInstance(param);
@@ -148,15 +148,15 @@ public class TTRegistry {
                             }
                         }
                     }
+                    blockList.trimToSize();
                     blockRegistry.put(clazz, blockList);
 
-                    if (((ITTinkererBlock) newBlock).getItemBlock() != null) {
-                        Item newItem = ((ITTinkererBlock) newBlock).getItemBlock().getConstructor(Block.class)
-                                .newInstance(newBlock);
+                    if (tinkererBlock.getItemBlock() != null) {
+                        Item newItem = tinkererBlock.getItemBlock().getConstructor(Block.class).newInstance(newBlock);
                         newItem.setUnlocalizedName(((ITTinkererItem) newItem).getItemName());
                         ArrayList<Item> itemList = new ArrayList<>();
                         itemList.add(newItem);
-                        itemRegistry.put(((ITTinkererBlock) newBlock).getItemBlock(), itemList);
+                        itemRegistry.put(tinkererBlock.getItemBlock(), itemList);
                     }
                 }
             } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
@@ -164,20 +164,17 @@ public class TTRegistry {
                 e.printStackTrace();
             }
         }
-        for (Class clazz : itemClasses) {
+        for (Class<?> clazz : itemClasses) {
             try {
                 Item newItem = (Item) clazz.newInstance();
-                if (((ITTinkererItem) newItem).shouldRegister()) {
-                    newItem.setUnlocalizedName(((ITTinkererItem) newItem).getItemName());
+                final ITTinkererItem tinkererItem = (ITTinkererItem) newItem;
+                if (tinkererItem.shouldRegister()) {
+                    newItem.setUnlocalizedName(tinkererItem.getItemName());
                     ArrayList<Item> itemList = new ArrayList<>();
                     itemList.add(newItem);
-                    if (newItem == null) {
-                        ThaumicTinkerer.log.debug(clazz.getName() + " Returned a null item upon registration");
-                        continue;
-                    }
-                    if (((ITTinkererItem) newItem).getSpecialParameters() != null) {
-                        for (Object param : ((ITTinkererItem) newItem).getSpecialParameters()) {
-                            for (Constructor constructor : clazz.getConstructors()) {
+                    if (tinkererItem.getSpecialParameters() != null) {
+                        for (Object param : tinkererItem.getSpecialParameters()) {
+                            for (Constructor<?> constructor : clazz.getConstructors()) {
                                 if (constructor.getParameterTypes().length > 0
                                         && constructor.getParameterTypes()[0].isAssignableFrom(param.getClass())) {
                                     Item nextItem = (Item) constructor.newInstance(param);
@@ -188,6 +185,7 @@ public class TTRegistry {
                             }
                         }
                     }
+                    itemList.trimToSize();
                     itemRegistry.put(clazz, itemList);
                 }
             } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
@@ -196,18 +194,16 @@ public class TTRegistry {
         }
         for (ArrayList<Block> blockArrayList : blockRegistry.values()) {
             for (Block block : blockArrayList) {
-                if (((ITTinkererBlock) block).getItemBlock() != null) {
-                    GameRegistry.registerBlock(
-                            block,
-                            ((ITTinkererBlock) block).getItemBlock(),
-                            ((ITTinkererBlock) block).getBlockName());
+                final ITTinkererBlock tinkererBlock = (ITTinkererBlock) block;
+                if (tinkererBlock.getItemBlock() != null) {
+                    GameRegistry.registerBlock(block, tinkererBlock.getItemBlock(), tinkererBlock.getBlockName());
                 } else {
-                    GameRegistry.registerBlock(block, ((ITTinkererBlock) block).getBlockName());
+                    GameRegistry.registerBlock(block, tinkererBlock.getBlockName());
                 }
-                if (((ITTinkererBlock) block).getTileEntity() != null) {
+                if (tinkererBlock.getTileEntity() != null) {
                     GameRegistry.registerTileEntity(
-                            ((ITTinkererBlock) block).getTileEntity(),
-                            LibResources.PREFIX_MOD + ((ITTinkererBlock) block).getBlockName());
+                            tinkererBlock.getTileEntity(),
+                            LibResources.PREFIX_MOD + tinkererBlock.getBlockName());
                 }
                 if (block instanceof IMultiTileEntityBlock) {
                     for (Map.Entry<Class<? extends TileEntity>, String> tile : ((IMultiTileEntityBlock) block)
@@ -215,23 +211,22 @@ public class TTRegistry {
                         GameRegistry.registerTileEntity(tile.getKey(), tile.getValue());
                     }
                 }
-                if (((ITTinkererBlock) block).shouldDisplayInTab()
-                        && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+                if (tinkererBlock.shouldDisplayInTab() && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
                     ModCreativeTab.INSTANCE.addBlock(block);
                 }
             }
         }
     }
 
-    public ArrayList<Item> getItemFromClass(Class clazz) {
+    public ArrayList<Item> getItemFromClass(Class<?> clazz) {
         return itemRegistry.get(clazz);
     }
 
-    public Item getFirstItemFromClass(Class clazz) {
+    public Item getFirstItemFromClass(Class<?> clazz) {
         return itemRegistry.get(clazz) != null ? itemRegistry.get(clazz).get(0) : null;
     }
 
-    public Item getItemFromClassAndName(Class clazz, String s) {
+    public Item getItemFromClassAndName(Class<?> clazz, String s) {
         if (itemRegistry.get(clazz) == null) {
             return null;
         }
@@ -243,7 +238,7 @@ public class TTRegistry {
         return null;
     }
 
-    public Block getBlockFromClassAndName(Class clazz, String s) {
+    public Block getBlockFromClassAndName(Class<?> clazz, String s) {
         if (blockRegistry.get(clazz) == null) {
             return null;
         }
@@ -255,11 +250,11 @@ public class TTRegistry {
         return null;
     }
 
-    public ArrayList<Block> getBlockFromClass(Class clazz) {
+    public ArrayList<Block> getBlockFromClass(Class<?> clazz) {
         return blockRegistry.get(clazz);
     }
 
-    public Block getFirstBlockFromClass(Class clazz) {
+    public Block getFirstBlockFromClass(Class<?> clazz) {
         return blockRegistry.get(clazz) != null ? blockRegistry.get(clazz).get(0) : null;
     }
 
