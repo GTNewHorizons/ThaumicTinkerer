@@ -2,6 +2,7 @@ package thaumic.tinkerer.common.block.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,6 +17,8 @@ import thaumic.tinkerer.api.VisweaverRecipe;
 import thaumic.tinkerer.api.VisweaverRecipeMap;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 
+import java.util.List;
+
 public class TileVisweaver extends TileEntity implements IInventory {
 
     private static final String TAG_INTERNAL_VIS = "internalVis";
@@ -24,6 +27,7 @@ public class TileVisweaver extends TileEntity implements IInventory {
     private int internalVis = 0;
     private boolean working = false;
     private ItemStack currentOutput;
+    private ItemStack currentInput;
     private Aspect cvType;
     private int requiredVis;
 
@@ -32,24 +36,46 @@ public class TileVisweaver extends TileEntity implements IInventory {
     @Override
     public void updateEntity() {
         tickCounter++;
+        if (working) {
+            ItemStack currentStack = getStackInSlot(0);
+            if (currentStack == null || !currentStack.isItemEqual(currentInput)) flushRecipe();
+        }
         if (tickCounter % 20 != 0) return;
         if (!working) {
-            VisweaverRecipe recipe = VisweaverRecipeMap.lookup(getStackInSlot(0));
-            if (recipe != null) {
-                working = true;
-                cvType = recipe.getCentivisType();
-                requiredVis = recipe.getCentivisCost();
-                currentOutput = recipe.getOutput();
-            }
+            recipeCheck();
         } else {
             internalVis += VisNetHandler.drainVis(this.worldObj, this.xCoord, this.yCoord, this.zCoord, cvType, 5);
             if (internalVis >= requiredVis) {
-                decrStackSize(0, 1);
-                setInventorySlotContents(1, currentOutput);
-                internalVis = 0;
-                working = false;
+                finishRecipe();
             }
         }
+    }
+
+    private void flushRecipe() {
+        internalVis = 0;
+        requiredVis = 0;
+        currentOutput = null;
+        currentInput = null;
+        cvType = null;
+        working = false;
+    }
+
+    private void recipeCheck() {
+        VisweaverRecipe recipe = VisweaverRecipeMap.lookup(getStackInSlot(0));
+        if (recipe != null) {
+            working = true;
+            cvType = recipe.getCentivisType();
+            requiredVis = recipe.getCentivisCost();
+            currentOutput = recipe.getOutput();
+            currentInput = recipe.getInput();
+        }
+    }
+
+    private void finishRecipe() {
+        decrStackSize(0, 1);
+        addToSlot(currentOutput, 1);
+        flushRecipe();
+        recipeCheck();
     }
 
     @Override
@@ -70,16 +96,39 @@ public class TileVisweaver extends TileEntity implements IInventory {
             if (inventorySlots[i].stackSize <= j) {
                 stackAt = inventorySlots[i];
                 inventorySlots[i] = null;
-                return stackAt;
             } else {
                 stackAt = inventorySlots[i].splitStack(j);
 
                 if (inventorySlots[i].stackSize == 0) inventorySlots[i] = null;
 
-                return stackAt;
             }
+            return stackAt;
         }
         return null;
+    }
+
+    /**
+     * Returns the amount of items from the input stack that can be stacked into this slot
+     */
+    public int canAddToSlot(ItemStack input, int slot) {
+        ItemStack currentStack = getStackInSlot(slot);
+        if (currentStack == null) return Math.min(64, input.stackSize);
+        if (!currentStack.isItemEqual(input)) return 0;
+        return Math.min(input.stackSize, 64 - currentStack.stackSize);
+    }
+
+    public void addToSlot(ItemStack stack, int slot) {
+        int movable = canAddToSlot(stack, slot);
+        if (movable == 0) return;
+        ItemStack currentStack = getStackInSlot(slot);
+        ItemStack newStack = stack.copy();
+
+        if (currentStack == null) {
+            newStack.stackSize = movable;
+            setInventorySlotContents(slot, newStack);
+        } else {
+            currentStack.stackSize += movable;
+        }
     }
 
     @Override

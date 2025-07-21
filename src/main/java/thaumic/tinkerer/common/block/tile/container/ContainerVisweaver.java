@@ -22,17 +22,37 @@ public class ContainerVisweaver extends ContainerPlayerInv {
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slot) {
-        ItemStack stack = null;
-        Slot slotObject = (Slot) inventorySlots.get(slot);
-        if (slotObject != null && slotObject.getHasStack()) {
-            ItemStack stackInSlot = slotObject.getStack();
-            stack = stackInSlot.copy();
-            if (stackInSlot.stackSize == 0) slotObject.putStack(null);
-            else slotObject.onSlotChanged();
-        }
+    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+        ItemStack itemstack = null;
+        Slot slot = (Slot) this.inventorySlots.get(index);
 
-        return stack;
+        if (slot != null && slot.getHasStack()) {
+            ItemStack stackInSlot = slot.getStack();
+            itemstack = stackInSlot.copy();
+
+            if (index == 0 || index == 1) {
+                if (!this.mergeItemStack(stackInSlot, 2, 38, true)) {
+                    return null;
+                }
+                slot.onSlotChange(stackInSlot, itemstack);
+            }
+            else {
+                if (!this.mergeItemStack(stackInSlot, 0, 1, false)) {
+                    return null;
+                }
+            }
+
+            if (stackInSlot.stackSize == 0) {
+                slot.putStack(null);
+            } else {
+                slot.onSlotChanged();
+            }
+            if (stackInSlot.stackSize == itemstack.stackSize) {
+                return null;
+            }
+            slot.onPickupFromSlot(player, stackInSlot);
+        }
+        return itemstack;
     }
 
     @Override
