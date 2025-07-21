@@ -177,4 +177,16 @@ public class TileVisweaver extends TileEntity implements IInventory {
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         return true;
     }
+
+    public boolean isWorking() {
+        return working;
+    }
+
+    public int getTickCounter() {
+        return tickCounter;
+    }
+
+    public Aspect getCvType() {
+        return cvType;
+    }
 }

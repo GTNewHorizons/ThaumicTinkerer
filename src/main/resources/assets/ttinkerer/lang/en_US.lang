@@ -627,7 +627,7 @@ ttresearch.page.INFUSED_POTIONS.5=Some plants will create special grain, which c
 # -- VISWEAVER
 ttresearch.name.VISWEAVER=Visweaver
 ttresearch.lore.VISWEAVER=Transmutation through vis
-ttresearch.page.VISWEAVER.0=Some objects in this world can be altered to different states purely by nudging the balance of primal essentia, it seems. You've designed a device to do jut that by infusing large amounts of centivis into items.
+ttresearch.page.VISWEAVER.0=Some objects in this world can be altered to different states purely by nudging the balance of primal essentia, it seems. You've designed a device to do just that by infusing large amounts of centivis into items.
 
 # -- WAILA
 ttwaila.nothing=Nothing

@@ -23,6 +23,7 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.api.VisweaverRecipeMap;
 import thaumic.tinkerer.client.core.helper.IconHelper;
+import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileVisweaver;
 import thaumic.tinkerer.common.item.ItemSpellCloth;
@@ -41,7 +42,7 @@ public class BlockVisweaver extends BlockModContainer {
     IIcon iconSides;
 
     public BlockVisweaver() {
-        super(Material.iron);
+        super(Material.wood);
         setHardness(5F);
         setResistance(10F);
 
@@ -109,6 +110,21 @@ public class BlockVisweaver extends BlockModContainer {
     @Override
     public boolean shouldDisplayInTab() {
         return true;
+    }
+
+    @Override
+    public int getRenderType() {
+        return LibRenderIDs.idVisweaver;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
     }
 
     @Override

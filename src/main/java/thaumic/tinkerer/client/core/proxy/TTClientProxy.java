@@ -40,6 +40,7 @@ import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.client.render.block.RenderInfusedCrops;
 import thaumic.tinkerer.client.render.block.RenderMagnet;
 import thaumic.tinkerer.client.render.block.RenderRepairer;
+import thaumic.tinkerer.client.render.block.RenderVisweaver;
 import thaumic.tinkerer.client.render.block.kami.RenderWarpGate;
 import thaumic.tinkerer.client.render.item.RenderGenericSeeds;
 import thaumic.tinkerer.client.render.item.RenderMobDisplay;
@@ -49,12 +50,14 @@ import thaumic.tinkerer.client.render.tile.RenderTileEnchanter;
 import thaumic.tinkerer.client.render.tile.RenderTileFunnel;
 import thaumic.tinkerer.client.render.tile.RenderTileMagnet;
 import thaumic.tinkerer.client.render.tile.RenderTileRepairer;
+import thaumic.tinkerer.client.render.tile.RenderTileVisweaver;
 import thaumic.tinkerer.client.render.tile.kami.RenderTileWarpGate;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileEnchanter;
 import thaumic.tinkerer.common.block.tile.TileFunnel;
 import thaumic.tinkerer.common.block.tile.TileMagnet;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
+import thaumic.tinkerer.common.block.tile.TileVisweaver;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
 import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 import thaumic.tinkerer.common.compat.FumeTool;
@@ -114,6 +117,7 @@ public class TTClientProxy extends TTCommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEnchanter.class, new RenderTileEnchanter());
         ClientRegistry.bindTileEntitySpecialRenderer(TileFunnel.class, new RenderTileFunnel());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRepairer.class, new RenderTileRepairer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileVisweaver.class, new RenderTileVisweaver());
 
         LibRenderIDs.idGrain = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(LibRenderIDs.idGrain, new RenderInfusedCrops());
@@ -127,8 +131,10 @@ public class TTClientProxy extends TTCommonProxy {
         LibRenderIDs.idMagnet = RenderingRegistry.getNextAvailableRenderId();
         LibRenderIDs.idRepairer = RenderingRegistry.getNextAvailableRenderId();
         LibRenderIDs.idFire = RenderingRegistry.getNextAvailableRenderId();
+        LibRenderIDs.idVisweaver = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(new RenderMagnet());
         RenderingRegistry.registerBlockHandler(new RenderRepairer());
+        RenderingRegistry.registerBlockHandler(new RenderVisweaver());
 
         MinecraftForgeClient.registerItemRenderer(
                 ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class),
