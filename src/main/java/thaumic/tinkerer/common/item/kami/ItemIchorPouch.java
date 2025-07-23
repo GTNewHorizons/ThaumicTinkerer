@@ -12,6 +12,7 @@
 package thaumic.tinkerer.common.item.kami;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,6 +28,10 @@ import net.minecraftforge.common.util.Constants;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
+import baubles.api.expanded.BaubleItemHelper;
+import baubles.api.expanded.IBaubleExpanded;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
@@ -50,7 +55,10 @@ import thaumic.tinkerer.common.research.IRegisterableResearch;
 import thaumic.tinkerer.common.research.KamiResearchItem;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
-public class ItemIchorPouch extends ItemFocusPouch implements IBauble, ITTinkererItem {
+@Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = "Baubles|Expanded")
+public class ItemIchorPouch extends ItemFocusPouch implements IBauble, IBaubleExpanded, ITTinkererItem {
+
+    private static boolean baublesExpandedLoaded = Loader.isModLoaded("Baubles|Expanded");
 
     public ItemIchorPouch() {
         super();
@@ -82,22 +90,41 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, ITTinkere
 
     @Override
     public ItemStack[] getInventory(ItemStack item) {
-        ItemStack[] stackList = new ItemStack[13 * 9];
-        if (item.hasTagCompound()) {
-            NBTTagList var2 = item.stackTagCompound.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
-            for (int var3 = 0; var3 < var2.tagCount(); var3++) {
-                NBTTagCompound var4 = var2.getCompoundTagAt(var3);
-                int var5 = var4.getByte("Slot") & 0xFF;
-                if (var5 >= 0 && var5 < stackList.length) stackList[var5] = ItemStack.loadItemStackFromNBT(var4);
+        ItemStack[] inventory = new ItemStack[13 * 9];
+        if (!item.hasTagCompound()) {
+            return inventory;
+        }
+
+        NBTTagList tagList = item.stackTagCompound.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            NBTTagCompound tag = tagList.getCompoundTagAt(i);
+            int slot = tag.getByte("Slot") & 0xFF;
+
+            if (slot < inventory.length) {
+                inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
             }
         }
 
-        return stackList;
+        return inventory;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo) {
+        if (baublesExpandedLoaded) {
+            BaubleItemHelper.addSlotInformation(textLines, getBaubleTypes(null));
+        }
     }
 
     @Override
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.BELT;
+    }
+
+    @Override
+    public String[] getBaubleTypes(ItemStack itemstack) {
+        return new String[] { "belt", "focus_pouch" };
     }
 
     @Override
