@@ -58,7 +58,7 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = "Baubles|Expanded")
 public class ItemIchorPouch extends ItemFocusPouch implements IBauble, IBaubleExpanded, ITTinkererItem {
 
-    private static boolean baublesExpandedLoaded = Loader.isModLoaded("Baubles|Expanded");
+    private static final boolean baublesExpandedLoaded = Loader.isModLoaded("Baubles|Expanded");
 
     public ItemIchorPouch() {
         super();
@@ -123,6 +123,7 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, IBaubleEx
     }
 
     @Override
+    @Optional.Method(modid = "Baubles|Expanded")
     public String[] getBaubleTypes(ItemStack itemstack) {
         return new String[] { "belt", "focus_pouch" };
     }

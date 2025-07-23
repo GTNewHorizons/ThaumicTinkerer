@@ -557,7 +557,7 @@ ttresearch.page.ICHOR_SWORD_GEM.1=Soul Hearts are hearts that can only be used o
 # -- BOTTOMLESS POUCH
 ttresearch.name.ICHOR_POUCH=Bottomless Pouch
 ttresearch.lore.ICHOR_POUCH=Try not to tear it
-ttresearch.page.ICHOR_POUCH.0=By infusing a Focus Pouch with items such as the Portable Hole focus, you’ve enhanced it to store not just foci, but any kind of items with an impressively spacious interior.<BR><BR>This upgraded pouch can hold the contents of more than four chests, all while functioning as a regular Focus Pouch, allowing any foci inside to be equipped to a wand as usual. It even fits in the Focus Pouch bauble slot added by the Salis Arcana mod. You can kiss your inventory problems goodbye.
+ttresearch.page.ICHOR_POUCH.0=By infusing a Focus Pouch with items such as the Portable Hole focus, you’ve enhanced it to store not just foci, but any kind of items with an impressively spacious interior.<BR><BR>This upgraded pouch can hold the contents of more than four chests, all while functioning as a regular Focus Pouch, allowing any foci inside to be equipped to a wand as usual. You can kiss your inventory problems goodbye.
 
 # -- BLACK HOLE RING
 ttresearch.name.BLOCK_TALISMAN=Black Hole Ring
