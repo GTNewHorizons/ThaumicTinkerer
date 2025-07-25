@@ -10,15 +10,15 @@ import net.minecraft.tileentity.TileEntity;
  */
 public interface ITTinkererBlock extends ITTinkererRegisterable {
 
-    public ArrayList<Object> getSpecialParameters();
+    ArrayList<Object> getSpecialParameters();
 
-    public String getBlockName();
+    String getBlockName();
 
-    public boolean shouldRegister();
+    boolean shouldRegister();
 
-    public boolean shouldDisplayInTab();
+    boolean shouldDisplayInTab();
 
-    public Class<? extends ItemBlock> getItemBlock();
+    Class<? extends ItemBlock> getItemBlock();
 
-    public Class<? extends TileEntity> getTileEntity();
+    Class<? extends TileEntity> getTileEntity();
 }
