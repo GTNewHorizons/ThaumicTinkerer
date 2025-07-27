@@ -22,6 +22,8 @@ public class ModelVisweaver extends ModelBase {
     public ModelRenderer orbOrdo;
     public ModelRenderer orbPerditio;
 
+    public ModelRenderer orbCarrier;
+
     public ModelVisweaver() {
         this.textureWidth = 64;
         this.textureHeight = 36;
@@ -48,60 +50,52 @@ public class ModelVisweaver extends ModelBase {
         this.base.addBox(0.0F, 0.0F, 0.0F, 16, 2, 16, 0.0F);
 
         this.orbBase = new ModelRenderer(this, 48, 0);
-        this.orbBase.setRotationPoint(-1.0F, 8.0F, -1.0F);
+        this.orbBase.setRotationPoint(0, 8, 0);
         this.orbBase.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
 
         this.orbIgnis = new ModelRenderer(this, 56, 4);
-        this.orbIgnis.setRotationPoint(-1.0F, 8.0F, -1.0F);
         this.orbIgnis.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.orbIgnis.setRotationPoint(0, 8, 0);
         this.orbAqua = new ModelRenderer(this, 56, 12);
-        this.orbAqua.setRotationPoint(-1.0F, 8.0F, -1.0F);
         this.orbAqua.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.orbAqua.setRotationPoint(0, 8, 0);
         this.orbAer = new ModelRenderer(this, 56, 8);
-        this.orbAer.setRotationPoint(-1.0F, 8.0F, -1.0F);
         this.orbAer.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.orbAer.setRotationPoint(0, 8, 0);
         this.orbTerra = new ModelRenderer(this, 48, 8);
-        this.orbTerra.setRotationPoint(-1.0F, 8.0F, -1.0F);
         this.orbTerra.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.orbTerra.setRotationPoint(0, 8, 0);
         this.orbOrdo = new ModelRenderer(this, 48, 12);
-        this.orbOrdo.setRotationPoint(-1.0F, 8.0F, -1.0F);
         this.orbOrdo.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.orbOrdo.setRotationPoint(0, 8, 0);
         this.orbPerditio = new ModelRenderer(this, 48, 4);
-        this.orbPerditio.setRotationPoint(-1.0F, 8.0F, -1.0F);
         this.orbPerditio.addBox(0.0F, 0.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.orbPerditio.setRotationPoint(0, 8, 0);
+
+        this.orbCarrier = new ModelRenderer(this);
+        this.orbCarrier.addChild(this.orbBase);
+        this.orbCarrier.addChild(this.orbIgnis);
+        this.orbCarrier.addChild(this.orbAqua);
+        this.orbCarrier.addChild(this.orbAer);
+        this.orbCarrier.addChild(this.orbTerra);
+        this.orbCarrier.addChild(this.orbOrdo);
+        this.orbCarrier.addChild(this.orbPerditio);
     }
 
     public void render(boolean isWorking, int tickCounter, Aspect cvType) {
         final float scale = 1F / 16F;
 
-        float xyRotate = tickCounter / 20F;
-        float zRotate = tickCounter / 100F;
+        float xyRotate = (float) tickCounter / 20F;
+        float zRotate = (float) tickCounter / 100F;
 
-        setRotateAngle(orbBase, xyRotate, xyRotate, zRotate);
-        setRotateAngle(orbIgnis, xyRotate, xyRotate, zRotate);
-        setRotateAngle(orbAqua, xyRotate, xyRotate, zRotate);
-        setRotateAngle(orbAer, xyRotate, xyRotate, zRotate);
-        setRotateAngle(orbTerra, xyRotate, xyRotate, zRotate);
-        setRotateAngle(orbOrdo, xyRotate, xyRotate, zRotate);
-        setRotateAngle(orbPerditio, xyRotate, xyRotate, zRotate);
+        orbCarrier.rotationPointX = (float) Math.sin((float) tickCounter / 10.0F) * 2.0F;
 
-        if (!isWorking) {
-            this.orbBase.render(scale);
-        } else {
-            if (cvType == Aspect.AIR) {
-                this.orbAer.render(scale);
-            } else if (cvType == Aspect.FIRE) {
-                this.orbIgnis.render(scale);
-            } else if (cvType == Aspect.ORDER) {
-                this.orbOrdo.render(scale);
-            } else if (cvType == Aspect.ENTROPY) {
-                this.orbPerditio.render(scale);
-            } else if (cvType == Aspect.WATER) {
-                this.orbAqua.render(scale);
-            } else if (cvType == Aspect.EARTH) {
-                this.orbTerra.render(scale);
-            }
-        }
+        float orbitRotation = ((float) tickCounter / 40F) % (2F * (float) Math.PI);
+        setRotateAngle(orbCarrier, 0F, orbitRotation, 0F);
+
+        ModelRenderer toRender = getToRender(isWorking, cvType);
+        setRotateAngle(toRender, xyRotate, xyRotate, zRotate);
+        toRender.render(scale);
 
         this.pillar3.render(scale);
         this.top.render(scale);
@@ -109,6 +103,27 @@ public class ModelVisweaver extends ModelBase {
         this.base.render(scale);
         this.pillar1.render(scale);
         this.pillar2.render(scale);
+    }
+
+    private ModelRenderer getToRender(boolean isWorking, Aspect cvType) {
+        ModelRenderer toRender = orbBase;
+
+        if (isWorking) {
+            if (cvType == Aspect.AIR) {
+                toRender = orbAer;
+            } else if (cvType == Aspect.FIRE) {
+                toRender = orbIgnis;
+            } else if (cvType == Aspect.ORDER) {
+                toRender = orbOrdo;
+            } else if (cvType == Aspect.ENTROPY) {
+                toRender = orbPerditio;
+            } else if (cvType == Aspect.WATER) {
+                toRender = orbAqua;
+            } else if (cvType == Aspect.EARTH) {
+                toRender = orbTerra;
+            }
+        }
+        return toRender;
     }
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

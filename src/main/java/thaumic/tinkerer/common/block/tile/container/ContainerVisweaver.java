@@ -35,8 +35,7 @@ public class ContainerVisweaver extends ContainerPlayerInv {
                     return null;
                 }
                 slot.onSlotChange(stackInSlot, itemstack);
-            }
-            else {
+            } else {
                 if (!this.mergeItemStack(stackInSlot, 0, 1, false)) {
                     return null;
                 }

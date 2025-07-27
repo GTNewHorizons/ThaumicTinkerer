@@ -1,5 +1,6 @@
 package thaumic.tinkerer.client.gui;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,23 @@ public class GUIVisweaver extends GuiContainer {
         GL11.glColor4f(1F, 1F, 1F, 1F);
         mc.renderEngine.bindTexture(gui);
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+
+        GL11.glEnable(GL11.GL_BLEND);
+
+        if (visweaver.isWorking()) {
+            int pixels = (int) (67D * ((double) visweaver.getInternalVis() / (double) visweaver.getRequiredVis()));
+
+            // Draw aspect color to fill
+            Color color = new Color(visweaver.getCvType().getColor());
+            GL11.glColor3ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue());
+            drawTexturedModalRect(x + 56, y + 35, 185, 10, pixels, 8);
+        }
+
+        // Draw aspect "container" over progressbar
+        GL11.glColor3f(1F, 1F, 1F);
+        drawTexturedModalRect(x + 49, y + 34, 178, 0, 78, 10);
+
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     @Override
