@@ -5,14 +5,13 @@ import static thaumic.tinkerer.common.lib.LibBlockNames.VISWEAVER;
 import java.util.ArrayList;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +21,6 @@ import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.api.VisweaverRecipeMap;
-import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileVisweaver;
@@ -72,17 +70,8 @@ public class BlockVisweaver extends BlockModContainer {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
-        iconBottom = IconHelper.forBlock(par1IconRegister, this, 0);
-        iconTop = IconHelper.forBlock(par1IconRegister, this, 1);
-        iconSides = IconHelper.forBlock(par1IconRegister, this, 2);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int par1, int par2) {
-        return par1 == ForgeDirection.UP.ordinal() ? iconTop
-                : par1 == ForgeDirection.DOWN.ordinal() ? iconBottom : iconSides;
+    public IIcon getIcon(int side, int meta) {
+        return Blocks.planks.getIcon(0, 1);
     }
 
     @Override

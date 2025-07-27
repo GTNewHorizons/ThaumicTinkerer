@@ -2,6 +2,7 @@ package thaumic.tinkerer.common.block.tile.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -16,7 +17,7 @@ public class ContainerVisweaver extends ContainerPlayerInv {
         this.visweaver = visweaver;
 
         addSlotToContainer(new Slot(visweaver, 0, 20, 30));
-        addSlotToContainer(new Slot(visweaver, 1, 140, 30));
+        addSlotToContainer(new SlotVisweaverOutput(visweaver, 1, 140, 30));
 
         initPlayerInv();
     }
@@ -57,5 +58,17 @@ public class ContainerVisweaver extends ContainerPlayerInv {
     @Override
     public boolean canInteractWith(EntityPlayer player) {
         return visweaver.isUseableByPlayer(player);
+    }
+
+    public static class SlotVisweaverOutput extends Slot {
+
+        public SlotVisweaverOutput(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_) {
+            super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_);
+        }
+
+        @Override
+        public boolean isItemValid(ItemStack stack) {
+            return false;
+        }
     }
 }

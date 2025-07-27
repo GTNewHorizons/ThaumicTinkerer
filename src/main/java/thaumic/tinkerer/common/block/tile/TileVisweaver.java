@@ -22,6 +22,8 @@ public class TileVisweaver extends TileEntity implements IInventory {
     private static final String TAG_REQUIRED_VIS = "requiredVis";
     private static final String TAG_WORKING = "working";
     private static final String TAG_ASPECT = "cvType";
+    private static final String TAG_INPUT = "currentInput";
+    private static final String TAG_OUTPUT = "currentOutput";
 
     private int tickCounter;
     private int internalVis = 0;
@@ -39,17 +41,25 @@ public class TileVisweaver extends TileEntity implements IInventory {
         if (worldObj.isRemote) return;
         if (working) {
             ItemStack currentStack = getStackInSlot(0);
-            if (currentStack == null || currentInput == null || !currentStack.isItemEqual(currentInput)) flushRecipe();
+            if (currentStack == null || currentInput == null || !currentStack.isItemEqual(currentInput)) {
+                flushRecipe();
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            }
         }
         if (tickCounter % 20 != 0) return;
         if (!working) {
             recipeCheck();
         } else {
-            internalVis += VisNetHandler.drainVis(this.worldObj, this.xCoord, this.yCoord, this.zCoord, cvType, 5);
-            if (internalVis >= requiredVis) {
-                finishRecipe();
-            }
+            internalVis += VisNetHandler.drainVis(this.worldObj, this.xCoord, this.yCoord, this.zCoord, cvType, 500);
+            progressRecipe();
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
+    }
+
+    private void progressRecipe() {
+        if (internalVis >= requiredVis) {
+            internalVis -= requiredVis;
+            finishRecipe();
         }
     }
 
@@ -65,9 +75,11 @@ public class TileVisweaver extends TileEntity implements IInventory {
     private void recipeCheck() {
         VisweaverRecipe recipe = VisweaverRecipeMap.lookup(getStackInSlot(0));
         if (recipe != null) {
+            ItemStack output = recipe.getOutput();
+            if (canAddToSlot(output, 1) <= 0) return;
             cvType = recipe.getCentivisType();
             requiredVis = recipe.getCentivisCost();
-            currentOutput = recipe.getOutput();
+            currentOutput = output;
             currentInput = recipe.getInput();
             working = true;
         }
@@ -76,8 +88,13 @@ public class TileVisweaver extends TileEntity implements IInventory {
     private void finishRecipe() {
         decrStackSize(0, 1);
         addToSlot(currentOutput, 1);
-        flushRecipe();
-        recipeCheck();
+        ItemStack input = getStackInSlot(0);
+        if (input != null && currentInput.isItemEqual(input) && canAddToSlot(currentOutput, 1) > 0) {
+            progressRecipe();
+        } else {
+            flushRecipe();
+            recipeCheck();
+        }
     }
 
     @Override
@@ -184,6 +201,8 @@ public class TileVisweaver extends TileEntity implements IInventory {
         internalVis = par1NBTTagCompound.getInteger(TAG_INTERNAL_VIS);
         requiredVis = par1NBTTagCompound.getInteger(TAG_REQUIRED_VIS);
         cvType = Aspect.getAspect(par1NBTTagCompound.getString(TAG_ASPECT));
+        currentInput = ItemStack.loadItemStackFromNBT(par1NBTTagCompound.getCompoundTag(TAG_INPUT));
+        currentOutput = ItemStack.loadItemStackFromNBT(par1NBTTagCompound.getCompoundTag(TAG_OUTPUT));
 
         NBTTagList var2 = par1NBTTagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         inventorySlots = new ItemStack[getSizeInventory()];
@@ -198,18 +217,18 @@ public class TileVisweaver extends TileEntity implements IInventory {
     public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
         super.writeToNBT(par1NBTTagCompound);
 
+        NBTTagCompound input = new NBTTagCompound();
+        NBTTagCompound output = new NBTTagCompound();
+
         par1NBTTagCompound.setBoolean(TAG_WORKING, working);
         par1NBTTagCompound.setInteger(TAG_INTERNAL_VIS, internalVis);
         par1NBTTagCompound.setInteger(TAG_REQUIRED_VIS, requiredVis);
-        if (cvType != null) {
-            par1NBTTagCompound.setString(TAG_ASPECT, cvType.getTag());
-        }
 
-        /*
-         * NBTTagCompound input = new NBTTagCompound(); NBTTagCompound output = new NBTTagCompound();
-         * currentInput.writeToNBT(input); currentOutput.writeToNBT(output); NBTTagList recipe = new NBTTagList();
-         * recipe.appendTag(input); recipe.appendTag(output);
-         */
+        if (working) {
+            par1NBTTagCompound.setString(TAG_ASPECT, cvType.getTag());
+            par1NBTTagCompound.setTag(TAG_INPUT, currentInput.writeToNBT(input));
+            par1NBTTagCompound.setTag(TAG_OUTPUT, currentOutput.writeToNBT(output));
+        }
 
         NBTTagList var2 = new NBTTagList();
         for (int var3 = 0; var3 < inventorySlots.length; ++var3) {
