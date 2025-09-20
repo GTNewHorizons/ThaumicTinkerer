@@ -57,6 +57,7 @@ public class ThaumicTinkerer {
     public static TTCommonProxy proxy;
 
     public static boolean isBootsActive = false;
+    public static boolean gtLoaded;
     public static final String BOOTS = "thaumicboots";
 
     public static CommonProxy tcProxy;
@@ -80,6 +81,7 @@ public class ThaumicTinkerer {
         if (Loader.isModLoaded(BOOTS)) {
             isBootsActive = true;
         }
+        gtLoaded = Loader.isModLoaded("gregtech");
     }
 
     @EventHandler

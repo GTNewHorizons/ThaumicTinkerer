@@ -99,8 +99,8 @@ public class ThaumicTLoaderContainer extends DummyModContainer implements IFMLLo
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
         if (!FMLLaunchHandler.side().isClient()) {
-            return Collections.emptyList();
+            return Collections.singletonList("AccessorItemInWorldManager");
         }
-        return Collections.singletonList("renderer.MixinRenderBlocks");
+        return Arrays.asList("renderer.MixinRenderBlocks", "AccessorItemInWorldManager");
     }
 }
