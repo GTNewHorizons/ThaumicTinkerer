@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -131,11 +129,6 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
             }
         }
         return cache;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

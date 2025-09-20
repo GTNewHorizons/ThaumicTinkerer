@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -92,11 +91,6 @@ public class BlockSummon extends Block implements ITTinkererBlock {
     public IIcon getIcon(int par1, int meta) {
         return par1 == ForgeDirection.UP.ordinal() ? iconTop
                 : par1 == ForgeDirection.DOWN.ordinal() ? Block.getBlockFromName("obsidian").getIcon(0, 0) : iconSide;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

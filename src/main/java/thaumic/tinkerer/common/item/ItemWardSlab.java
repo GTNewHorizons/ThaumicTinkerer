@@ -1,7 +1,5 @@
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.item.ItemSlab;
@@ -22,13 +20,8 @@ public class ItemWardSlab extends ItemSlab implements ITTinkererItem {
         super(
                 par1,
                 (BlockSlab) ThaumicTinkerer.registry.getFirstBlockFromClass(BlockWardSlab.class),
-                (BlockSlab) ThaumicTinkerer.registry.getBlockFromClass(BlockWardSlab.class).get(1),
+                (BlockSlab) ThaumicTinkerer.registry.getBlockFromClass(BlockWardSlab.class, 1),
                 false);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.item.kami.armor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -43,11 +42,6 @@ public abstract class ItemIchorclothArmorAdv extends ItemIchorclothArmor impleme
 
     public ItemIchorclothArmorAdv() {
         this(0);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override
