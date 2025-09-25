@@ -137,11 +137,6 @@ public abstract class BlockGas extends BlockMod implements ITTinkererBlock {
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
-    }
-
-    @Override
     public boolean shouldRegister() {
         return true;
     }

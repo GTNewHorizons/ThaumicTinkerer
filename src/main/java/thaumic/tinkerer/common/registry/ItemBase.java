@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.registry;
 
-import java.util.ArrayList;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
@@ -32,11 +30,6 @@ public abstract class ItemBase extends Item implements ITTinkererItem {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IconRegister) {
         itemIcon = IconHelper.forItem(par1IconRegister, this);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

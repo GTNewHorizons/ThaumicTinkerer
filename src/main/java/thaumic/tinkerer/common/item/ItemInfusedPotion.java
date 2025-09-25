@@ -119,11 +119,6 @@ public class ItemInfusedPotion extends ItemPotion implements ITTinkererItem {
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
-    }
-
-    @Override
     public String getItemName() {
         return LibItemNames.INFUSED_POTION;
     }

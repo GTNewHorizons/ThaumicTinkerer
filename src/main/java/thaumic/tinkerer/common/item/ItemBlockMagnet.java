@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -37,11 +35,6 @@ public class ItemBlockMagnet extends ItemBlock implements ITTinkererItem {
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
         return "tile." + (par1ItemStack.getItemDamage() == 0 ? LibBlockNames.MAGNET : LibBlockNames.MOB_MAGNET);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

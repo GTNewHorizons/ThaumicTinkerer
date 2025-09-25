@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.item.quartz;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.item.ItemSlab;
@@ -30,13 +28,8 @@ public class ItemDarkQuartzSlab extends ItemSlab implements ITTinkererItem {
         super(
                 par1,
                 (BlockSlab) ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartzSlab.class),
-                (BlockSlab) ThaumicTinkerer.registry.getBlockFromClass(BlockDarkQuartzSlab.class).get(1),
+                (BlockSlab) ThaumicTinkerer.registry.getBlockFromClass(BlockDarkQuartzSlab.class, 1),
                 false);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override
