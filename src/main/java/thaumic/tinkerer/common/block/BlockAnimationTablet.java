@@ -147,24 +147,15 @@ public class BlockAnimationTablet extends BlockModContainer {
         boolean on = (meta & 8) != 0;
 
         if (power && !on) {
-            par1World.scheduleBlockUpdate(par2, par3, par4, this, tickRate(par1World));
             par1World.setBlockMetadataWithNotify(par2, par3, par4, meta | 8, 4);
-        } else if (!power && on) par1World.setBlockMetadataWithNotify(par2, par3, par4, meta & 7, 4);
+        } else if (!power && on) {
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, meta & 7, 4);
+        }
     }
 
     @Override
     public int tickRate(World par1World) {
         return 1;
-    }
-
-    @Override
-    public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
-        TileEntity tile = par1World.getTileEntity(par2, par3, par4);
-        if (tile instanceof TileAnimationTablet tablet) {
-            if (tablet.redstone && tablet.isIdle()) {
-                tablet.initiateSwing();
-            }
-        }
     }
 
     @Override
