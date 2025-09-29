@@ -292,4 +292,12 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
     public String getItemName() {
         return LibItemNames.CLEANSING_TALISMAN;
     }
+
+    @Override
+    public boolean getIsRepairable(ItemStack talisman, ItemStack material) {
+        if (material != null
+                && material.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class))
+            return true;
+        return super.getIsRepairable(talisman, material);
+    }
 }
