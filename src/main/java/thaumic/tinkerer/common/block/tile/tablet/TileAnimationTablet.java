@@ -16,10 +16,14 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemReed;
+import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -157,10 +161,17 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
                     worldManager.tryHarvestBlock(hit.blockX, hit.blockY, hit.blockZ);
                 }
             }
-
-            if (isIdle() && hit != null && (!redstone || isBreaking)) {
+            if (isIdle() && hit != null) {
+                if (redstone && !isBreaking) {
+                    boolean power = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)
+                            || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord + 1, zCoord);
+                    if (!power) {
+                        return;
+                    }
+                }
+                Block block = worldObj.getBlock(hit.blockX, hit.blockY, hit.blockZ);
                 if (hit.typeOfHit == MovingObjectPosition.MovingObjectType.MISS
-                        && (leftClick || !canPlaceItem(stack))) {
+                        && (leftClick || !canUseItem(stack, block))) {
                     return;
                 }
                 initiateSwing();
@@ -183,9 +194,15 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
         }
     }
 
-    private boolean canPlaceItem(ItemStack stack) {
+    private boolean canUseItem(ItemStack stack, Block block) {
         final Item item = stack.getItem();
-        return item instanceof ItemBlock || item instanceof ItemReed;
+        if (item instanceof ItemBlock || item instanceof ItemReed || item instanceof ItemSeeds) {
+            return true;
+        }
+        if (item instanceof ItemRedstone) {
+            return true;
+        }
+        return item instanceof ItemHoe && (block == Blocks.dirt || block == Blocks.grass);
     }
 
     @Override
@@ -327,9 +344,8 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
         position.yCoord = yCoord + 0.5f;
         position.zCoord = zCoord + 0.5f;
         if (!worldObj.isAirBlock(x, y, z)) {
-            block.setBlockBoundsBasedOnState(worldObj, x, y, z);
-            AxisAlignedBB aabb = block.getCollisionBoundingBoxFromPool(worldObj, x, y, z);
-            if (aabb != null) {
+            AxisAlignedBB aabb = getBlockBoundingBox(block, x, y, z);
+            if (block.canCollideCheck(worldObj.getBlockMetadata(x, y, z), false)) {
                 hit = block.collisionRayTrace(worldObj, x, y, z, position, getMiddleOfAABB(aabb));
             }
         }
@@ -375,9 +391,8 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
             y--;
             if (!worldObj.isAirBlock(x, y, z)) {
                 block = worldObj.getBlock(x, y, z);
-                block.setBlockBoundsBasedOnState(worldObj, x, y, z);
-                AxisAlignedBB aabb = block.getCollisionBoundingBoxFromPool(worldObj, x, y, z);
-                if (aabb != null) {
+                if (block.canCollideCheck(worldObj.getBlockMetadata(x, y, z), false)) {
+                    AxisAlignedBB aabb = getBlockBoundingBox(block, x, y, z);
                     Vec3 vec = getMiddleOfAABB(aabb);
                     vec.yCoord = (aabb.maxY - y);
                     hit = new MovingObjectPosition(x, y, z, ForgeDirection.UP.ordinal(), vec, false);
@@ -386,6 +401,16 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
         }
 
         return hit;
+    }
+
+    private AxisAlignedBB getBlockBoundingBox(Block block, int x, int y, int z) {
+        return AxisAlignedBB.getBoundingBox(
+                x + block.getBlockBoundsMinX(),
+                y + block.getBlockBoundsMinY(),
+                z + block.getBlockBoundsMinZ(),
+                x + block.getBlockBoundsMaxX(),
+                y + block.getBlockBoundsMaxY(),
+                z + block.getBlockBoundsMaxZ());
     }
 
     private Vec3 getMiddleOfAABB(AxisAlignedBB aabb) {
