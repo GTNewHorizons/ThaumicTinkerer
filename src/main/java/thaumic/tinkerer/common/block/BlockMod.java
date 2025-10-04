@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -40,11 +38,6 @@ public abstract class BlockMod extends Block implements ITTinkererBlock {
 
     boolean registerInCreative() {
         return true;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

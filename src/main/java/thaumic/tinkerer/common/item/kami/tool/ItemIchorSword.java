@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.item.kami.tool;
 
-import java.util.ArrayList;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -57,11 +55,6 @@ public class ItemIchorSword extends ItemSword implements ITTinkererItem {
     @Override
     public boolean isItemTool(ItemStack par1ItemStack) {
         return true;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

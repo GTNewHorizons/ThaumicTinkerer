@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.item.foci;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -56,11 +55,6 @@ public abstract class ItemModFocus extends ItemFocusBasic implements ITTinkererI
         this.icon = IconHelper.forItem(par1IconRegister, this);
         if (hasOrnament()) ornament = IconHelper.forItem(par1IconRegister, this, "Orn");
         if (hasDepth()) depth = IconHelper.forItem(par1IconRegister, this, "Depth");
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

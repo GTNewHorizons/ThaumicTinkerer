@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block.kami;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -149,11 +148,6 @@ public class BlockWarpGate extends BlockModContainer {
     @Override
     public boolean renderAsNormalBlock() {
         return false;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

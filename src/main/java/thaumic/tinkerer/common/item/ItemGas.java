@@ -11,10 +11,9 @@
  */
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -48,10 +47,8 @@ public class ItemGas extends ItemBase {
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        ArrayList<Object> result = new ArrayList<>();
-        result.add(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousLight.class));
-        return result;
+    public Item[] getMetaItems() {
+        return new Item[] { new ItemGas(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockGaseousLight.class)) };
     }
 
     @Override

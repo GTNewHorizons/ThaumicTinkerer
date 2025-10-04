@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -189,11 +188,6 @@ public class BlockMagnet extends BlockModContainer implements IMultiTileEntityBl
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
         return (metadata & 2) == 2 ? new TileMobMagnet() : new TileMagnet();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override
