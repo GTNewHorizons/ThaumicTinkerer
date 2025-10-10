@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.registry;
 
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,18 +9,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
 import org.apache.logging.log4j.Level;
-import org.spongepowered.libraries.com.google.common.reflect.ClassPath;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import thaumic.tinkerer.client.lib.LibResources;
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.BlockAnimationTablet;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
-import thaumic.tinkerer.common.item.kami.ItemBlockTalisman;
-import thaumic.tinkerer.common.item.kami.ItemPlacementMirror;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
 public class TTRegistry {
@@ -178,7 +172,9 @@ public class TTRegistry {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FMLLog.log(Level.WARN, "Failed to load Block " + newBlock.getClass().getSimpleName() + ". This shouldn't happen!");
+            FMLLog.log(
+                    Level.WARN,
+                    "Failed to load Block " + newBlock.getClass().getSimpleName() + ". This shouldn't happen!");
         }
 
         return null;
@@ -216,7 +212,9 @@ public class TTRegistry {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FMLLog.log(Level.WARN, "Failed to load Block " + newBlock.getClass().getSimpleName() + ". This shouldn't happen!");
+            FMLLog.log(
+                    Level.WARN,
+                    "Failed to load Block " + newBlock.getClass().getSimpleName() + ". This shouldn't happen!");
         }
         return null;
     }
@@ -232,7 +230,9 @@ public class TTRegistry {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FMLLog.log(Level.WARN, "Failed to load Item " + newItem.getClass().getSimpleName() + ". This shouldn't happen!");
+            FMLLog.log(
+                    Level.WARN,
+                    "Failed to load Item " + newItem.getClass().getSimpleName() + ". This shouldn't happen!");
         }
         return null;
     }
@@ -258,7 +258,9 @@ public class TTRegistry {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FMLLog.log(Level.WARN, "Failed to load Item " + newItem.getClass().getSimpleName() + ". This shouldn't happen!");
+            FMLLog.log(
+                    Level.WARN,
+                    "Failed to load Item " + newItem.getClass().getSimpleName() + ". This shouldn't happen!");
         }
         return null;
     }
