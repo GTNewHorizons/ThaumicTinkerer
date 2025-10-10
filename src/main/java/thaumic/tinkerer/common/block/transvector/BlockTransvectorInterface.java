@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.block.transvector;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
@@ -47,11 +45,6 @@ public class BlockTransvectorInterface extends BlockCamo {
     @Override
     public TileTransvector createNewTileEntity(World var1, int var2) {
         return new TileTransvectorInterface();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

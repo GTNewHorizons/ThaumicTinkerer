@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -65,6 +66,7 @@ public class ItemGasRemover extends ItemBase {
 
     @Override
     public ThaumicTinkererRecipe getRecipeItem() {
+        Item[] gasTypes = ThaumicTinkerer.registry.getItemArrayFromClass(ItemGas.class);
         return new ThaumicTinkererArcaneRecipe(
                 LibResearch.KEY_GAS_REMOVER,
                 LibResearch.KEY_GAS_REMOVER,
@@ -76,9 +78,9 @@ public class ItemGasRemover extends ItemBase {
                 'D',
                 new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class)),
                 'T',
-                new ItemStack(ThaumicTinkerer.registry.getItemFromClass(ItemGas.class).get(0)),
+                new ItemStack(gasTypes[0]),
                 'G',
-                new ItemStack(ThaumicTinkerer.registry.getItemFromClass(ItemGas.class).get(1)),
+                new ItemStack(gasTypes[1]),
                 'Q',
                 new ItemStack(Items.quartz));
     }

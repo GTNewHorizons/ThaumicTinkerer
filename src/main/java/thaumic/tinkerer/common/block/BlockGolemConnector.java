@@ -1,7 +1,5 @@
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -46,11 +44,6 @@ public class BlockGolemConnector extends BlockCamo {
     @Override
     public boolean renderAsNormalBlock() {
         return true;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

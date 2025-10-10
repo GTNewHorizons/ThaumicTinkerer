@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.BlockFarmland;
@@ -51,11 +50,6 @@ public class BlockInfusedFarmland extends BlockFarmland implements ITTinkererBlo
     @Override
     public TileEntity createTileEntity(World world, int metadata) {
         return new TileInfusedFarmland();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override
