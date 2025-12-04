@@ -1,7 +1,5 @@
 package thaumic.tinkerer.client.gui;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectLists;
 import java.util.ArrayList;
 import java.util.List;
 

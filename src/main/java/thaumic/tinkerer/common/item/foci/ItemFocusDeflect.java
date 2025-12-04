@@ -105,8 +105,8 @@ public class ItemFocusDeflect extends ItemModFocus {
     @Override
     public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
         return switch (rank) {
-            case 1, 3, 5 -> new FocusUpgradeType[]{FocusUpgradeType.frugal};
-            case 2, 4 -> new FocusUpgradeType[]{FocusUpgradeType.frugal, FocusUpgradeType.enlarge};
+            case 1, 3, 5 -> new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            case 2, 4 -> new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
             default -> null;
         };
     }

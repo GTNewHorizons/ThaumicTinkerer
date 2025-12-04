@@ -2,8 +2,6 @@ package thaumic.tinkerer.common.core.helper;
 
 import static thaumic.tinkerer.common.compat.EMTCompat.EMTLoaded;
 
-import net.minecraft.block.IGrowable;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
