@@ -51,6 +51,7 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileFunnel;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
 import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
+import thaumic.tinkerer.common.compat.EMTCompat;
 import thaumic.tinkerer.common.compat.EnderIO;
 import thaumic.tinkerer.common.compat.FumeTool;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
@@ -158,6 +159,8 @@ public class TTCommonProxy {
         } else {
             ThaumicTinkerer.log.info("Skipping TC Multipart integration");
         }
+
+        EMTCompat.init();
     }
 
     protected void registerPackets() {
