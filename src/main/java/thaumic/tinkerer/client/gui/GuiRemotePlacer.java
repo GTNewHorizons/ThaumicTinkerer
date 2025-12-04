@@ -1,5 +1,7 @@
 package thaumic.tinkerer.client.gui;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class GuiRemotePlacer extends GuiContainer {
 
     int x, y;
     List<IRadioButton> radioButtons = new ArrayList<>();
-    List<GuiButtonRP> buttonListRP = new ArrayList<>();
+    List<GuiButton> buttonListRP = new ArrayList<>();
     TileRPlacer placer;
     Aspect aspectHovered = null;
 
@@ -58,8 +60,11 @@ public class GuiRemotePlacer extends GuiContainer {
 
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
-        if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
-        else buttonListRP.get(0).buttonEnabled = !buttonListRP.get(0).buttonEnabled;
+        if (par1GuiButton instanceof IRadioButton iRadioButton) iRadioButton.enableFromClick();
+        else {
+            var button0 = (GuiButtonRP) buttonListRP.get(0);
+            button0.buttonEnabled = !button0.buttonEnabled;
+        }
 
         placer.blocks = par1GuiButton.id + 1;
 

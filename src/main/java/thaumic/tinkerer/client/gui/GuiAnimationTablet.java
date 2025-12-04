@@ -38,7 +38,7 @@ public class GuiAnimationTablet extends GuiContainer {
     int x, y;
 
     TileAnimationTablet tablet;
-    List<GuiButtonAT> buttonListAT = new ArrayList<>();
+    List<GuiButton> buttonListAT = new ArrayList<>();
     List<IRadioButton> radioButtons = new ArrayList<>();
 
     public GuiAnimationTablet(TileAnimationTablet tablet, InventoryPlayer playerInv) {
@@ -65,11 +65,14 @@ public class GuiAnimationTablet extends GuiContainer {
 
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
+        var button0 = (GuiButtonAT) buttonListAT.get(0);
         if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
-        else buttonListAT.get(0).buttonEnabled = !buttonListAT.get(0).buttonEnabled;
+        else {
+            button0.buttonEnabled = !button0.buttonEnabled;
+        }
 
-        tablet.leftClick = buttonListAT.get(1).buttonEnabled;
-        tablet.redstone = buttonListAT.get(0).buttonEnabled;
+        tablet.leftClick = ((GuiButtonAT) buttonListAT.get(1)).buttonEnabled;
+        tablet.redstone = button0.buttonEnabled;
 
         ThaumicTinkerer.netHandler.sendToServer(new PacketTabletButton(tablet));
     }
