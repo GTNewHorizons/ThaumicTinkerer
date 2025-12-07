@@ -64,7 +64,7 @@ public class ItemFocusDeflect extends ItemModFocus {
             range = wand.getFocusEnlarge(stack);
         }
 
-        List<Entity> projectiles = p.worldObj.getEntitiesWithinAABB(
+        var projectiles = p.worldObj.getEntitiesWithinAABB(
                 IProjectile.class,
                 AxisAlignedBB.getBoundingBox(
                         p.posX - (4 + range),
@@ -74,7 +74,9 @@ public class ItemFocusDeflect extends ItemModFocus {
                         p.posY + (3 + range),
                         p.posZ + (3 + range)));
 
-        for (Entity e : projectiles) {
+        for (var projectile : projectiles) {
+            if (!(projectile instanceof Entity e)) continue;
+
             if (CheckBlackList(e) || ProjectileHelper.getOwner(e) == p) continue;
             Vector3 motionVec = new Vector3(e.motionX, e.motionY, e.motionZ).normalize().multiply(
                     Math.sqrt(
@@ -102,19 +104,11 @@ public class ItemFocusDeflect extends ItemModFocus {
 
     @Override
     public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
-        switch (rank) {
-            case 1:
-                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
-            case 2:
-                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
-            case 3:
-                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
-            case 4:
-                return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
-            case 5:
-                return new FocusUpgradeType[] { FocusUpgradeType.frugal };
-        }
-        return null;
+        return switch (rank) {
+            case 1, 3, 5 -> new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            case 2, 4 -> new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+            default -> null;
+        };
     }
 
     private static boolean CheckBlackList(Entity entity) {

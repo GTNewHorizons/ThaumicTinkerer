@@ -42,7 +42,6 @@ public class GuiMobMagnet extends GuiContainer {
     ItemStack stack = null;
     TileMobMagnet mobMagnet;
 
-    List<GuiButtonMM> buttonListMM = new ArrayList<>();
     List<IRadioButton> radioButtons = new ArrayList<>();
 
     public GuiMobMagnet(TileMobMagnet tile, InventoryPlayer playerInv) {
@@ -55,23 +54,21 @@ public class GuiMobMagnet extends GuiContainer {
         super.initGui();
         x = (width - xSize) / 2;
         y = (height - ySize) / 2;
-        buttonListMM.clear();
         addButton(new GuiButtonMMRadio(0, x + 100, y + 28, mobMagnet.adult, radioButtons));
         addButton(new GuiButtonMMRadio(1, x + 100, y + 48, !mobMagnet.adult, radioButtons));
-        buttonList = buttonListMM;
     }
 
     private void addButton(GuiButtonMM button) {
-        buttonListMM.add(button);
+        buttonList.add(button);
         if (button instanceof IRadioButton) radioButtons.add((IRadioButton) button);
     }
 
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
         if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
-        else buttonListMM.get(0).enabled = !buttonListMM.get(0).enabled;
+        else buttonList.get(0).enabled = !buttonList.get(0).enabled;
 
-        mobMagnet.adult = buttonListMM.get(0).enabled;
+        mobMagnet.adult = buttonList.get(0).enabled;
 
         ThaumicTinkerer.netHandler.sendToServer(new PacketMobMagnetButton(mobMagnet));
     }
