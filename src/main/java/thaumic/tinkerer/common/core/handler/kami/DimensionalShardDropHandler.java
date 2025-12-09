@@ -29,9 +29,8 @@ public class DimensionalShardDropHandler {
     public void onEntityLivingDrops(LivingDropsEvent event) {
         if (event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer) {
             if (event.entityLiving instanceof EntityEnderman
-                    && event.entityLiving.dimension == ConfigHandler.endDimensionID
-                    && Math.random() <= 1D / 32D)
-                event.drops.add(
+                    && event.entityLiving.dimension == ConfigHandler.endDimensionID)
+                for (int i = 0; i <= event.lootingLevel; i++) if (Math.random() <= 1D / 32D) event.drops.add(
                         new EntityItem(
                                 event.entityLiving.worldObj,
                                 event.entityLiving.posX,
@@ -43,9 +42,8 @@ public class DimensionalShardDropHandler {
                                         7)));
 
             if (event.entityLiving instanceof EntityPigZombie
-                    && event.entityLiving.dimension == ConfigHandler.netherDimensionID
-                    && Math.random() <= 1D / 16D)
-                event.drops.add(
+                    && event.entityLiving.dimension == ConfigHandler.netherDimensionID)
+                for (int i = 0; i <= event.lootingLevel; i++) if (Math.random() <= 1D / 32D) event.drops.add(
                         new EntityItem(
                                 event.entityLiving.worldObj,
                                 event.entityLiving.posX,
