@@ -11,9 +11,9 @@
  */
 package thaumic.tinkerer.common.block.quartz;
 
-import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -83,10 +83,8 @@ public class BlockDarkQuartzSlab extends BlockSlab implements ITTinkererBlock {
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        ArrayList result = new ArrayList();
-        result.add(true);
-        return result;
+    public Block[] getMetaBlocks() {
+        return new Block[] { new BlockDarkQuartzSlab(true) };
     }
 
     @Override

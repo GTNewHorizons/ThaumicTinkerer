@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -63,11 +62,6 @@ public class BlockPlatform extends BlockCamo {
     @Override
     public TileCamo createNewTileEntity(World world, int meta) {
         return new TileCamo();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

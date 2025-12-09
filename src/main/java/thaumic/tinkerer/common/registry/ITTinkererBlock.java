@@ -1,7 +1,6 @@
 package thaumic.tinkerer.common.registry;
 
-import java.util.ArrayList;
-
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
@@ -10,15 +9,17 @@ import net.minecraft.tileentity.TileEntity;
  */
 public interface ITTinkererBlock extends ITTinkererRegisterable {
 
-    public ArrayList<Object> getSpecialParameters();
+    String getBlockName();
 
-    public String getBlockName();
+    boolean shouldRegister();
 
-    public boolean shouldRegister();
+    boolean shouldDisplayInTab();
 
-    public boolean shouldDisplayInTab();
+    Class<? extends ItemBlock> getItemBlock();
 
-    public Class<? extends ItemBlock> getItemBlock();
+    Class<? extends TileEntity> getTileEntity();
 
-    public Class<? extends TileEntity> getTileEntity();
+    default Block[] getMetaBlocks() {
+        return null;
+    }
 }

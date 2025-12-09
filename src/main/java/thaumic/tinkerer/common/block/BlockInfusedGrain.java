@@ -201,11 +201,6 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
-    }
-
-    @Override
     public String getBlockName() {
         return LibBlockNames.INFUSED_GRAIN_BLOCK;
     }
