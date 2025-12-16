@@ -81,7 +81,7 @@ public class ItemIchorSwordAdv extends ItemIchorSword implements IAdvancedTool {
             break;
             case 1: {
                 int range = 3;
-                List<Entity> entities = player.worldObj.getEntitiesWithinAABB(
+                var entities = player.worldObj.getEntitiesWithinAABB(
                         entity.getClass(),
                         AxisAlignedBB.getBoundingBox(
                                 entity.posX - range,
