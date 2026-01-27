@@ -36,7 +36,7 @@ ttmisc.notAbsorbing=Ne pas Absorber
 ttmisc.absorbing=Absorber
 ttmisc.shareTome.write=Recherche écrite !
 ttmisc.shareTome.notOnline=Le joueur à qui appartient cette Recherche n'est pas connecté.
-ttmisc.shareTomb.offlineshare=Partage hors-connexion
+ttmisc.shareTome.offlineshare=Partage hors-connexion
 ttmisc.shareTome.sync=Recherche acquise.
 ttmisc.shareTome.noAssign=Non assigné
 ttmisc.shareTome.playerName=Lié aux recherches de %s.
@@ -376,7 +376,7 @@ ttresearch.page.TTENCH_FINAL.0=You have formulated an enchantment that enables y
 # -- ENCHANTMENT: VALIANCE
 ttresearch.name.TTENCH_VALIANCE=Enchantement: Valliance
 ttresearch.lore.TTENCH_VALIANCE=Et nous voilà repartis !
-ttresearch.page.TTENCH_VALIANCE.0=You have formulated an enchantment that enables you to fight better when at low health.<BR><BR>This enchantment can be applied on swords. When done so, damage done with the sword will be increased when the weilder is at low health.
+ttresearch.page.TTENCH_VALIANCE.0=You have formulated an enchantment that enables you to fight better when at low health.<BR><BR>This enchantment can be applied on swords. When done so, damage done with the sword will be increased when the wielder is at low health.
 
 
 # -- ENCHANTMENT: TUNNEL
@@ -392,7 +392,7 @@ ttresearch.page.TTENCH_SHATTER.0=You have formulated an enchantment that enables
 # -- ENCHANTMENT: SHOCKWAVE
 ttresearch.name.TTENCH_SHOCKWAVE=Enchantement: Séïsme
 ttresearch.lore.TTENCH_SHOCKWAVE=Ondes de choc
-ttresearch.page.TTENCH_SHOCKWAVE.0=You have formulated an enchantment that enables you to become to kill enemies while falling.<BR><BR>This enchantment can be applied on boots. When done so, whenever the wearer falls, damage will be dealt to surrounding mobs or players.<BR><BR>Unfortunatly Magics of all types that make the player lighter, so to prevent damage from falling, will make the player too light to damage entities. You feel there may be ways to stop this at a later time, once you know the magic better.
+ttresearch.page.TTENCH_SHOCKWAVE.0=You have formulated an enchantment that enables you to become to kill enemies while falling.<BR><BR>This enchantment can be applied on boots. When done so, whenever the wearer falls, damage will be dealt to surrounding mobs or players.<BR><BR>Unfortunately Magics of all types that make the player lighter, so to prevent damage from falling, will make the player too light to damage entities. You feel there may be ways to stop this at a later time, once you know the magic better.
 
 # -- ENCHANTMENT: POUNCE
 ttresearch.name.TTENCH_POUNCE=Enchantement: Rebond
@@ -509,7 +509,7 @@ ttresearch.page.ICHORCLOTH_CHEST_GEM.0=You found a way of upgrading the Ichorclo
 ttresearch.name.ICHORCLOTH_LEGS_GEM=Jambières du Manteau brûlant
 ttresearch.lore.ICHORCLOTH_LEGS_GEM=Coup de chaud
 ttresearch.page.ICHORCLOTH_LEGS_GEM.0=You found a way of upgrading the Ichorcloth Leggings into a more powerful form.<BR><BR>These leggings are infused with the soul of fire.<BR>For one, they cast a light around the holder, brighter even than that of Hyperenergetic Nitor. This light also expands to where the wearer is looking, akin to a flashlight, and prevails given the creator's existence in a much extended range.<BR>Furthermore, these leggings not only provide fire resistance, but they convert any incoming fire damage into healing. Pressing U will toggle this armors effects.
-ttresearch.page.ICHORCLOTH_LEGS_GEM.1=Case you find yourself wanting to be in the darkness for whatever reason, Shift-right clicking with these leggings will toggle on or off the light feature.
+ttresearch.page.ICHORCLOTH_LEGS_GEM.1=In case you find yourself wanting to be in the darkness for whatever reason, Shift-right clicking with these leggings will toggle on or off the light feature.
 
 # -- BOOTS OF THE HORIZONTAL SHIELD
 ttresearch.name.ICHORCLOTH_BOOTS_GEM=Bottes du Bouclier de l'horizon
