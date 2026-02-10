@@ -68,13 +68,16 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
             int xpUse = getXpUse(stack);
             if (player.experienceTotal >= xpUse) {
                 ExperienceHelper.drainPlayerXP(player, xpUse);
+                int potency = wand.getFocusPotency(stack);
+                float multiplier = 1.0F + (0.2F * potency);
 
-                int newAmount = lowestAmount + 500;
+                int newAmount = lowestAmount + Math.round(500 * multiplier);
                 wand.storeVis(
                     stack,
                     lowestAspect,
                     Math.min(maxVis, newAmount)
                 );
+
             }
         }
     }
@@ -113,7 +116,7 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     @Override
     public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
         if (rank <= 5) {
-            return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+            return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
         }
         return null;
     }
