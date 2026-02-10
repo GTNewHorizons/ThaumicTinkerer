@@ -33,7 +33,6 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 public class ItemFocusXPDrain extends ItemModKamiFocus {
 
     AspectList visUsage = new AspectList();
-    private int lastGiven = 0;
 
     @Override
     public boolean isVisCostPerTick(ItemStack stack) {
@@ -46,32 +45,36 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     }
 
     @Override
-    public void onUsingFocusTick(ItemStack paramItemStack, EntityPlayer paramEntityPlayer, int paramInt) {
-        if (paramEntityPlayer.worldObj.isRemote) return;
+    public void onUsingFocusTick(ItemStack stack, EntityPlayer player, int count) {
+        if (player.worldObj.isRemote) return;
 
-        ItemWandCasting wand = (ItemWandCasting) paramItemStack.getItem();
-        AspectList aspects = wand.getAllVis(paramItemStack);
+        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
+        AspectList aspects = wand.getAllVis(stack);
 
-        Aspect aspectToAdd = null;
-        int takes = 0;
+        Aspect lowestAspect = null;
+        int lowestAmount = Integer.MAX_VALUE;
+        int maxVis = wand.getMaxVis(stack);
 
-        while (aspectToAdd == null && takes < 7) {
-            lastGiven = lastGiven == 5 ? 0 : lastGiven + 1;
+        for (Aspect aspect : Aspect.getPrimalAspects()) {
+            int amount = aspects.getAmount(aspect);
 
-            Aspect aspect = Aspect.getPrimalAspects().get(lastGiven);
-
-            if (aspects.getAmount(aspect) < wand.getMaxVis(paramItemStack)) aspectToAdd = aspect;
-
-            ++takes;
+            if (amount < maxVis && amount < lowestAmount) {
+                lowestAmount = amount;
+                lowestAspect = aspect;
+            }
         }
 
-        if (aspectToAdd != null) {
-            int xpUse = getXpUse(paramItemStack);
-            if (paramEntityPlayer.experienceTotal >= xpUse) {
-                ExperienceHelper.drainPlayerXP(paramEntityPlayer, xpUse);
-                int amount = wand.getVis(paramItemStack, aspectToAdd) + 500;
-                ThaumicTinkerer.log.info(amount);
-                wand.storeVis(paramItemStack, aspectToAdd, Math.min(wand.getMaxVis(paramItemStack), amount));
+        if (lowestAspect != null) {
+            int xpUse = getXpUse(stack);
+            if (player.experienceTotal >= xpUse) {
+                ExperienceHelper.drainPlayerXP(player, xpUse);
+
+                int newAmount = lowestAmount + 500;
+                wand.storeVis(
+                    stack,
+                    lowestAspect,
+                    Math.min(maxVis, newAmount)
+                );
             }
         }
     }
