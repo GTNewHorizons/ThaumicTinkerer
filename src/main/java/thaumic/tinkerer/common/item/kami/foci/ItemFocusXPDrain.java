@@ -88,12 +88,12 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     }
 
     int getXpUse(ItemStack stack) {
-        return 15;
+        return 15 - this.getUpgradeLevel(stack, FocusUpgradeType.frugal);
     }
 
     @Override
     protected void addVisCostTooltip(AspectList cost, ItemStack stack, EntityPlayer player, List list, boolean par4) {
-        list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" : "item.Focus.cost1"));
+        list.add(StatCollector.translateToLocal("item.Focus.cost2"));
         list.add(
                 " " + EnumChatFormatting.GREEN
                         + StatCollector.translateToLocal("ttmisc.experience")
@@ -108,8 +108,11 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     }
 
     @Override
-    public boolean canApplyUpgrade(ItemStack focusstack, EntityPlayer player, FocusUpgradeType type, int rank) {
-        return false;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        if (rank <= 5) {
+            return new FocusUpgradeType[] { FocusUpgradeType.frugal };
+        }
+        return null;
     }
 
     @Override
