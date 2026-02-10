@@ -39,7 +39,7 @@ public class BonemealEventHandler {
     public void onPlayerInteract(PlayerInteractEvent event) {
         var world = event.world;
         if (world.isRemote) return;
-        if (!(world.getBlock(event.x, event.y, event.z) instanceof BlockInfusedGrain igrowable)) return;
+        if (!(world.getBlock(event.x, event.y, event.z) instanceof BlockInfusedGrain infusedGrain)) return;
 
         var player = event.entityPlayer;
         if (player == null) return;
@@ -47,13 +47,19 @@ public class BonemealEventHandler {
         var hoeOfGrowth = player.getCurrentEquippedItem();
         if (!isMagicHoe(hoeOfGrowth)) return;
 
-        if (igrowable.func_149851_a(world, event.x, event.y, event.z, false)) {
-            if (igrowable.func_149852_a(world, world.rand, event.x, event.y, event.z)) {
-                igrowable.func_149853_b(world, world.rand, event.x, event.y, event.z);
-            }
+        if (!infusedGrain.func_149851_a(world, event.x, event.y, event.z, false)
+                || !infusedGrain.func_149852_a(world, world.rand, event.x, event.y, event.z)) {
+            return;
         }
-
+        infusedGrain.func_149853_b(world, world.rand, event.x, event.y, event.z);
         hoeOfGrowth.damageItem(25, player);
         Thaumcraft.proxy.blockSparkle(world, event.x, event.y, event.z, 0, 2);
+        world.playSoundEffect(
+                event.x + 0.5D,
+                event.y + 0.5D,
+                event.z + 0.5D,
+                "thaumcraft:wand",
+                0.75F,
+                0.9F + world.rand.nextFloat() * 0.2F);
     }
 }
