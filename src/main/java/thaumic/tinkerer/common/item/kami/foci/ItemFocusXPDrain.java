@@ -65,19 +65,18 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
         }
 
         if (lowestAspect != null) {
+            int potency = wand.getFocusPotency(stack);
+            float multiplier = 1.0F + (0.2F * potency);
+
+            int intendedAdd = Math.round(500 * multiplier);
+            int actualAdd = Math.min(intendedAdd, maxVis - lowestAmount);
+
             int xpUse = getXpUse(stack);
-            if (player.experienceTotal >= xpUse) {
-                ExperienceHelper.drainPlayerXP(player, xpUse);
-                int potency = wand.getFocusPotency(stack);
-                float multiplier = 1.0F + (0.2F * potency);
+            int scaledXp = Math.max(1, Math.round(xpUse * (actualAdd / (float) intendedAdd)));
 
-                int newAmount = lowestAmount + Math.round(500 * multiplier);
-                wand.storeVis(
-                    stack,
-                    lowestAspect,
-                    Math.min(maxVis, newAmount)
-                );
-
+            if (player.experienceTotal >= scaledXp) {
+                ExperienceHelper.drainPlayerXP(player, scaledXp);
+                wand.storeVis(stack, lowestAspect, lowestAmount + actualAdd);
             }
         }
     }
