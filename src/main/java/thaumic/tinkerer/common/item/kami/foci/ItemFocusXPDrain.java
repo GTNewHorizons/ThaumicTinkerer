@@ -33,7 +33,6 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 public class ItemFocusXPDrain extends ItemModKamiFocus {
 
     AspectList visUsage = new AspectList();
-    private int lastGiven = 0;
 
     @Override
     public boolean isVisCostPerTick(ItemStack stack) {
@@ -46,32 +45,38 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     }
 
     @Override
-    public void onUsingFocusTick(ItemStack paramItemStack, EntityPlayer paramEntityPlayer, int paramInt) {
-        if (paramEntityPlayer.worldObj.isRemote) return;
+    public void onUsingFocusTick(ItemStack stack, EntityPlayer player, int count) {
+        if (player.worldObj.isRemote) return;
 
-        ItemWandCasting wand = (ItemWandCasting) paramItemStack.getItem();
-        AspectList aspects = wand.getAllVis(paramItemStack);
+        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
+        AspectList aspects = wand.getAllVis(stack);
 
-        Aspect aspectToAdd = null;
-        int takes = 0;
+        Aspect lowestAspect = null;
+        int lowestAmount = Integer.MAX_VALUE;
+        int maxVis = wand.getMaxVis(stack);
 
-        while (aspectToAdd == null && takes < 7) {
-            lastGiven = lastGiven == 5 ? 0 : lastGiven + 1;
+        for (Aspect aspect : Aspect.getPrimalAspects()) {
+            int amount = aspects.getAmount(aspect);
 
-            Aspect aspect = Aspect.getPrimalAspects().get(lastGiven);
-
-            if (aspects.getAmount(aspect) < wand.getMaxVis(paramItemStack)) aspectToAdd = aspect;
-
-            ++takes;
+            if (amount < maxVis && amount < lowestAmount) {
+                lowestAmount = amount;
+                lowestAspect = aspect;
+            }
         }
 
-        if (aspectToAdd != null) {
-            int xpUse = getXpUse(paramItemStack);
-            if (paramEntityPlayer.experienceTotal >= xpUse) {
-                ExperienceHelper.drainPlayerXP(paramEntityPlayer, xpUse);
-                int amount = wand.getVis(paramItemStack, aspectToAdd) + 500;
-                ThaumicTinkerer.log.info(amount);
-                wand.storeVis(paramItemStack, aspectToAdd, Math.min(wand.getMaxVis(paramItemStack), amount));
+        if (lowestAspect != null) {
+            int potency = wand.getFocusPotency(stack);
+            float multiplier = 1.0F + (0.2F * potency);
+
+            int intendedAdd = Math.round(500 * multiplier);
+            int actualAdd = Math.min(intendedAdd, maxVis - lowestAmount);
+
+            int xpUse = getXpUse(stack);
+            int scaledXp = Math.max(1, Math.round(xpUse * (actualAdd / (float) intendedAdd)));
+
+            if (player.experienceTotal >= scaledXp) {
+                ExperienceHelper.drainPlayerXP(player, scaledXp);
+                wand.storeVis(stack, lowestAspect, lowestAmount + actualAdd);
             }
         }
     }
@@ -88,12 +93,12 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     }
 
     int getXpUse(ItemStack stack) {
-        return 15;
+        return 15 - this.getUpgradeLevel(stack, FocusUpgradeType.frugal);
     }
 
     @Override
     protected void addVisCostTooltip(AspectList cost, ItemStack stack, EntityPlayer player, List list, boolean par4) {
-        list.add(StatCollector.translateToLocal(isVisCostPerTick(stack) ? "item.Focus.cost2" : "item.Focus.cost1"));
+        list.add(StatCollector.translateToLocal("item.Focus.cost2"));
         list.add(
                 " " + EnumChatFormatting.GREEN
                         + StatCollector.translateToLocal("ttmisc.experience")
@@ -108,8 +113,11 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
     }
 
     @Override
-    public boolean canApplyUpgrade(ItemStack focusstack, EntityPlayer player, FocusUpgradeType type, int rank) {
-        return false;
+    public FocusUpgradeType[] getPossibleUpgradesByRank(ItemStack itemstack, int rank) {
+        if (rank <= 5) {
+            return new FocusUpgradeType[] { FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        }
+        return null;
     }
 
     @Override
