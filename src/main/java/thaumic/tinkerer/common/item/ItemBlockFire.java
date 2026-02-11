@@ -1,7 +1,5 @@
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBlock;
@@ -30,11 +28,6 @@ public class ItemBlockFire extends ItemBlock implements ITTinkererItem {
     @Override
     public int getMetadata(int par1) {
         return 0;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

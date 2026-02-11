@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.item.quartz;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.item.ItemStack;
@@ -38,11 +36,6 @@ public class ItemDarkQuartzBlock extends ItemMultiTexture implements ITTinkererI
     public String getUnlocalizedName(ItemStack par1ItemStack) {
         return par1ItemStack.getItemDamage() >= 3 ? ""
                 : LibBlockNames.DARK_QUARTZ_BLOCK_NAMES[par1ItemStack.getItemDamage()];
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

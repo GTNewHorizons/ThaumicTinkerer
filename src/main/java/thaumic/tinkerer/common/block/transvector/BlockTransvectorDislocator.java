@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block.transvector;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -132,11 +131,6 @@ public class BlockTransvectorDislocator extends BlockCamo {
     @Override
     public TileCamo createNewTileEntity(World world, int var2) {
         return new TileTransvectorDislocator();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

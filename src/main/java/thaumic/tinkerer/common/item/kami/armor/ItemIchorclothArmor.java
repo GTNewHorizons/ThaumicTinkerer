@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.item.kami.armor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -19,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -121,12 +121,8 @@ public class ItemIchorclothArmor extends ItemArmor
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        ArrayList<Object> result = new ArrayList<>();
-        result.add(1);
-        result.add(2);
-        result.add(3);
-        return result;
+    public Item[] getMetaItems() {
+        return new Item[] { new ItemIchorclothArmor(1), new ItemIchorclothArmor(2), new ItemIchorclothArmor(3) };
     }
 
     @Override

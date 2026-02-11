@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -81,11 +80,6 @@ public class BlockRPlacer extends BlockCamo implements IWandable {
     @Override
     public TileCamo createNewTileEntity(World world, int var2) {
         return new TileRPlacer();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

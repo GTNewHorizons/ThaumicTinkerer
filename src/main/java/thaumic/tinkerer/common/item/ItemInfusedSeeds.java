@@ -1,6 +1,5 @@
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.BlockFarmland;
@@ -136,11 +135,6 @@ public class ItemInfusedSeeds extends ItemSeeds implements ITTinkererItem {
     public IIcon getIconIndex(ItemStack stack) {
         return getAspect(stack) == null ? icons[0]
                 : icons[BlockInfusedGrain.getNumberFromAspectForTexture(getAspect(stack))];
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override
