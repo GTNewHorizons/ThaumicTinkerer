@@ -1,5 +1,7 @@
 package thaumic.tinkerer.common.registry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -290,6 +292,11 @@ public class TTRegistry {
         }
     }
 
+    @Deprecated // Use getItemArrayFromClass instead
+    public ArrayList<Item> getItemFromClass(Class clazz) {
+        return new ArrayList<>(Arrays.asList(getItemArrayFromClass(clazz)));
+    }
+
     public Item[] getItemArrayFromClass(Class clazz) {
         return itemRegistry.get(clazz);
     }
@@ -325,6 +332,11 @@ public class TTRegistry {
             }
         }
         return null;
+    }
+
+    @Deprecated // Use getBlockArrayFromClass instead
+    public ArrayList<Block> getBlockFromClass(Class clazz) {
+        return new ArrayList<>(Arrays.asList(getBlockArrayFromClass(clazz)));
     }
 
     public Block[] getBlockArrayFromClass(Class clazz) {
