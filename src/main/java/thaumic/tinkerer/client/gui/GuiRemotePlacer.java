@@ -29,7 +29,6 @@ public class GuiRemotePlacer extends GuiContainer {
 
     int x, y;
     List<IRadioButton> radioButtons = new ArrayList<>();
-    List<GuiButtonRP> buttonListRP = new ArrayList<>();
     TileRPlacer placer;
     Aspect aspectHovered = null;
 
@@ -43,23 +42,24 @@ public class GuiRemotePlacer extends GuiContainer {
         super.initGui();
         x = (width - xSize) / 2;
         y = (height - ySize) / 2;
-        buttonListRP.clear();
         addButton(new GuiButtonRPRadio(0, x + 100, y + 0, placer.blocks == 1, radioButtons));
         addButton(new GuiButtonRPRadio(1, x + 100, y + 13, placer.blocks == 2, radioButtons));
         addButton(new GuiButtonRPRadio(2, x + 100, y + 26, placer.blocks == 3, radioButtons));
         addButton(new GuiButtonRPRadio(3, x + 100, y + 39, placer.blocks == 4, radioButtons));
-        buttonList = buttonListRP;
     }
 
     private void addButton(GuiButtonRP button) {
-        buttonListRP.add(button);
+        buttonList.add(button);
         if (button instanceof IRadioButton) radioButtons.add((IRadioButton) button);
     }
 
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
-        if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
-        else buttonListRP.get(0).buttonEnabled = !buttonListRP.get(0).buttonEnabled;
+        if (par1GuiButton instanceof IRadioButton iRadioButton) iRadioButton.enableFromClick();
+        else {
+            var button0 = (GuiButtonRP) buttonList.get(0);
+            button0.buttonEnabled = !button0.buttonEnabled;
+        }
 
         placer.blocks = par1GuiButton.id + 1;
 

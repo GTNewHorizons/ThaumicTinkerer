@@ -38,7 +38,6 @@ public class GuiAnimationTablet extends GuiContainer {
     int x, y;
 
     TileAnimationTablet tablet;
-    List<GuiButtonAT> buttonListAT = new ArrayList<>();
     List<IRadioButton> radioButtons = new ArrayList<>();
 
     public GuiAnimationTablet(TileAnimationTablet tablet, InventoryPlayer playerInv) {
@@ -51,25 +50,26 @@ public class GuiAnimationTablet extends GuiContainer {
         super.initGui();
         x = (width - xSize) / 2;
         y = (height - ySize) / 2;
-        buttonListAT.clear();
         addButton(new GuiButtonAT(0, x + xSize / 2 - 7, y + 60, tablet.redstone));
         addButton(new GuiButtonATRadio(1, x + 52, y + 15, tablet.leftClick, radioButtons));
         addButton(new GuiButtonATRadio(2, x + 111, y + 15, !tablet.leftClick, radioButtons));
-        buttonList = buttonListAT;
     }
 
     private void addButton(GuiButtonAT button) {
-        buttonListAT.add(button);
+        buttonList.add(button);
         if (button instanceof IRadioButton) radioButtons.add((IRadioButton) button);
     }
 
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
+        var button0 = (GuiButtonAT) buttonList.get(0);
         if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
-        else buttonListAT.get(0).buttonEnabled = !buttonListAT.get(0).buttonEnabled;
+        else {
+            button0.buttonEnabled = !button0.buttonEnabled;
+        }
 
-        tablet.leftClick = buttonListAT.get(1).buttonEnabled;
-        tablet.redstone = buttonListAT.get(0).buttonEnabled;
+        tablet.leftClick = ((GuiButtonAT) buttonList.get(1)).buttonEnabled;
+        tablet.redstone = button0.buttonEnabled;
 
         ThaumicTinkerer.netHandler.sendToServer(new PacketTabletButton(tablet));
     }
