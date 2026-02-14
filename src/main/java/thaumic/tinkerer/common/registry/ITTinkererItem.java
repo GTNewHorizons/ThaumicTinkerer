@@ -14,6 +14,7 @@ public interface ITTinkererItem extends ITTinkererRegisterable {
     boolean shouldDisplayInTab();
 
     default Item[] getMetaItems() {
-        return null;
+        throw new UnsupportedOperationException(
+                "Called getMetaItems on an item without any meta items - this is a mistake by the developers!");
     }
 }

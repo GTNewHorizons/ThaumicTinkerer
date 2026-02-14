@@ -20,6 +20,7 @@ public interface ITTinkererBlock extends ITTinkererRegisterable {
     Class<? extends TileEntity> getTileEntity();
 
     default Block[] getMetaBlocks() {
-        return null;
+        throw new UnsupportedOperationException(
+                "Called getMetaBlocks on a block without any meta blocks - this is a mistake by the developers!");
     }
 }
