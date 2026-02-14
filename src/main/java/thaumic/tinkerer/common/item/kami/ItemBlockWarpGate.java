@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.item.kami;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
@@ -33,11 +31,6 @@ public class ItemBlockWarpGate extends ItemBlock implements ITTinkererItem {
     @Override
     public EnumRarity getRarity(ItemStack par1ItemStack) {
         return TTCommonProxy.kamiRarity;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

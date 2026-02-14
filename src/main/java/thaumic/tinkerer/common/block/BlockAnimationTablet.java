@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -206,11 +205,6 @@ public class BlockAnimationTablet extends BlockModContainer {
     @Override
     public TileEntity createNewTileEntity(World world, int par2) {
         return new TileAnimationTablet();
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

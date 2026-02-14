@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.item.kami.foci;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -79,11 +78,6 @@ public abstract class ItemModKamiFocus extends ItemFocusBasic implements ITTinke
     @Override
     public boolean isItemTool(ItemStack par1ItemStack) {
         return true;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

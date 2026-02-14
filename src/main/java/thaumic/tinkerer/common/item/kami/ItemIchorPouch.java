@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.item.kami;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -145,11 +144,6 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, IBaubleEx
     @Override
     public boolean canUnequip(ItemStack itemstack, EntityLivingBase player) {
         return true;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

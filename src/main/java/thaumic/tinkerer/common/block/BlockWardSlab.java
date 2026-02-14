@@ -1,9 +1,9 @@
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -88,10 +88,8 @@ public class BlockWardSlab extends BlockSlab implements ITTinkererBlock, ITileEn
     }
 
     @Override
-    public ArrayList<Object> getSpecialParameters() {
-        ArrayList result = new ArrayList();
-        result.add(true);
-        return result;
+    public Block[] getMetaBlocks() {
+        return new Block[] { new BlockWardSlab(true) };
     }
 
     @Override
