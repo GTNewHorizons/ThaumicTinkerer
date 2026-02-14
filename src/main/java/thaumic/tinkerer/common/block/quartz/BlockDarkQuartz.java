@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.block.quartz;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
@@ -128,11 +127,6 @@ public class BlockDarkQuartz extends BlockMod {
         darkQuartzTopIcon = IconHelper.forName(par1IconRegister, "darkQuartz1");
         chiseledDarkQuartzIcon = IconHelper.forName(par1IconRegister, "chiseledDarkQuartz1");
         pillarDarkQuartzIcon = IconHelper.forName(par1IconRegister, "pillarDarkQuartz1");
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.block.quartz;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.BlockStairs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -33,11 +31,6 @@ public class BlockDarkQuartzStairs extends BlockStairs implements ITTinkererBloc
     public BlockDarkQuartzStairs() {
         super(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 0);
         setCreativeTab(ModCreativeTab.INSTANCE);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

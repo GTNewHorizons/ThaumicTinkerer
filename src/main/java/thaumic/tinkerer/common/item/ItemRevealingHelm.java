@@ -11,7 +11,6 @@
  */
 package thaumic.tinkerer.common.item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -110,11 +109,6 @@ public class ItemRevealingHelm extends ItemArmor
     @Override
     public int getRunicCharge(ItemStack arg0) {
         return 0;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

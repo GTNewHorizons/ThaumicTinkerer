@@ -7,7 +7,6 @@ import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
 import static net.minecraftforge.common.util.ForgeDirection.UP;
 import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -387,11 +386,6 @@ public abstract class BlockFireBase extends BlockFire implements ITTinkererBlock
     @Override
     public MapColor getMapColor(int p_149728_1_) {
         return MapColor.tntColor;
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package thaumic.tinkerer.common.block;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.BlockStairs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,11 +28,6 @@ public class BlockTravelStairs extends BlockStairs implements ITTinkererBlock {
     public BlockTravelStairs() {
         super(ConfigBlocks.blockCosmeticSolid, 2);
         setCreativeTab(ModCreativeTab.INSTANCE);
-    }
-
-    @Override
-    public ArrayList<Object> getSpecialParameters() {
-        return null;
     }
 
     @Override

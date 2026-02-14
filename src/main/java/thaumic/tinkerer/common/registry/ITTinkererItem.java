@@ -1,17 +1,20 @@
 package thaumic.tinkerer.common.registry;
 
-import java.util.ArrayList;
+import net.minecraft.item.Item;
 
 /**
  * Created by localmacaccount on 6/9/14.
  */
 public interface ITTinkererItem extends ITTinkererRegisterable {
 
-    public ArrayList<Object> getSpecialParameters();
+    String getItemName();
 
-    public String getItemName();
+    boolean shouldRegister();
 
-    public boolean shouldRegister();
+    boolean shouldDisplayInTab();
 
-    public boolean shouldDisplayInTab();
+    default Item[] getMetaItems() {
+        throw new UnsupportedOperationException(
+                "Called getMetaItems on an item without any meta items - this is a mistake by the developers!");
+    }
 }
