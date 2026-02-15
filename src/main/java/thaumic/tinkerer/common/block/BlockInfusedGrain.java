@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -37,7 +38,6 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
 
     public static final int BREEDING_CHANCE = 10;
     private IIcon[][] icons;
-    private TileInfusedGrain tileEntity;
 
     // Returns 0-5 for primal aspects, or 6 if compound aspect
     public static int getNumberFromAspectForTexture(Aspect aspect) {
@@ -116,10 +116,6 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileInfusedGrain) {
-            tileEntity = (TileInfusedGrain) tile;
-        }
         super.breakBlock(world, x, y, z, block, metadata);
     }
 
@@ -130,11 +126,11 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         Random rand = new Random();
         int count = 1;
         for (int i = 0; i < count; i++) {
-            TileInfusedGrain tileGrain = getTileEntitySafe(world, x, y, z);
+            TileEntity tileGrain = world.getTileEntity(x, y, z);
             ItemStack seedStack = new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class));
             ItemInfusedSeeds.setAspect(seedStack, getAspectDropped(world, x, y, z, metadata));
             if (tileGrain != null) {
-                ItemInfusedSeeds.setAspectTendencies(seedStack, tileGrain.primalTendencies);
+                ItemInfusedSeeds.setAspectTendencies(seedStack, ((TileInfusedGrain) tileGrain).primalTendencies);
             }
             while (rand.nextInt(10000) < Math.pow(getPrimalTendencyCount(world, x, y, z, Aspect.ENTROPY), 2)) {
                 seedStack.stackSize++;
@@ -144,27 +140,42 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         }
         if (metadata >= 7) {
             do {
-                Aspect aspect = getAspectSafe(world, x, y, z);
+                Aspect aspect = getAspect(world, x, y, z);
                 ItemStack retItem = AspectCropLootManager.getLootForAspect(aspect);
                 if (retItem != null) ret.add(retItem);
 
             } while (world.rand.nextInt(75) < getPrimalTendencyCount(world, x, y, z, Aspect.ORDER));
         }
-        tileEntity = null;
 
         return ret;
     }
 
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        if (willHarvest) {
+            return true;
+        }
+
+        return super.removedByPlayer(world, null, x, y, z, willHarvest);
+    }
+
+    @Override
+    public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+        super.harvestBlock(world, player, x, y, z, meta);
+        world.setBlockToAir(x, y, z);
+    }
+
     public int getPrimalTendencyCount(World world, int x, int y, int z, Aspect aspect) {
-        TileInfusedGrain tileGrain = getTileEntitySafe(world, x, y, z);
-        return tileGrain != null ? tileGrain.primalTendencies.getAmount(aspect) : 0;
+        TileEntity tileGrain = world.getTileEntity(x, y, z);
+        return tileGrain instanceof TileInfusedGrain ? ((TileInfusedGrain) tileGrain).primalTendencies.getAmount(aspect)
+                : 0;
     }
 
     private void fertilizeSoil(World world, int x, int y, int z, int metadata) {
         if (metadata >= 7) {
             do {
                 if (world.getTileEntity(x, y - 1, z) instanceof TileInfusedFarmland) {
-                    Aspect currentAspect = getAspectSafe(world, x, y, z);
+                    Aspect currentAspect = getAspect(world, x, y, z);
                     ((TileInfusedFarmland) world.getTileEntity(x, y - 1, z)).aspectList.add(currentAspect, 1);
                     ((TileInfusedFarmland) world.getTileEntity(x, y - 1, z)).reduceSaturatedAspects();
                     world.markBlockForUpdate(x, y - 1, z);
@@ -181,7 +192,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
     }
 
     public Aspect getAspectDropped(World world, int x, int y, int z, int metadata) {
-        Aspect currentAspect = getAspectSafe(world, x, y, z);
+        Aspect currentAspect = getAspect(world, x, y, z);
         if (metadata >= 7 && currentAspect != null) {
             if (world.getTileEntity(x, y - 1, z) instanceof TileInfusedFarmland) {
                 AspectList farmlandAspectList = ((TileInfusedFarmland) world.getTileEntity(x, y - 1, z)).aspectList;
@@ -245,31 +256,4 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
         return null;
     }
 
-    private TileInfusedGrain getTileEntitySafe(World world, int x, int y, int z) {
-        if (tileEntity != null) {
-            return tileEntity;
-        }
-
-        TileEntity tile = world.getTileEntity(x, y, z);
-
-        if (tile != null && tile instanceof TileInfusedGrain) {
-            return (TileInfusedGrain) tile;
-        }
-
-        return null;
-    }
-
-    private Aspect getAspectSafe(World world, int x, int y, int z) {
-        if (tileEntity != null) {
-            return tileEntity.aspect;
-        }
-
-        TileEntity tile = world.getTileEntity(x, y, z);
-
-        if (tile != null && tile instanceof TileInfusedGrain) {
-            return ((TileInfusedGrain) tile).aspect;
-        }
-
-        return null;
-    }
 }
