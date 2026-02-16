@@ -156,7 +156,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
             return true;
         }
 
-        return super.removedByPlayer(world, null, x, y, z, willHarvest);
+        return super.removedByPlayer(world, player, x, y, z, willHarvest);
     }
 
     @Override
