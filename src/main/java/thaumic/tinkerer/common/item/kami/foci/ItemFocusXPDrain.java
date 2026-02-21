@@ -71,7 +71,7 @@ public class ItemFocusXPDrain extends ItemModKamiFocus {
             int intendedAdd = Math.round(500 * multiplier);
             int actualAdd = Math.min(intendedAdd, maxVis - lowestAmount);
 
-            int xpUse = getXpUse(stack);
+            int xpUse = getXpUse(wand.getFocusStack(stack));
             int scaledXp = Math.max(1, Math.round(xpUse * (actualAdd / (float) intendedAdd)));
 
             if (player.experienceTotal >= scaledXp) {
