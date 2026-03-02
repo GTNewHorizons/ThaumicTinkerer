@@ -2,12 +2,9 @@
 
 dependencies {
     api('com.github.GTNewHorizons:Baubles-Expanded:2.2.6-GTNH:dev')
-    api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
+    api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev') {transitive=false}
     api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-839-GTNH:api')
-    api('com.github.GTNewHorizons:ThaumicBoots:1.5.8:dev') {
-        exclude group: 'com.github.GTNewHorizons', module: 'Electro-Magic-Tools'
-        exclude module: 'Baubles'
-    }
+    api('com.github.GTNewHorizons:ThaumicBoots:1.5.8:dev') {transitive=false}
 
     compileOnly('com.github.GTNewHorizons:Botania:1.13.14-GTNH:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:EnderCore:0.5.5:dev') {transitive=false}
@@ -26,7 +23,6 @@ dependencies {
     // For testing purposes
     //runtimeOnlyNonPublishable("com.github.GTNewHorizons:Electro-Magic-Tools:1.7.17:dev")
 
-    runtimeOnly('com.github.GTNewHorizons:TCNEIAdditions:1.5.13:dev') {
-        exclude module: 'Baubles'
-    }
+    runtimeOnly(rfg.deobf('curse.maven:thaumcraft-nei-plugin-225095:2241913'))
+    runtimeOnly('com.github.GTNewHorizons:TCNEIAdditions:1.5.13:dev')
 }
