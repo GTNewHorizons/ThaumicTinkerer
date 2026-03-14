@@ -71,7 +71,7 @@ public class ModEnchantmentHandler {
             int finalStrike = EnchantmentHelper.getEnchantmentLevel(LibEnchantIDs.finalStrike, heldItem);
             if (finalStrike > 0) {
                 Random rand = new Random();
-                if ((finalStrike >= 19 || rand.nextInt(20 - finalStrike) == 0)) {
+                if (finalStrike > rand.nextInt(19)) {
                     event.ammount *= 3;
                 }
             }
