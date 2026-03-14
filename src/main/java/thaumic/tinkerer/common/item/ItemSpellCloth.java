@@ -76,7 +76,7 @@ public class ItemSpellCloth extends ItemBase {
         return new ThaumicTinkererCrucibleRecipe(
                 LibResearch.KEY_SPELL_CLOTH,
                 new ItemStack(this),
-                new ItemStack(ConfigItems.itemResource, 0, 7),
+                new ItemStack(ConfigItems.itemResource, 1, 7),
                 new AspectList().add(Aspect.MAGIC, 10).add(Aspect.ENTROPY, 6).add(Aspect.EXCHANGE, 4));
     }
 
