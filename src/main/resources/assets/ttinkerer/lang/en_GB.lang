@@ -8,7 +8,7 @@ ttmisc.disableAllArmor=Kami Armour Disabled
 ttmisc.enableAllArmor=Kami Armour Enabled
 
 # ITEM NAMES
-item.soulMould.name=Soul Mold
+item.soulMould.name=Soul Mould
 
 # RESEARCH
 ttresearch.page.MAGNETS.1=You designed two devices. The Kinetic and Corporeal Attractors, these, respectively affect items and living beings.<BR><BR>The Corporeal Attractor involves some more complex mechanisms, to which you can access by right clicking it with a casting wand. Using a Soul Mould, you can right click on a mob to save it as a pattern, which you can set in the attractor's interface, as a filter, along with settings for child or adult animals, if available.
