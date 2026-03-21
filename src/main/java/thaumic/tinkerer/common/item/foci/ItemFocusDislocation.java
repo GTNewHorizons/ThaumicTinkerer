@@ -126,15 +126,17 @@ public class ItemFocusDislocation extends ItemModFocus {
                             tile1.zCoord = mop.blockZ;
                             world.setTileEntity(mop.blockX, mop.blockY, mop.blockZ, tile1);
                         }
-                    } else player.swingItem();
+                    } else {
+                        player.swingItem();
+                        for (int i = 0; i < 8; i++) {
+                            float x = (float) (mop.blockX + Math.random());
+                            float y = (float) (mop.blockY + Math.random()) + 0.65F;
+                            float z = (float) (mop.blockZ + Math.random());
+                            ThaumicTinkerer.tcProxy.burst(world, x, y, z, 0.2F);
+                        }
+                    }
                     clearPickedBlock(itemstack);
 
-                    for (int i = 0; i < 8; i++) {
-                        float x = (float) (mop.blockX + Math.random());
-                        float y = (float) (mop.blockY + Math.random()) + 0.65F;
-                        float z = (float) (mop.blockZ + Math.random());
-                        ThaumicTinkerer.tcProxy.burst(world, x, y, z, 0.2F);
-                    }
                     world.playSoundAtEntity(player, "thaumcraft:wand", 0.5F, 1F);
                 }
             } else if (!blacklist.contains(block) && isBlockAllowed(block)
@@ -146,13 +148,13 @@ public class ItemFocusDislocation extends ItemModFocus {
                             world.removeTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                             world.setBlock(mop.blockX, mop.blockY, mop.blockZ, Blocks.air, 0, 1 | 2);
                             storePickedBlock(itemstack, block, (short) meta, tile);
-                        }
-
-                        for (int i = 0; i < 8; i++) {
-                            float x = (float) (mop.blockX + Math.random());
-                            float y = (float) (mop.blockY + Math.random());
-                            float z = (float) (mop.blockZ + Math.random());
-                            ThaumicTinkerer.tcProxy.burst(world, x, y, z, 0.2F);
+                        } else {
+                            for (int i = 0; i < 8; i++) {
+                                float x = (float) (mop.blockX + Math.random());
+                                float y = (float) (mop.blockY + Math.random());
+                                float z = (float) (mop.blockZ + Math.random());
+                                ThaumicTinkerer.tcProxy.burst(world, x, y, z, 0.2F);
+                            }
                         }
                         world.playSoundAtEntity(player, block.stepSound.getBreakSound(), 1F, 1F);
                         world.playSoundAtEntity(player, "thaumcraft:wand", 0.5F, 1F);
