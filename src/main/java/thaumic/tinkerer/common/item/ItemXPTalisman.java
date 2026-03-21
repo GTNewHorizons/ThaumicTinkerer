@@ -85,11 +85,13 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
                 int xp = getXP(par1ItemStack);
                 setXP(par1ItemStack, xp - LibFeatures.XP_TALISMAN_ENCHANTING_BOTTLE_COST);
                 par2World.playSoundAtEntity(par3EntityPlayer, "random.orb", 0.1F, (float) (0.1F + Math.random() / 2F));
-                for (int i = 0; par2World.isRemote && i < 6; i++) ThaumicTinkerer.tcProxy.sparkle(
-                        (float) (par3EntityPlayer.posX + (Math.random() - 0.5)),
-                        (float) (par3EntityPlayer.posY + Math.random() - 0.5),
-                        (float) (par3EntityPlayer.posZ + (Math.random() - 0.5)),
-                        3);
+                if (par2World.isRemote) {
+                    for (int i = 0; par2World.isRemote && i < 6; i++) ThaumicTinkerer.tcProxy.sparkle(
+                            (float) (par3EntityPlayer.posX + (Math.random() - 0.5)),
+                            (float) (par3EntityPlayer.posY + Math.random() - 0.5),
+                            (float) (par3EntityPlayer.posZ + (Math.random() - 0.5)),
+                            3);
+                }
             }
         }
 
@@ -97,10 +99,13 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
     }
 
     private void consumeXPOrb(EntityXPOrb orb) {
-        orb.setDead();
-        orb.worldObj.playSoundAtEntity(orb, "thaumcraft:zap", orb.getXpValue() / 10F, 1F);
-        ThaumicTinkerer.tcProxy
-                .wispFX(orb.worldObj, orb.posX, orb.posY, orb.posZ, orb.getXpValue() / 5F, 0.1F, 0.9F, 0.1F);
+        if (!orb.worldObj.isRemote) {
+            orb.setDead();
+            orb.worldObj.playSoundAtEntity(orb, "thaumcraft:zap", orb.getXpValue() / 10F, 1F);
+        } else {
+            ThaumicTinkerer.tcProxy
+                    .wispFX(orb.worldObj, orb.posX, orb.posY, orb.posZ, orb.getXpValue() / 5F, 0.1F, 0.9F, 0.1F);
+        }
     }
 
     @Override
@@ -179,13 +184,15 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
     @Override
     public void onWornTick(ItemStack par1ItemStack, EntityLivingBase player) {
         World par2World = player.worldObj;
-        if (par1ItemStack.getItemDamage() == 1 && !par2World.isRemote) {
+        if (par1ItemStack.getItemDamage() == 1) {
             int r = LibFeatures.XP_TALISMAN_RANGE;
             int currentXP = getXP(par1ItemStack);
             int xpToAdd = 0;
             int maxXP = LibFeatures.XP_TALISMAN_MAX_XP - currentXP; // Max, to prevent overflow.
             if (maxXP <= 0) {
-                par1ItemStack.setItemDamage(0);
+                if (!par2World.isRemote) {
+                    par1ItemStack.setItemDamage(0);
+                }
                 return; // Can't take any XP.
             }
 
@@ -211,8 +218,9 @@ public class ItemXPTalisman extends ItemBase implements IBauble {
                     if (maxXP <= 0) break;
                 }
             }
-
-            setXP(par1ItemStack, Math.min(LibFeatures.XP_TALISMAN_MAX_XP, currentXP + xpToAdd));
+            if (!par2World.isRemote) {
+                setXP(par1ItemStack, Math.min(LibFeatures.XP_TALISMAN_MAX_XP, currentXP + xpToAdd));
+            }
         }
     }
 
