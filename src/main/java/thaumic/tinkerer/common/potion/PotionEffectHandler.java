@@ -88,7 +88,9 @@ public class PotionEffectHandler {
                         if (e.player.worldObj.getBlock(x, y, z) == Blocks.lava
                                 || e.player.worldObj.getBlock(x, y, z) == Blocks.flowing_lava) {
                             e.player.worldObj.setBlock(x, y, z, Blocks.obsidian);
-                            ThaumicTinkerer.tcProxy.burst(e.player.worldObj, x + .5, y + .5, z + .5, 1.2F);
+                            if (e.player.worldObj.isRemote) {
+                                ThaumicTinkerer.tcProxy.burst(e.player.worldObj, x + .5, y + .5, z + .5, 1.2F);
+                            }
                         }
                     }
                 }
