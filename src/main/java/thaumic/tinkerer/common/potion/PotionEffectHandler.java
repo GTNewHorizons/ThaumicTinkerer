@@ -42,7 +42,7 @@ public class PotionEffectHandler {
                     firePotionHitServer.put(e.entity, e.entity.worldObj.getTotalWorldTime());
                 }
             }
-            if (p.isPotionActive(ModPotions.potionEarth) && !p.worldObj.isRemote) {
+            if (p.isPotionActive(ModPotions.potionEarth)) {
                 boolean xAxis = Math.abs(e.entity.posZ - p.posZ) < Math.abs(e.entity.posX - p.posX);
                 int centerX = (int) ((e.entity.posX + p.posX) / 2);
 
@@ -52,26 +52,33 @@ public class PotionEffectHandler {
                 for (int i = -2; i < 3; i++) {
                     for (int j = -2; j < 3; j++) {
                         if (xAxis) {
-                            if (p.worldObj.isAirBlock(centerX, centerY + i, centerZ + j)) {
-                                p.worldObj.setBlock(
-                                        centerX,
-                                        centerY + i,
-                                        centerZ + j,
-                                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
+                            if (!p.worldObj.isRemote) {
+                                if (p.worldObj.isAirBlock(centerX, centerY + i, centerZ + j)) {
+                                    p.worldObj.setBlock(
+                                            centerX,
+                                            centerY + i,
+                                            centerZ + j,
+                                            ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
+                                }
+                            } else {
                                 ThaumicTinkerer.tcProxy
                                         .blockSparkle(p.worldObj, centerX, centerY + i, centerZ + j, 100, 100);
                             }
-                        } else {
-                            if (p.worldObj.isAirBlock(centerX + j, centerY + i, centerZ)) {
-                                p.worldObj.setBlock(
-                                        centerX + j,
-                                        centerY + i,
-                                        centerZ,
-                                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
 
+                        } else {
+                            if (!p.worldObj.isRemote) {
+                                if (p.worldObj.isAirBlock(centerX + j, centerY + i, centerZ)) {
+                                    p.worldObj.setBlock(
+                                            centerX + j,
+                                            centerY + i,
+                                            centerZ,
+                                            ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
+                                }
+                            } else {
                                 ThaumicTinkerer.tcProxy
                                         .blockSparkle(p.worldObj, centerX + j, centerY + i, centerZ, 100, 100);
                             }
+
                         }
                     }
                 }
