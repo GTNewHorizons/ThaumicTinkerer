@@ -19,15 +19,20 @@ import thaumic.tinkerer.common.block.BlockForcefield;
  */
 public class PotionEffectHandler {
 
-    public static HashMap<Entity, Long> airPotionHit = new HashMap<>();
+    public static HashMap<Entity, Long> airPotionHitClient = new HashMap<>();
+    public static HashMap<Entity, Long> airPotionHitServer = new HashMap<>();
     public static HashMap<Entity, Long> firePotionHit = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingAttackEvent e) {
         if (e.source.getSourceOfDamage() instanceof EntityPlayer) {
             EntityPlayer p = (EntityPlayer) e.source.getSourceOfDamage();
-            if (p.isPotionActive(ModPotions.potionAir) && !p.worldObj.isRemote) {
-                airPotionHit.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+            if (p.isPotionActive(ModPotions.potionAir)) {
+                if (p.worldObj.isRemote) {
+                    airPotionHitClient.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                } else {
+                    airPotionHitServer.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                }
             }
             if (p.isPotionActive(ModPotions.potionFire) && !p.worldObj.isRemote) {
                 firePotionHit.put(e.entity, e.entity.worldObj.getTotalWorldTime());
@@ -87,19 +92,35 @@ public class PotionEffectHandler {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ServerTickEvent e) {
+    public void onTickClient(TickEvent.ClientTickEvent e) {
 
-        Iterator<Entity> iter = airPotionHit.keySet().iterator();
+        Iterator<Entity> iter = airPotionHitClient.keySet().iterator();
         while (iter.hasNext()) {
-            Entity target = (Entity) iter.next();
+            Entity target = iter.next();
+            if (target.isEntityAlive()) {
+                if (target.worldObj.getTotalWorldTime() % 5 == 0) {
+                    ThaumicTinkerer.tcProxy.burst(target.worldObj, target.posX, target.posY, target.posZ, .5F);
+                }
+            }
+            if (target.worldObj.getTotalWorldTime() > airPotionHitClient.get(target) + 20) {
+                iter.remove();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTickServer(TickEvent.ServerTickEvent e) {
+
+        Iterator<Entity> iter = airPotionHitServer.keySet().iterator();
+        while (iter.hasNext()) {
+            Entity target = iter.next();
             if (target.isEntityAlive()) {
                 if (target.worldObj.getTotalWorldTime() % 5 == 0) {
                     Random rand = new Random();
                     target.setVelocity(rand.nextFloat() - .5, rand.nextFloat(), rand.nextFloat() - .5);
-                    ThaumicTinkerer.tcProxy.burst(target.worldObj, target.posX, target.posY, target.posZ, .5F);
                 }
             }
-            if (target.worldObj.getTotalWorldTime() > airPotionHit.get(target) + 20) {
+            if (target.worldObj.getTotalWorldTime() > airPotionHitServer.get(target) + 20) {
                 iter.remove();
             }
         }
