@@ -21,7 +21,8 @@ public class PotionEffectHandler {
 
     public static HashMap<Entity, Long> airPotionHitClient = new HashMap<>();
     public static HashMap<Entity, Long> airPotionHitServer = new HashMap<>();
-    public static HashMap<Entity, Long> firePotionHit = new HashMap<>();
+    public static HashMap<Entity, Long> firePotionHitClient = new HashMap<>();
+    public static HashMap<Entity, Long> firePotionHitServer = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingAttackEvent e) {
@@ -34,8 +35,12 @@ public class PotionEffectHandler {
                     airPotionHitServer.put(e.entity, e.entity.worldObj.getTotalWorldTime());
                 }
             }
-            if (p.isPotionActive(ModPotions.potionFire) && !p.worldObj.isRemote) {
-                firePotionHit.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+            if (p.isPotionActive(ModPotions.potionFire)) {
+                if (p.worldObj.isRemote) {
+                    firePotionHitClient.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                } else {
+                    firePotionHitServer.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                }
             }
             if (p.isPotionActive(ModPotions.potionEarth) && !p.worldObj.isRemote) {
                 boolean xAxis = Math.abs(e.entity.posZ - p.posZ) < Math.abs(e.entity.posX - p.posX);
@@ -106,33 +111,13 @@ public class PotionEffectHandler {
                 iter.remove();
             }
         }
-    }
 
-    @SubscribeEvent
-    public void onTickServer(TickEvent.ServerTickEvent e) {
-
-        Iterator<Entity> iter = airPotionHitServer.keySet().iterator();
+        iter = firePotionHitClient.keySet().iterator();
         while (iter.hasNext()) {
             Entity target = iter.next();
             if (target.isEntityAlive()) {
                 if (target.worldObj.getTotalWorldTime() % 5 == 0) {
                     Random rand = new Random();
-                    target.setVelocity(rand.nextFloat() - .5, rand.nextFloat(), rand.nextFloat() - .5);
-                }
-            }
-            if (target.worldObj.getTotalWorldTime() > airPotionHitServer.get(target) + 20) {
-                iter.remove();
-            }
-        }
-
-        // Fire Potion
-        iter = firePotionHit.keySet().iterator();
-        while (iter.hasNext()) {
-            Entity target = (Entity) iter.next();
-            if (target.isEntityAlive()) {
-                if (target.worldObj.getTotalWorldTime() % 5 == 0) {
-                    Random rand = new Random();
-                    target.setFire(6);
 
                     for (int i = 0; i < 30; i++) {
                         double theta = rand.nextFloat() * 2 * Math.PI;
@@ -159,7 +144,39 @@ public class PotionEffectHandler {
                     }
                 }
             }
-            if (target.worldObj.getTotalWorldTime() > firePotionHit.get(target) + 6000) {
+            if (target.worldObj.getTotalWorldTime() > firePotionHitClient.get(target) + 6000) {
+                iter.remove();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTickServer(TickEvent.ServerTickEvent e) {
+
+        Iterator<Entity> iter = airPotionHitServer.keySet().iterator();
+        while (iter.hasNext()) {
+            Entity target = iter.next();
+            if (target.isEntityAlive()) {
+                if (target.worldObj.getTotalWorldTime() % 5 == 0) {
+                    Random rand = new Random();
+                    target.setVelocity(rand.nextFloat() - .5, rand.nextFloat(), rand.nextFloat() - .5);
+                }
+            }
+            if (target.worldObj.getTotalWorldTime() > airPotionHitServer.get(target) + 20) {
+                iter.remove();
+            }
+        }
+
+        // Fire Potion
+        iter = firePotionHitServer.keySet().iterator();
+        while (iter.hasNext()) {
+            Entity target = iter.next();
+            if (target.isEntityAlive()) {
+                if (target.worldObj.getTotalWorldTime() % 5 == 0) {
+                    target.setFire(6);
+                }
+            }
+            if (target.worldObj.getTotalWorldTime() > firePotionHitServer.get(target) + 6000) {
                 iter.remove();
             }
         }
