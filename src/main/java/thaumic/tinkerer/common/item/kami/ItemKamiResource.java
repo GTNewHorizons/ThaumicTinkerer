@@ -218,9 +218,9 @@ public class ItemKamiResource extends ItemKamiBase {
                         new AspectList().add(Aspect.MAN, 32).add(Aspect.LIGHT, 32).add(Aspect.SOUL, 64),
                         new ItemStack(Items.nether_star),
                         new ItemStack(Items.diamond),
-                        new ItemStack(this, 8, 7),
+                        new ItemStack(this, 1, 7),
                         new ItemStack(Items.ender_eye),
-                        new ItemStack(this, 8, 6)),
+                        new ItemStack(this, 1, 6)),
                 new ThaumicTinkererInfusionRecipe(
                         LibResearch.KEY_ICHORCLOTH_ROD,
                         new ItemStack(this, 1, 5),
