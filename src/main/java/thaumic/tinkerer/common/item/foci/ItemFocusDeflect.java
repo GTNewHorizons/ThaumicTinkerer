@@ -83,10 +83,10 @@ public class ItemFocusDeflect extends ItemModFocus {
                             (e.posX - p.posX) * (e.posX - p.posX) + (e.posY - p.posY) * (e.posY - p.posY)
                                     + (e.posZ - p.posZ) * (e.posZ - p.posZ))
                             * 2);
-
-            for (int i = 0; i < 6; i++)
-                ThaumicTinkerer.tcProxy.sparkle((float) e.posX, (float) e.posY, (float) e.posZ, 6);
-
+            if (p.worldObj.isRemote) {
+                for (int i = 0; i < 6; i++)
+                    ThaumicTinkerer.tcProxy.sparkle((float) e.posX, (float) e.posY, (float) e.posZ, 6);
+            }
             e.posX += motionVec.x;
             e.posY += motionVec.y;
             e.posZ += motionVec.z;

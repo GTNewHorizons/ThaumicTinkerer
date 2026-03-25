@@ -17,7 +17,8 @@ public class TileForcefield extends TileEntity {
             worldObj.setBlockToAir(xCoord, yCoord, zCoord);
         }
         ticks--;
-
-        ThaumicTinkerer.tcProxy.blockSparkle(worldObj, xCoord, yCoord, zCoord, 255, 1);
+        if (worldObj.isRemote) {
+            ThaumicTinkerer.tcProxy.blockSparkle(worldObj, xCoord, yCoord, zCoord, 255, 1);
+        }
     }
 }

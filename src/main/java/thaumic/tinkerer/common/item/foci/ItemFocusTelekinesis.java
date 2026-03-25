@@ -65,7 +65,9 @@ public class ItemFocusTelekinesis extends ItemModFocus {
         if (!entities.isEmpty() && wand.consumeAllVis(stack, player, getVisCost(stack), true, false)) {
             for (EntityItem item : entities) {
                 MiscHelper.setEntityMotionFromVector(item, target, 0.3333F);
-                ThaumicTinkerer.tcProxy.sparkle((float) item.posX, (float) item.posY, (float) item.posZ, 0);
+                if (player.worldObj.isRemote) {
+                    ThaumicTinkerer.tcProxy.sparkle((float) item.posX, (float) item.posY, (float) item.posZ, 0);
+                }
             }
         }
     }

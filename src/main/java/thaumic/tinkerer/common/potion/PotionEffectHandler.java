@@ -19,20 +19,30 @@ import thaumic.tinkerer.common.block.BlockForcefield;
  */
 public class PotionEffectHandler {
 
-    public static HashMap<Entity, Long> airPotionHit = new HashMap<>();
-    public static HashMap<Entity, Long> firePotionHit = new HashMap<>();
+    public static HashMap<Entity, Long> airPotionHitClient = new HashMap<>();
+    public static HashMap<Entity, Long> airPotionHitServer = new HashMap<>();
+    public static HashMap<Entity, Long> firePotionHitClient = new HashMap<>();
+    public static HashMap<Entity, Long> firePotionHitServer = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingAttackEvent e) {
         if (e.source.getSourceOfDamage() instanceof EntityPlayer) {
             EntityPlayer p = (EntityPlayer) e.source.getSourceOfDamage();
-            if (p.isPotionActive(ModPotions.potionAir) && !p.worldObj.isRemote) {
-                airPotionHit.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+            if (p.isPotionActive(ModPotions.potionAir)) {
+                if (p.worldObj.isRemote) {
+                    airPotionHitClient.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                } else {
+                    airPotionHitServer.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                }
             }
-            if (p.isPotionActive(ModPotions.potionFire) && !p.worldObj.isRemote) {
-                firePotionHit.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+            if (p.isPotionActive(ModPotions.potionFire)) {
+                if (p.worldObj.isRemote) {
+                    firePotionHitClient.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                } else {
+                    firePotionHitServer.put(e.entity, e.entity.worldObj.getTotalWorldTime());
+                }
             }
-            if (p.isPotionActive(ModPotions.potionEarth) && !p.worldObj.isRemote) {
+            if (p.isPotionActive(ModPotions.potionEarth)) {
                 boolean xAxis = Math.abs(e.entity.posZ - p.posZ) < Math.abs(e.entity.posX - p.posX);
                 int centerX = (int) ((e.entity.posX + p.posX) / 2);
 
@@ -42,26 +52,33 @@ public class PotionEffectHandler {
                 for (int i = -2; i < 3; i++) {
                     for (int j = -2; j < 3; j++) {
                         if (xAxis) {
-                            if (p.worldObj.isAirBlock(centerX, centerY + i, centerZ + j)) {
-                                p.worldObj.setBlock(
-                                        centerX,
-                                        centerY + i,
-                                        centerZ + j,
-                                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
+                            if (!p.worldObj.isRemote) {
+                                if (p.worldObj.isAirBlock(centerX, centerY + i, centerZ + j)) {
+                                    p.worldObj.setBlock(
+                                            centerX,
+                                            centerY + i,
+                                            centerZ + j,
+                                            ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
+                                }
+                            } else {
                                 ThaumicTinkerer.tcProxy
                                         .blockSparkle(p.worldObj, centerX, centerY + i, centerZ + j, 100, 100);
                             }
-                        } else {
-                            if (p.worldObj.isAirBlock(centerX + j, centerY + i, centerZ)) {
-                                p.worldObj.setBlock(
-                                        centerX + j,
-                                        centerY + i,
-                                        centerZ,
-                                        ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
 
+                        } else {
+                            if (!p.worldObj.isRemote) {
+                                if (p.worldObj.isAirBlock(centerX + j, centerY + i, centerZ)) {
+                                    p.worldObj.setBlock(
+                                            centerX + j,
+                                            centerY + i,
+                                            centerZ,
+                                            ThaumicTinkerer.registry.getFirstBlockFromClass(BlockForcefield.class));
+                                }
+                            } else {
                                 ThaumicTinkerer.tcProxy
                                         .blockSparkle(p.worldObj, centerX + j, centerY + i, centerZ, 100, 100);
                             }
+
                         }
                     }
                 }
@@ -78,7 +95,9 @@ public class PotionEffectHandler {
                         if (e.player.worldObj.getBlock(x, y, z) == Blocks.lava
                                 || e.player.worldObj.getBlock(x, y, z) == Blocks.flowing_lava) {
                             e.player.worldObj.setBlock(x, y, z, Blocks.obsidian);
-                            ThaumicTinkerer.tcProxy.burst(e.player.worldObj, x + .5, y + .5, z + .5, 1.2F);
+                            if (e.player.worldObj.isRemote) {
+                                ThaumicTinkerer.tcProxy.burst(e.player.worldObj, x + .5, y + .5, z + .5, 1.2F);
+                            }
                         }
                     }
                 }
@@ -87,31 +106,27 @@ public class PotionEffectHandler {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ServerTickEvent e) {
+    public void onTickClient(TickEvent.ClientTickEvent e) {
 
-        Iterator<Entity> iter = airPotionHit.keySet().iterator();
+        Iterator<Entity> iter = airPotionHitClient.keySet().iterator();
         while (iter.hasNext()) {
-            Entity target = (Entity) iter.next();
+            Entity target = iter.next();
             if (target.isEntityAlive()) {
                 if (target.worldObj.getTotalWorldTime() % 5 == 0) {
-                    Random rand = new Random();
-                    target.setVelocity(rand.nextFloat() - .5, rand.nextFloat(), rand.nextFloat() - .5);
                     ThaumicTinkerer.tcProxy.burst(target.worldObj, target.posX, target.posY, target.posZ, .5F);
                 }
             }
-            if (target.worldObj.getTotalWorldTime() > airPotionHit.get(target) + 20) {
+            if (target.worldObj.getTotalWorldTime() > airPotionHitClient.get(target) + 20) {
                 iter.remove();
             }
         }
 
-        // Fire Potion
-        iter = firePotionHit.keySet().iterator();
+        iter = firePotionHitClient.keySet().iterator();
         while (iter.hasNext()) {
-            Entity target = (Entity) iter.next();
+            Entity target = iter.next();
             if (target.isEntityAlive()) {
                 if (target.worldObj.getTotalWorldTime() % 5 == 0) {
                     Random rand = new Random();
-                    target.setFire(6);
 
                     for (int i = 0; i < 30; i++) {
                         double theta = rand.nextFloat() * 2 * Math.PI;
@@ -138,7 +153,39 @@ public class PotionEffectHandler {
                     }
                 }
             }
-            if (target.worldObj.getTotalWorldTime() > firePotionHit.get(target) + 6000) {
+            if (target.worldObj.getTotalWorldTime() > firePotionHitClient.get(target) + 6000) {
+                iter.remove();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTickServer(TickEvent.ServerTickEvent e) {
+
+        Iterator<Entity> iter = airPotionHitServer.keySet().iterator();
+        while (iter.hasNext()) {
+            Entity target = iter.next();
+            if (target.isEntityAlive()) {
+                if (target.worldObj.getTotalWorldTime() % 5 == 0) {
+                    Random rand = new Random();
+                    target.setVelocity(rand.nextFloat() - .5, rand.nextFloat(), rand.nextFloat() - .5);
+                }
+            }
+            if (target.worldObj.getTotalWorldTime() > airPotionHitServer.get(target) + 20) {
+                iter.remove();
+            }
+        }
+
+        // Fire Potion
+        iter = firePotionHitServer.keySet().iterator();
+        while (iter.hasNext()) {
+            Entity target = iter.next();
+            if (target.isEntityAlive()) {
+                if (target.worldObj.getTotalWorldTime() % 5 == 0) {
+                    target.setFire(6);
+                }
+            }
+            if (target.worldObj.getTotalWorldTime() > firePotionHitServer.get(target) + 6000) {
                 iter.remove();
             }
         }
