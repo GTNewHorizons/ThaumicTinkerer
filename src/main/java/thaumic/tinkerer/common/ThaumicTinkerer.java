@@ -85,6 +85,20 @@ public class ThaumicTinkerer {
     }
 
     @EventHandler
+    public void init(FMLInitializationEvent event) {
+        proxy.init(event);
+        if (ConfigHandler.enableKami && ConfigHandler.bedrockDimensionID != 0) {
+            DimensionManager.registerProviderType(ConfigHandler.bedrockDimensionID, WorldProviderBedrock.class, false);
+            DimensionManager.registerDimension(ConfigHandler.bedrockDimensionID, ConfigHandler.bedrockDimensionID);
+        }
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
+
+    @EventHandler
     public void serverStart(FMLServerStartingEvent event) {
         MinecraftServer server = MinecraftServer.getServer();
         ICommandManager command = server.getCommandManager();
@@ -110,19 +124,5 @@ public class ThaumicTinkerer {
     @Optional.Method(modid = "ComputerCraft")
     public void blackListCCDevices(String classname) {
         PeripheralHandler.Blacklist.add(classname);
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
-        if (ConfigHandler.enableKami && ConfigHandler.bedrockDimensionID != 0) {
-            DimensionManager.registerProviderType(ConfigHandler.bedrockDimensionID, WorldProviderBedrock.class, false);
-            DimensionManager.registerDimension(ConfigHandler.bedrockDimensionID, ConfigHandler.bedrockDimensionID);
-        }
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
     }
 }
