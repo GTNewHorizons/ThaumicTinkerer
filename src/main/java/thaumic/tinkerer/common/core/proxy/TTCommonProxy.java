@@ -31,6 +31,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import dan200.computercraft.api.ComputerCraftAPI;
@@ -96,6 +97,7 @@ import thaumic.tinkerer.common.peripheral.OpenComputers.DriverEssentiaTransport;
 import thaumic.tinkerer.common.peripheral.OpenComputers.DriverIAspectContainer;
 import thaumic.tinkerer.common.peripheral.PeripheralHandler;
 import thaumic.tinkerer.common.potion.ModPotions;
+import thaumic.tinkerer.common.potion.PotionEffectHandler;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class TTCommonProxy {
@@ -104,6 +106,7 @@ public class TTCommonProxy {
     public WandCap capIchor;
     public WandRod rodIchor;
     public Item.ToolMaterial toolMaterialIchor;
+    private PotionEffectHandler potionHandler;
 
     public void preInit(FMLPreInitializationEvent event) {
         toolMaterialIchor = EnumHelper.addToolMaterial("ICHOR", 4, -1, 10F, 5F, 25);
@@ -184,6 +187,17 @@ public class TTCommonProxy {
         manager.registerCommand(new SetTendencyCommand());
         manager.registerCommand(new MaxResearchCommand());
         manager.registerCommand(new KamiUnlockedCommand());
+        this.potionHandler = new PotionEffectHandler();
+        MinecraftForge.EVENT_BUS.register(potionHandler);
+        FMLCommonHandler.instance().bus().register(potionHandler);
+    }
+
+    public void serverStopped(FMLServerStoppedEvent event) {
+        if (this.potionHandler != null) {
+            MinecraftForge.EVENT_BUS.unregister(potionHandler);
+            FMLCommonHandler.instance().bus().unregister(potionHandler);
+            this.potionHandler = null;
+        }
     }
 
     // spotless:off
