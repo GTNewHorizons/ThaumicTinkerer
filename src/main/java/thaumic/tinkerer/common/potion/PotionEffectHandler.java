@@ -17,17 +17,16 @@ import thaumic.tinkerer.common.block.BlockForcefield;
 /**
  * Created by pixlepix on 4/19/14.
  */
-public class PotionEffectHandler {
+public final class PotionEffectHandler {
 
-    public static HashMap<Entity, Long> airPotionHitClient = new HashMap<>();
-    public static HashMap<Entity, Long> airPotionHitServer = new HashMap<>();
-    public static HashMap<Entity, Long> firePotionHitClient = new HashMap<>();
-    public static HashMap<Entity, Long> firePotionHitServer = new HashMap<>();
+    private final HashMap<Entity, Long> airPotionHitClient = new HashMap<>();
+    private final HashMap<Entity, Long> airPotionHitServer = new HashMap<>();
+    private final HashMap<Entity, Long> firePotionHitClient = new HashMap<>();
+    private final HashMap<Entity, Long> firePotionHitServer = new HashMap<>();
 
     @SubscribeEvent
     public void onLivingHurt(LivingAttackEvent e) {
-        if (e.source.getSourceOfDamage() instanceof EntityPlayer) {
-            EntityPlayer p = (EntityPlayer) e.source.getSourceOfDamage();
+        if (e.source.getSourceOfDamage() instanceof EntityPlayer p) {
             if (p.isPotionActive(ModPotions.potionAir)) {
                 if (p.worldObj.isRemote) {
                     airPotionHitClient.put(e.entity, e.entity.worldObj.getTotalWorldTime());

@@ -65,7 +65,7 @@ import thaumic.tinkerer.common.item.ItemMobDisplay;
 import thaumic.tinkerer.common.item.kami.ItemPlacementMirror;
 import thaumic.tinkerer.common.item.kami.foci.ItemFocusShadowbeam;
 
-public class TTClientProxy extends TTCommonProxy {
+public final class TTClientProxy extends TTCommonProxy {
 
     public static EntityPlayer getPlayer() {
         return Minecraft.getMinecraft().thePlayer;

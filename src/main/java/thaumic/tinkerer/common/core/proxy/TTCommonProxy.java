@@ -1,20 +1,23 @@
 /**
  * This class was created by <Vazkii>. It's distributed as part of the ThaumicTinkerer Mod.
- *
+ * <p>
  * ThaumicTinkerer is Open Source and distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
  * License (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
- *
+ * <p>
  * ThaumicTinkerer is a Derivative Work on Thaumcraft 4. Thaumcraft 4 (c) Azanor 2012
  * (http://www.minecraftforum.net/topic/1585216-)
- *
+ * <p>
  * File Created @ [4 Sep 2013, 16:29:41 (GMT)]
  */
 package thaumic.tinkerer.common.core.proxy;
 
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,6 +30,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import dan200.computercraft.api.ComputerCraftAPI;
@@ -54,6 +59,9 @@ import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
 import thaumic.tinkerer.common.compat.EMTCompat;
 import thaumic.tinkerer.common.compat.EnderIO;
 import thaumic.tinkerer.common.compat.FumeTool;
+import thaumic.tinkerer.common.core.commands.KamiUnlockedCommand;
+import thaumic.tinkerer.common.core.commands.MaxResearchCommand;
+import thaumic.tinkerer.common.core.commands.SetTendencyCommand;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.core.handler.kami.DimensionalShardDropHandler;
@@ -89,6 +97,7 @@ import thaumic.tinkerer.common.peripheral.OpenComputers.DriverEssentiaTransport;
 import thaumic.tinkerer.common.peripheral.OpenComputers.DriverIAspectContainer;
 import thaumic.tinkerer.common.peripheral.PeripheralHandler;
 import thaumic.tinkerer.common.potion.ModPotions;
+import thaumic.tinkerer.common.potion.PotionEffectHandler;
 import thaumic.tinkerer.common.research.ResearchHelper;
 
 public class TTCommonProxy {
@@ -97,6 +106,7 @@ public class TTCommonProxy {
     public WandCap capIchor;
     public WandRod rodIchor;
     public Item.ToolMaterial toolMaterialIchor;
+    private PotionEffectHandler potionHandler;
 
     public void preInit(FMLPreInitializationEvent event) {
         toolMaterialIchor = EnumHelper.addToolMaterial("ICHOR", 4, -1, 10F, 5F, 25);
@@ -163,34 +173,47 @@ public class TTCommonProxy {
         EMTCompat.init();
     }
 
-    protected void registerPackets() {
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketSoulHearts.class, PacketSoulHearts.class, 142 + 0, Side.CLIENT);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 1, Side.CLIENT);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 2, Side.SERVER);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketWarpGateButton.class, PacketWarpGateButton.class, 142 + 3, Side.SERVER);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketWarpGateTeleport.class, PacketWarpGateTeleport.class, 142 + 4, Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(
-                PacketEnchanterAddEnchant.class,
-                PacketEnchanterAddEnchant.class,
-                142 + 5,
-                Side.SERVER);
-        ThaumicTinkerer.netHandler.registerMessage(
-                PacketEnchanterStartWorking.class,
-                PacketEnchanterStartWorking.class,
-                142 + 6,
-                Side.SERVER);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketMobMagnetButton.class, PacketMobMagnetButton.class, 142 + 7, Side.SERVER);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketTabletButton.class, PacketTabletButton.class, 142 + 8, Side.SERVER);
-        ThaumicTinkerer.netHandler
-                .registerMessage(PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
+    public void postInit(FMLPostInitializationEvent event) {
+        ResearchHelper.initResearch();
+        ThaumicTinkerer.registry.postInit();
+        AspectCropLootManager.populateLootMap();
+        ItemFocusDeflect.setupBlackList();
     }
+
+    public void serverStarting(FMLServerStartingEvent event) {
+        MinecraftServer server = MinecraftServer.getServer();
+        ICommandManager command = server.getCommandManager();
+        ServerCommandManager manager = (ServerCommandManager) command;
+        manager.registerCommand(new SetTendencyCommand());
+        manager.registerCommand(new MaxResearchCommand());
+        manager.registerCommand(new KamiUnlockedCommand());
+        this.potionHandler = new PotionEffectHandler();
+        MinecraftForge.EVENT_BUS.register(potionHandler);
+        FMLCommonHandler.instance().bus().register(potionHandler);
+    }
+
+    public void serverStopped(FMLServerStoppedEvent event) {
+        if (this.potionHandler != null) {
+            MinecraftForge.EVENT_BUS.unregister(potionHandler);
+            FMLCommonHandler.instance().bus().unregister(potionHandler);
+            this.potionHandler = null;
+        }
+    }
+
+    // spotless:off
+    protected void registerPackets() {
+        ThaumicTinkerer.netHandler.registerMessage(PacketSoulHearts.class, PacketSoulHearts.class, 142 + 0, Side.CLIENT);
+        ThaumicTinkerer.netHandler.registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 1, Side.CLIENT);
+        ThaumicTinkerer.netHandler.registerMessage(PacketToggleArmor.class, PacketToggleArmor.class, 142 + 2, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketWarpGateButton.class, PacketWarpGateButton.class, 142 + 3, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketWarpGateTeleport.class, PacketWarpGateTeleport.class, 142 + 4, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketEnchanterAddEnchant.class, PacketEnchanterAddEnchant.class, 142 + 5, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketEnchanterStartWorking.class, PacketEnchanterStartWorking.class, 142 + 6, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketMobMagnetButton.class, PacketMobMagnetButton.class, 142 + 7, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketTabletButton.class, PacketTabletButton.class, 142 + 8, Side.SERVER);
+        ThaumicTinkerer.netHandler.registerMessage(PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
+    }
+    // spotless:on
 
     public void registerVersionChecker() {
         NBTTagCompound compound = new NBTTagCompound();
@@ -198,13 +221,6 @@ public class TTCommonProxy {
         compound.setString("curseFilenameParser", "ThaumicTinkerer-[].jar");
         compound.setString("modDisplayName", "Thaumic Tinkerer");
         FMLInterModComms.sendRuntimeMessage(LibMisc.MOD_ID, "VersionChecker", "addCurseCheck", compound);
-    }
-
-    public void postInit(FMLPostInitializationEvent event) {
-        ResearchHelper.initResearch();
-        ThaumicTinkerer.registry.postInit();
-        AspectCropLootManager.populateLootMap();
-        ItemFocusDeflect.setupBlackList();
     }
 
     @Optional.Method(modid = "EnderIO")
