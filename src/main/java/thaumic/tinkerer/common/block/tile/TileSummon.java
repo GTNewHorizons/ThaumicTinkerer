@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 import thaumcraft.api.aspects.Aspect;
@@ -75,14 +76,16 @@ public class TileSummon extends TileEntity {
                                                 && ItemMobAspect.lastUsedTabletMatches(ped3.getStackInSlot(0), this)) {
 
                                             if (!worldObj.isRemote) {
-                                                Entity spawn = EntityList
-                                                        .createEntityByName(recipe.toString(), worldObj);
+                                                Entity spawn = recipe.createEntity(worldObj);
                                                 spawn.setLocationAndAngles(xCoord + .5, yCoord + 1, zCoord + .5, 0, 0);
-                                                if (spawn instanceof EntitySkeleton && worldObj.provider.isHellWorld) {
-                                                    ((EntitySkeleton) spawn).setSkeletonType(1);
-                                                }
                                                 worldObj.spawnEntityInWorld(spawn);
                                                 ((EntityLiving) spawn).onSpawnWithEgg(null);
+                                                if (spawn instanceof EntitySkeleton skeleton
+                                                        && skeleton.getSkeletonType() == 1) {
+                                                    // Needs to be done here instead of EnumMobAspect::setWither because
+                                                    // onSpawnWithEgg sets it to a bow
+                                                    skeleton.setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
+                                                }
                                                 ((EntityLiving) spawn).playLivingSound();
                                             }
 
