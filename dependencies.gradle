@@ -23,6 +23,5 @@ dependencies {
     // For testing purposes
     //runtimeOnlyNonPublishable("com.github.GTNewHorizons:Electro-Magic-Tools:1.7.20:dev")
 
-    runtimeOnly(rfg.deobf('curse.maven:thaumcraft-nei-plugin-225095:2241913'))
-    runtimeOnly('com.github.GTNewHorizons:TCNEIAdditions:1.5.13:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:AspectRecipeIndex:1.0.13:dev')
 }
