@@ -15,9 +15,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import net.minecraft.potion.Potion;
-import net.minecraftforge.common.MinecraftForge;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public final class ModPotions {
@@ -28,8 +26,6 @@ public final class ModPotions {
     public static Potion potionAir;
 
     public static void initPotions() {
-        MinecraftForge.EVENT_BUS.register(new PotionEffectHandler());
-        FMLCommonHandler.instance().bus().register(new PotionEffectHandler());
 
         // Code based on potion code from WayOfTime
         Potion[] potionTypes = null;
