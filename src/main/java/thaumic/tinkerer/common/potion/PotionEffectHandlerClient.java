@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 
 public final class PotionEffectHandlerClient {
@@ -51,7 +52,7 @@ public final class PotionEffectHandlerClient {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-        if (e.player.worldObj.isRemote && e.player.isPotionActive(ModPotions.potionWater)) {
+        if (e.side == Side.CLIENT && e.player.isPotionActive(ModPotions.potionWater)) {
             for (int x = (int) (e.player.posX - 2); x < e.player.posX + 2; x++) {
                 for (int y = (int) (e.player.posY - 2); y < e.player.posY + 2; y++) {
                     for (int z = (int) (e.player.posZ - 2); z < e.player.posZ + 2; z++) {
