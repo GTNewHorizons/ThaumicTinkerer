@@ -2,6 +2,8 @@ package thaumic.tinkerer.common.item;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -63,6 +65,8 @@ public class ItemMobDisplay extends ItemBase {
         return LibItemNames.MOB_DISPLAY;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(ItemStack stack) {
         String mob = ItemNBTHelper.getString(stack, TAG_TYPE, "");
         if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
