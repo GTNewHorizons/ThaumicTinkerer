@@ -65,7 +65,6 @@ public class ItemMobDisplay extends ItemBase {
         return LibItemNames.MOB_DISPLAY;
     }
 
-    @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(ItemStack stack) {
         String mob = ItemNBTHelper.getString(stack, TAG_TYPE, "");
         if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
