@@ -52,7 +52,9 @@ public class RenderMobDisplay implements IItemRenderer {
                     entity.setWorld(eItem.worldObj);
                     entity.copyLocationAndAnglesFrom(eItem);
                     if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
+                        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
                         renderer.doRender(entity, 0, 0, 0, 0, 0);
+                        GL11.glPopAttrib();
                     }
                     GL11.glPopMatrix();
                 }
@@ -65,7 +67,9 @@ public class RenderMobDisplay implements IItemRenderer {
                     GL11.glTranslatef(0, (-entity.height / 2) + offset, 0.0F);
                     Render renderer = RenderManager.instance.getEntityRenderObject(entity);
                     if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
+                        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
                         renderer.doRender(entity, 0, 0, 0, 0, 0);
+                        GL11.glPopAttrib();
                     }
                     GL11.glPopMatrix();
                 }
