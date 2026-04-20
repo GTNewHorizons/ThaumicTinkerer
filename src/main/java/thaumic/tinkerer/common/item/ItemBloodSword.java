@@ -43,7 +43,9 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
+import thaumcraft.api.research.ScanResult;
 import thaumcraft.common.config.ConfigItems;
+import thaumcraft.common.lib.research.ScanManager;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.core.helper.EnumMobAspect;
@@ -194,12 +196,8 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                 return;
             }
             Aspect[] aspects = EnumMobAspect.getAspectsForEntity(event.entity);
-            // ScanResult sr=new ScanResult((byte)2,0,0,event.entity,"");
-            // AspectList as=ScanManager.getScanAspects(sr,event.entity.worldObj);
-            // if(as!=null && as.size()!=0){
             if (aspects != null) {
                 event.drops.clear();
-                // for(Aspect a:as.getAspects()){
                 for (Aspect a : aspects) {
                     addDrops(event, ItemMobAspect.getStackFromAspect(a));
                 }
