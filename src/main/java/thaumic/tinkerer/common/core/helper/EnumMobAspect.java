@@ -2,6 +2,7 @@ package thaumic.tinkerer.common.core.helper;
 
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -32,9 +33,14 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 
 import com.google.common.collect.Maps;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.InfusionRecipe;
@@ -214,5 +220,21 @@ public enum EnumMobAspect {
     @Override
     public String toString() {
         return prefix == null ? super.toString() : prefix + super.toString();
+    }
+
+    static {
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
+    }
+
+    public static class EventHandler {
+
+        @SideOnly(Side.CLIENT)
+        @SubscribeEvent
+        public void onWorldUnload(WorldEvent.Unload event) {
+            Minecraft mc = Minecraft.getMinecraft();
+            if (event.world == mc.theWorld) {
+                entityCache.clear();
+            }
+        }
     }
 }
