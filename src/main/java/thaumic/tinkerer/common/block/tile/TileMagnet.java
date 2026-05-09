@@ -73,7 +73,9 @@ public class TileMagnet extends TileEntity implements IPeripheral, IMovableTile,
 
                 if (distanceSqrd > 1) {
                     MiscHelper.setEntityMotionFromVector(entity, new Vector3(x1, y1, z1), speedMod * 0.25F);
-                    ThaumicTinkerer.tcProxy.sparkle((float) x2, (float) y2, (float) z2, blue ? 2 : 4);
+                    if (worldObj.isRemote) {
+                        ThaumicTinkerer.tcProxy.sparkle((float) x2, (float) y2, (float) z2, blue ? 2 : 4);
+                    }
                 }
             }
         }

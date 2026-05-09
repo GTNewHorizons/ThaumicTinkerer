@@ -26,6 +26,8 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent;
 import cpw.mods.fml.relauncher.Side;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumic.tinkerer.client.core.handler.ClientTickHandler;
@@ -64,8 +66,11 @@ import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 import thaumic.tinkerer.common.item.ItemMobDisplay;
 import thaumic.tinkerer.common.item.kami.ItemPlacementMirror;
 import thaumic.tinkerer.common.item.kami.foci.ItemFocusShadowbeam;
+import thaumic.tinkerer.common.potion.PotionEffectHandlerClient;
 
-public class TTClientProxy extends TTCommonProxy {
+public final class TTClientProxy extends TTCommonProxy {
+
+    private PotionEffectHandlerClient potionHandlerClient;
 
     public static EntityPlayer getPlayer() {
         return Minecraft.getMinecraft().thePlayer;
@@ -74,18 +79,21 @@ public class TTClientProxy extends TTCommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+        FMLCommonHandler.instance().bus().register(this);
         if (Loader.isModLoaded("ComputerCraft")) {
             MinecraftForge.EVENT_BUS.register(new FumeTool());
         }
 
-        if (ConfigHandler.enableKami)
+        if (ConfigHandler.enableKami) {
             // kamiRarity = EnumHelperClient.addRarity("KAMI", 0x6, "Kami");
+
             kamiRarity = EnumHelperClient.addEnum(
                     new Class[][] { { EnumRarity.class, EnumChatFormatting.class, String.class } },
                     EnumRarity.class,
                     "KAMI",
                     EnumChatFormatting.LIGHT_PURPLE,
                     "Kami");
+        }
     }
 
     @Override
@@ -105,6 +113,22 @@ public class TTClientProxy extends TTCommonProxy {
             MinecraftForge.EVENT_BUS.register(new ToolModeHUDHandler());
             if (ConfigHandler.showPlacementMirrorBlocks)
                 MinecraftForge.EVENT_BUS.register(new PlacementMirrorPredictionRenderer());
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientConnect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+        this.potionHandlerClient = new PotionEffectHandlerClient();
+        MinecraftForge.EVENT_BUS.register(potionHandlerClient);
+        FMLCommonHandler.instance().bus().register(potionHandlerClient);
+    }
+
+    @SubscribeEvent
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        if (this.potionHandlerClient != null) {
+            MinecraftForge.EVENT_BUS.unregister(potionHandlerClient);
+            FMLCommonHandler.instance().bus().unregister(potionHandlerClient);
+            this.potionHandlerClient = null;
         }
     }
 

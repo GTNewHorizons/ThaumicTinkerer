@@ -43,6 +43,7 @@ import thaumic.tinkerer.common.lib.LibBlockNames;
 public class TileRepairer extends TileEntity
         implements ISidedInventory, IAspectContainer, IEssentiaTransport, IMovableTile {
 
+    private static final String TAG_TOOK_LAST_TICK = "tookLastTick";
     private static final Map<Aspect, Integer> repairValues = new HashMap<>();
 
     static {
@@ -53,12 +54,25 @@ public class TileRepairer extends TileEntity
 
     public int ticksExisted = 0;
     public boolean tookLastTick = true;
-    int dmgLastTick = 0;
     ItemStack[] inventorySlots = new ItemStack[1];
 
     @Override
     public void updateEntity() {
         if (++ticksExisted % 10 == 0) {
+            if (worldObj.isRemote) {
+                if (tookLastTick) {
+                    ThaumicTinkerer.tcProxy.sparkle(
+                            (float) (xCoord + 0.25 + Math.random() / 2F),
+                            (float) (yCoord + 1 + Math.random() / 2F),
+                            (float) (zCoord + 0.25 + Math.random() / 2F),
+                            0);
+                }
+                return;
+            }
+
+            boolean oldTookLastTick = tookLastTick;
+            tookLastTick = false;
+
             if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
                 if (inventorySlots[0] != null) {
                     if (TinkersConstructCompat.isTConstructTool(inventorySlots[0])) {
@@ -66,18 +80,11 @@ public class TileRepairer extends TileEntity
                         if (dmg > 0) {
                             int essentia = drawEssentia();
                             TinkersConstructCompat.fixDamage(inventorySlots[0], essentia);
+                            int newDmg = TinkersConstructCompat.getDamage(inventorySlots[0]);
+                            tookLastTick = newDmg != dmg;
                             markDirty();
-                            if (dmgLastTick != 0 && dmgLastTick != dmg) {
-                                ThaumicTinkerer.tcProxy.sparkle(
-                                        (float) (xCoord + 0.25 + Math.random() / 2F),
-                                        (float) (yCoord + 1 + Math.random() / 2F),
-                                        (float) (zCoord + 0.25 + Math.random() / 2F),
-                                        0);
-                                tookLastTick = true;
-                            } else tookLastTick = false;
-                        } else tookLastTick = false;
-                        dmgLastTick = inventorySlots[0] == null ? 0
-                                : TinkersConstructCompat.getDamage(inventorySlots[0]);
+                        }
+                        if (tookLastTick != oldTookLastTick) worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                         return;
                     }
                 }
@@ -85,20 +92,12 @@ public class TileRepairer extends TileEntity
             if (inventorySlots[0] != null && inventorySlots[0].getItemDamage() > 0) {
                 int essentia = drawEssentia();
                 int dmg = inventorySlots[0].getItemDamage();
-                inventorySlots[0].setItemDamage(Math.max(0, dmg - essentia));
+                int newDmg = Math.max(0, dmg - essentia);
+                inventorySlots[0].setItemDamage(newDmg);
+                tookLastTick = newDmg != dmg;
                 markDirty();
-
-                if (dmgLastTick != 0 && dmgLastTick != dmg) {
-                    ThaumicTinkerer.tcProxy.sparkle(
-                            (float) (xCoord + 0.25 + Math.random() / 2F),
-                            (float) (yCoord + 1 + Math.random() / 2F),
-                            (float) (zCoord + 0.25 + Math.random() / 2F),
-                            0);
-                    tookLastTick = true;
-                } else tookLastTick = false;
-            } else tookLastTick = false;
-
-            dmgLastTick = inventorySlots[0] == null ? 0 : inventorySlots[0].getItemDamage();
+            }
+            if (tookLastTick != oldTookLastTick) worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
 
@@ -117,6 +116,7 @@ public class TileRepairer extends TileEntity
     }
 
     public void readCustomNBT(NBTTagCompound par1NBTTagCompound) {
+        tookLastTick = par1NBTTagCompound.getBoolean(TAG_TOOK_LAST_TICK);
         NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         inventorySlots = new ItemStack[1];
 
@@ -127,6 +127,7 @@ public class TileRepairer extends TileEntity
     }
 
     public void writeCustomNBT(NBTTagCompound par1NBTTagCompound) {
+        par1NBTTagCompound.setBoolean(TAG_TOOK_LAST_TICK, tookLastTick);
         NBTTagList nbttaglist = new NBTTagList();
         if (inventorySlots[0] != null) {
             NBTTagCompound tagList = new NBTTagCompound();

@@ -117,21 +117,23 @@ public class ItemFocusSmelt extends ItemModFocus {
                             p.worldObj.playSoundAtEntity(p, "fire.fire", 1F, 1F);
                             // Particle
                             ////////////////////
-                            for (int i = 0; i < 25; i++) {
-                                double x = pos.blockX + Math.random();
-                                double y = pos.blockY + Math.random();
-                                double z = pos.blockZ + Math.random();
+                            if (p.worldObj.isRemote) {
+                                for (int i = 0; i < 25; i++) {
+                                    double x = pos.blockX + Math.random();
+                                    double y = pos.blockY + Math.random();
+                                    double z = pos.blockZ + Math.random();
 
-                                ThaumicTinkerer.tcProxy.wispFX2(
-                                        p.worldObj,
-                                        x,
-                                        y,
-                                        z,
-                                        (float) Math.random() / 2F,
-                                        4,
-                                        true,
-                                        true,
-                                        (float) -Math.random() / 10F);
+                                    ThaumicTinkerer.tcProxy.wispFX2(
+                                            p.worldObj,
+                                            x,
+                                            y,
+                                            z,
+                                            (float) Math.random() / 2F,
+                                            4,
+                                            true,
+                                            true,
+                                            (float) -Math.random() / 10F);
+                                }
                             }
                         }
                     }
@@ -146,21 +148,23 @@ public class ItemFocusSmelt extends ItemModFocus {
                     if (time % soundCooldown == 0) p.worldObj.playSoundAtEntity(p, "fire.fire", 0.2F, 1F);
                     // Particle
                     ////////////////////
-                    for (int i = 0; i < 2; i++) {
-                        double x = pos.blockX + Math.random();
-                        double y = pos.blockY + Math.random();
-                        double z = pos.blockZ + Math.random();
+                    if (p.worldObj.isRemote) {
+                        for (int i = 0; i < 2; i++) {
+                            double x = pos.blockX + Math.random();
+                            double y = pos.blockY + Math.random();
+                            double z = pos.blockZ + Math.random();
 
-                        ThaumicTinkerer.tcProxy.wispFX2(
-                                p.worldObj,
-                                x,
-                                y,
-                                z,
-                                (float) Math.random() / 2F,
-                                4,
-                                true,
-                                true,
-                                (float) -Math.random() / 10F);
+                            ThaumicTinkerer.tcProxy.wispFX2(
+                                    p.worldObj,
+                                    x,
+                                    y,
+                                    z,
+                                    (float) Math.random() / 2F,
+                                    4,
+                                    true,
+                                    true,
+                                    (float) -Math.random() / 10F);
+                        }
                     }
                 }
 

@@ -13,9 +13,6 @@ package thaumic.tinkerer.common;
 
 import java.util.Arrays;
 
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.DimensionManager;
 
 import org.apache.logging.log4j.Logger;
@@ -31,14 +28,12 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import thaumcraft.common.CommonProxy;
 import thaumcraft.common.Thaumcraft;
 import thaumic.tinkerer.api.InterModCommsOperations;
-import thaumic.tinkerer.common.core.commands.KamiUnlockedCommand;
-import thaumic.tinkerer.common.core.commands.MaxResearchCommand;
-import thaumic.tinkerer.common.core.commands.SetTendencyCommand;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
 import thaumic.tinkerer.common.dim.WorldProviderBedrock;
@@ -85,13 +80,27 @@ public class ThaumicTinkerer {
     }
 
     @EventHandler
-    public void serverStart(FMLServerStartingEvent event) {
-        MinecraftServer server = MinecraftServer.getServer();
-        ICommandManager command = server.getCommandManager();
-        ServerCommandManager manager = (ServerCommandManager) command;
-        manager.registerCommand(new SetTendencyCommand());
-        manager.registerCommand(new MaxResearchCommand());
-        manager.registerCommand(new KamiUnlockedCommand());
+    public void init(FMLInitializationEvent event) {
+        proxy.init(event);
+        if (ConfigHandler.enableKami && ConfigHandler.bedrockDimensionID != 0) {
+            DimensionManager.registerProviderType(ConfigHandler.bedrockDimensionID, WorldProviderBedrock.class, false);
+            DimensionManager.registerDimension(ConfigHandler.bedrockDimensionID, ConfigHandler.bedrockDimensionID);
+        }
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
+
+    @EventHandler
+    public void serverStarting(FMLServerStartingEvent event) {
+        proxy.serverStarting(event);
+    }
+
+    @EventHandler
+    public void serverStopped(FMLServerStoppedEvent event) {
+        proxy.serverStopped(event);
     }
 
     @EventHandler
@@ -110,19 +119,5 @@ public class ThaumicTinkerer {
     @Optional.Method(modid = "ComputerCraft")
     public void blackListCCDevices(String classname) {
         PeripheralHandler.Blacklist.add(classname);
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
-        if (ConfigHandler.enableKami && ConfigHandler.bedrockDimensionID != 0) {
-            DimensionManager.registerProviderType(ConfigHandler.bedrockDimensionID, WorldProviderBedrock.class, false);
-            DimensionManager.registerDimension(ConfigHandler.bedrockDimensionID, ConfigHandler.bedrockDimensionID);
-        }
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
     }
 }

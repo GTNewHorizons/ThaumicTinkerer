@@ -65,11 +65,13 @@ public class TileEntityRelay extends TileEntity implements IMovableTile {
                     if (partnerX - xCoord != 0) {
                         xInc = ((float) Math.copySign(.05, partnerX - xCoord)) * (worldObj.getTotalWorldTime() % 20);
                     }
-                    ThaumicTinkerer.tcProxy.sparkle(
-                            (float) (0.5 + i + xInc),
-                            (float) (yCoord + 0.5),
-                            (float) (j + 0.5 + zInc),
-                            xCoord < partnerX || zCoord > partnerX ? 2 : 14);
+                    if (worldObj.isRemote) {
+                        ThaumicTinkerer.tcProxy.sparkle(
+                                (float) (0.5 + i + xInc),
+                                (float) (yCoord + 0.5),
+                                (float) (j + 0.5 + zInc),
+                                xCoord < partnerX || zCoord > partnerX ? 2 : 14);
+                    }
                     j += Math.copySign(1, partnerZ - zCoord);
                 } while (j < partnerZ);
                 i += Math.copySign(1, partnerX - xCoord);

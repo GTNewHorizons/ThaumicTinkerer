@@ -51,22 +51,23 @@ public class TileWarpGate extends TileEntity implements IInventory {
             if (!destGate.locked) {
                 player.worldObj.playSoundAtEntity(player, "thaumcraft:wand", 1F, 1F);
 
-                for (int i = 0; i < 20; i++) ThaumicTinkerer.tcProxy.sparkle(
-                        (float) player.posX + player.worldObj.rand.nextFloat() - 0.5F,
-                        (float) player.posY + player.worldObj.rand.nextFloat(),
-                        (float) player.posZ + player.worldObj.rand.nextFloat() - 0.5F,
-                        6);
-
+                if (player.worldObj.isRemote) {
+                    for (int i = 0; i < 20; i++) ThaumicTinkerer.tcProxy.sparkle(
+                            (float) player.posX + player.worldObj.rand.nextFloat() - 0.5F,
+                            (float) player.posY + player.worldObj.rand.nextFloat(),
+                            (float) player.posZ + player.worldObj.rand.nextFloat() - 0.5F,
+                            6);
+                }
                 player.mountEntity(null);
                 if (player instanceof EntityPlayerMP) ((EntityPlayerMP) player).playerNetServerHandler
                         .setPlayerLocation(x + 0.5, y + 1.6, z + 0.5, player.rotationYaw, player.rotationPitch);
-
-                for (int i = 0; i < 20; i++) ThaumicTinkerer.tcProxy.sparkle(
-                        (float) player.posX + player.worldObj.rand.nextFloat() - 0.5F,
-                        (float) player.posY + player.worldObj.rand.nextFloat(),
-                        (float) player.posZ + player.worldObj.rand.nextFloat() - 0.5F,
-                        6);
-
+                if (player.worldObj.isRemote) {
+                    for (int i = 0; i < 20; i++) ThaumicTinkerer.tcProxy.sparkle(
+                            (float) player.posX + player.worldObj.rand.nextFloat() - 0.5F,
+                            (float) player.posY + player.worldObj.rand.nextFloat(),
+                            (float) player.posZ + player.worldObj.rand.nextFloat() - 0.5F,
+                            6);
+                }
                 player.worldObj.playSoundAtEntity(player, "thaumcraft:wand", 1F, 0.1F);
                 return true;
             } else
