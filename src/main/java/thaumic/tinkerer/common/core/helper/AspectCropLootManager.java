@@ -41,7 +41,7 @@ public class AspectCropLootManager {
             Random rand = new Random();
             int randInt = rand.nextInt(sum);
             for (Map.Entry<ItemStack, Integer> pair : aspectHashmap.entrySet()) {
-                if (randInt <= 0) {
+                if (randInt < pair.getValue()) {
                     return pair.getKey().copy();
                 }
                 randInt -= pair.getValue();
@@ -55,15 +55,7 @@ public class AspectCropLootManager {
     }
 
     public static void addAspectLoot(Aspect aspect, String target) {
-
         addAspectLoot(aspect, target, 1);
-        for (String ore : OreDictionary.getOreNames()) {
-            if (ore.contains(WordUtils.capitalizeFully(target)) || ore.contains(target)) {
-                for (ItemStack stack : OreDictionary.getOres(ore)) {
-                    addAspectLoot(aspect, stack);
-                }
-            }
-        }
     }
 
     public static void addAspectLoot(Aspect aspect, String target, int count) {
@@ -217,8 +209,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.MAGIC, new ItemStack(ConfigItems.itemShard, 1, 6));
 
         addAspectLoot(Aspect.HEAL, new ItemStack(Items.golden_apple));
-
-        addAspectLoot(Aspect.HEAL, new ItemStack(Blocks.cake));
+        addAspectLoot(Aspect.HEAL, new ItemStack(Items.cake));
 
         addAspectLoot(Aspect.SENSES, new ItemStack(Items.dye, 20, 4));
 
