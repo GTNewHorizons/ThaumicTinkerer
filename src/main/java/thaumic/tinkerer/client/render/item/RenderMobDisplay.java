@@ -28,51 +28,46 @@ public class RenderMobDisplay implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType itemRenderType, ItemStack itemStack, Object... objects) {
-        ItemMobDisplay item = (ItemMobDisplay) itemStack.getItem();
+        if (!(itemStack.getItem() instanceof ItemMobDisplay item)) return;
         EnumMobAspect aspect = item.getEntityType(itemStack);
         Entity entity = null;
         float scale = 0.4f;
         float offset = 0.0f;
         if (aspect != null) {
-            entity = EnumMobAspect.getEntityFromCache(
-                    aspect,
-                    (Minecraft.getMinecraft() != null) ? Minecraft.getMinecraft().theWorld : null);
+            entity = EnumMobAspect.getEntityFromCache(aspect, Minecraft.getMinecraft().theWorld);
             scale = aspect.getScale();
             offset = aspect.getVerticalOffset();
         }
+        if (entity == null || entity.worldObj == null) return;
         switch (itemRenderType) {
             case ENTITY -> {
-                if (entity != null && entity.worldObj != null) {
-                    GL11.glPushMatrix();
-                    GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
-                    GL11.glScalef(scale, scale, scale);
-                    GL11.glTranslatef(0, (-entity.height / 2) + offset, 0.0F);
-                    EntityItem eItem = (EntityItem) objects[1];
-                    Render renderer = RenderManager.instance.getEntityRenderObject(entity);
-                    entity.setWorld(eItem.worldObj);
-                    entity.copyLocationAndAnglesFrom(eItem);
-                    if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
-                        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-                        renderer.doRender(entity, 0, 0, 0, 0, 0);
-                        GL11.glPopAttrib();
-                    }
-                    GL11.glPopMatrix();
+                GL11.glPushMatrix();
+                GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
+                GL11.glScalef(scale, scale, scale);
+                GL11.glTranslatef(0, (-entity.height / 2) + offset, 0.0F);
+                EntityItem eItem = (EntityItem) objects[1];
+                Render renderer = RenderManager.instance.getEntityRenderObject(entity);
+                entity.setWorld(eItem.worldObj);
+                entity.copyLocationAndAnglesFrom(eItem);
+                if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
+                    GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+                    renderer.doRender(entity, 0, 0, 0, 0, 0);
+                    GL11.glPopAttrib();
                 }
+                GL11.glPopMatrix();
             }
             case INVENTORY -> {
-                if (entity != null && entity.worldObj != null) {
-                    GL11.glPushMatrix();
-                    GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
-                    GL11.glScalef(scale, scale, scale);
-                    GL11.glTranslatef(0, (-entity.height / 2) + offset, 0.0F);
-                    Render renderer = RenderManager.instance.getEntityRenderObject(entity);
-                    if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
-                        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-                        renderer.doRender(entity, 0, 0, 0, 0, 0);
-                        GL11.glPopAttrib();
-                    }
-                    GL11.glPopMatrix();
+                GL11.glPushMatrix();
+                GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
+                GL11.glScalef(scale, scale, scale);
+                GL11.glTranslatef(0, (-entity.height / 2) + offset, 0.0F);
+                Render renderer = RenderManager.instance.getEntityRenderObject(entity);
+                if (renderer != null && renderer.getFontRendererFromRenderManager() != null) {
+                    GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+                    renderer.doRender(entity, 0, 0, 0, 0, 0);
+                    GL11.glPopAttrib();
                 }
+                GL11.glPopMatrix();
             }
         }
     }
