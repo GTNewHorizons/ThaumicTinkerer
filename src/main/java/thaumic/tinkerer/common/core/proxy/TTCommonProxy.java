@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -33,7 +32,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -134,7 +132,6 @@ public class TTCommonProxy {
         if (Loader.isModLoaded("ComputerCraft")) {
             initCCPeripherals();
         }
-        registerVersionChecker();
 
         kamiRarity = EnumHelper.addEnum(
                 new Class[][] { { EnumRarity.class, EnumChatFormatting.class, String.class } },
@@ -228,14 +225,6 @@ public class TTCommonProxy {
         ThaumicTinkerer.netHandler.registerMessage(PacketPlacerButton.class, PacketPlacerButton.class, 142 + 9, Side.SERVER);
     }
     // spotless:on
-
-    public void registerVersionChecker() {
-        NBTTagCompound compound = new NBTTagCompound();
-        compound.setString("curseProjectName", "75598-thaumic-tinkerer");
-        compound.setString("curseFilenameParser", "ThaumicTinkerer-[].jar");
-        compound.setString("modDisplayName", "Thaumic Tinkerer");
-        FMLInterModComms.sendRuntimeMessage(LibMisc.MOD_ID, "VersionChecker", "addCurseCheck", compound);
-    }
 
     @Optional.Method(modid = "EnderIO")
     protected void InitEnderIO() {
