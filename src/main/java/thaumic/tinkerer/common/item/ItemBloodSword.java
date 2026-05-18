@@ -88,8 +88,8 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
     }
 
     @Override
-    public Multimap getItemAttributeModifiers() {
-        Multimap<Object, Object> multimap = HashMultimap.create();
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
+        Multimap<String, AttributeModifier> multimap = HashMultimap.create();
         multimap.put(
                 SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
                 new AttributeModifier(field_111210_e, "Weapon modifier", DAMAGE, 0));
