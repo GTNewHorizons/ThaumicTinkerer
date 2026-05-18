@@ -31,7 +31,6 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -42,17 +41,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.crafting.InfusionRecipe;
-import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.entities.monster.EntityBrainyZombie;
 import thaumcraft.common.entities.monster.EntityFireBat;
 import thaumcraft.common.entities.monster.EntityWisp;
-import thaumic.tinkerer.common.ThaumicTinkerer;
-import thaumic.tinkerer.common.block.BlockSummon;
-import thaumic.tinkerer.common.item.ItemMobAspect;
-import thaumic.tinkerer.common.item.ItemMobDisplay;
-import thaumic.tinkerer.common.lib.LibResearch;
 
 public enum EnumMobAspect {
 
@@ -196,24 +187,6 @@ public enum EnumMobAspect {
 
     protected Entity createEntity(World worldObj) {
         return EntityList.createEntityByName(toString(), worldObj);
-    }
-
-    public ResearchPage GetRecepiePage() {
-        ItemStack output = new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class));
-        ((ItemMobDisplay) output.getItem()).setEntityType(output, toString());
-        ItemStack[] inputs = new ItemStack[this.aspects.length];
-        int i = 0;
-        for (Aspect a : this.aspects) {
-            inputs[i++] = ItemMobAspect.getStackFromAspect(a);
-        }
-        InfusionRecipe recepie = new InfusionRecipe(
-                LibResearch.KEY_SUMMON,
-                output,
-                0,
-                new AspectList(),
-                new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class)),
-                inputs);
-        return new ResearchPage(recepie);
     }
 
     @Override
