@@ -11,8 +11,7 @@
  */
 package thaumic.tinkerer.common.core.proxy;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -296,10 +295,11 @@ public class TTCommonProxy {
             event.registerHandlerInfo(
                     new HandlerInfo.Builder(NEINecromancyHandler.class, "Thaumic Tinkerer", LibMisc.MOD_ID)
                             .setHeight(88).setDisplayStack(necromancyTablet).build());
-            List<ItemStack> items = new ArrayList<>();
-            items.add(new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBloodSword.class)));
-            items.add(necromancyTablet);
-            RecipeCatalysts.putRecipeCatalysts(NEINecromancyHandler.OVERLAY, items);
+            RecipeCatalysts.putRecipeCatalysts(
+                    NEINecromancyHandler.OVERLAY,
+                    Arrays.asList(
+                            new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBloodSword.class)),
+                            necromancyTablet));
         }
     }
 }
