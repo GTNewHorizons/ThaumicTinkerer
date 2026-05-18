@@ -1,5 +1,7 @@
 package thaumic.tinkerer.client.nei;
 
+import net.minecraft.util.StatCollector;
+
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
@@ -16,7 +18,7 @@ public class NEIConfig implements IConfigureNEI {
 
     @Override
     public String getName() {
-        return "Thaumic Tinkerer NEI";
+        return StatCollector.translateToLocal("nei.title.thaumictinkerer.plugin");
     }
 
     @Override
