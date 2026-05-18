@@ -293,8 +293,8 @@ public class TTCommonProxy {
             ItemStack necromancyTablet = new ItemStack(
                     ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class));
             event.registerHandlerInfo(
-                    new HandlerInfo.Builder(NEINecromancyHandler.class, "Thaumic Tinkerer", LibMisc.MOD_ID)
-                            .setHeight(88).setDisplayStack(necromancyTablet).build());
+                    new HandlerInfo.Builder(NEINecromancyHandler.class, LibMisc.MOD_NAME, LibMisc.MOD_ID).setHeight(88)
+                            .setDisplayStack(necromancyTablet).build());
             RecipeCatalysts.putRecipeCatalysts(
                     NEINecromancyHandler.OVERLAY,
                     Arrays.asList(
