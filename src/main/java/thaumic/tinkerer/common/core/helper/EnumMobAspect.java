@@ -108,15 +108,12 @@ public enum EnumMobAspect {
     public static final Map<EnumMobAspect, Entity> entityCache = Maps.newHashMap();
     public final Aspect[] aspects;
     public final Class<? extends Entity> entity;
-    public String prefix;
+    public final String prefix;
     private final float scale;
     private final float offset;
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale, float offset) {
-        this.aspects = aspects;
-        this.entity = entity;
-        this.scale = scale;
-        this.offset = offset;
+        this(entity, aspects, scale, offset, "");
     }
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale) {
@@ -124,17 +121,19 @@ public enum EnumMobAspect {
     }
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale, float offset, String prefix) {
-        this(entity, aspects, scale, offset);
+        this.aspects = aspects;
+        this.entity = entity;
+        this.scale = scale;
+        this.offset = offset;
         this.prefix = prefix;
     }
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects) {
-        this(entity, aspects, 1.0f, 0);
+        this(entity, aspects, 1.0f);
     }
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, String prefix) {
-        this(entity, aspects);
-        this.prefix = prefix;
+        this(entity, aspects, 1.0f, 0, prefix);
     }
 
     public static Entity getEntityFromCache(EnumMobAspect ent, World worldObj) {
