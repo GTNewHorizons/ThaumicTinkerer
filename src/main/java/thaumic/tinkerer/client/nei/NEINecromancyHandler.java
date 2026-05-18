@@ -1,7 +1,6 @@
 package thaumic.tinkerer.client.nei;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import net.glease.tc4tweak.api.infusionrecipe.RecipeIngredient;
 import net.minecraft.item.ItemStack;
@@ -123,11 +122,12 @@ public class NEINecromancyHandler extends InfusionRecipeHandler {
         }
 
         private void setIngredients(Aspect[] aspects) {
-            List<RecipeIngredient> outer = new ArrayList<>();
-            for (Aspect aspect : aspects) {
-                outer.add(RecipeIngredient.item(true, ItemMobAspect.getStackFromAspect(aspect)));
-            }
-            addSurroundingItems(outer);
+            if (aspects.length < 3) return;
+            addSurroundingItems(
+                    Arrays.asList(
+                            RecipeIngredient.item(true, ItemMobAspect.getStackFromAspect(aspects[0])),
+                            RecipeIngredient.item(true, ItemMobAspect.getStackFromAspect(aspects[1])),
+                            RecipeIngredient.item(true, ItemMobAspect.getStackFromAspect(aspects[2]))));
         }
 
         @Override
