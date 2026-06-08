@@ -127,7 +127,7 @@ public class ItemGemLegs extends ItemIchorclothArmorAdv {
                 new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemKamiResource.class)),
                 new ItemStack(ConfigItems.itemFocusPrimal),
                 new ItemStack(ConfigItems.itemThaumonomicon),
-                new ItemStack(Items.golden_chestplate),
+                new ItemStack(Items.golden_leggings),
                 new ItemStack(Items.potionitem, 1, 8195),
                 new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemFocusSmelt.class)),
                 new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)),
