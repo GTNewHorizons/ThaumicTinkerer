@@ -1,5 +1,8 @@
 package thaumic.tinkerer.common.core.helper;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
@@ -102,6 +105,7 @@ public enum EnumMobAspect {
     public final String prefix;
     private final float scale;
     private final float offset;
+    private final MethodHandle ctor;
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale, float offset) {
         this(entity, aspects, scale, offset, "");
@@ -117,6 +121,12 @@ public enum EnumMobAspect {
         this.scale = scale;
         this.offset = offset;
         this.prefix = prefix;
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        try {
+            this.ctor = lookup.findConstructor(entity, MethodType.methodType(void.class, World.class));
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects) {
@@ -186,7 +196,11 @@ public enum EnumMobAspect {
     }
 
     protected Entity createEntity(World worldObj) {
-        return EntityList.createEntityByName(toString(), worldObj);
+        try {
+            return (Entity) ctor.invoke(worldObj);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
