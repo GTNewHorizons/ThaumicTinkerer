@@ -52,8 +52,9 @@ public class NEINecromancyHandler extends InfusionRecipeHandler {
     @Override
     public void loadCraftingRecipes(ItemStack result) {
         if (result.getItem() instanceof ItemMobDisplay display) {
+            EnumMobAspect type = display.getEntityType(result);
             for (EnumMobAspect value : EnumMobAspect.values()) {
-                if (value == display.getEntityType(result)) {
+                if (value == type) {
                     new NecromancyCachedRecipe(value);
                     break;
                 }
