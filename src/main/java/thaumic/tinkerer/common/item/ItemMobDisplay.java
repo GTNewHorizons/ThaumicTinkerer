@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumic.tinkerer.common.core.helper.EnumMobAspect;
@@ -71,6 +72,7 @@ public class ItemMobDisplay extends ItemBase {
         if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
         EnumMobAspect aspect = EnumMobAspect.getMobAspectForType(mob);
         if (aspect == null) return super.getItemStackDisplayName(stack);
-        return aspect.getEntity(Minecraft.getMinecraft().theWorld).getCommandSenderName();
+        return FMLCommonHandler.instance().getSide() == Side.SERVER ? aspect.getEntityClass().getName()
+                : aspect.getEntity(Minecraft.getMinecraft().theWorld).getCommandSenderName();
     }
 }
