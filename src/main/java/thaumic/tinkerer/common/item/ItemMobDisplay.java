@@ -26,9 +26,8 @@ public class ItemMobDisplay extends ItemBase {
 
     public ItemMobDisplay() {
         super();
-        setHasSubtypes(true); // This allows the item to be marked as a metadata item.
-        setMaxDamage(0); // This makes it so your item doesn't have the damage bar at the bottom of its icon, when
-                         // "damaged" like tools.
+        setHasSubtypes(true);
+        setMaxDamage(0);
     }
 
     @Override
