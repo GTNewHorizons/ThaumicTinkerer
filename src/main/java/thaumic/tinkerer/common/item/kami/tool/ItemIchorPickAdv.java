@@ -106,10 +106,14 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
         int fortune = EnchantmentHelper.getFortuneModifier(player);
         boolean silk = EnchantmentHelper.getSilkTouchModifier(player);
         if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock && ((world.provider.isSurfaceWorld() && y < 5) || (y > 253 && world.provider instanceof WorldProviderBedrock))) {
-            world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+            if (player.isSneaking()) {
+                world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+            }
         }
         if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock && (y <= 253 && world.provider instanceof WorldProviderBedrock)) {
-            world.setBlock(x, y, z, Blocks.air);
+            if (player.isSneaking()) {
+                world.setBlock(x, y, z, Blocks.air);
+            }
         }
         switch (ToolHandler.getMode(stack)) {
             case 0:
@@ -119,7 +123,8 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                 boolean doY = direction.offsetY == 0;
                 boolean doZ = direction.offsetZ == 0;
 
-                ToolHandler.removeBlocksInIteration(
+                if (!player.isSneaking()) {
+                    ToolHandler.removeBlocksInIteration(
                         player,
                         world,
                         x,
@@ -135,6 +140,7 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                         ToolHandler.materialsPick,
                         silk,
                         fortune);
+                }
 
                 break;
             }
@@ -143,7 +149,8 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                 int yo = -direction.offsetY;
                 int zo = -direction.offsetZ;
 
-                ToolHandler.removeBlocksInIteration(
+                if (!player.isSneaking()) {
+                    ToolHandler.removeBlocksInIteration(
                         player,
                         world,
                         x,
@@ -159,6 +166,7 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                         ToolHandler.materialsPick,
                         silk,
                         fortune);
+                }
                 break;
             }
         }
