@@ -74,7 +74,6 @@ public final class ToolHandler {
         for (int x1 = xs; x1 < xe; x1++) {
             for (int y1 = ys; y1 < ye; y1++) {
                 for (int z1 = zs; z1 < ze; z1++) {
-                    if (x == x1 + x && y == y1 + y && z == z1 + z) continue;
                     Block lock2 = world.getBlock(x1 + x, y1 + y, z1 + z);
 
                     breakExtraBlock(player.worldObj, x1 + x, y1 + y, z1 + z, player, x, y, z, materialsListing);

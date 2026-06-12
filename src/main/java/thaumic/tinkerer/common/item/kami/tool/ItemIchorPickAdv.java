@@ -105,13 +105,10 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
         ForgeDirection direction = ForgeDirection.getOrientation(block.sideHit);
         int fortune = EnchantmentHelper.getFortuneModifier(player);
         boolean silk = EnchantmentHelper.getSilkTouchModifier(player);
-        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock
-                && ((world.provider.isSurfaceWorld() && y < 5)
-                        || (y > 253 && world.provider instanceof WorldProviderBedrock))) {
+        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock && ((world.provider.isSurfaceWorld() && y < 5) || (y > 253 && world.provider instanceof WorldProviderBedrock))) {
             world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
         }
-        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock
-                && (y <= 253 && world.provider instanceof WorldProviderBedrock)) {
+        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock && (y <= 253 && world.provider instanceof WorldProviderBedrock)) {
             world.setBlock(x, y, z, Blocks.air);
         }
         switch (ToolHandler.getMode(stack)) {
