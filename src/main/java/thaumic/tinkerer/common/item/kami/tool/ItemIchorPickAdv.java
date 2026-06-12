@@ -105,16 +105,23 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
         ForgeDirection direction = ForgeDirection.getOrientation(block.sideHit);
         int fortune = EnchantmentHelper.getFortuneModifier(player);
         boolean silk = EnchantmentHelper.getSilkTouchModifier(player);
-        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock && ((world.provider.isSurfaceWorld() && y < 5) || (y > 253 && world.provider instanceof WorldProviderBedrock))) {
-            if (player.isSneaking()) {
-                world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+
+        if (player.isSneaking()) {
+            if (ConfigHandler.bedrockDimensionID != 0) {
+                // Bedrock → Portal (Overworld low Y OR Bedrock dimension high Y)
+                if (blk == Blocks.bedrock) {
+                    if ((world.provider.isSurfaceWorld() && y < 5) || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
+                        world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+                    }
+
+                    // Bedrock → Air (Bedrock dimension normal Y)
+                    if (y <= 253 && world.provider instanceof WorldProviderBedrock) {
+                        world.setBlock(x, y, z, Blocks.air);
+                    }
+                }
             }
         }
-        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock && (y <= 253 && world.provider instanceof WorldProviderBedrock)) {
-            if (player.isSneaking()) {
-                world.setBlock(x, y, z, Blocks.air);
-            }
-        }
+
         switch (ToolHandler.getMode(stack)) {
             case 0:
                 break;
