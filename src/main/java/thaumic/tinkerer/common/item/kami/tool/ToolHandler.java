@@ -42,14 +42,14 @@ import thaumic.tinkerer.common.dim.WorldProviderBedrock;
 
 public final class ToolHandler {
 
-    public static Material[] materialsShovel = new Material[] { Material.grass, Material.ground, Material.sand,
+    public final static Material[] materialsShovel = new Material[] { Material.grass, Material.ground, Material.sand,
             Material.snow, Material.craftedSnow, Material.clay };
-    public static Material[] materialsPick = Stream.concat(
+    public final static Material[] materialsPick = Stream.concat(
             Arrays.stream(
                     new Material[] { Material.rock, Material.iron, Material.ice, Material.glass, Material.piston,
                             Material.anvil }),
             Arrays.stream(materialsShovel)).toArray(Material[]::new);
-    public static Material[] materialsAxe = new Material[] { Material.coral, Material.leaves, Material.plants,
+    public final static Material[] materialsAxe = new Material[] { Material.coral, Material.leaves, Material.plants,
             Material.wood };
 
     public static int getMode(ItemStack tool) {

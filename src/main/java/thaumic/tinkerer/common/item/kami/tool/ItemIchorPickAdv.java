@@ -106,24 +106,16 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
         int fortune = EnchantmentHelper.getFortuneModifier(player);
         boolean silk = EnchantmentHelper.getSilkTouchModifier(player);
 
-        if (player.isSneaking()) {
-            if (ConfigHandler.bedrockDimensionID != 0) {
-                // Bedrock -> Portal (Overworld low Y OR Bedrock dimension high Y)
-                if (blk == Blocks.bedrock) {
-                    if ((world.provider.isSurfaceWorld() && y < 5)
-                            || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
-                        world.setBlock(
-                                x,
-                                y,
-                                z,
-                                ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
-                    }
+        if (player.isSneaking() && ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock) {
+            // Bedrock -> Portal (Overworld low Y OR Bedrock dimension high Y)
+            if ((world.provider.isSurfaceWorld() && y < 5)
+                    || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
+                world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+            }
 
-                    // Bedrock -> Air (Bedrock dimension normal Y)
-                    if (y <= 253 && world.provider instanceof WorldProviderBedrock) {
-                        world.setBlock(x, y, z, Blocks.air);
-                    }
-                }
+            // Bedrock -> Air (Bedrock dimension normal Y)
+            if (y <= 253 && world.provider instanceof WorldProviderBedrock) {
+                world.setBlock(x, y, z, Blocks.air);
             }
         }
 
