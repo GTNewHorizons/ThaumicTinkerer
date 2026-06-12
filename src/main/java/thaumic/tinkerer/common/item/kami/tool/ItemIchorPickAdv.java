@@ -110,8 +110,13 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
             if (ConfigHandler.bedrockDimensionID != 0) {
                 // Bedrock → Portal (Overworld low Y OR Bedrock dimension high Y)
                 if (blk == Blocks.bedrock) {
-                    if ((world.provider.isSurfaceWorld() && y < 5) || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
-                        world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+                    if ((world.provider.isSurfaceWorld() && y < 5)
+                            || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
+                        world.setBlock(
+                                x,
+                                y,
+                                z,
+                                ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
                     }
 
                     // Bedrock → Air (Bedrock dimension normal Y)
@@ -132,21 +137,21 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
 
                 if (!player.isSneaking()) {
                     ToolHandler.removeBlocksInIteration(
-                        player,
-                        world,
-                        x,
-                        y,
-                        z,
-                        doX ? -2 : 0,
-                        doY ? -1 : 0,
-                        doZ ? -2 : 0,
-                        doX ? 3 : 1,
-                        doY ? 4 : 1,
-                        doZ ? 3 : 1,
-                        null,
-                        ToolHandler.materialsPick,
-                        silk,
-                        fortune);
+                            player,
+                            world,
+                            x,
+                            y,
+                            z,
+                            doX ? -2 : 0,
+                            doY ? -1 : 0,
+                            doZ ? -2 : 0,
+                            doX ? 3 : 1,
+                            doY ? 4 : 1,
+                            doZ ? 3 : 1,
+                            null,
+                            ToolHandler.materialsPick,
+                            silk,
+                            fortune);
                 }
 
                 break;
@@ -158,21 +163,21 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
 
                 if (!player.isSneaking()) {
                     ToolHandler.removeBlocksInIteration(
-                        player,
-                        world,
-                        x,
-                        y,
-                        z,
-                        xo >= 0 ? 0 : -10,
-                        yo >= 0 ? 0 : -10,
-                        zo >= 0 ? 0 : -10,
-                        xo > 0 ? 10 : 1,
-                        yo > 0 ? 10 : 1,
-                        zo > 0 ? 10 : 1,
-                        null,
-                        ToolHandler.materialsPick,
-                        silk,
-                        fortune);
+                            player,
+                            world,
+                            x,
+                            y,
+                            z,
+                            xo >= 0 ? 0 : -10,
+                            yo >= 0 ? 0 : -10,
+                            zo >= 0 ? 0 : -10,
+                            xo > 0 ? 10 : 1,
+                            yo > 0 ? 10 : 1,
+                            zo > 0 ? 10 : 1,
+                            null,
+                            ToolHandler.materialsPick,
+                            silk,
+                            fortune);
                 }
                 break;
             }
