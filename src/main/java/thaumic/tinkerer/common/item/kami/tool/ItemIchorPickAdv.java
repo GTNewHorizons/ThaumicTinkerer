@@ -108,7 +108,7 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
 
         if (player.isSneaking()) {
             if (ConfigHandler.bedrockDimensionID != 0) {
-                // Bedrock → Portal (Overworld low Y OR Bedrock dimension high Y)
+                // Bedrock -> Portal (Overworld low Y OR Bedrock dimension high Y)
                 if (blk == Blocks.bedrock) {
                     if ((world.provider.isSurfaceWorld() && y < 5)
                             || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
@@ -119,7 +119,7 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                                 ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
                     }
 
-                    // Bedrock → Air (Bedrock dimension normal Y)
+                    // Bedrock -> Air (Bedrock dimension normal Y)
                     if (y <= 253 && world.provider instanceof WorldProviderBedrock) {
                         world.setBlock(x, y, z, Blocks.air);
                     }
