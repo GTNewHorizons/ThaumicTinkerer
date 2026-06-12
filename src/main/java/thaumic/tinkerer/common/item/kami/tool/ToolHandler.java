@@ -106,6 +106,15 @@ public final class ToolHandler {
 
         // only effective materials
         if (!block.canHarvestBlock(player, meta) || !isRightMaterial(block.getMaterial(), materialsListing)) return;
+
+        if (block == Blocks.bedrock) {
+            // Ignore top & bottom 2 bedrock layers (Bedrock dimension only)
+            if (y > 253 && world.provider instanceof WorldProviderBedrock) return;
+
+            // Ignore bedrock in all other dimensions
+            if (!(world.provider instanceof WorldProviderBedrock)) return;
+        }
+
         Block refBlock = world.getBlock(refX, refY, refZ);
         float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
         float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
