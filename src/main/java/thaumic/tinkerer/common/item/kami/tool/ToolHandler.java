@@ -11,7 +11,9 @@
  */
 package thaumic.tinkerer.common.item.kami.tool;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -40,10 +42,13 @@ import thaumic.tinkerer.common.dim.WorldProviderBedrock;
 
 public final class ToolHandler {
 
-    public static Material[] materialsPick = new Material[] { Material.rock, Material.iron, Material.ice,
-            Material.glass, Material.piston, Material.anvil };
     public static Material[] materialsShovel = new Material[] { Material.grass, Material.ground, Material.sand,
             Material.snow, Material.craftedSnow, Material.clay };
+    public static Material[] materialsPick = Stream.concat(
+            Arrays.stream(
+                    new Material[] { Material.rock, Material.iron, Material.ice, Material.glass, Material.piston,
+                            Material.anvil }),
+            Arrays.stream(materialsShovel)).toArray(Material[]::new);
     public static Material[] materialsAxe = new Material[] { Material.coral, Material.leaves, Material.plants,
             Material.wood };
 
