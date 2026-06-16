@@ -3,15 +3,16 @@ package thaumic.tinkerer.common.item;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.helper.ItemNBTHelper;
 import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.registry.ItemBase;
-import thaumic.tinkerer.common.registry.ThaumicTinkererRecipe;
 import thaumic.tinkerer.common.research.IRegisterableResearch;
 
 /**
@@ -23,10 +24,8 @@ public class ItemMobDisplay extends ItemBase {
 
     public ItemMobDisplay() {
         super();
-        setHasSubtypes(true); // This allows the item to be marked as a metadata item.
-        setMaxDamage(0); // This makes it so your item doesn't have the damage bar at the bottom of its icon, when
-                         // "damaged"
-        // similar to the Tools.
+        setHasSubtypes(true);
+        setMaxDamage(0);
     }
 
     @Override
@@ -35,17 +34,7 @@ public class ItemMobDisplay extends ItemBase {
     }
 
     @Override
-    public boolean shouldRegister() {
-        return false;
-    }
-
-    @Override
     public IRegisterableResearch getResearchItem() {
-        return null;
-    }
-
-    @Override
-    public ThaumicTinkererRecipe getRecipeItem() {
         return null;
     }
 
@@ -58,11 +47,10 @@ public class ItemMobDisplay extends ItemBase {
     }
 
     @Override
-    public void getSubItems(Item par1Item, CreativeTabs par2CreativeTabs, List list) {
-        super.getSubItems(par1Item, par2CreativeTabs, list);
+    public void getSubItems(Item par1Item, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
         for (EnumMobAspect aspect : EnumMobAspect.values()) {
-            Class aspClass = aspect.getEntityClass();
-            String name = (String) EntityList.classToStringMapping.get(aspClass);
+            Class<? extends Entity> aspClass = aspect.getEntityClass();
+            String name = EntityList.classToStringMapping.get(aspClass);
             ItemStack item = new ItemStack(this);
             this.setEntityType(item, name);
             list.add(item);
@@ -72,5 +60,14 @@ public class ItemMobDisplay extends ItemBase {
     @Override
     public String getItemName() {
         return LibItemNames.MOB_DISPLAY;
+    }
+
+    @Override
+    public String getItemStackDisplayName(ItemStack stack) {
+        String mob = ItemNBTHelper.getString(stack, TAG_TYPE, "");
+        if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
+        EnumMobAspect aspect = EnumMobAspect.getMobAspectForType(mob);
+        if (aspect == null) return super.getItemStackDisplayName(stack);
+        return ThaumicTinkerer.proxy.getMobDisplayName(aspect);
     }
 }

@@ -11,17 +11,23 @@
  */
 package thaumic.tinkerer.common.core.proxy;
 
+import java.util.Arrays;
+
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 
+import codechicken.nei.event.NEIRegisterHandlerInfosEvent;
+import codechicken.nei.recipe.HandlerInfo;
+import codechicken.nei.recipe.RecipeCatalysts;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
@@ -30,6 +36,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import dan200.computercraft.api.ComputerCraftAPI;
@@ -50,7 +57,9 @@ import thaumcraft.common.tiles.TileNode;
 import thaumcraft.common.tiles.TileSensor;
 import thaumcraft.common.tiles.TileTubeFilter;
 import thaumcraft.common.tiles.TileWandPedestal;
+import thaumic.tinkerer.client.nei.NEINecromancyHandler;
 import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.block.BlockSummon;
 import thaumic.tinkerer.common.block.tile.TileFunnel;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
 import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
@@ -68,13 +77,16 @@ import thaumic.tinkerer.common.core.handler.kami.KamiDimensionHandler;
 import thaumic.tinkerer.common.core.handler.kami.SoulHeartHandler;
 import thaumic.tinkerer.common.core.helper.AspectCropLootManager;
 import thaumic.tinkerer.common.core.helper.BonemealEventHandler;
+import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.helper.NumericAspectHelper;
 import thaumic.tinkerer.common.enchantment.ModEnchantments;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
+import thaumic.tinkerer.common.item.ItemBloodSword;
 import thaumic.tinkerer.common.item.SpellClothCraftingHandler;
 import thaumic.tinkerer.common.item.foci.ItemFocusDeflect;
 import thaumic.tinkerer.common.item.kami.wand.CapIchor;
 import thaumic.tinkerer.common.item.kami.wand.RodIchorcloth;
+import thaumic.tinkerer.common.lib.LibMisc;
 import thaumic.tinkerer.common.network.GuiHandler;
 import thaumic.tinkerer.common.network.PlayerTracker;
 import thaumic.tinkerer.common.network.packet.PacketEnchanterAddEnchant;
@@ -164,6 +176,10 @@ public class TTCommonProxy {
             }
         } else {
             ThaumicTinkerer.log.info("Skipping TC Multipart integration");
+        }
+
+        if (Loader.isModLoaded("NotEnoughItems") && Loader.isModLoaded("aspectrecipeindex")) {
+            MinecraftForge.EVENT_BUS.register(new NEIEventHandler());
         }
 
         EMTCompat.init();
@@ -258,5 +274,26 @@ public class TTCommonProxy {
 
     public void shadowSparkle(World world, float x, float y, float z, int size) {
         // NO-OP
+    }
+
+    public String getMobDisplayName(EnumMobAspect aspect) {
+        return aspect.getEntity(MinecraftServer.getServer().getEntityWorld()).getCommandSenderName();
+    }
+
+    public static class NEIEventHandler {
+
+        @SubscribeEvent
+        public void registerHandler(NEIRegisterHandlerInfosEvent event) {
+            ItemStack necromancyTablet = new ItemStack(
+                    ThaumicTinkerer.registry.getFirstBlockFromClass(BlockSummon.class));
+            event.registerHandlerInfo(
+                    new HandlerInfo.Builder(NEINecromancyHandler.class, LibMisc.MOD_NAME, LibMisc.MOD_ID).setHeight(88)
+                            .setDisplayStack(necromancyTablet).build());
+            RecipeCatalysts.putRecipeCatalysts(
+                    NEINecromancyHandler.OVERLAY,
+                    Arrays.asList(
+                            new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBloodSword.class)),
+                            necromancyTablet));
+        }
     }
 }
