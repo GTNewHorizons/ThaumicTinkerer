@@ -3,7 +3,6 @@ package thaumic.tinkerer.common.block.tile;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.init.Items;
@@ -20,34 +19,30 @@ public class TileSummon extends TileEntity {
 
     @Override
     public void updateEntity() {
-        if (worldObj.getTotalWorldTime() % 300 != 0) {
+        if (worldObj.getTotalWorldTime() % 300 != 0
+                || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
             return;
         }
-        if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-            return;
-        }
+
         for (int radius = 1; radius < 6; radius++) {
-            ArrayList<TileEntity> pedestals = new ArrayList<>();
+            ArrayList<TilePedestal> pedestals = new ArrayList<>();
             for (int x = xCoord - radius; x <= xCoord + radius; x++) {
                 for (int z = zCoord - radius; z <= zCoord + radius; z++) {
                     TileEntity tile = worldObj.getTileEntity(x, yCoord, z);
-                    if (tile instanceof TilePedestal && ((TilePedestal) tile).getStackInSlot(0) != null
-                            && ((TilePedestal) tile).getStackInSlot(0).getItem() instanceof ItemMobAspect) {
-                        pedestals.add(tile);
+                    if (tile instanceof TilePedestal pedestal && pedestal.getStackInSlot(0) != null
+                            && pedestal.getStackInSlot(0).getItem() instanceof ItemMobAspect) {
+                        pedestals.add(pedestal);
                     }
                 }
             }
 
             for (int i = 0; i < pedestals.size(); i++) {
                 for (int j = 0; j < pedestals.size(); j++) {
-                    for (TileEntity pedestal : pedestals) {
-                        TilePedestal ped1 = (TilePedestal) pedestals.get(i);
-                        TilePedestal ped2 = (TilePedestal) pedestals.get(j);
-                        TilePedestal ped3 = (TilePedestal) pedestal;
+                    for (TilePedestal ped3 : pedestals) {
+                        TilePedestal ped1 = pedestals.get(i);
+                        TilePedestal ped2 = pedestals.get(j);
 
-                        if ((ped1 == ped2) || (ped2 == ped3) || (ped1 == ped3)) {
-                            continue;
-                        }
+                        if ((ped1 == ped2) || (ped2 == ped3) || (ped1 == ped3)) continue;
                         ArrayList<Aspect> aspects = new ArrayList<>();
                         aspects.add(ItemMobAspect.getAspect(ped1.getStackInSlot(0)));
 
@@ -65,9 +60,7 @@ public class TileSummon extends TileEntity {
                                     && ItemMobAspect.isInfused(ped2.getStackInSlot(0))
                                     && ItemMobAspect.isInfused(ped3.getStackInSlot(0));
 
-                            if (isInfused && worldObj.getTotalWorldTime() % 1200 != 0) {
-                                return;
-                            }
+                            if (isInfused && worldObj.getTotalWorldTime() % 1200 != 0) return;
 
                             if (!isInfused) {
                                 ped1.setInventorySlotContents(0, null);
@@ -80,16 +73,16 @@ public class TileSummon extends TileEntity {
                                     && ItemMobAspect.lastUsedTabletMatches(ped3.getStackInSlot(0), this)) {
 
                                 if (!worldObj.isRemote) {
-                                    Entity spawn = recipe.createEntity(worldObj);
+                                    EntityLiving spawn = (EntityLiving) recipe.createEntity(worldObj);
                                     spawn.setLocationAndAngles(xCoord + .5, yCoord + 1, zCoord + .5, 0, 0);
                                     worldObj.spawnEntityInWorld(spawn);
-                                    ((EntityLiving) spawn).onSpawnWithEgg(null);
+                                    spawn.onSpawnWithEgg(null);
                                     if (spawn instanceof EntitySkeleton skeleton && skeleton.getSkeletonType() == 1) {
                                         // Needs to be done here instead of EnumMobAspect::setWither because
                                         // EntitySkeleton::onSpawnWithEgg sets the held item to a bow
                                         skeleton.setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
                                     }
-                                    ((EntityLiving) spawn).playLivingSound();
+                                    spawn.playLivingSound();
                                 }
 
                                 if (worldObj.isRemote) {
