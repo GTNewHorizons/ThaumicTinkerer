@@ -3,11 +3,13 @@ package thaumic.tinkerer.common.core.helper;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -72,7 +74,7 @@ public enum EnumMobAspect {
     LavaSlime(EntityMagmaCube.class, new Aspect[] { Aspect.FIRE, Aspect.SLIME, Aspect.SLIME }, 1.5f) {
 
         @Override
-        protected Entity createEntity(World worldObj) {
+        public Entity createEntity(World worldObj) {
             return setSlimeSize(super.createEntity(worldObj), 1);
         }
     },
@@ -82,7 +84,31 @@ public enum EnumMobAspect {
     BrainyZombie(EntityBrainyZombie.class, new Aspect[] { Aspect.MAGIC, Aspect.UNDEAD, Aspect.FLESH }, 0.8f, 0,
             "Thaumcraft."),
     Zombie(EntityZombie.class, new Aspect[] { Aspect.FLESH, Aspect.FLESH, Aspect.UNDEAD }, 0.8f),
-    Skeleton(EntitySkeleton.class, new Aspect[] { Aspect.UNDEAD, Aspect.MAN, Aspect.UNDEAD }, 0.8f),
+    Skeleton(EntitySkeleton.class, new Aspect[] { Aspect.UNDEAD, Aspect.MAN, Aspect.UNDEAD }, 0.8f) {
+
+        @Override
+        public boolean matches(Entity e) {
+            if (e instanceof EntitySkeleton skeleton) {
+                return skeleton.getSkeletonType() == 0;
+            }
+            return false;
+        }
+    },
+    WitherSkeleton(EntitySkeleton.class, new Aspect[] { Aspect.UNDEAD, Aspect.POISON, Aspect.FIRE }, 0.8f) {
+
+        @Override
+        public Entity createEntity(World worldObj) {
+            return setWither(super.createEntity(worldObj));
+        }
+
+        @Override
+        public boolean matches(Entity e) {
+            if (e instanceof EntitySkeleton skeleton) {
+                return skeleton.getSkeletonType() == 1;
+            }
+            return false;
+        }
+    },
     Creeper(EntityCreeper.class, new Aspect[] { Aspect.MAGIC, Aspect.BEAST, Aspect.ELDRITCH }, 0.8f),
     Witch(EntityWitch.class, new Aspect[] { Aspect.MAGIC, Aspect.UNDEAD, Aspect.ELDRITCH }, 0.8f),
     /// Must be before Spider because EntityCaveSpider extends EntitySpider
@@ -91,7 +117,7 @@ public enum EnumMobAspect {
     Slime(EntitySlime.class, new Aspect[] { Aspect.SLIME, Aspect.SLIME, Aspect.BEAST }, 1.5f) {
 
         @Override
-        protected Entity createEntity(World worldObj) {
+        public Entity createEntity(World worldObj) {
             return setSlimeSize(super.createEntity(worldObj), 1);
         }
     },
@@ -100,6 +126,8 @@ public enum EnumMobAspect {
     Wisp(EntityWisp.class, new Aspect[] { Aspect.AIR, Aspect.MAGIC, Aspect.MAGIC }, "Thaumcraft.");
 
     public static final Map<EnumMobAspect, Entity> entityCache = Maps.newHashMap();
+    private static final Map<String, EnumMobAspect> LOOKUP = Arrays.stream(values())
+            .collect(Collectors.toMap(Enum::name, e -> e));
     public final Aspect[] aspects;
     public final Class<? extends Entity> entity;
     public final String prefix;
@@ -137,6 +165,10 @@ public enum EnumMobAspect {
         this(entity, aspects, 1.0f, 0, prefix);
     }
 
+    public static EnumMobAspect get(String name) {
+        return LOOKUP.get(name);
+    }
+
     public static Entity getEntityFromCache(EnumMobAspect ent, World worldObj) {
         Entity entity = entityCache.get(ent);
         if (entity == null) {
@@ -147,36 +179,37 @@ public enum EnumMobAspect {
     }
 
     private static Entity setSlimeSize(Entity entity, int size) {
+        if (entity instanceof EntitySlime slime) {
+            slime.setSlimeSize(size);
+        }
 
-        if (entity instanceof EntitySlime) {
-            ((EntitySlime) entity).setSlimeSize(size);
+        return entity;
+    }
+
+    private static Entity setWither(Entity entity) {
+        if (entity instanceof EntitySkeleton skeleton) {
+            skeleton.setSkeletonType(1);
+            skeleton.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
         }
 
         return entity;
     }
 
     public static Aspect[] getAspectsForEntity(Entity e) {
-        return getAspectsForEntity(e.getClass());
-    }
-
-    public static EnumMobAspect getMobAspectForType(String name) {
-        if (name.isEmpty()) return null;
-        Class<? extends Entity> clazz = EntityList.stringToClassMapping.get(name);
-        for (EnumMobAspect e : EnumMobAspect.values()) {
-            if (e.entity.isAssignableFrom(clazz)) {
-                return e;
+        for (EnumMobAspect aspect : EnumMobAspect.values()) {
+            if (aspect.matches(e)) {
+                return aspect.aspects;
             }
         }
         return null;
     }
 
-    public static Aspect[] getAspectsForEntity(Class<? extends Entity> clazz) {
-        for (EnumMobAspect e : EnumMobAspect.values()) {
-            if (e.entity.isAssignableFrom(clazz)) {
-                return e.aspects;
-            }
-        }
-        return null;
+    public boolean matches(Entity e) {
+        return matches(e.getClass());
+    }
+
+    public boolean matches(Class<?> c) {
+        return this.entity.isAssignableFrom(c);
     }
 
     public float getVerticalOffset() {
@@ -187,15 +220,11 @@ public enum EnumMobAspect {
         return scale;
     }
 
-    public Class<? extends Entity> getEntityClass() {
-        return entity;
-    }
-
     public Entity getEntity(World worldObj) {
         return getEntityFromCache(this, worldObj);
     }
 
-    protected Entity createEntity(World worldObj) {
+    public Entity createEntity(World worldObj) {
         try {
             return (Entity) ctor.invoke(worldObj);
         } catch (Throwable e) {
