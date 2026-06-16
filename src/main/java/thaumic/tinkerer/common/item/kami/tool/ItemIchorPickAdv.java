@@ -105,15 +105,20 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
         ForgeDirection direction = ForgeDirection.getOrientation(block.sideHit);
         int fortune = EnchantmentHelper.getFortuneModifier(player);
         boolean silk = EnchantmentHelper.getSilkTouchModifier(player);
-        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock
-                && ((world.provider.isSurfaceWorld() && y < 5)
-                        || (y > 253 && world.provider instanceof WorldProviderBedrock))) {
-            world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+
+        if (player.isSneaking() && ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock) {
+            // Bedrock -> Portal (Overworld low Y OR Bedrock dimension high Y)
+            if ((world.provider.isSurfaceWorld() && y < 5)
+                    || (y > 253 && world.provider instanceof WorldProviderBedrock)) {
+                world.setBlock(x, y, z, ThaumicTinkerer.registry.getFirstBlockFromClass(BlockBedrockPortal.class));
+            }
+
+            // Bedrock -> Air (Bedrock dimension normal Y)
+            if (y <= 253 && world.provider instanceof WorldProviderBedrock) {
+                world.setBlock(x, y, z, Blocks.air);
+            }
         }
-        if (ConfigHandler.bedrockDimensionID != 0 && blk == Blocks.bedrock
-                && (y <= 253 && world.provider instanceof WorldProviderBedrock)) {
-            world.setBlock(x, y, z, Blocks.air);
-        }
+
         switch (ToolHandler.getMode(stack)) {
             case 0:
                 break;
@@ -122,22 +127,24 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                 boolean doY = direction.offsetY == 0;
                 boolean doZ = direction.offsetZ == 0;
 
-                ToolHandler.removeBlocksInIteration(
-                        player,
-                        world,
-                        x,
-                        y,
-                        z,
-                        doX ? -2 : 0,
-                        doY ? -1 : 0,
-                        doZ ? -2 : 0,
-                        doX ? 3 : 1,
-                        doY ? 4 : 1,
-                        doZ ? 3 : 1,
-                        null,
-                        ToolHandler.materialsPick,
-                        silk,
-                        fortune);
+                if (!player.isSneaking()) {
+                    ToolHandler.removeBlocksInIteration(
+                            player,
+                            world,
+                            x,
+                            y,
+                            z,
+                            doX ? -2 : 0,
+                            doY ? -1 : 0,
+                            doZ ? -2 : 0,
+                            doX ? 3 : 1,
+                            doY ? 4 : 1,
+                            doZ ? 3 : 1,
+                            null,
+                            ToolHandler.materialsPick,
+                            silk,
+                            fortune);
+                }
 
                 break;
             }
@@ -146,22 +153,24 @@ public class ItemIchorPickAdv extends ItemIchorPick implements IAdvancedTool {
                 int yo = -direction.offsetY;
                 int zo = -direction.offsetZ;
 
-                ToolHandler.removeBlocksInIteration(
-                        player,
-                        world,
-                        x,
-                        y,
-                        z,
-                        xo >= 0 ? 0 : -10,
-                        yo >= 0 ? 0 : -10,
-                        zo >= 0 ? 0 : -10,
-                        xo > 0 ? 10 : 1,
-                        yo > 0 ? 10 : 1,
-                        zo > 0 ? 10 : 1,
-                        null,
-                        ToolHandler.materialsPick,
-                        silk,
-                        fortune);
+                if (!player.isSneaking()) {
+                    ToolHandler.removeBlocksInIteration(
+                            player,
+                            world,
+                            x,
+                            y,
+                            z,
+                            xo >= 0 ? 0 : -10,
+                            yo >= 0 ? 0 : -10,
+                            zo >= 0 ? 0 : -10,
+                            xo > 0 ? 10 : 1,
+                            yo > 0 ? 10 : 1,
+                            zo > 0 ? 10 : 1,
+                            null,
+                            ToolHandler.materialsPick,
+                            silk,
+                            fortune);
+                }
                 break;
             }
         }

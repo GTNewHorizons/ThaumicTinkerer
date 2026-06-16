@@ -11,7 +11,9 @@
  */
 package thaumic.tinkerer.common.item.kami.tool;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -40,11 +42,14 @@ import thaumic.tinkerer.common.dim.WorldProviderBedrock;
 
 public final class ToolHandler {
 
-    public static Material[] materialsPick = new Material[] { Material.rock, Material.iron, Material.ice,
-            Material.glass, Material.piston, Material.anvil };
-    public static Material[] materialsShovel = new Material[] { Material.grass, Material.ground, Material.sand,
+    public final static Material[] materialsShovel = new Material[] { Material.grass, Material.ground, Material.sand,
             Material.snow, Material.craftedSnow, Material.clay };
-    public static Material[] materialsAxe = new Material[] { Material.coral, Material.leaves, Material.plants,
+    public final static Material[] materialsPick = Stream.concat(
+            Arrays.stream(
+                    new Material[] { Material.rock, Material.iron, Material.ice, Material.glass, Material.piston,
+                            Material.anvil }),
+            Arrays.stream(materialsShovel)).toArray(Material[]::new);
+    public final static Material[] materialsAxe = new Material[] { Material.coral, Material.leaves, Material.plants,
             Material.wood };
 
     public static int getMode(ItemStack tool) {
@@ -74,7 +79,6 @@ public final class ToolHandler {
         for (int x1 = xs; x1 < xe; x1++) {
             for (int y1 = ys; y1 < ye; y1++) {
                 for (int z1 = zs; z1 < ze; z1++) {
-                    if (x == x1 + x && y == y1 + y && z == z1 + z) continue;
                     Block lock2 = world.getBlock(x1 + x, y1 + y, z1 + z);
 
                     breakExtraBlock(player.worldObj, x1 + x, y1 + y, z1 + z, player, x, y, z, materialsListing);
@@ -102,6 +106,15 @@ public final class ToolHandler {
 
         // only effective materials
         if (!block.canHarvestBlock(player, meta) || !isRightMaterial(block.getMaterial(), materialsListing)) return;
+
+        if (block == Blocks.bedrock) {
+            // Ignore top & bottom 2 bedrock layers (Bedrock dimension only)
+            if (y > 253 && world.provider instanceof WorldProviderBedrock) return;
+
+            // Ignore bedrock in all other dimensions
+            if (!(world.provider instanceof WorldProviderBedrock)) return;
+        }
+
         Block refBlock = world.getBlock(refX, refY, refZ);
         float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
         float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
