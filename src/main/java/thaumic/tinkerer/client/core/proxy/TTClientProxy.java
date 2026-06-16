@@ -61,6 +61,7 @@ import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
 import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 import thaumic.tinkerer.common.compat.FumeTool;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
+import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
 import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 import thaumic.tinkerer.common.item.ItemMobDisplay;
@@ -218,5 +219,10 @@ public final class TTClientProxy extends TTCommonProxy {
     @Override
     public EntityPlayer getClientPlayer() {
         return ClientHelper.clientPlayer();
+    }
+
+    @Override
+    public String getMobDisplayName(EnumMobAspect aspect) {
+        return aspect.getEntity(Minecraft.getMinecraft().theWorld).getCommandSenderName();
     }
 }

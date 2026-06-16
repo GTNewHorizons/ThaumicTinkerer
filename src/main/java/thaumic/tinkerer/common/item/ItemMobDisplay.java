@@ -2,16 +2,13 @@ package thaumic.tinkerer.common.item;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.helper.ItemNBTHelper;
 import thaumic.tinkerer.common.lib.LibItemNames;
@@ -66,13 +63,11 @@ public class ItemMobDisplay extends ItemBase {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(ItemStack stack) {
         String mob = ItemNBTHelper.getString(stack, TAG_TYPE, "");
         if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
         EnumMobAspect aspect = EnumMobAspect.getMobAspectForType(mob);
         if (aspect == null) return super.getItemStackDisplayName(stack);
-        return FMLCommonHandler.instance().getSide() == Side.SERVER ? aspect.getEntityClass().getName()
-                : aspect.getEntity(Minecraft.getMinecraft().theWorld).getCommandSenderName();
+        return ThaumicTinkerer.proxy.getMobDisplayName(aspect);
     }
 }

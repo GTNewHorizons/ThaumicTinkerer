@@ -77,6 +77,7 @@ import thaumic.tinkerer.common.core.handler.kami.KamiDimensionHandler;
 import thaumic.tinkerer.common.core.handler.kami.SoulHeartHandler;
 import thaumic.tinkerer.common.core.helper.AspectCropLootManager;
 import thaumic.tinkerer.common.core.helper.BonemealEventHandler;
+import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.helper.NumericAspectHelper;
 import thaumic.tinkerer.common.enchantment.ModEnchantments;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
@@ -273,6 +274,10 @@ public class TTCommonProxy {
 
     public void shadowSparkle(World world, float x, float y, float z, int size) {
         // NO-OP
+    }
+
+    public String getMobDisplayName(EnumMobAspect aspect) {
+        return aspect.getEntity(MinecraftServer.getServer().getEntityWorld()).getCommandSenderName();
     }
 
     public static class NEIEventHandler {
