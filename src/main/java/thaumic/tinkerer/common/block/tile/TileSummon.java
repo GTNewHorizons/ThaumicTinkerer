@@ -73,7 +73,7 @@ public class TileSummon extends TileEntity {
                                     && ItemMobAspect.lastUsedTabletMatches(ped3.getStackInSlot(0), this)) {
 
                                 if (!worldObj.isRemote) {
-                                    EntityLiving spawn = (EntityLiving) recipe.createEntity(worldObj);
+                                    EntityLiving spawn = recipe.createEntity(worldObj);
                                     spawn.setLocationAndAngles(xCoord + .5, yCoord + 1, zCoord + .5, 0, 0);
                                     worldObj.spawnEntityInWorld(spawn);
                                     spawn.onSpawnWithEgg(null);

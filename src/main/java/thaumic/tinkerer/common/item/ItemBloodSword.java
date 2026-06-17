@@ -13,6 +13,7 @@ package thaumic.tinkerer.common.item;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -183,7 +184,7 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
 
         @SubscribeEvent
         public void onDrops(LivingDropsEvent event) {
-            if (!event.source.damageType.equals("player")) {
+            if (!event.source.damageType.equals("player") || !(event.entity instanceof EntityLiving entity)) {
                 return;
             }
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
@@ -193,7 +194,7 @@ public class ItemBloodSword extends ItemSword implements IRepairable, ITTinkerer
                     || stack.stackTagCompound.getInteger("Activated") != 1) {
                 return;
             }
-            Aspect[] aspects = EnumMobAspect.getAspectsForEntity(event.entity);
+            Aspect[] aspects = EnumMobAspect.getAspectsForEntity(entity);
             if (aspects != null) {
                 event.drops.clear();
                 for (Aspect a : aspects) {
