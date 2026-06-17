@@ -3,8 +3,6 @@ package thaumic.tinkerer.common.item;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -39,20 +37,18 @@ public class ItemMobDisplay extends ItemBase {
     }
 
     public EnumMobAspect getEntityType(ItemStack stack) {
-        return EnumMobAspect.getMobAspectForType(ItemNBTHelper.getString(stack, TAG_TYPE, ""));
+        return EnumMobAspect.get(ItemNBTHelper.getString(stack, TAG_TYPE, ""));
     }
 
-    public void setEntityType(ItemStack stack, String type) {
-        ItemNBTHelper.setString(stack, TAG_TYPE, type);
+    public void setEntityType(ItemStack stack, EnumMobAspect type) {
+        ItemNBTHelper.setString(stack, TAG_TYPE, type.name());
     }
 
     @Override
     public void getSubItems(Item par1Item, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
         for (EnumMobAspect aspect : EnumMobAspect.values()) {
-            Class<? extends Entity> aspClass = aspect.getEntityClass();
-            String name = EntityList.classToStringMapping.get(aspClass);
             ItemStack item = new ItemStack(this);
-            this.setEntityType(item, name);
+            this.setEntityType(item, aspect);
             list.add(item);
         }
     }
@@ -66,7 +62,7 @@ public class ItemMobDisplay extends ItemBase {
     public String getItemStackDisplayName(ItemStack stack) {
         String mob = ItemNBTHelper.getString(stack, TAG_TYPE, "");
         if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
-        EnumMobAspect aspect = EnumMobAspect.getMobAspectForType(mob);
+        EnumMobAspect aspect = EnumMobAspect.get(mob);
         if (aspect == null) return super.getItemStackDisplayName(stack);
         return ThaumicTinkerer.proxy.getMobDisplayName(aspect);
     }
