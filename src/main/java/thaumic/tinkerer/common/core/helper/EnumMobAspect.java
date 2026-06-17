@@ -127,7 +127,7 @@ public enum EnumMobAspect {
 
     public static final Map<EnumMobAspect, Entity> entityCache = Maps.newHashMap();
     private static final Map<String, EnumMobAspect> LOOKUP = Arrays.stream(values())
-            .collect(Collectors.toMap(Enum::name, e -> e));
+            .collect(Collectors.toMap(Enum::name, Function.identity()));
     public final Aspect[] aspects;
     public final Class<? extends Entity> entity;
     public final String prefix;
