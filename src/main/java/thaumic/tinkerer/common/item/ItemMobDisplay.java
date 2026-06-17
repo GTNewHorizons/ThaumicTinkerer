@@ -40,16 +40,15 @@ public class ItemMobDisplay extends ItemBase {
         return EnumMobAspect.get(ItemNBTHelper.getString(stack, TAG_TYPE, ""));
     }
 
-    public void setEntityType(ItemStack stack, String type) {
-        ItemNBTHelper.setString(stack, TAG_TYPE, type);
+    public void setEntityType(ItemStack stack, EnumMobAspect type) {
+        ItemNBTHelper.setString(stack, TAG_TYPE, type.name());
     }
 
     @Override
     public void getSubItems(Item par1Item, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
         for (EnumMobAspect aspect : EnumMobAspect.values()) {
-            String name = aspect.name();
             ItemStack item = new ItemStack(this);
-            this.setEntityType(item, name);
+            this.setEntityType(item, aspect);
             list.add(item);
         }
     }

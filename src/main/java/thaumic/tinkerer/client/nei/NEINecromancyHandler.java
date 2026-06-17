@@ -118,7 +118,7 @@ public class NEINecromancyHandler extends InfusionRecipeHandler {
 
         private void setResult(EnumMobAspect enumMobAspect) {
             ItemStack result = new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class));
-            ((ItemMobDisplay) result.getItem()).setEntityType(result, enumMobAspect.name());
+            ((ItemMobDisplay) result.getItem()).setEntityType(result, enumMobAspect);
             this.result = new PositionedStack(result, OUTPUT_X, 39, false);
         }
 
