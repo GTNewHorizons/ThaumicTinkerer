@@ -5,6 +5,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.minecraft.client.Minecraft;
@@ -79,10 +80,9 @@ public enum EnumMobAspect {
         }
     },
     Ghast(EntityGhast.class, new Aspect[] { Aspect.FIRE, Aspect.FLIGHT, Aspect.FLIGHT }, 0.2f, 0.6f),
-    Firebat(EntityFireBat.class, new Aspect[] { Aspect.FLIGHT, Aspect.FIRE, Aspect.MAGIC }, 1.9f, 0f, "Thaumcraft."),
+    Firebat(EntityFireBat.class, new Aspect[] { Aspect.FLIGHT, Aspect.FIRE, Aspect.MAGIC }, 1.9f, 0f),
     /// Must be before Zombie because EntityBrainyZombie extends EntityZombie
-    BrainyZombie(EntityBrainyZombie.class, new Aspect[] { Aspect.MAGIC, Aspect.UNDEAD, Aspect.FLESH }, 0.8f, 0,
-            "Thaumcraft."),
+    BrainyZombie(EntityBrainyZombie.class, new Aspect[] { Aspect.MAGIC, Aspect.UNDEAD, Aspect.FLESH }, 0.8f, 0),
     Zombie(EntityZombie.class, new Aspect[] { Aspect.FLESH, Aspect.FLESH, Aspect.UNDEAD }, 0.8f),
     Skeleton(EntitySkeleton.class, new Aspect[] { Aspect.UNDEAD, Aspect.MAN, Aspect.UNDEAD }, 0.8f) {
 
@@ -123,32 +123,26 @@ public enum EnumMobAspect {
     },
     Silverfish(EntitySilverfish.class, new Aspect[] { Aspect.METAL, Aspect.METAL, Aspect.EARTH }, 1.2f),
     Enderman(EntityEnderman.class, new Aspect[] { Aspect.ELDRITCH, Aspect.ELDRITCH, Aspect.MAN }, 0.7f),
-    Wisp(EntityWisp.class, new Aspect[] { Aspect.AIR, Aspect.MAGIC, Aspect.MAGIC }, "Thaumcraft.");
+    Wisp(EntityWisp.class, new Aspect[] { Aspect.AIR, Aspect.MAGIC, Aspect.MAGIC });
 
     public static final Map<EnumMobAspect, Entity> entityCache = Maps.newHashMap();
     private static final Map<String, EnumMobAspect> LOOKUP = Arrays.stream(values())
             .collect(Collectors.toMap(Enum::name, Function.identity()));
     public final Aspect[] aspects;
     public final Class<? extends Entity> entity;
-    public final String prefix;
     private final float scale;
     private final float offset;
     private final MethodHandle ctor;
-
-    EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale, float offset) {
-        this(entity, aspects, scale, offset, "");
-    }
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale) {
         this(entity, aspects, scale, 0);
     }
 
-    EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale, float offset, String prefix) {
+    EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, float scale, float offset) {
         this.aspects = aspects;
         this.entity = entity;
         this.scale = scale;
         this.offset = offset;
-        this.prefix = prefix;
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         try {
             this.ctor = lookup.findConstructor(entity, MethodType.methodType(void.class, World.class));
@@ -159,10 +153,6 @@ public enum EnumMobAspect {
 
     EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects) {
         this(entity, aspects, 1.0f);
-    }
-
-    EnumMobAspect(Class<? extends Entity> entity, Aspect[] aspects, String prefix) {
-        this(entity, aspects, 1.0f, 0, prefix);
     }
 
     public static EnumMobAspect get(String name) {
@@ -226,11 +216,6 @@ public enum EnumMobAspect {
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return prefix == null ? super.toString() : prefix + super.toString();
     }
 
     static {
