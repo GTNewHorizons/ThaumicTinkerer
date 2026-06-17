@@ -205,11 +205,7 @@ public enum EnumMobAspect {
     }
 
     public boolean matches(Entity e) {
-        return matches(e.getClass());
-    }
-
-    public boolean matches(Class<?> c) {
-        return this.entity.isAssignableFrom(c);
+        return this.entity.isInstance(e);
     }
 
     public float getVerticalOffset() {
