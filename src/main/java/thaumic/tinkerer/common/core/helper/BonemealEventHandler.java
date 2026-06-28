@@ -2,7 +2,10 @@ package thaumic.tinkerer.common.core.helper;
 
 import static thaumic.tinkerer.common.compat.EMTCompat.EMTLoaded;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
@@ -31,20 +34,20 @@ public class BonemealEventHandler {
 
     public static boolean isMagicHoe(ItemStack stack) {
         if (stack == null) return false;
-        var item = stack.getItem();
-        return item == ConfigItems.itemHoeElemental || (EMTLoaded && item == EMTCompat.electricHoe);
+        Item item = stack.getItem();
+        return item == ConfigItems.itemHoeElemental || EMTCompat.validElectricHoe(stack);
     }
 
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent event) {
-        var world = event.world;
+        World world = event.world;
         if (world.isRemote) return;
         if (!(world.getBlock(event.x, event.y, event.z) instanceof BlockInfusedGrain infusedGrain)) return;
 
-        var player = event.entityPlayer;
+        EntityPlayer player = event.entityPlayer;
         if (player == null) return;
 
-        var hoeOfGrowth = player.getCurrentEquippedItem();
+        ItemStack hoeOfGrowth = player.getCurrentEquippedItem();
         if (!isMagicHoe(hoeOfGrowth)) return;
 
         if (!infusedGrain.func_149851_a(world, event.x, event.y, event.z, false)
@@ -52,7 +55,7 @@ public class BonemealEventHandler {
             return;
         }
         infusedGrain.func_149853_b(world, world.rand, event.x, event.y, event.z);
-        hoeOfGrowth.damageItem(25, player);
+        damageHoe(hoeOfGrowth, player);
         Thaumcraft.proxy.blockSparkle(world, event.x, event.y, event.z, 0, 2);
         world.playSoundEffect(
                 event.x + 0.5D,
@@ -61,5 +64,13 @@ public class BonemealEventHandler {
                 "thaumcraft:wand",
                 0.75F,
                 0.9F + world.rand.nextFloat() * 0.2F);
+    }
+
+    private static void damageHoe(ItemStack hoeOfGrowth, EntityPlayer player) {
+        if (EMTLoaded && hoeOfGrowth.getItem() == EMTCompat.electricHoe) {
+            EMTCompat.useEnergy(hoeOfGrowth, player);
+        } else {
+            hoeOfGrowth.damageItem(25, player);
+        }
     }
 }
