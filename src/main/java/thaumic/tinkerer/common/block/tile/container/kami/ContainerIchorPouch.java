@@ -44,6 +44,30 @@ public class ContainerIchorPouch extends ContainerPlayerInv {
     }
 
     @Override
+    public void initPlayerInv() {
+        int ys = getInvYStart();
+        int xs = getInvXStart();
+        int held = player.inventory.currentItem;
+
+        for (int x = 0; x < 3; ++x) for (int y = 0; y < 9; ++y)
+            addSlotToContainer(new Slot(player.inventory, y + x * 9 + 9, xs + y * 18, ys + x * 18));
+
+        for (int x = 0; x < 9; ++x) {
+            if (x == held) {
+                addSlotToContainer(new Slot(player.inventory, x, xs + x * 18, ys + 58) {
+
+                    @Override
+                    public boolean canTakeStack(EntityPlayer p) {
+                        return false;
+                    }
+                });
+            } else {
+                addSlotToContainer(new Slot(player.inventory, x, xs + x * 18, ys + 58));
+            }
+        }
+    }
+
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slot) {
         if (slot == blockSlot) return null;
 
