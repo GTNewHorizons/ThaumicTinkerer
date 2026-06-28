@@ -26,6 +26,11 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.world.BlockEvent;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -87,6 +92,25 @@ public class ItemFocusDislocation extends ItemModFocus {
         return true;
     }
 
+    private static boolean canBreakBlock(World world, EntityPlayer player, int x, int y, int z) {
+        return !MinecraftForge.EVENT_BUS.post(
+                new BlockEvent.BreakEvent(
+                        x,
+                        y,
+                        z,
+                        world,
+                        world.getBlock(x, y, z),
+                        world.getBlockMetadata(x, y, z),
+                        player));
+    }
+
+    private static boolean canPlaceBlock(World world, EntityPlayer player, int x, int y, int z, int side) {
+        return !ForgeEventFactory.onPlayerBlockPlace(
+                player,
+                BlockSnapshot.getBlockSnapshot(world, x, y, z),
+                ForgeDirection.getOrientation(side)).isCanceled();
+    }
+
     @Override
     public ItemStack onFocusRightClick(ItemStack itemstack, World world, EntityPlayer player,
             MovingObjectPosition mop) {
@@ -108,6 +132,9 @@ public class ItemFocusDislocation extends ItemModFocus {
                 if (mop.sideHit == 5) ++mop.blockX;
 
                 if (block.canPlaceBlockOnSide(world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit)) {
+                    if (!world.isRemote
+                            && !canPlaceBlock(world, player, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit))
+                        return itemstack;
                     if (!world.isRemote) {
                         world.setBlock(
                                 mop.blockX,
@@ -143,6 +170,7 @@ public class ItemFocusDislocation extends ItemModFocus {
                     && !ThaumcraftApi.portableHoleBlackList.contains(block)
                     && block != null
                     && block.getBlockHardness(world, mop.blockX, mop.blockY, mop.blockZ) != -1F
+                    && (world.isRemote || canBreakBlock(world, player, mop.blockX, mop.blockY, mop.blockZ))
                     && wand.consumeAllVis(itemstack, player, getCost(tile), true, false)) {
                         if (!world.isRemote) {
                             world.removeTileEntity(mop.blockX, mop.blockY, mop.blockZ);
