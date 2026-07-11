@@ -29,7 +29,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
@@ -39,6 +38,7 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
 import thaumic.tinkerer.common.block.tile.TileRepairer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.compat.TinkersConstructCompat;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibResearch;
@@ -127,7 +127,7 @@ public class BlockRepairer extends BlockModContainer {
 
                         itemstack.stackSize -= k1;
                         int dmg;
-                        if (Loader.isModLoaded("TConstruct")) {
+                        if (LoadedMods.TConstructLoaded) {
                             if (TinkersConstructCompat.isTConstructTool(itemstack)) {
                                 dmg = TinkersConstructCompat.getDamage(itemstack);
                             } else dmg = itemstack.getItemDamage();

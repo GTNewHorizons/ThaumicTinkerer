@@ -29,7 +29,6 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.api.expanded.BaubleItemHelper;
 import baubles.api.expanded.IBaubleExpanded;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,6 +40,7 @@ import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemFocusPouch;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.handler.ModCreativeTab;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
@@ -56,8 +56,6 @@ import thaumic.tinkerer.common.research.ResearchHelper;
 
 @Optional.Interface(iface = "baubles.api.expanded.IBaubleExpanded", modid = "Baubles|Expanded")
 public class ItemIchorPouch extends ItemFocusPouch implements IBauble, IBaubleExpanded, ITTinkererItem {
-
-    private static final boolean baublesExpandedLoaded = Loader.isModLoaded("Baubles|Expanded");
 
     public ItemIchorPouch() {
         super();
@@ -111,7 +109,7 @@ public class ItemIchorPouch extends ItemFocusPouch implements IBauble, IBaubleEx
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo) {
-        if (baublesExpandedLoaded) {
+        if (LoadedMods.baublesExpandedLoaded) {
             BaubleItemHelper.addSlotInformation(textLines, getBaubleTypes(null));
         }
     }

@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.Loader;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -16,6 +15,7 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.common.block.tile.TileCamo;
 import thaumic.tinkerer.common.block.tile.TileGolemConnector;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.ThaumicTinkererArcaneRecipe;
@@ -53,7 +53,7 @@ public class BlockGolemConnector extends BlockCamo {
 
     @Override
     public boolean shouldRegister() {
-        return Loader.isModLoaded("ComputerCraft");
+        return LoadedMods.computerCraftLoaded;
     }
 
     @Override

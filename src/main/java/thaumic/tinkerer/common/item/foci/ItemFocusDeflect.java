@@ -21,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 
-import cpw.mods.fml.common.Loader;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -34,6 +33,7 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.compat.BloodMagic;
 import thaumic.tinkerer.common.compat.BotaniaFunctions;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.helper.ProjectileHelper;
 import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.lib.LibResearch;
@@ -52,7 +52,7 @@ public class ItemFocusDeflect extends ItemModFocus {
 
     public static void setupBlackList() {
         DeflectBlacklist.add(EntityExpBottle.class);
-        if (Loader.isModLoaded("BloodMagic")) {
+        if (LoadedMods.bloodMagicLoaded) {
             BloodMagic.setupClass();
         }
     }
@@ -96,7 +96,7 @@ public class ItemFocusDeflect extends ItemModFocus {
     }
 
     private static void checkBotaniaMagicMissile(Entity e) {
-        if (!Loader.isModLoaded("Botania")) return;
+        if (!LoadedMods.botaniaLoaded) return;
         if (e instanceof EntityMagicMissile) {
             e.setDead();
         }
@@ -114,7 +114,7 @@ public class ItemFocusDeflect extends ItemModFocus {
     private static boolean CheckBlackList(Entity entity) {
         Class<? extends Entity> aClass = entity.getClass();
         if (DeflectBlacklist.contains(aClass)) return true;
-        if (Loader.isModLoaded("Botania") && entity instanceof IManaBurst) {
+        if (LoadedMods.botaniaLoaded && entity instanceof IManaBurst) {
             return BotaniaFunctions.isEntityHarmless(entity);
         }
         for (Class<?> testClass : DeflectBlacklist) {

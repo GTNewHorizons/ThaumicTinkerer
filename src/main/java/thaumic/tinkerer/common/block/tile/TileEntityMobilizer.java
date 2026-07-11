@@ -8,9 +8,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.AEApi;
 import appeng.api.IAppEngApi;
-import cpw.mods.fml.common.Loader;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 
 public class TileEntityMobilizer extends TileEntity {
 
@@ -140,7 +140,7 @@ public class TileEntityMobilizer extends TileEntity {
                                 }
                             }
                             // If AE is installed, use its handler
-                        } else if (Loader.isModLoaded("appliedenergistics2")) {
+                        } else if (LoadedMods.AE2Loaded) {
                             IAppEngApi api = AEApi.instance();
                             if (api.registries().movable().askToMove(passenger)) {
                                 worldObj.setBlock(

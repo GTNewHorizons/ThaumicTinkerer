@@ -26,7 +26,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -34,6 +33,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.compat.TinkersConstructCompat;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.lib.LibBlockNames;
@@ -73,7 +73,7 @@ public class TileRepairer extends TileEntity
             boolean oldTookLastTick = tookLastTick;
             tookLastTick = false;
 
-            if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
+            if (LoadedMods.TConstructLoaded && ConfigHandler.repairTConTools) {
                 if (inventorySlots[0] != null) {
                     if (TinkersConstructCompat.isTConstructTool(inventorySlots[0])) {
                         int dmg = TinkersConstructCompat.getDamage(inventorySlots[0]);
@@ -237,7 +237,7 @@ public class TileRepairer extends TileEntity
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
+        if (LoadedMods.TConstructLoaded && ConfigHandler.repairTConTools) {
             if (TinkersConstructCompat.isTConstructTool(itemstack)) {
                 return itemstack != null;
             }
@@ -273,7 +273,7 @@ public class TileRepairer extends TileEntity
     public AspectList getAspects() {
         ItemStack stack = inventorySlots[0];
         if (stack == null) return null;
-        if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
+        if (LoadedMods.TConstructLoaded && ConfigHandler.repairTConTools) {
             if (TinkersConstructCompat.isTConstructTool(stack))
                 return new AspectList().add(Aspect.ENTROPY, TinkersConstructCompat.getDamage(stack));
         }

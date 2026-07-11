@@ -17,7 +17,6 @@ import net.minecraftforge.common.DimensionManager;
 
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -34,6 +33,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import thaumcraft.common.CommonProxy;
 import thaumcraft.common.Thaumcraft;
 import thaumic.tinkerer.api.InterModCommsOperations;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
 import thaumic.tinkerer.common.dim.WorldProviderBedrock;
@@ -51,10 +51,6 @@ public class ThaumicTinkerer {
     @SidedProxy(clientSide = LibMisc.CLIENT_PROXY, serverSide = LibMisc.COMMON_PROXY)
     public static TTCommonProxy proxy;
 
-    public static boolean isBootsActive = false;
-    public static boolean gtLoaded;
-    public static final String BOOTS = "thaumicboots";
-
     public static CommonProxy tcProxy;
     public static SimpleNetworkWrapper netHandler = NetworkRegistry.INSTANCE.newSimpleChannel(LibMisc.MOD_ID + "|B");
 
@@ -67,16 +63,12 @@ public class ThaumicTinkerer {
         log = event.getModLog();
         tcProxy = Thaumcraft.proxy;
         proxy.preInit(event);
-        if (Loader.isModLoaded("Waila")) {
+        if (LoadedMods.wailaLoaded) {
             FMLInterModComms.sendMessage(
                     "Waila",
                     "register",
                     "thaumic.tinkerer.common.compat.TTinkererProvider.callbackRegister");
         }
-        if (Loader.isModLoaded(BOOTS)) {
-            isBootsActive = true;
-        }
-        gtLoaded = Loader.isModLoaded("gregtech");
     }
 
     @EventHandler
@@ -111,7 +103,7 @@ public class ThaumicTinkerer {
                 KamiResearchItem.Blacklist.addAll(Arrays.asList(values));
             }
             if (message.key.equalsIgnoreCase(InterModCommsOperations.ADD_CC_BLACKLIST)) {
-                if (Loader.isModLoaded("ComputerCraft")) blackListCCDevices(message.getStringValue());
+                if (LoadedMods.computerCraftLoaded) blackListCCDevices(message.getStringValue());
             }
         }
     }

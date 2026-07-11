@@ -55,6 +55,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.registry.TTRegistry;
 import thaumic.tinkerer.mixins.early.AccessorItemInWorldManager;
@@ -110,7 +111,7 @@ public class TileAnimationTablet extends TileEntity implements IInventory, IMova
         if (worldObj.isRemote) {
             prevSwingProgress = swingProgress;
             prevTicksElapsed = ticksElapsed;
-            int iterations = ThaumicTinkerer.gtLoaded ? MTEWorldAccelerator.getAccelerationForTEUnsafe(this) + 1 : 1;
+            int iterations = LoadedMods.gtLoaded ? MTEWorldAccelerator.getAccelerationForTEUnsafe(this) + 1 : 1;
             ticksElapsed += iterations;
             ItemStack stack = heldItem;
             if (stack != null) {
