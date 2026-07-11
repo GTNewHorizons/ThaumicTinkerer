@@ -237,20 +237,15 @@ public class TileRepairer extends TileEntity
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        if (LoadedMods.TConstructLoaded && ConfigHandler.repairTConTools) {
-            if (TinkersConstructCompat.isTConstructTool(itemstack)) {
-                return itemstack != null;
-            }
-        }
-        return itemstack != null && itemstack.getItem().isRepairable();
+        return isRepairable(itemstack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-        return true;
+        return !isRepairable(itemstack);
     }
 
-    int drawEssentia() {
+    private int drawEssentia() {
         ForgeDirection orientation = getOrientation();
         TileEntity te = ThaumcraftApiHelper.getConnectableTile(worldObj, xCoord, yCoord, zCoord, orientation);
         if (te != null) {
@@ -265,7 +260,7 @@ public class TileRepairer extends TileEntity
         return 0;
     }
 
-    ForgeDirection getOrientation() {
+    private ForgeDirection getOrientation() {
         return ForgeDirection.getOrientation(getBlockMetadata());
     }
 
@@ -273,9 +268,12 @@ public class TileRepairer extends TileEntity
     public AspectList getAspects() {
         ItemStack stack = inventorySlots[0];
         if (stack == null) return null;
-        if (LoadedMods.TConstructLoaded && ConfigHandler.repairTConTools) {
-            if (TinkersConstructCompat.isTConstructTool(stack))
+        if (LoadedMods.TConstructLoaded && TinkersConstructCompat.isTConstructTool(stack)) {
+            if (ConfigHandler.repairTConTools) {
                 return new AspectList().add(Aspect.ENTROPY, TinkersConstructCompat.getDamage(stack));
+            } else {
+                return null;
+            }
         }
         return new AspectList().add(Aspect.ENTROPY, stack.getItemDamage());
     }
@@ -388,14 +386,17 @@ public class TileRepairer extends TileEntity
     public void doneMoving() {}
 
     private boolean containsRepairableStack() {
-        ItemStack stack = inventorySlots[0];
+        return isRepairable(inventorySlots[0]);
+    }
+
+    private boolean isRepairable(ItemStack stack) {
         if (stack == null) {
             return false;
         }
         if (LoadedMods.TConstructLoaded && TinkersConstructCompat.isTConstructTool(stack)) {
             return ConfigHandler.repairTConTools && TinkersConstructCompat.getDamage(stack) > 0;
         }
-        return stack.getItemDamage() > 0;
+        return stack.getItem() != null && stack.getItem().isRepairable() && stack.getItemDamage() > 0;
     }
 
 }
