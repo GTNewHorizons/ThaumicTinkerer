@@ -369,7 +369,7 @@ public class TileRepairer extends TileEntity
 
     @Override
     public int getSuctionAmount(ForgeDirection arg0) {
-        return arg0 == getOrientation() ? 128 : 0;
+        return arg0 == getOrientation() && containsRepairableStack() ? 128 : 0;
     }
 
     @Override
@@ -386,4 +386,16 @@ public class TileRepairer extends TileEntity
     @Override
     @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
+
+    private boolean containsRepairableStack() {
+        ItemStack stack = inventorySlots[0];
+        if (stack == null) {
+            return false;
+        }
+        if (LoadedMods.TConstructLoaded && TinkersConstructCompat.isTConstructTool(stack)) {
+            return ConfigHandler.repairTConTools && TinkersConstructCompat.getDamage(stack) > 0;
+        }
+        return stack.getItemDamage() > 0;
+    }
+
 }
