@@ -38,6 +38,7 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.item.kami.ItemKamiResource;
 import thaumic.tinkerer.common.lib.LibItemNames;
@@ -139,7 +140,7 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
             player.motionZ *= 0.5;
         }
         boolean omniMode = false;
-        if (ThaumicTinkerer.isBootsActive) {
+        if (LoadedMods.thaumicBootsLoaded) {
             omniMode = isOmniEnabled(itemStack);
             if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
                     || (player.moveForward <= 0F && !omniMode)) {
@@ -164,7 +165,7 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
                     bonus /= 2.0F;
                 }
                 bonus *= speedMod;
-                if (ThaumicTinkerer.isBootsActive) {
+                if (LoadedMods.thaumicBootsLoaded) {
                     applyOmniState(player, bonus, itemStack);
                 } else if (player.moveForward > 0.0) {
                     player.moveFlying(0.0F, player.moveForward, bonus);

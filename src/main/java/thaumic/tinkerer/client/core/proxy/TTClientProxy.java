@@ -23,7 +23,6 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -60,6 +59,7 @@ import thaumic.tinkerer.common.block.tile.TileRepairer;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
 import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 import thaumic.tinkerer.common.compat.FumeTool;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
@@ -81,7 +81,7 @@ public final class TTClientProxy extends TTCommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         FMLCommonHandler.instance().bus().register(this);
-        if (Loader.isModLoaded("ComputerCraft")) {
+        if (LoadedMods.computerCraftLoaded) {
             MinecraftForge.EVENT_BUS.register(new FumeTool());
         }
 

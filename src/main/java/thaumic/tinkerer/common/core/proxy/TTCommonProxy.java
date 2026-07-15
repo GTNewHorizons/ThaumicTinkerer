@@ -29,7 +29,6 @@ import codechicken.nei.event.NEIRegisterHandlerInfosEvent;
 import codechicken.nei.recipe.HandlerInfo;
 import codechicken.nei.recipe.RecipeCatalysts;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -66,6 +65,7 @@ import thaumic.tinkerer.common.block.tile.transvector.TileTransvectorInterface;
 import thaumic.tinkerer.common.compat.EMTCompat;
 import thaumic.tinkerer.common.compat.EnderIO;
 import thaumic.tinkerer.common.compat.FumeTool;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.commands.KamiUnlockedCommand;
 import thaumic.tinkerer.common.core.commands.MaxResearchCommand;
 import thaumic.tinkerer.common.core.commands.SetTendencyCommand;
@@ -130,7 +130,7 @@ public class TTCommonProxy {
 
         ModCreativeTab.INSTANCE.addWand();
 
-        if (Loader.isModLoaded("ComputerCraft")) {
+        if (LoadedMods.computerCraftLoaded) {
             initCCPeripherals();
         }
 
@@ -159,14 +159,14 @@ public class TTCommonProxy {
             MinecraftForge.EVENT_BUS.register(new SoulHeartHandler());
         }
 
-        if (Loader.isModLoaded("OpenComputers")) {
+        if (LoadedMods.openComputersLoaded) {
             initOpenCDrivers();
         }
-        if (Loader.isModLoaded("EnderIO")) {
+        if (LoadedMods.enderIOLoaded) {
             InitEnderIO();
         }
 
-        if (Loader.isModLoaded("ForgeMultipart")) {
+        if (LoadedMods.forgeMultipartLoaded) {
             ThaumicTinkerer.log.trace("Attempting to load Multiparts");
             try {
                 Class<?> clazz = Class.forName("thaumic.tinkerer.common.multipart.MultipartHandler");
@@ -178,7 +178,7 @@ public class TTCommonProxy {
             ThaumicTinkerer.log.info("Skipping TC Multipart integration");
         }
 
-        if (Loader.isModLoaded("NotEnoughItems") && Loader.isModLoaded("aspectrecipeindex")) {
+        if (LoadedMods.NEILoaded && LoadedMods.aspectRecipeIndexLoaded) {
             MinecraftForge.EVENT_BUS.register(new NEIEventHandler());
         }
 

@@ -25,7 +25,6 @@ import net.minecraftforge.fluids.IFluidHandler;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -41,6 +40,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumic.tinkerer.common.compat.IndustrialcraftUnloadHelper;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.lib.LibFeatures;
 
 @Optional.InterfaceList({
@@ -70,7 +70,7 @@ public class TileTransvectorInterface extends TileTransvector
         if (worldObj.getTotalWorldTime() % 100 == 0) {
             worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
         }
-        if (!addedToICEnergyNet && !worldObj.isRemote && Loader.isModLoaded("IC2")) {
+        if (!addedToICEnergyNet && !worldObj.isRemote && LoadedMods.ic2Loaded) {
 
             IndustrialcraftUnloadHelper.addToIC2EnergyNet(this);
             addedToICEnergyNet = true;
@@ -84,7 +84,7 @@ public class TileTransvectorInterface extends TileTransvector
 
     @Override
     public void invalidate() {
-        if (Loader.isModLoaded("IC2")) {
+        if (LoadedMods.ic2Loaded) {
             IndustrialcraftUnloadHelper.removeFromIC2EnergyNet(this);
         }
         super.invalidate();
@@ -93,7 +93,7 @@ public class TileTransvectorInterface extends TileTransvector
     @Override
     public void onChunkUnload() {
 
-        if (Loader.isModLoaded("IC2")) {
+        if (LoadedMods.ic2Loaded) {
             IndustrialcraftUnloadHelper.removeFromIC2EnergyNet(this);
         }
     }

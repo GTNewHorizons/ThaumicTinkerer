@@ -4,13 +4,13 @@ import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import cpw.mods.fml.common.Loader;
+import thaumic.tinkerer.common.compat.LoadedMods;
 
 public class NEIConfig implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-        if (!Loader.isModLoaded("aspectrecipeindex")) return;
+        if (!LoadedMods.aspectRecipeIndexLoaded) return;
         AspectRecipeIndexIntegration.register();
     }
 
