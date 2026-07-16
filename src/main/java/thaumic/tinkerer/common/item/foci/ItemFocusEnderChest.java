@@ -19,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.Loader;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -29,6 +28,7 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumic.tinkerer.common.compat.EnderStorageFunctions;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.lib.LibItemNames;
 import thaumic.tinkerer.common.lib.LibResearch;
 import thaumic.tinkerer.common.registry.ThaumicTinkererArcaneRecipe;
@@ -44,14 +44,14 @@ public class ItemFocusEnderChest extends ItemModFocus {
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
         super.addInformation(stack, player, list, par4);
-        if (Loader.isModLoaded("EnderStorage")) {
+        if (LoadedMods.enderStorageLoaded) {
             EnderStorageFunctions.addFocusInformation(stack, player, list, par4);
         }
     }
 
     @Override
     public ItemStack onFocusRightClick(ItemStack stack, World world, EntityPlayer p, MovingObjectPosition pos) {
-        if (Loader.isModLoaded("EnderStorage")) {
+        if (LoadedMods.enderStorageLoaded) {
             return EnderStorageFunctions.onFocusRightClick(stack, world, p, pos);
         }
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
@@ -76,7 +76,7 @@ public class ItemFocusEnderChest extends ItemModFocus {
 
     @Override
     public String getSortingHelper(ItemStack itemstack) {
-        if (Loader.isModLoaded("EnderStorage")) {
+        if (LoadedMods.enderStorageLoaded) {
             return EnderStorageFunctions.getSortingHelper(itemstack);
         }
         return "TTEC" + super.getSortingHelper(itemstack);
@@ -122,7 +122,7 @@ public class ItemFocusEnderChest extends ItemModFocus {
                 -2,
                 2,
                 new ItemStack(this)).setWarp(1).setParents(LibResearch.KEY_FOCUS_DEFLECT).setConcealed();
-        if (Loader.isModLoaded("EnderStorage")) {
+        if (LoadedMods.enderStorageLoaded) {
             ((TTResearchItem) research).setPages(
                     new ResearchPage("ES"),
                     ResearchHelper.arcaneRecipePage(LibResearch.KEY_FOCUS_ENDER_CHEST));

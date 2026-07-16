@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 
-import cpw.mods.fml.common.Loader;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
@@ -34,6 +33,7 @@ import thaumic.tinkerer.client.lib.LibResources;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizer;
 import thaumic.tinkerer.common.block.mobilizer.BlockMobilizerRelay;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.lib.LibResearch;
 
 public final class ResearchHelper {
@@ -174,7 +174,7 @@ public final class ResearchHelper {
                 new ResourceLocation(LibResources.ENCHANT_VALIANCE)).setParents(LibResearch.KEY_ENCHANT_VAMPIRISM);
         research.setPages(new ResearchPage("0")).setSecondary().registerResearchItem();
         // Peripheral documentation research
-        if (Loader.isModLoaded("ComputerCraft")) {
+        if (LoadedMods.computerCraftLoaded) {
             research = new TTResearchItem(
                     LibResearch.KEY_PERIPHERALS,
                     new AspectList(),

@@ -1,7 +1,5 @@
 package thaumic.tinkerer.common.core.helper;
 
-import static thaumic.tinkerer.common.compat.EMTCompat.EMTLoaded;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,6 +12,7 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.common.block.BlockInfusedGrain;
 import thaumic.tinkerer.common.compat.EMTCompat;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 /**
@@ -67,7 +66,7 @@ public class BonemealEventHandler {
     }
 
     private static void damageHoe(ItemStack hoeOfGrowth, EntityPlayer player) {
-        if (EMTLoaded && hoeOfGrowth.getItem() == EMTCompat.electricHoe) {
+        if (LoadedMods.EMTLoaded && hoeOfGrowth.getItem() == EMTCompat.electricHoe) {
             EMTCompat.useEnergy(hoeOfGrowth, player);
         } else {
             hoeOfGrowth.damageItem(25, player);

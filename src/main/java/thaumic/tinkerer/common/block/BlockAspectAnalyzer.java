@@ -25,7 +25,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.Loader;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchPage;
@@ -34,6 +33,7 @@ import thaumcraft.common.config.ConfigItems;
 import thaumic.tinkerer.client.core.helper.IconHelper;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.tile.TileAspectAnalyzer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.lib.LibBlockNames;
 import thaumic.tinkerer.common.lib.LibGuiIDs;
 import thaumic.tinkerer.common.lib.LibResearch;
@@ -141,7 +141,7 @@ public class BlockAspectAnalyzer extends BlockModContainer {
 
     @Override
     public boolean shouldRegister() {
-        return Loader.isModLoaded("ComputerCraft");
+        return LoadedMods.computerCraftLoaded;
     }
 
     @Override

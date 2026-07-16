@@ -26,7 +26,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import appeng.api.movable.IMovableTile;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -34,6 +33,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumic.tinkerer.common.ThaumicTinkerer;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.compat.TinkersConstructCompat;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.lib.LibBlockNames;
@@ -73,7 +73,7 @@ public class TileRepairer extends TileEntity
             boolean oldTookLastTick = tookLastTick;
             tookLastTick = false;
 
-            if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
+            if (LoadedMods.TConstructLoaded && ConfigHandler.repairTConTools) {
                 if (inventorySlots[0] != null) {
                     if (TinkersConstructCompat.isTConstructTool(inventorySlots[0])) {
                         int dmg = TinkersConstructCompat.getDamage(inventorySlots[0]);
@@ -237,20 +237,15 @@ public class TileRepairer extends TileEntity
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
-            if (TinkersConstructCompat.isTConstructTool(itemstack)) {
-                return itemstack != null;
-            }
-        }
-        return itemstack != null && itemstack.getItem().isRepairable();
+        return isRepairable(itemstack);
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-        return true;
+        return !isRepairable(itemstack);
     }
 
-    int drawEssentia() {
+    private int drawEssentia() {
         ForgeDirection orientation = getOrientation();
         TileEntity te = ThaumcraftApiHelper.getConnectableTile(worldObj, xCoord, yCoord, zCoord, orientation);
         if (te != null) {
@@ -265,7 +260,7 @@ public class TileRepairer extends TileEntity
         return 0;
     }
 
-    ForgeDirection getOrientation() {
+    private ForgeDirection getOrientation() {
         return ForgeDirection.getOrientation(getBlockMetadata());
     }
 
@@ -273,9 +268,12 @@ public class TileRepairer extends TileEntity
     public AspectList getAspects() {
         ItemStack stack = inventorySlots[0];
         if (stack == null) return null;
-        if (Loader.isModLoaded("TConstruct") && ConfigHandler.repairTConTools) {
-            if (TinkersConstructCompat.isTConstructTool(stack))
+        if (LoadedMods.TConstructLoaded && TinkersConstructCompat.isTConstructTool(stack)) {
+            if (ConfigHandler.repairTConTools) {
                 return new AspectList().add(Aspect.ENTROPY, TinkersConstructCompat.getDamage(stack));
+            } else {
+                return null;
+            }
         }
         return new AspectList().add(Aspect.ENTROPY, stack.getItemDamage());
     }
@@ -369,7 +367,7 @@ public class TileRepairer extends TileEntity
 
     @Override
     public int getSuctionAmount(ForgeDirection arg0) {
-        return arg0 == getOrientation() ? 128 : 0;
+        return arg0 == getOrientation() && containsRepairableStack() ? 128 : 0;
     }
 
     @Override
@@ -386,4 +384,19 @@ public class TileRepairer extends TileEntity
     @Override
     @Optional.Method(modid = "appliedenergistics2")
     public void doneMoving() {}
+
+    private boolean containsRepairableStack() {
+        return isRepairable(inventorySlots[0]);
+    }
+
+    private boolean isRepairable(ItemStack stack) {
+        if (stack == null) {
+            return false;
+        }
+        if (LoadedMods.TConstructLoaded && TinkersConstructCompat.isTConstructTool(stack)) {
+            return ConfigHandler.repairTConTools && TinkersConstructCompat.getDamage(stack) > 0;
+        }
+        return stack.getItem() != null && stack.getItem().isRepairable() && stack.getItemDamage() > 0;
+    }
+
 }
