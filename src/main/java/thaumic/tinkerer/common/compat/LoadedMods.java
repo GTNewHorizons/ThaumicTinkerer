@@ -16,7 +16,7 @@ public class LoadedMods {
     public static final boolean enderIOLoaded = Loader.isModLoaded("EnderIO");
     public static final boolean enderStorageLoaded = Loader.isModLoaded("EnderStorage");
     public static final boolean forgeMultipartLoaded = Loader.isModLoaded("ForgeMultipart");
-    public static final boolean gtLoaded = Loader.isModLoaded("gregtech_nh");
+    public static final boolean gt5uNHLoaded = Loader.isModLoaded("gregtech_nh");
     public static final boolean ic2Loaded = Loader.isModLoaded("IC2");
     public static final boolean openComputersLoaded = Loader.isModLoaded("OpenComputers");
     public static final boolean thaumicBootsLoaded = Loader.isModLoaded("thaumicboots");
