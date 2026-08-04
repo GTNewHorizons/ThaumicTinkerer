@@ -131,7 +131,9 @@ public class ItemFocusDislocation extends ItemModFocus {
                     if (ForgeEventFactory
                             .onPlayerBlockPlace(player, snapshot, ForgeDirection.getOrientation(mop.sideHit))
                             .isCanceled()) {
+                        world.restoringBlockSnapshots = true;
                         snapshot.restore(true, false);
+                        world.restoringBlockSnapshots = false;
                         return itemstack;
                     }
                     toPlace.onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, stack);
