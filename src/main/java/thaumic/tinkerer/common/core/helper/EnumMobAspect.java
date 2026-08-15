@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -37,15 +37,9 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
 
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.entities.monster.EntityBrainyZombie;
 import thaumcraft.common.entities.monster.EntityFireBat;
@@ -125,7 +119,6 @@ public enum EnumMobAspect {
     Enderman(EntityEnderman.class, new Aspect[] { Aspect.ELDRITCH, Aspect.ELDRITCH, Aspect.MAN }, 0.7f),
     Wisp(EntityWisp.class, new Aspect[] { Aspect.AIR, Aspect.MAGIC, Aspect.MAGIC });
 
-    public static final Map<EnumMobAspect, EntityLiving> entityCache = Maps.newHashMap();
     private static final Map<String, EnumMobAspect> LOOKUP = Arrays.stream(values())
             .collect(Collectors.toMap(Enum::name, Function.identity()));
     public final Aspect[] aspects;
@@ -133,6 +126,7 @@ public enum EnumMobAspect {
     private final float scale;
     private final float offset;
     private final MethodHandle ctor;
+    private String langKey;
 
     EnumMobAspect(Class<? extends EntityLiving> entity, Aspect[] aspects, float scale) {
         this(entity, aspects, scale, 0);
@@ -157,15 +151,6 @@ public enum EnumMobAspect {
 
     public static EnumMobAspect get(String name) {
         return LOOKUP.get(name);
-    }
-
-    public static EntityLiving getEntityFromCache(EnumMobAspect ent, World worldObj) {
-        EntityLiving entity = entityCache.get(ent);
-        if (entity == null) {
-            entity = ent.createEntity(worldObj);
-            entityCache.put(ent, entity);
-        }
-        return entity;
     }
 
     private static EntityLiving setSlimeSize(EntityLiving entity, int size) {
@@ -206,8 +191,12 @@ public enum EnumMobAspect {
         return scale;
     }
 
-    public EntityLiving getEntity(World worldObj) {
-        return getEntityFromCache(this, worldObj);
+    public String getDisplayName() {
+        if (langKey == null) {
+            String name = EntityList.classToStringMapping.get(entity);
+            langKey = "entity." + (name == null ? "generic" : name) + ".name";
+        }
+        return StatCollector.translateToLocal(langKey);
     }
 
     public EntityLiving createEntity(World worldObj) {
@@ -215,22 +204,6 @@ public enum EnumMobAspect {
             return (EntityLiving) ctor.invoke(worldObj);
         } catch (Throwable e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    static {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
-    }
-
-    public static class EventHandler {
-
-        @SideOnly(Side.CLIENT)
-        @SubscribeEvent
-        public void onWorldUnload(WorldEvent.Unload event) {
-            Minecraft mc = Minecraft.getMinecraft();
-            if (event.world == mc.theWorld) {
-                entityCache.clear();
-            }
         }
     }
 }
