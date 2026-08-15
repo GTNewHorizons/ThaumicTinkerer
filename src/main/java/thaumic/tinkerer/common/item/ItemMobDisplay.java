@@ -6,7 +6,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.helper.ItemNBTHelper;
 import thaumic.tinkerer.common.lib.LibItemNames;
@@ -64,6 +63,6 @@ public class ItemMobDisplay extends ItemBase {
         if (mob == null || mob.isEmpty()) return super.getItemStackDisplayName(stack);
         EnumMobAspect aspect = EnumMobAspect.get(mob);
         if (aspect == null) return super.getItemStackDisplayName(stack);
-        return ThaumicTinkerer.proxy.getMobDisplayName(aspect);
+        return aspect.getDisplayName();
     }
 }
