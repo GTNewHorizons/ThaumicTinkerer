@@ -41,7 +41,7 @@ import thaumic.tinkerer.client.core.handler.kami.SoulHeartClientHandler;
 import thaumic.tinkerer.client.core.handler.kami.ToolModeHUDHandler;
 import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
-import thaumic.tinkerer.client.nei.InfusedSeedRecipeHandler;
+import thaumic.tinkerer.client.nei.NEIInfusedSeedRecipeHandler;
 import thaumic.tinkerer.client.render.block.RenderInfusedCrops;
 import thaumic.tinkerer.client.render.block.RenderMagnet;
 import thaumic.tinkerer.client.render.block.RenderRepairer;
@@ -119,7 +119,7 @@ public final class TTClientProxy extends TTCommonProxy {
                 MinecraftForge.EVENT_BUS.register(new PlacementMirrorPredictionRenderer());
         }
 
-        InfusedSeedRecipeHandler handler = new InfusedSeedRecipeHandler();
+        NEIInfusedSeedRecipeHandler handler = new NEIInfusedSeedRecipeHandler();
         API.registerRecipeHandler(handler);
         API.registerUsageHandler(handler);
 

@@ -1,5 +1,7 @@
 package thaumic.tinkerer.client.nei;
 
+import static thaumic.tinkerer.client.lib.LibResources.NEI_RECIPE_ARROW;
+
 import java.awt.Rectangle;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import thaumic.tinkerer.common.core.helper.AspectCropLootManager;
 import thaumic.tinkerer.common.core.helper.AspectCropLootManager.LootEntry;
 import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 
-public class InfusedSeedRecipeHandler extends TemplateRecipeHandler {
+public class NEIInfusedSeedRecipeHandler extends TemplateRecipeHandler {
 
     private static final int SLOT_NUM_X = 9;
     private static final DecimalFormat CHANCE_FORMAT = new DecimalFormat("#.##");
@@ -134,7 +136,7 @@ public class InfusedSeedRecipeHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if (outputId.equals(getOverlayIdentifier()) && getClass() == InfusedSeedRecipeHandler.class) {
+        if (outputId.equals(getOverlayIdentifier()) && getClass() == NEIInfusedSeedRecipeHandler.class) {
             for (SeedDropRecipeWrapper recipe : getSeedRecipes()) {
                 arecipes.add(new CachedSeedRecipe(recipe));
             }
@@ -182,7 +184,7 @@ public class InfusedSeedRecipeHandler extends TemplateRecipeHandler {
 
         GuiDraw.changeTexture(getGuiTexture());
 
-        GuiDraw.drawTexturedModalRect(73, 3, 7, 83, 18, 18);
+        GuiDraw.drawTexturedModalRect(74, 3, 7, 83, 18, 18);
 
         CachedSeedRecipe recipe = (CachedSeedRecipe) this.arecipes.get(recipeIndex);
         int totalDrops = recipe.outputs.size();
@@ -196,7 +198,9 @@ public class InfusedSeedRecipeHandler extends TemplateRecipeHandler {
             GuiDraw.drawTexturedModalRect(xPos, yPos, 7, 83, 18, 18);
         }
 
-        GuiDraw.drawString("v", 80, 24, 0x888888, false);
+        GuiDraw.changeTexture(NEI_RECIPE_ARROW);
+
+        GuiDraw.drawTexturedModalRect(74, 20, 0, 0, 18, 14);
     }
 
     @Override

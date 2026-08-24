@@ -234,7 +234,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.HEAL, new ItemStack(Items.cake));
         addAspectLoot(Aspect.HEAL, new ItemStack(Items.potionitem, 1, 8261));
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 16; i++) {
             addAspectLoot(Aspect.SENSES, new ItemStack(Items.dye, 1, i));
             addAspectLoot(Aspect.SENSES, new ItemStack(Blocks.stained_glass, 1, i));
             addAspectLoot(Aspect.SENSES, new ItemStack(Blocks.stained_glass_pane, 2, i));
