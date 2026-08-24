@@ -20,9 +20,6 @@ import net.minecraftforge.client.EnumHelperClient;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
-import codechicken.nei.api.API;
-import codechicken.nei.recipe.GuiRecipeTab;
-import codechicken.nei.recipe.HandlerInfo;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -41,7 +38,6 @@ import thaumic.tinkerer.client.core.handler.kami.SoulHeartClientHandler;
 import thaumic.tinkerer.client.core.handler.kami.ToolModeHUDHandler;
 import thaumic.tinkerer.client.core.helper.ClientHelper;
 import thaumic.tinkerer.client.lib.LibRenderIDs;
-import thaumic.tinkerer.client.nei.NEIInfusedSeedRecipeHandler;
 import thaumic.tinkerer.client.render.block.RenderInfusedCrops;
 import thaumic.tinkerer.client.render.block.RenderMagnet;
 import thaumic.tinkerer.client.render.block.RenderRepairer;
@@ -118,19 +114,6 @@ public final class TTClientProxy extends TTCommonProxy {
             if (ConfigHandler.showPlacementMirrorBlocks)
                 MinecraftForge.EVENT_BUS.register(new PlacementMirrorPredictionRenderer());
         }
-
-        NEIInfusedSeedRecipeHandler handler = new NEIInfusedSeedRecipeHandler();
-        API.registerRecipeHandler(handler);
-        API.registerUsageHandler(handler);
-
-        HandlerInfo seedInfo = new HandlerInfo(
-                "tt_infused_seeds_drops",
-                "Thaumic Tinkerer",
-                "ThaumicTinkerer",
-                false,
-                "");
-        seedInfo.setItem("ThaumicTinkerer:infusedSeeds", null);
-        GuiRecipeTab.handlerAdderFromIMC.put("tt_infused_seeds_drops", seedInfo);
     }
 
     @SubscribeEvent

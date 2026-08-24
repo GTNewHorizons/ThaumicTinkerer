@@ -1,5 +1,6 @@
 package thaumic.tinkerer.client.nei;
 
+import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
@@ -12,6 +13,10 @@ public class NEIConfig implements IConfigureNEI {
     public void loadConfig() {
         if (!LoadedMods.aspectRecipeIndexLoaded) return;
         AspectRecipeIndexIntegration.register();
+
+        NEIInfusedSeedRecipeHandler seedHandler = new NEIInfusedSeedRecipeHandler();
+        API.registerRecipeHandler(seedHandler);
+        API.registerUsageHandler(seedHandler);
     }
 
     @Override
