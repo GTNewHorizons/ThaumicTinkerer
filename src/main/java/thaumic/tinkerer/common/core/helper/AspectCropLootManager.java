@@ -1,6 +1,8 @@
 package thaumic.tinkerer.common.core.helper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -22,29 +24,46 @@ import thaumic.tinkerer.common.item.ItemBrightNitor;
 import thaumic.tinkerer.common.item.ItemInfusedGrain;
 
 /**
- * Created by pixlepix on 8/7/14.
+ * Created by pixlepix on 8/7/14, reworked by Spaghetti on 2026-08-21 These very lines of code will cause great trouble
+ * in the future. However, they have proven to be less chaotic than anticipated in the past, so they live on ... even if
+ * that means nerfing them to the ground.
  */
 public class AspectCropLootManager {
 
-    private static HashMap<Aspect, HashMap<ItemStack, Integer>> lootMap = new HashMap<>();
+    public static class LootEntry {
+
+        public final ItemStack stack;
+        public final int weight;
+
+        public LootEntry(ItemStack stack, int weight) {
+            this.stack = stack;
+            this.weight = weight;
+        }
+    }
+
+    private static final Random RAND = new Random();
+
+    private static HashMap<Aspect, List<LootEntry>> lootMap = new HashMap<>();
 
     public static ItemStack getLootForAspect(Aspect aspect) {
-        HashMap<ItemStack, Integer> aspectHashmap = lootMap.get(aspect);
-        // Find total value of the possible ItemStacks for the aspect
-        if (aspectHashmap == null) return null;
-        int sum = 0;
+        List<LootEntry> aspectLootList = lootMap.get(aspect);
 
-        for (Integer i : aspectHashmap.values()) {
-            sum += i;
+        if (aspectLootList == null || aspectLootList.isEmpty()) {
+            return null;
         }
+
+        int sum = 0;
+        for (LootEntry entry : aspectLootList) {
+            sum += entry.weight;
+        }
+
         if (sum > 0) {
-            Random rand = new Random();
-            int randInt = rand.nextInt(sum);
-            for (Map.Entry<ItemStack, Integer> pair : aspectHashmap.entrySet()) {
-                if (randInt < pair.getValue()) {
-                    return pair.getKey().copy();
+            int randInt = RAND.nextInt(sum);
+            for (LootEntry entry : aspectLootList) {
+                if (randInt < entry.weight) {
+                    return entry.stack.copy();
                 }
-                randInt -= pair.getValue();
+                randInt -= entry.weight;
             }
         }
         return null;
@@ -63,6 +82,9 @@ public class AspectCropLootManager {
             if (ore.contains(WordUtils.capitalizeFully(target)) || ore.contains(target)) {
                 for (ItemStack stack : OreDictionary.getOres(ore)) {
                     ItemStack newStack = stack.copy();
+                    if (newStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+                        newStack.setItemDamage(0);
+                    }
                     newStack.stackSize = count;
                     addAspectLoot(aspect, newStack);
                 }
@@ -71,12 +93,21 @@ public class AspectCropLootManager {
     }
 
     public static void addAspectLoot(Aspect aspect, ItemStack stack, int power) {
-        lootMap.get(aspect).put(stack, power);
+        if (stack == null || stack.getItem() == null) {
+            return;
+        }
+
+        lootMap.putIfAbsent(aspect, new ArrayList<>());
+        lootMap.get(aspect).add(new LootEntry(stack.copy(), power));
+    }
+
+    public static Map<Aspect, List<LootEntry>> getAllLoot() {
+        return lootMap;
     }
 
     public static void populateLootMap() {
         for (Aspect a : Aspect.aspects.values()) {
-            lootMap.put(a, new HashMap<>());
+            lootMap.put(a, new ArrayList<>());
         }
         addAspectLoot(
                 Aspect.AIR,
@@ -103,16 +134,14 @@ public class AspectCropLootManager {
                         1,
                         ItemInfusedGrain.getMetaForAspect(Aspect.WATER)));
 
-        addAspectLoot(Aspect.ORDER, new ItemStack(Blocks.glass, 64));
-        addAspectLoot(Aspect.ENTROPY, new ItemStack(Blocks.sand, 64));
+        addAspectLoot(Aspect.ORDER, new ItemStack(Blocks.glass, 16));
+        addAspectLoot(Aspect.ENTROPY, new ItemStack(Blocks.sand, 16));
 
         addAspectLoot(Aspect.ELDRITCH, new ItemStack(Items.ender_pearl, 4), 10);
         addAspectLoot(Aspect.ELDRITCH, new ItemStack(Items.ender_eye, 4), 5);
         addAspectLoot(Aspect.ELDRITCH, "bucketEnder");
 
-        // addAspectLoot(Aspect.TREE, "wood");
-
-        addAspectLoot(Aspect.TREE, new ItemStack(Blocks.log));
+        addAspectLoot(Aspect.TREE, "logWood");
 
         for (Aspect tag : Aspect.aspects.values()) {
             ItemStack i = new ItemStack(ConfigItems.itemWispEssence, 1, 0);
@@ -120,15 +149,10 @@ public class AspectCropLootManager {
             addAspectLoot(Aspect.AURA, i);
         }
 
-        for (int i = 0; i < 24; i++) {
-            addAspectLoot(Aspect.BEAST, new ItemStack(Items.spawn_egg, 1, i));
-        }
-
         addAspectLoot(Aspect.MIND, new ItemStack(Items.paper, 64), 15);
         addAspectLoot(Aspect.MIND, new ItemStack(Items.book, 32), 10);
         addAspectLoot(Aspect.MIND, new ItemStack(Blocks.bookshelf, 16), 5);
 
-        addAspectLoot(Aspect.FLESH, new ItemStack(ConfigItems.itemResource, 16, 5), 4);
         addAspectLoot(Aspect.FLESH, new ItemStack(ConfigItems.itemResource, 16, 5), 1);
 
         addAspectLoot(Aspect.UNDEAD, new ItemStack(Items.rotten_flesh, 32));
@@ -137,16 +161,18 @@ public class AspectCropLootManager {
                 Aspect.CRAFT,
                 new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 32));
         addAspectLoot(Aspect.CRAFT, new ItemStack(ConfigBlocks.blockStoneDevice, 16));
+        addAspectLoot(Aspect.CRAFT, new ItemStack(Blocks.crafting_table, 4));
 
         addAspectLoot(Aspect.HUNGER, new ItemStack(Items.nether_wart, 16));
 
-        addAspectLoot(Aspect.COLD, new ItemStack(Items.snowball, 16));
-        addAspectLoot(Aspect.COLD, "rodBlizz");
+        addAspectLoot(Aspect.COLD, new ItemStack(Blocks.ice, 2));
+        addAspectLoot(Aspect.COLD, new ItemStack(Items.snowball, 64));
+        addAspectLoot(Aspect.COLD, new ItemStack(Blocks.snow, 32));
+        addAspectLoot(Aspect.COLD, new ItemStack(Blocks.snow_layer, 8));
+        addAspectLoot(Aspect.COLD, "rodBlizz", 1);
 
+        addAspectLoot(Aspect.PLANT, "grass");
         addAspectLoot(Aspect.PLANT, "sapling");
-        for (int i = 0; i < 6; i++) {
-            addAspectLoot(Aspect.PLANT, new ItemStack(Blocks.sapling, 1, i));
-        }
 
         for (int i = 0; i < 12; i++) {
             addAspectLoot(Aspect.MAN, new ItemStack(ConfigItems.itemGolemCore, 1, i));
@@ -162,9 +188,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.WEAPON, new ItemStack(ConfigItems.itemSwordThaumium));
         addAspectLoot(Aspect.TOOL, new ItemStack(ConfigItems.itemShovelThaumium));
         addAspectLoot(Aspect.TOOL, new ItemStack(ConfigItems.itemAxeThaumium));
-        addAspectLoot(Aspect.TRAVEL, new ItemStack(ConfigBlocks.blockCosmeticSolid, 8, 7));
 
-        addAspectLoot(Aspect.SLIME, new ItemStack(Items.slime_ball, 16));
         addAspectLoot(Aspect.SLIME, "slime");
 
         addAspectLoot(Aspect.GREED, new ItemStack(Items.gold_ingot, 4));
@@ -176,12 +200,10 @@ public class AspectCropLootManager {
                 new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)));
 
         addAspectLoot(Aspect.MECHANISM, new ItemStack(Blocks.piston, 8));
-        // addAspectLoot(Aspect.MECHANISM, "gear");
 
         addAspectLoot(Aspect.CROP, new ItemStack(Items.wheat, 32));
 
         addAspectLoot(Aspect.METAL, new ItemStack(Items.iron_ingot, 4), 100);
-        // addAspectLoot(Aspect.METAL, "iron");
 
         addAspectLoot(Aspect.DEATH, new ItemStack(Items.bone, 32));
 
@@ -210,29 +232,36 @@ public class AspectCropLootManager {
 
         addAspectLoot(Aspect.HEAL, new ItemStack(Items.golden_apple));
         addAspectLoot(Aspect.HEAL, new ItemStack(Items.cake));
+        addAspectLoot(Aspect.HEAL, new ItemStack(Items.potionitem, 1, 8261));
 
-        addAspectLoot(Aspect.SENSES, new ItemStack(Items.dye, 20, 4));
+        for (int i = 0; i < 15; i++) {
+            addAspectLoot(Aspect.SENSES, new ItemStack(Items.dye, 1, i));
+            addAspectLoot(Aspect.SENSES, new ItemStack(Blocks.stained_glass, 1, i));
+            addAspectLoot(Aspect.SENSES, new ItemStack(Blocks.stained_glass_pane, 2, i));
+        }
 
-        addAspectLoot(Aspect.SOUL, new ItemStack(Blocks.soul_sand, 64), 2);
-        addAspectLoot(Aspect.SOUL, new ItemStack(Blocks.netherrack, 64), 2);
+        addAspectLoot(Aspect.SOUL, new ItemStack(Blocks.soul_sand, 16), 2);
+        addAspectLoot(Aspect.SOUL, new ItemStack(Blocks.netherrack, 32), 2);
         addAspectLoot(Aspect.SOUL, new ItemStack(Blocks.nether_brick));
 
-        addAspectLoot(Aspect.WEATHER, new ItemStack(Blocks.air));
-        addAspectLoot(Aspect.WEATHER, "cloud", 100);
+        addAspectLoot(Aspect.WEATHER, "cloud", 64);
 
         addAspectLoot(Aspect.DARKNESS, new ItemStack(Blocks.obsidian, 10));
 
         addAspectLoot(Aspect.VOID, new ItemStack(Items.bucket));
         addAspectLoot(Aspect.VOID, "bucket");
+        addAspectLoot(Aspect.VOID, "bowl");
 
         addAspectLoot(Aspect.POISON, new ItemStack(ConfigItems.itemResource, 16, 3));
 
         addAspectLoot(Aspect.LIFE, new ItemStack(Items.egg, 8));
 
         addAspectLoot(Aspect.TRAP, new ItemStack(Blocks.web, 4));
+        addAspectLoot(Aspect.TRAP, "trapdoorWood");
 
         addAspectLoot(Aspect.TAINT, new ItemStack(ConfigItems.itemResource, 4, 11));
 
-        addAspectLoot(Aspect.CRYSTAL, new ItemStack(Items.diamond));
+        addAspectLoot(Aspect.CRYSTAL, "gemDiamond");
+        addAspectLoot(Aspect.CRYSTAL, new ItemStack(Blocks.glass), 100);
     }
 }
