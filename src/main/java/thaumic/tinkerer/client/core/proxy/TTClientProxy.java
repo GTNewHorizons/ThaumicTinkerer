@@ -61,7 +61,6 @@ import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 import thaumic.tinkerer.common.compat.FumeTool;
 import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
-import thaumic.tinkerer.common.core.helper.EnumMobAspect;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
 import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 import thaumic.tinkerer.common.item.ItemMobDisplay;
@@ -155,9 +154,11 @@ public final class TTClientProxy extends TTCommonProxy {
         RenderingRegistry.registerBlockHandler(new RenderMagnet());
         RenderingRegistry.registerBlockHandler(new RenderRepairer());
 
+        RenderMobDisplay mobDisplayRenderer = new RenderMobDisplay();
+        MinecraftForge.EVENT_BUS.register(mobDisplayRenderer);
         MinecraftForgeClient.registerItemRenderer(
                 ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class),
-                new RenderMobDisplay());
+                mobDisplayRenderer);
         MinecraftForgeClient.registerItemRenderer(
                 ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class),
                 new RenderGenericSeeds());
@@ -219,10 +220,5 @@ public final class TTClientProxy extends TTCommonProxy {
     @Override
     public EntityPlayer getClientPlayer() {
         return ClientHelper.clientPlayer();
-    }
-
-    @Override
-    public String getMobDisplayName(EnumMobAspect aspect) {
-        return aspect.getEntity(Minecraft.getMinecraft().theWorld).getCommandSenderName();
     }
 }
