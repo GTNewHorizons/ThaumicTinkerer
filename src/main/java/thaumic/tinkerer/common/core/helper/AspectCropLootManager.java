@@ -272,6 +272,6 @@ public class AspectCropLootManager {
 
         addAspectLoot(Aspect.CRYSTAL, new ItemStack(Items.diamond, 1));
         addAspectLoot(Aspect.CRYSTAL, new ItemStack(Items.quartz, 1));
-        addAspectLoot(Aspect.CRYSTAL, new ItemStack(Blocks.glass), 100);
+        addAspectLoot(Aspect.CRYSTAL, new ItemStack(Blocks.glass, 32), 4);
     }
 }
