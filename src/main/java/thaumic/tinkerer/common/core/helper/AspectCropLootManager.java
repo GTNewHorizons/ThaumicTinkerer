@@ -264,7 +264,7 @@ public class AspectCropLootManager {
 
         addAspectLoot(Aspect.TRAP, new ItemStack(Blocks.web, 4));
         addAspectLoot(Aspect.TRAP, "trapdoorWood");
-        new ItemStack(ConfigItems.itemResource, 16, 6); // amber
+        addAspectLoot(Aspect.TRAP, new ItemStack(ConfigItems.itemResource, 16, 6)); // amber
 
         addAspectLoot(Aspect.TRAVEL, new ItemStack(ConfigBlocks.blockCosmeticSolid, 4, 2));
 
