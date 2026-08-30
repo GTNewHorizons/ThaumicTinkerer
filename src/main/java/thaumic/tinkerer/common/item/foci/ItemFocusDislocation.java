@@ -27,9 +27,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.world.BlockEvent;
 
 import cpw.mods.fml.relauncher.Side;
@@ -125,19 +122,16 @@ public class ItemFocusDislocation extends ItemModFocus {
                 if (mop.sideHit == 5) ++mop.blockX;
 
                 if (block.canPlaceBlockOnSide(world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit)) {
-                    Block toPlace = ((ItemBlock) stack.getItem()).field_150939_a;
-                    BlockSnapshot snapshot = BlockSnapshot.getBlockSnapshot(world, mop.blockX, mop.blockY, mop.blockZ);
-                    world.setBlock(mop.blockX, mop.blockY, mop.blockZ, toPlace, stack.getItemDamage(), 1 | 2);
-                    if (ForgeEventFactory
-                            .onPlayerBlockPlace(player, snapshot, ForgeDirection.getOrientation(mop.sideHit))
-                            .isCanceled()) {
-                        world.restoringBlockSnapshots = true;
-                        snapshot.restore(true, false);
-                        world.restoringBlockSnapshots = false;
-                        return itemstack;
-                    }
-                    toPlace.onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, stack);
                     if (!world.isRemote) {
+                        world.setBlock(
+                                mop.blockX,
+                                mop.blockY,
+                                mop.blockZ,
+                                ((ItemBlock) stack.getItem()).field_150939_a,
+                                stack.getItemDamage(),
+                                1 | 2);
+                        ((ItemBlock) stack.getItem()).field_150939_a
+                                .onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, stack);
                         NBTTagCompound tileCmp = getStackTileEntity(itemstack);
                         if (tileCmp != null && !tileCmp.hasNoTags()) {
                             TileEntity tile1 = TileEntity.createAndLoadEntity(tileCmp);
@@ -163,7 +157,8 @@ public class ItemFocusDislocation extends ItemModFocus {
                     && !ThaumcraftApi.portableHoleBlackList.contains(block)
                     && block != null
                     && block.getBlockHardness(world, mop.blockX, mop.blockY, mop.blockZ) != -1F
-                    && canBreakBlock(world, player, mop.blockX, mop.blockY, mop.blockZ)
+                    && wand.consumeAllVis(itemstack, player, getCost(tile), false, false)
+                    && (world.isRemote || canBreakBlock(world, player, mop.blockX, mop.blockY, mop.blockZ))
                     && wand.consumeAllVis(itemstack, player, getCost(tile), true, false)) {
                         if (!world.isRemote) {
                             world.removeTileEntity(mop.blockX, mop.blockY, mop.blockZ);
