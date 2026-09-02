@@ -140,6 +140,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.ELDRITCH, new ItemStack(Items.ender_pearl, 4), 10);
         addAspectLoot(Aspect.ELDRITCH, new ItemStack(Items.ender_eye, 4), 5);
         addAspectLoot(Aspect.ELDRITCH, "bucketEnder");
+        addAspectLoot(Aspect.ELDRITCH, new ItemStack(ConfigItems.itemResource, 1, 17)); // void seed
 
         addAspectLoot(Aspect.TREE, "logWood");
 
@@ -255,8 +256,8 @@ public class AspectCropLootManager {
 
         addAspectLoot(Aspect.VOID, new ItemStack(Items.bucket));
         addAspectLoot(Aspect.VOID, "bucket");
-        addAspectLoot(Aspect.VOID, "bowl");
-        addAspectLoot(Aspect.VOID, new ItemStack(ConfigItems.itemResource, 1, 17)); // void seed
+        addAspectLoot(Aspect.VOID, "bowl", 4);
+        addAspectLoot(Aspect.VOID, "ingotVoid", 2);
 
         addAspectLoot(Aspect.POISON, new ItemStack(ConfigItems.itemResource, 16, 3)); // quicksilver
         addAspectLoot(Aspect.POISON, new ItemStack(Items.spider_eye, 8));
