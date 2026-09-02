@@ -162,7 +162,7 @@ public class AspectCropLootManager {
         addAspectLoot(
                 Aspect.CRAFT,
                 new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 32));
-        addAspectLoot(Aspect.CRAFT, new ItemStack(ConfigBlocks.blockStoneDevice, 2)); // runic matrix
+        addAspectLoot(Aspect.CRAFT, new ItemStack(ConfigBlocks.blockStoneDevice, 16, 0)); // alchemical furnace
         addAspectLoot(Aspect.CRAFT, new ItemStack(Blocks.crafting_table, 4));
 
         addAspectLoot(Aspect.HUNGER, new ItemStack(Items.nether_wart, 16));
