@@ -152,7 +152,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.MIND, new ItemStack(Items.paper, 64), 15);
         addAspectLoot(Aspect.MIND, new ItemStack(Items.book, 32), 10);
         addAspectLoot(Aspect.MIND, new ItemStack(Blocks.bookshelf, 16), 5);
-        addAspectLoot(Aspect.MIND, new ItemStack(ConfigItems.itemResource, 4, 9), 5);
+        addAspectLoot(Aspect.MIND, new ItemStack(ConfigItems.itemResource, 4, 9), 5); // knowledge fragment
 
         addAspectLoot(Aspect.FLESH, new ItemStack(ConfigItems.itemResource, 16, 5), 1);
 
@@ -162,7 +162,7 @@ public class AspectCropLootManager {
         addAspectLoot(
                 Aspect.CRAFT,
                 new ItemStack(ThaumicTinkerer.registry.getFirstBlockFromClass(BlockDarkQuartz.class), 32));
-        addAspectLoot(Aspect.CRAFT, new ItemStack(ConfigBlocks.blockStoneDevice, 16));
+        addAspectLoot(Aspect.CRAFT, new ItemStack(ConfigBlocks.blockStoneDevice, 2)); // runic matrix
         addAspectLoot(Aspect.CRAFT, new ItemStack(Blocks.crafting_table, 4));
 
         addAspectLoot(Aspect.HUNGER, new ItemStack(Items.nether_wart, 16));
@@ -171,6 +171,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.COLD, new ItemStack(Items.snowball, 64));
         addAspectLoot(Aspect.COLD, new ItemStack(Blocks.snow, 32));
         addAspectLoot(Aspect.COLD, new ItemStack(Blocks.snow_layer, 8));
+        addAspectLoot(Aspect.COLD, "rodBlizz", 1);
 
         addAspectLoot(Aspect.PLANT, "grass");
         addAspectLoot(Aspect.PLANT, "sapling");
@@ -196,7 +197,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.GREED, new ItemStack(Items.emerald, 2));
 
         addAspectLoot(Aspect.LIGHT, new ItemStack(Items.glowstone_dust, 16), 5);
-        addAspectLoot(Aspect.LIGHT, new ItemStack(ConfigItems.itemResource, 4, 1));
+        addAspectLoot(Aspect.LIGHT, new ItemStack(ConfigItems.itemResource, 4, 1)); // nitor
         addAspectLoot(
                 Aspect.LIGHT,
                 new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBrightNitor.class)));
@@ -226,7 +227,7 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.EXCHANGE, "ingotCopper", 4);
         addAspectLoot(Aspect.EXCHANGE, new ItemStack(ConfigBlocks.blockCustomOre, 4));
 
-        addAspectLoot(Aspect.ENERGY, new ItemStack(ConfigItems.itemResource, 12));
+        addAspectLoot(Aspect.ENERGY, new ItemStack(ConfigItems.itemResource, 12)); // alumentum
 
         addAspectLoot(Aspect.MAGIC, new ItemStack(ConfigItems.itemShard, 1, 0));
         addAspectLoot(Aspect.MAGIC, new ItemStack(ConfigItems.itemShard, 1, 1));
@@ -257,8 +258,8 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.VOID, "bowl");
         addAspectLoot(Aspect.VOID, new ItemStack(ConfigItems.itemResource, 1, 17)); // void seed
 
-        addAspectLoot(Aspect.POISON, new ItemStack(ConfigItems.itemResource, 16, 3));
-        addAspectLoot(Aspect.POISON, new ItemStack(Items.spider_eye, 8, 1));
+        addAspectLoot(Aspect.POISON, new ItemStack(ConfigItems.itemResource, 16, 3)); // quicksilver
+        addAspectLoot(Aspect.POISON, new ItemStack(Items.spider_eye, 8));
 
         addAspectLoot(Aspect.LIFE, new ItemStack(Items.egg, 8));
 
@@ -266,12 +267,12 @@ public class AspectCropLootManager {
         addAspectLoot(Aspect.TRAP, "trapdoorWood");
         addAspectLoot(Aspect.TRAP, new ItemStack(ConfigItems.itemResource, 16, 6)); // amber
 
-        addAspectLoot(Aspect.TRAVEL, new ItemStack(ConfigBlocks.blockCosmeticSolid, 4, 2));
+        addAspectLoot(Aspect.TRAVEL, new ItemStack(ConfigBlocks.blockCosmeticSolid, 4, 2)); // paved stone of travel
 
         addAspectLoot(Aspect.TAINT, new ItemStack(ConfigItems.itemResource, 4, 11));
 
         addAspectLoot(Aspect.CRYSTAL, new ItemStack(Items.diamond, 1));
-        addAspectLoot(Aspect.CRYSTAL, new ItemStack(Items.quartz, 1));
+        addAspectLoot(Aspect.CRYSTAL, new ItemStack(Items.quartz, 8));
         addAspectLoot(Aspect.CRYSTAL, new ItemStack(Blocks.glass, 32), 4);
     }
 }
