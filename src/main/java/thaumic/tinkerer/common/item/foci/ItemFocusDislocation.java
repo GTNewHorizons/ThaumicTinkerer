@@ -27,6 +27,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.world.BlockEvent;
 
 import cpw.mods.fml.relauncher.Side;
@@ -121,17 +124,30 @@ public class ItemFocusDislocation extends ItemModFocus {
                 if (mop.sideHit == 4) --mop.blockX;
                 if (mop.sideHit == 5) ++mop.blockX;
 
-                if (block.canPlaceBlockOnSide(world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit)) {
+                Block toPlace = ((ItemBlock) stack.getItem()).field_150939_a;
+                if (mop.blockY >= 0 && mop.blockY < world.getHeight()
+                        && player.canPlayerEdit(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, itemstack)
+                        && world.getBlock(mop.blockX, mop.blockY, mop.blockZ)
+                                .isReplaceable(world, mop.blockX, mop.blockY, mop.blockZ)
+                        && toPlace.canPlaceBlockOnSide(world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit)) {
                     if (!world.isRemote) {
-                        world.setBlock(
-                                mop.blockX,
-                                mop.blockY,
-                                mop.blockZ,
-                                ((ItemBlock) stack.getItem()).field_150939_a,
-                                stack.getItemDamage(),
-                                1 | 2);
-                        ((ItemBlock) stack.getItem()).field_150939_a
-                                .onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, stack);
+                        BlockSnapshot snapshot = BlockSnapshot
+                                .getBlockSnapshot(world, mop.blockX, mop.blockY, mop.blockZ);
+                        if (!world.setBlock(mop.blockX, mop.blockY, mop.blockZ, toPlace, stack.getItemDamage(), 2))
+                            return itemstack;
+                        if (ForgeEventFactory
+                                .onPlayerBlockPlace(player, snapshot, ForgeDirection.getOrientation(mop.sideHit))
+                                .isCanceled()) {
+                            boolean restoring = world.restoringBlockSnapshots;
+                            world.restoringBlockSnapshots = true;
+                            try {
+                                snapshot.restore(true, false);
+                            } finally {
+                                world.restoringBlockSnapshots = restoring;
+                            }
+                            return itemstack;
+                        }
+                        toPlace.onBlockPlacedBy(world, mop.blockX, mop.blockY, mop.blockZ, player, stack);
                         NBTTagCompound tileCmp = getStackTileEntity(itemstack);
                         if (tileCmp != null && !tileCmp.hasNoTags()) {
                             TileEntity tile1 = TileEntity.createAndLoadEntity(tileCmp);
@@ -140,6 +156,8 @@ public class ItemFocusDislocation extends ItemModFocus {
                             tile1.zCoord = mop.blockZ;
                             world.setTileEntity(mop.blockX, mop.blockY, mop.blockZ, tile1);
                         }
+                        clearPickedBlock(itemstack);
+                        world.notifyBlockChange(mop.blockX, mop.blockY, mop.blockZ, toPlace);
                     } else {
                         player.swingItem();
                         for (int i = 0; i < 8; i++) {
@@ -149,8 +167,6 @@ public class ItemFocusDislocation extends ItemModFocus {
                             ThaumicTinkerer.tcProxy.burst(world, x, y, z, 0.2F);
                         }
                     }
-                    clearPickedBlock(itemstack);
-
                     world.playSoundAtEntity(player, "thaumcraft:wand", 0.5F, 1F);
                 }
             } else if (!blacklist.contains(block) && isBlockAllowed(block)
