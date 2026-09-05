@@ -40,6 +40,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import dan200.computercraft.api.ComputerCraftAPI;
 import li.cil.oc.api.Driver;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
@@ -81,6 +82,7 @@ import thaumic.tinkerer.common.core.helper.NumericAspectHelper;
 import thaumic.tinkerer.common.enchantment.ModEnchantments;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 import thaumic.tinkerer.common.item.ItemBloodSword;
+import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 import thaumic.tinkerer.common.item.SpellClothCraftingHandler;
 import thaumic.tinkerer.common.item.foci.ItemFocusDeflect;
 import thaumic.tinkerer.common.item.kami.wand.CapIchor;
@@ -289,6 +291,11 @@ public class TTCommonProxy {
                     Arrays.asList(
                             new ItemStack(ThaumicTinkerer.registry.getFirstItemFromClass(ItemBloodSword.class)),
                             necromancyTablet));
+
+            event.registerHandlerInfo(
+                    new HandlerInfo.Builder("tt_infused_seeds_drops", LibMisc.MOD_NAME, LibMisc.MOD_ID)
+                            .setDisplayStack(ItemInfusedSeeds.getStackFromAspect(Aspect.AIR))
+                            .setShowFavoritesButton(false).setShowOverlayButton(false).build());
         }
     }
 }
