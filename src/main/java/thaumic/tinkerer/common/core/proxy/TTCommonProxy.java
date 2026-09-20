@@ -57,6 +57,7 @@ import thaumcraft.common.tiles.TileNode;
 import thaumcraft.common.tiles.TileSensor;
 import thaumcraft.common.tiles.TileTubeFilter;
 import thaumcraft.common.tiles.TileWandPedestal;
+import thaumic.tinkerer.client.nei.NEIInfusedSeedRecipeHandler;
 import thaumic.tinkerer.client.nei.NEINecromancyHandler;
 import thaumic.tinkerer.common.ThaumicTinkerer;
 import thaumic.tinkerer.common.block.BlockSummon;
@@ -293,7 +294,7 @@ public class TTCommonProxy {
                             necromancyTablet));
 
             event.registerHandlerInfo(
-                    new HandlerInfo.Builder("tt_infused_seeds_drops", LibMisc.MOD_NAME, LibMisc.MOD_ID)
+                    new HandlerInfo.Builder(NEIInfusedSeedRecipeHandler.class, LibMisc.MOD_NAME, LibMisc.MOD_ID)
                             .setDisplayStack(ItemInfusedSeeds.getStackFromAspect(Aspect.AIR))
                             .setShowFavoritesButton(false).setShowOverlayButton(false).build());
         }
