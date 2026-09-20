@@ -26,7 +26,10 @@ import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 
 public class NEIInfusedSeedRecipeHandler extends TemplateRecipeHandler {
 
+    public static final String OVERLAY = "thaumictinkerer.infusedseeds";
     private static final int SLOT_NUM_X = 9;
+    private static final int SLOT_TEXTURE_U = 7;
+    private static final int SLOT_TEXTURE_V = 17;
     private static final DecimalFormat CHANCE_FORMAT = new DecimalFormat("#.##");
 
     public static class DropInfo {
@@ -184,7 +187,7 @@ public class NEIInfusedSeedRecipeHandler extends TemplateRecipeHandler {
 
         GuiDraw.changeTexture(getGuiTexture());
 
-        GuiDraw.drawTexturedModalRect(74, 3, 7, 83, 18, 18);
+        GuiDraw.drawTexturedModalRect(74, 3, SLOT_TEXTURE_U, SLOT_TEXTURE_V, 18, 18);
 
         CachedSeedRecipe recipe = (CachedSeedRecipe) this.arecipes.get(recipeIndex);
         int totalDrops = recipe.outputs.size();
@@ -195,7 +198,7 @@ public class NEIInfusedSeedRecipeHandler extends TemplateRecipeHandler {
             int xPos = 2 + 18 * col;
             int yPos = 35 + 18 * row;
 
-            GuiDraw.drawTexturedModalRect(xPos, yPos, 7, 83, 18, 18);
+            GuiDraw.drawTexturedModalRect(xPos, yPos, SLOT_TEXTURE_U, SLOT_TEXTURE_V, 18, 18);
         }
 
         GuiDraw.changeTexture(NEI_RECIPE_ARROW);
@@ -224,17 +227,17 @@ public class NEIInfusedSeedRecipeHandler extends TemplateRecipeHandler {
 
     @Override
     public String getGuiTexture() {
-        return "minecraft:textures/gui/container/inventory.png";
+        return "minecraft:textures/gui/container/generic_54.png";
     }
 
     @Override
     public String getOverlayIdentifier() {
-        return "tt_infused_seeds_drops";
+        return OVERLAY;
     }
 
     @Override
     public String getHandlerId() {
-        return "tt_infused_seeds_drops";
+        return NEIInfusedSeedRecipeHandler.class.getName();
     }
 
     @Override
