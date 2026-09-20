@@ -192,7 +192,11 @@ public class NEIInfusedSeedRecipeHandler extends TemplateRecipeHandler {
         CachedSeedRecipe recipe = (CachedSeedRecipe) this.arecipes.get(recipeIndex);
         int totalDrops = recipe.outputs.size();
 
-        for (int i = 0; i < totalDrops; i++) {
+        int rows = Math.max(1, (totalDrops + SLOT_NUM_X - 1) / SLOT_NUM_X);
+
+        int totalSlotsToDraw = rows * SLOT_NUM_X;
+
+        for (int i = 0; i < totalSlotsToDraw; i++) {
             int col = i % SLOT_NUM_X;
             int row = i / SLOT_NUM_X;
             int xPos = 2 + 18 * col;
