@@ -78,8 +78,9 @@ public class AspectCropLootManager {
     }
 
     public static void addAspectLoot(Aspect aspect, String target, int count) {
+        String capitalized = WordUtils.capitalizeFully(target);
         for (String ore : OreDictionary.getOreNames()) {
-            if (ore.contains(WordUtils.capitalizeFully(target)) || ore.contains(target)) {
+            if (ore.contains(capitalized) || ore.contains(target)) {
                 for (ItemStack stack : OreDictionary.getOres(ore)) {
                     ItemStack newStack = stack.copy();
                     if (newStack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
