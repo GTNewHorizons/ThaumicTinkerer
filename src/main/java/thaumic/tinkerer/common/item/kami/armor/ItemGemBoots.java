@@ -53,7 +53,7 @@ import thaumicboots.api.IBoots;
 @Interface(iface = "thaumicboots.api.IBoots", modid = "thaumicboots")
 public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
 
-    public float speedBonus = 0.075F;
+    public float speedBonus = 0.5F;
 
     public static List<String> playersWith1Step = new ArrayList<>();
 
@@ -231,7 +231,7 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
 
                 if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player)
                         && player.getCurrentArmor(0).getItemDamage() == 0)
-                    player.motionY += 0.3 * (float) getJumpModifier(boots);;
+                    player.motionY += 0.9 * (float) getJumpModifier(boots);;
             }
         }
 
