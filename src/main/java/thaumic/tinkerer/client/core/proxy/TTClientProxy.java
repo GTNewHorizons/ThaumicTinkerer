@@ -30,6 +30,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import cpw.mods.fml.relauncher.Side;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumic.tinkerer.client.core.handler.ClientTickHandler;
+import thaumic.tinkerer.client.core.handler.DashboardHud;
 import thaumic.tinkerer.client.core.handler.GemArmorKeyHandler;
 import thaumic.tinkerer.client.core.handler.HUDHandler;
 import thaumic.tinkerer.client.core.handler.kami.KamiArmorClientHandler;
@@ -114,6 +115,8 @@ public final class TTClientProxy extends TTCommonProxy {
             if (ConfigHandler.showPlacementMirrorBlocks)
                 MinecraftForge.EVENT_BUS.register(new PlacementMirrorPredictionRenderer());
         }
+
+        if (LoadedMods.dashboardLoaded) DashboardHud.register(ConfigHandler.enableKami);
     }
 
     @SubscribeEvent

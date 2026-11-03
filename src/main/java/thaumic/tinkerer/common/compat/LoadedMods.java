@@ -13,6 +13,7 @@ public class LoadedMods {
     public static final boolean bloodMagicLoaded = Loader.isModLoaded("BloodMagic");
     public static final boolean botaniaLoaded = Loader.isModLoaded("Botania");
     public static final boolean computerCraftLoaded = Loader.isModLoaded("ComputerCraft");
+    public static final boolean dashboardLoaded = Loader.isModLoaded("dashboard");
     public static final boolean enderIOLoaded = Loader.isModLoaded("EnderIO");
     public static final boolean enderStorageLoaded = Loader.isModLoaded("EnderStorage");
     public static final boolean forgeMultipartLoaded = Loader.isModLoaded("ForgeMultipart");

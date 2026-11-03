@@ -39,6 +39,10 @@ public final class ToolModeHUDHandler {
         }
     }
 
+    public static String getTooltip() {
+        return currentTooltip;
+    }
+
     @SideOnly(Side.CLIENT)
     public static void clientTick() {
         if (tooltipDisplayTicks > 0) --tooltipDisplayTicks;
