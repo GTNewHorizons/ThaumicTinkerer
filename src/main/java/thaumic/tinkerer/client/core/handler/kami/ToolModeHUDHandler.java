@@ -26,6 +26,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumic.tinkerer.client.core.handler.ClientTickHandler;
+import thaumic.tinkerer.client.core.handler.DashboardHud;
+import thaumic.tinkerer.common.compat.LoadedMods;
 
 public final class ToolModeHUDHandler {
 
@@ -66,7 +68,7 @@ public final class ToolModeHUDHandler {
 
             if (opacity > 160) opacity = 160;
 
-            if (opacity > 0) {
+            if (opacity > 0 && (!LoadedMods.dashboardLoaded || DashboardHud.beginToolMode(var5))) {
                 GL11.glPushMatrix();
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -75,6 +77,7 @@ public final class ToolModeHUDHandler {
                 var8.drawStringWithShadow(currentTooltip, tooltipStartX, tooltipStartY, color + (opacity << 24));
                 GL11.glDisable(GL11.GL_BLEND);
                 GL11.glPopMatrix();
+                if (LoadedMods.dashboardLoaded) DashboardHud.endRender();
             }
         }
     }

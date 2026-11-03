@@ -3,6 +3,7 @@ package thaumic.tinkerer.client.core.handler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -72,6 +73,24 @@ public final class DashboardHud {
                 (screenWidth, screenHeight) -> HudRegistry.render(SOUL_HEARTS, DashboardHud::drawSoulHeartsPreview));
         HudRegistry.register(TOOL_MODE);
         HudRegistry.register(SOUL_HEARTS);
+    }
+
+    // False means the player hid the element, so skip drawing it and do not call endRender()
+
+    public static boolean beginDislocationFocus(ScaledResolution resolution) {
+        return HudRegistry.beginRender(DISLOCATION_FOCUS, resolution);
+    }
+
+    public static boolean beginToolMode(ScaledResolution resolution) {
+        return HudRegistry.beginRender(TOOL_MODE, resolution);
+    }
+
+    public static boolean beginSoulHearts(ScaledResolution resolution) {
+        return HudRegistry.beginRender(SOUL_HEARTS, resolution);
+    }
+
+    public static void endRender() {
+        HudRegistry.endRender();
     }
 
     /** Next to Thaumcraft's wand dial: the block's icon, with the text in the small font beside it. */

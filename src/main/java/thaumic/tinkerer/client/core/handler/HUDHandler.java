@@ -28,6 +28,7 @@ import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumic.tinkerer.client.core.helper.ClientHelper;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.item.foci.ItemFocusDislocation;
 
 public final class HUDHandler {
@@ -49,7 +50,8 @@ public final class HUDHandler {
 
                 if (focus != null && focus instanceof ItemFocusDislocation) {
                     ItemStack pickedBlock = ((ItemFocusDislocation) focus).getPickedBlock(item);
-                    if (pickedBlock != null) {
+                    if (pickedBlock != null
+                            && (!LoadedMods.dashboardLoaded || DashboardHud.beginDislocationFocus(event.resolution))) {
                         Gui.drawRect(xpos - 1, ypos - 1, xpos + 18, ypos + 18, 0x66000000);
 
                         FontRenderer font = ClientHelper.fontRenderer();
@@ -87,6 +89,7 @@ public final class HUDHandler {
                                         ypos);
                         }
                         font.setUnicodeFlag(unicode);
+                        if (LoadedMods.dashboardLoaded) DashboardHud.endRender();
                     }
                 }
             }
