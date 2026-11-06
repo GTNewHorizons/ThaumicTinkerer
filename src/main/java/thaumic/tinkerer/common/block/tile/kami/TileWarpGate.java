@@ -46,8 +46,7 @@ public class TileWarpGate extends TileEntity implements IInventory {
         int z = coords.posZ;
 
         TileEntity tile = player.worldObj.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileWarpGate) {
-            TileWarpGate destGate = (TileWarpGate) tile;
+        if (tile instanceof TileWarpGate destGate) {
             if (!destGate.locked) {
                 player.worldObj.playSoundAtEntity(player, "thaumcraft:wand", 1F, 1F);
 
