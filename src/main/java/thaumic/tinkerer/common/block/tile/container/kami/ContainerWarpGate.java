@@ -24,7 +24,7 @@ import thaumic.tinkerer.common.item.kami.ItemSkyPearl;
 
 public class ContainerWarpGate extends ContainerPlayerInv {
 
-    TileWarpGate gate;
+    public TileWarpGate gate;
 
     public ContainerWarpGate(TileWarpGate gate, InventoryPlayer playerInv) {
         super(playerInv);
@@ -44,7 +44,7 @@ public class ContainerWarpGate extends ContainerPlayerInv {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
         ItemStack var3 = null;
-        Slot var4 = (Slot) inventorySlots.get(par2);
+        Slot var4 = inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack()) {
             ItemStack var5 = var4.getStack();

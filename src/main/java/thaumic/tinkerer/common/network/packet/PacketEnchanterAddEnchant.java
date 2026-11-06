@@ -12,82 +12,75 @@
 package thaumic.tinkerer.common.network.packet;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.EntityPlayer;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import thaumic.tinkerer.common.block.tile.TileEnchanter;
+import thaumic.tinkerer.common.block.tile.container.ContainerEnchanter;
 import thaumic.tinkerer.common.enchantment.core.EnchantmentManager;
 
-public class PacketEnchanterAddEnchant extends PacketTile<TileEnchanter>
-        implements IMessageHandler<PacketEnchanterAddEnchant, IMessage> {
+public class PacketEnchanterAddEnchant implements IMessage, IMessageHandler<PacketEnchanterAddEnchant, IMessage> {
 
-    private static final long serialVersionUID = -2182522429849764376L;
     int enchant;
     int level;
 
-    public PacketEnchanterAddEnchant() {
-        super();
-    }
+    public PacketEnchanterAddEnchant() {}
 
-    public PacketEnchanterAddEnchant(TileEnchanter tile, int enchant, int level) {
-        super(tile);
+    public PacketEnchanterAddEnchant(int enchant, int level) {
         this.enchant = enchant;
         this.level = level;
     }
 
     @Override
     public void toBytes(ByteBuf byteBuf) {
-        super.toBytes(byteBuf);
         byteBuf.writeInt(enchant);
         byteBuf.writeInt(level);
     }
 
     @Override
     public void fromBytes(ByteBuf byteBuf) {
-        super.fromBytes(byteBuf);
         enchant = byteBuf.readInt();
         level = byteBuf.readInt();
     }
 
     @Override
     public IMessage onMessage(PacketEnchanterAddEnchant message, MessageContext ctx) {
-        super.onMessage(message, ctx);
-        if (!ctx.side.isServer())
-            throw new IllegalStateException("received PacketEnchanterAddEnchant " + message + "on client side!");
-        if (message.tile.working) return null;
+        final var player = ctx.getServerHandler().playerEntity;
+        if (!(player.openContainer instanceof ContainerEnchanter container)) return null;
+        final var tile = container.enchanter;
+
+        if (tile.working) return null;
 
         if (message.level == -1) {
-            int index = message.tile.enchantments.indexOf(message.enchant);
+            int index = tile.enchantments.indexOf(message.enchant);
             if (index != -1) {
-                message.tile.removeLevel(index);
-                message.tile.removeEnchant(index);
+                tile.removeLevel(index);
+                tile.removeEnchant(index);
             }
         } else {
-            if (!message.tile.enchantments.contains(message.enchant)) {
-                if (message.player != null
-                        && EnchantmentManager.canApply(
-                                message.tile.getStackInSlot(0),
-                                Enchantment.enchantmentsList[message.enchant],
-                                message.tile.enchantments)
+            if (!tile.enchantments.contains(message.enchant)) {
+                if (EnchantmentManager.canApply(
+                        tile.getStackInSlot(0),
+                        Enchantment.enchantmentsList[message.enchant],
+                        tile.enchantments)
                         && EnchantmentManager.canEnchantmentBeUsed(
-                                ((EntityPlayer) message.player).getGameProfile().getName(),
+                                player.getGameProfile().getName(),
                                 Enchantment.enchantmentsList[message.enchant])) {
-                    message.tile.appendEnchant(message.enchant);
-                    message.tile.appendLevel(1);
+                    tile.appendEnchant(message.enchant);
+                    tile.appendLevel(1);
                 }
             } else {
                 int maxLevel = Enchantment.enchantmentsList[message.enchant].getMaxLevel();
-                message.tile.setLevel(
-                        message.tile.enchantments.indexOf(message.enchant),
+                tile.setLevel(
+                        tile.enchantments.indexOf(message.enchant),
                         Math.max(1, Math.min(maxLevel, message.level)));
             }
         }
-        message.tile.updateAspectList();
+        tile.updateAspectList();
+        tile.markDirty();
 
-        message.tile.getWorldObj().markBlockForUpdate(message.tile.xCoord, message.tile.yCoord, message.tile.zCoord);
+        tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
         return null;
     }
 }

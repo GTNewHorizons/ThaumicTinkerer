@@ -14,32 +14,29 @@ package thaumic.tinkerer.common.network.packet;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import thaumic.tinkerer.common.block.tile.TileEnchanter;
+import io.netty.buffer.ByteBuf;
+import thaumic.tinkerer.common.block.tile.container.ContainerEnchanter;
 
-public class PacketEnchanterStartWorking extends PacketTile<TileEnchanter>
-        implements IMessageHandler<PacketEnchanterStartWorking, IMessage> {
+public class PacketEnchanterStartWorking implements IMessage, IMessageHandler<PacketEnchanterStartWorking, IMessage> {
 
-    private static final long serialVersionUID = -9086252088394185376L;
+    public PacketEnchanterStartWorking() {}
 
-    public PacketEnchanterStartWorking() {
-        super();
-    }
+    @Override
+    public void fromBytes(ByteBuf buf) {}
 
-    public PacketEnchanterStartWorking(TileEnchanter tile) {
-        super(tile);
-    }
-
-    public void handle() {}
+    @Override
+    public void toBytes(ByteBuf buf) {}
 
     @Override
     public IMessage onMessage(PacketEnchanterStartWorking message, MessageContext ctx) {
-        super.onMessage(message, ctx);
-        if (!ctx.side.isServer())
-            throw new IllegalStateException("received PacketEnchanterStartWorking " + message + "on client side!");
-        if (!message.tile.working && !message.tile.enchantments.isEmpty() && !message.tile.levels.isEmpty()) {
-            message.tile.working = true;
-            message.tile.getWorldObj()
-                    .markBlockForUpdate(message.tile.xCoord, message.tile.yCoord, message.tile.zCoord);
+        final var player = ctx.getServerHandler().playerEntity;
+        if (!(player.openContainer instanceof ContainerEnchanter container)) return null;
+        final var tile = container.enchanter;
+
+        if (!tile.working && !tile.enchantments.isEmpty() && !tile.levels.isEmpty()) {
+            tile.working = true;
+            tile.markDirty();
+            tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
         }
         return null;
     }
