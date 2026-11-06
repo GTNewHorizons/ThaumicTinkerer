@@ -19,6 +19,7 @@ import thaumic.tinkerer.common.block.tile.container.ContainerAnimationTablet;
 import thaumic.tinkerer.common.block.tile.tablet.TileAnimationTablet;
 
 public class PacketTabletButton implements IMessage, IMessageHandler<PacketTabletButton, IMessage> {
+
     boolean leftClick, redstone;
 
     public PacketTabletButton() {}

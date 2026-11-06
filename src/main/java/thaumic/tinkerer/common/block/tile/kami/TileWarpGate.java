@@ -76,8 +76,7 @@ public class TileWarpGate extends TileEntity implements IInventory {
 
     @Override
     public void updateEntity() {
-        final AxisAlignedBB bbox = AxisAlignedBB
-                .getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1);
+        final AxisAlignedBB bbox = getTeleportRange();
 
         EntityPlayer player = ThaumicTinkerer.proxy.getClientPlayer();
         if (player != null && player.isSneaking() && player.boundingBox.intersectsWith(bbox)) {
@@ -91,6 +90,10 @@ public class TileWarpGate extends TileEntity implements IInventory {
         }
 
         teleportedThisTick = false;
+    }
+
+    public AxisAlignedBB getTeleportRange() {
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1);
     }
 
     @Override
