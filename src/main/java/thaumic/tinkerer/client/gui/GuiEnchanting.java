@@ -127,7 +127,7 @@ public class GuiEnchanting extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
         if (par1GuiButton.id == 0) {
-            ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterStartWorking(enchanter));
+            ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterStartWorking());
         } else if (par1GuiButton.id <= 16) {
             GuiButtonEnchantment button = enchantButtons[par1GuiButton.id - 1];
             if (button != null && button.enchant != null)
