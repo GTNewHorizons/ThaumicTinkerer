@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -256,8 +257,7 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
 
                         par1ItemStack.damageItem(damage, player);
                         if (par1ItemStack.stackSize <= 0) {
-                            // Slot 0 = talisman slot.
-                            BaublesApi.getBaubles((EntityPlayer) player).setInventorySlotContents(0, null);
+                            removeFromBaubles((EntityPlayer) player, par1ItemStack);
                         }
                     }
 
@@ -299,5 +299,20 @@ public class ItemCleansingTalisman extends ItemBase implements IBauble {
                 && material.getItem() == ThaumicTinkerer.registry.getFirstItemFromClass(ItemDarkQuartz.class))
             return true;
         return super.getIsRepairable(talisman, material);
+    }
+
+    private void removeFromBaubles(EntityPlayer player, ItemStack itemStack) {
+        IInventory baubles = BaublesApi.getBaubles(player);
+        for (int i = 0; i < baubles.getSizeInventory(); i++) {
+            // BaublesApi calls "onWornTick" with a reference to the ItemStack, so != is correct here
+            if (baubles.getStackInSlot(i) != itemStack) {
+                continue;
+            }
+
+            baubles.setInventorySlotContents(i, null);
+            return;
+        }
+        // It shouldn't ever get to this point, because for the item to work at all, it needs to be in a bauble slot,
+        // therefore I don't handle that edge case
     }
 }
