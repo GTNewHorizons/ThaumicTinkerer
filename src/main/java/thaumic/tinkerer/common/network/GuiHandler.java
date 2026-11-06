@@ -45,66 +45,44 @@ public class GuiHandler implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tile = world.getTileEntity(x, y, z);
-        switch (ID) {
-            case LibGuiIDs.GUI_ID_TABLET:
-                return new ContainerAnimationTablet((TileAnimationTablet) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_MOB_MAGNET:
-                return new ContainerMobMagnet((TileMobMagnet) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_ENCHANTER:
-                return new ContainerEnchanter((TileEnchanter) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_ASPECT_ANALYZER:
-                return new ContainerAspectAnalyzer((TileAspectAnalyzer) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_ICHOR_POUCH:
-                if (!isDimensionAllowed(player)) return null;
-                return new ContainerIchorPouch(player, player.getCurrentEquippedItem());
-
-            case LibGuiIDs.GUI_ID_WARP_GATE:
-                return new ContainerWarpGate((TileWarpGate) tile, player.inventory);
-            case LibGuiIDs.GUI_ID_REMOTE_PLACER:
-                return new ContainerRemotePlacer((TileRPlacer) tile, player.inventory);
-        }
-        return null;
+        return switch (ID) {
+            case LibGuiIDs.GUI_ID_TABLET -> new ContainerAnimationTablet((TileAnimationTablet) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_MOB_MAGNET -> new ContainerMobMagnet((TileMobMagnet) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_ENCHANTER -> new ContainerEnchanter((TileEnchanter) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_ASPECT_ANALYZER -> new ContainerAspectAnalyzer(
+                    (TileAspectAnalyzer) tile,
+                    player.inventory);
+            case LibGuiIDs.GUI_ID_ICHOR_POUCH -> isDimensionAllowed(player)
+                    ? new ContainerIchorPouch(player, player.getCurrentEquippedItem())
+                    : null;
+            case LibGuiIDs.GUI_ID_WARP_GATE -> new ContainerWarpGate((TileWarpGate) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_REMOTE_PLACER -> new ContainerRemotePlacer((TileRPlacer) tile, player.inventory);
+            default -> null;
+        };
     }
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tile = world.getTileEntity(x, y, z);
-        switch (ID) {
-            case LibGuiIDs.GUI_ID_TABLET:
-                return new GuiAnimationTablet((TileAnimationTablet) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_MOB_MAGNET:
-                return new GuiMobMagnet((TileMobMagnet) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_ENCHANTER:
-                return new GuiEnchanting((TileEnchanter) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_ASPECT_ANALYZER:
-                return new GuiAspectAnalyzer((TileAspectAnalyzer) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_ICHOR_POUCH:
-                if ((!isDimensionAllowed(player))) return null;
-                return new GuiIchorPouch(new ContainerIchorPouch(player, player.getCurrentEquippedItem()));
-
-            case LibGuiIDs.GUI_ID_WARP_GATE:
-                return new GuiWarpGate((TileWarpGate) tile, player.inventory);
-
-            case LibGuiIDs.GUI_ID_WARP_GATE_DESTINATIONS:
-                return new GuiWarpGateDestinations((TileWarpGate) tile);
-            case LibGuiIDs.GUI_ID_REMOTE_PLACER:
-                return new GuiRemotePlacer((TileRPlacer) tile, player.inventory);
-        }
-        return null;
+        return switch (ID) {
+            case LibGuiIDs.GUI_ID_TABLET -> new GuiAnimationTablet((TileAnimationTablet) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_MOB_MAGNET -> new GuiMobMagnet((TileMobMagnet) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_ENCHANTER -> new GuiEnchanting((TileEnchanter) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_ASPECT_ANALYZER -> new GuiAspectAnalyzer((TileAspectAnalyzer) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_ICHOR_POUCH -> isDimensionAllowed(player)
+                    ? new GuiIchorPouch(new ContainerIchorPouch(player, player.getCurrentEquippedItem()))
+                    : null;
+            case LibGuiIDs.GUI_ID_WARP_GATE -> new GuiWarpGate((TileWarpGate) tile, player.inventory);
+            case LibGuiIDs.GUI_ID_WARP_GATE_DESTINATIONS -> new GuiWarpGateDestinations((TileWarpGate) tile);
+            case LibGuiIDs.GUI_ID_REMOTE_PLACER -> new GuiRemotePlacer((TileRPlacer) tile, player.inventory);
+            default -> null;
+        };
     }
 
     public static boolean isDimensionAllowed(EntityPlayer player) {
-        Integer currentDimID = (player.worldObj.provider.dimensionId);
+        String currentDimID = Integer.toString(player.worldObj.provider.dimensionId);
         for (String id : ConfigHandler.forbiddenDimensions) {
-            if (id.equals(currentDimID.toString())) return false;
+            if (id.equals(currentDimID)) return false;
         }
         return true;
     }
