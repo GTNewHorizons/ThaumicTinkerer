@@ -237,4 +237,10 @@ public class TileWarpGate extends TileEntity implements IInventory {
         super.onDataPacket(manager, packet);
         readCustomNBT(packet.func_148857_g());
     }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+        this.markDirty();
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
 }

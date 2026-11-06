@@ -24,7 +24,7 @@ import thaumic.tinkerer.common.item.kami.ItemSkyPearl;
 
 public class ContainerWarpGate extends ContainerPlayerInv {
 
-    TileWarpGate gate;
+    public TileWarpGate gate;
 
     public ContainerWarpGate(TileWarpGate gate, InventoryPlayer playerInv) {
         super(playerInv);
