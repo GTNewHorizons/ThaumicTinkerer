@@ -24,7 +24,6 @@ import thaumic.tinkerer.common.core.helper.MiscHelper;
 
 public abstract class PacketTile<T extends TileEntity> implements IMessage {
 
-    private static final long serialVersionUID = -1447633008013055477L;
     protected int dim, x, y, z;
     protected transient T tile;
     protected transient EntityPlayer player;
