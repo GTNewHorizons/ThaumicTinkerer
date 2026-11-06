@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.block.tile.kami;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -78,12 +76,11 @@ public class TileWarpGate extends TileEntity implements IInventory {
 
     @Override
     public void updateEntity() {
-        List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(
-                EntityPlayer.class,
-                AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1));
+        final AxisAlignedBB bbox = AxisAlignedBB
+                .getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1);
 
-        EntityPlayer clientPlayer = ThaumicTinkerer.proxy.getClientPlayer();
-        for (EntityPlayer player : players) if (player != null && player == clientPlayer && player.isSneaking()) {
+        EntityPlayer player = ThaumicTinkerer.proxy.getClientPlayer();
+        if (player != null && player.isSneaking() && player.boundingBox.intersectsWith(bbox)) {
             player.openGui(
                     ThaumicTinkerer.instance,
                     LibGuiIDs.GUI_ID_WARP_GATE_DESTINATIONS,
@@ -91,10 +88,14 @@ public class TileWarpGate extends TileEntity implements IInventory {
                     xCoord,
                     yCoord,
                     zCoord);
-            break;
         }
 
         teleportedThisTick = false;
+    }
+
+    @Override
+    public boolean canUpdate() {
+        return this.worldObj.isRemote;
     }
 
     public void teleportPlayer(EntityPlayer player, int index) {
