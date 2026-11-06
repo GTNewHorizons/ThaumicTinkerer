@@ -130,8 +130,8 @@ public class GuiEnchanting extends GuiContainer {
             ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterStartWorking(enchanter));
         } else if (par1GuiButton.id <= 16) {
             GuiButtonEnchantment button = enchantButtons[par1GuiButton.id - 1];
-            if (button != null && button.enchant != null) ThaumicTinkerer.netHandler
-                    .sendToServer(new PacketEnchanterAddEnchant(button.enchant.effectId, 0));
+            if (button != null && button.enchant != null)
+                ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(button.enchant.effectId, 0));
         } else {
             int type = (par1GuiButton.id - 17) % 3;
             int index = (par1GuiButton.id - 17) / 3;
@@ -144,16 +144,14 @@ public class GuiEnchanting extends GuiContainer {
 
             switch (type) {
                 case 0 -> {
-                    ThaumicTinkerer.netHandler
-                        .sendToServer(new PacketEnchanterAddEnchant(enchant.effectId, -1));
+                    ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(enchant.effectId, -1));
                 }
                 case 1 -> {
-                    ThaumicTinkerer.netHandler.sendToServer(
-                        new PacketEnchanterAddEnchant(enchant.effectId, level == 1 ? -1 : level - 1));
+                    ThaumicTinkerer.netHandler
+                            .sendToServer(new PacketEnchanterAddEnchant(enchant.effectId, level == 1 ? -1 : level - 1));
                 }
                 case 2 -> {
-                    ThaumicTinkerer.netHandler
-                        .sendToServer(new PacketEnchanterAddEnchant(enchant.effectId, level + 1));
+                    ThaumicTinkerer.netHandler.sendToServer(new PacketEnchanterAddEnchant(enchant.effectId, level + 1));
                 }
             }
         }

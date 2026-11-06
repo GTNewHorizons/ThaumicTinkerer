@@ -38,14 +38,14 @@ public class ContainerEnchanter extends ContainerPlayerInv {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
         ItemStack var3 = null;
-        Slot var4 = (Slot) inventorySlots.get(par2);
+        Slot var4 = inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack()) {
             ItemStack var5 = var4.getStack();
 
             if (var5 != null && var5.getItem() == Items.book) return null;
 
-            boolean wand = ((Slot) inventorySlots.get(1)).isItemValid(var5);
+            boolean wand = inventorySlots.get(1).isItemValid(var5);
 
             // noinspection ConstantConditions
             var3 = var5.copy();
