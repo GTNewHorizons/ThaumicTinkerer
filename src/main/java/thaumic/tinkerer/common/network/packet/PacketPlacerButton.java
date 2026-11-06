@@ -36,9 +36,7 @@ public class PacketPlacerButton implements IMessage, IMessageHandler<PacketPlace
         if (!(player.openContainer instanceof ContainerRemotePlacer container)) return null;
         final var tile = container.placer;
 
-        tile.blocks = message.blocks;
-        tile.markDirty();
-        tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
+        tile.setDistance(blocks);
         return null;
     }
 }
