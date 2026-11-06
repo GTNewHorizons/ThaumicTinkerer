@@ -23,7 +23,7 @@ import thaumic.tinkerer.common.block.tile.container.slot.SlotWand;
 
 public class ContainerEnchanter extends ContainerPlayerInv {
 
-    TileEnchanter enchanter;
+    public TileEnchanter enchanter;
 
     public ContainerEnchanter(TileEnchanter enchanter, InventoryPlayer playerInv) {
         super(playerInv);
