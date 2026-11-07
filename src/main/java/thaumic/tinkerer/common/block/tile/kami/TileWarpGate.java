@@ -96,11 +96,6 @@ public class TileWarpGate extends TileEntity implements IInventory {
         return AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1);
     }
 
-    @Override
-    public boolean canUpdate() {
-        return this.worldObj.isRemote;
-    }
-
     public void teleportPlayer(EntityPlayer player, int index) {
         if (teleportedThisTick) return;
 
