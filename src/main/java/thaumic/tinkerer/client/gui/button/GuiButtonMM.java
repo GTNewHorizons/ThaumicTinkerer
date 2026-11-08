@@ -21,16 +21,14 @@ public class GuiButtonMM extends GuiButton {
 
     private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_MOB_MAGNET);
 
-    public boolean enabled = false;
-
-    public GuiButtonMM(int par1, int par2, int par3, boolean enabled) {
-        super(par1, par2, par3, 13, 13, "");
+    public GuiButtonMM(int buttonId, int x, int y, boolean enabled) {
+        super(buttonId, x, y, 13, 13, "");
         this.enabled = enabled;
     }
 
     @Override
     public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
-        if (enabled) {
+        if (visible) {
             par1Minecraft.renderEngine.bindTexture(gui);
             int y = enabled ? 13 : 0;
             drawTexturedModalRect(xPosition, yPosition, 176, y, width, height);
