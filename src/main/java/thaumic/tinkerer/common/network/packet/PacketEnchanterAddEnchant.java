@@ -78,7 +78,6 @@ public class PacketEnchanterAddEnchant implements IMessage, IMessageHandler<Pack
             }
         }
         tile.updateAspectList();
-        tile.markDirty();
 
         tile.getWorldObj().markBlockForUpdate(tile.xCoord, tile.yCoord, tile.zCoord);
         return null;
