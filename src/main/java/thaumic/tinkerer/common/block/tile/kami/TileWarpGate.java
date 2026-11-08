@@ -79,7 +79,9 @@ public class TileWarpGate extends TileEntity implements IInventory {
         final AxisAlignedBB bbox = getTeleportRange();
 
         EntityPlayer player = ThaumicTinkerer.proxy.getClientPlayer();
-        if (player != null && player.isSneaking() && player.boundingBox.intersectsWith(bbox)) {
+        if (player != null && player.worldObj == this.worldObj
+                && player.isSneaking()
+                && player.boundingBox.intersectsWith(bbox)) {
             player.openGui(
                     ThaumicTinkerer.instance,
                     LibGuiIDs.GUI_ID_WARP_GATE_DESTINATIONS,
