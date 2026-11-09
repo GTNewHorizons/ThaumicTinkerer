@@ -64,8 +64,8 @@ public class GuiMobMagnet extends GuiContainer {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (button instanceof IRadioButton) {
-            ((IRadioButton) button).enableFromClick();
+        if (button instanceof IRadioButton rButton) {
+            rButton.enableFromClick();
         } else {
             buttonList.get(0).enabled = !buttonList.get(0).enabled;
         }
