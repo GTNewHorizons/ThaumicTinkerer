@@ -34,7 +34,7 @@ public class TileRPlacer extends TileCamo implements IInventory {
         super.readCustomNBT(cmp);
 
         orientation = cmp.getInteger(TAG_ORIENTATION);
-        blocks = cmp.getInteger(TAG_BLOCKS);
+        blocks = Math.max(1, Math.min(cmp.getInteger(TAG_BLOCKS), 4));
         NBTTagList var2 = cmp.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         inventorySlots = new ItemStack[getSizeInventory()];
         for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
@@ -198,7 +198,7 @@ public class TileRPlacer extends TileCamo implements IInventory {
                     z = this.zCoord;
                     break;
                 case 5:
-                    x = this.xCoord - this.blocks;
+                    x = this.xCoord + this.blocks;
                     y = this.yCoord;
                     z = this.zCoord;
                     break;
@@ -236,5 +236,11 @@ public class TileRPlacer extends TileCamo implements IInventory {
             // }
 
         }
+    }
+
+    public void setDistance(int distance) {
+        blocks = Math.max(1, Math.min(distance, 4));
+        this.markDirty();
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 }

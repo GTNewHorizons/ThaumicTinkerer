@@ -11,49 +11,53 @@
  */
 package thaumic.tinkerer.common.network.packet.kami;
 
-import net.minecraft.entity.player.EntityPlayer;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import thaumic.tinkerer.common.block.tile.kami.TileWarpGate;
-import thaumic.tinkerer.common.network.packet.PacketTile;
 
-public class PacketWarpGateTeleport extends PacketTile<TileWarpGate>
-        implements IMessageHandler<PacketWarpGateTeleport, IMessage> {
+public class PacketWarpGateTeleport implements IMessage, IMessageHandler<PacketWarpGateTeleport, IMessage> {
 
-    private static final long serialVersionUID = 2247241734524685744L;
+    int x, y, z;
     int index;
 
-    public PacketWarpGateTeleport() {
-        super();
-    }
+    public PacketWarpGateTeleport() {}
 
     public PacketWarpGateTeleport(TileWarpGate tile, int index) {
-        super(tile);
+        this.x = tile.xCoord;
+        this.y = tile.yCoord;
+        this.z = tile.zCoord;
         this.index = index;
     }
 
     @Override
     public void toBytes(ByteBuf byteBuf) {
-        super.toBytes(byteBuf);
+        byteBuf.writeInt(x);
+        byteBuf.writeInt(y);
+        byteBuf.writeInt(z);
         byteBuf.writeInt(index);
     }
 
     @Override
     public void fromBytes(ByteBuf byteBuf) {
-        super.fromBytes(byteBuf);
+        x = byteBuf.readInt();
+        y = byteBuf.readInt();
+        z = byteBuf.readInt();
         index = byteBuf.readInt();
     }
 
     @Override
     public IMessage onMessage(PacketWarpGateTeleport message, MessageContext ctx) {
-        super.onMessage(message, ctx);
-        if (!ctx.side.isServer())
-            throw new IllegalStateException("received PacketTabletbutton " + message + "on client side!");
-        if (message.player instanceof EntityPlayer)
-            message.tile.teleportPlayer((EntityPlayer) message.player, message.index);
+        final var player = ctx.getServerHandler().playerEntity;
+        final var world = player.worldObj;
+
+        if (world.blockExists(message.x, message.y, message.z)
+                && world.getTileEntity(message.x, message.y, message.z) instanceof TileWarpGate warpGate
+                && player.boundingBox.intersectsWith(warpGate.getTeleportRange().expand(0.1, 0.1, 0.1))) {
+            warpGate.teleportPlayer(player, message.index);
+        }
+
         return null;
     }
 }

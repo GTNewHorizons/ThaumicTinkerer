@@ -180,6 +180,12 @@ public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTil
         return true;
     }
 
+    public void setAdult(boolean adult) {
+        this.adult = adult;
+        this.markDirty();
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
     @Override
     public String[] getMethodNames() {
         return new String[] { "isPulling", "setPulling", "getSignal", "getAdultSearch", "setAdultSearch" };
@@ -198,9 +204,7 @@ public class TileMobMagnet extends TileMagnet implements IInventory, IMovableTil
     }
 
     private Object[] setAdultSearchImplementation(boolean argument) {
-
-        this.adult = argument;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        setAdult(argument);
         return null;
     }
 

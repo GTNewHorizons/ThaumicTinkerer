@@ -37,9 +37,8 @@ public class GuiMobMagnet extends GuiContainer {
 
     private static final ResourceLocation gui = new ResourceLocation(LibResources.GUI_MOB_MAGNET);
 
-    int x, y;
+    private int x, y;
 
-    ItemStack stack = null;
     TileMobMagnet mobMagnet;
 
     List<IRadioButton> radioButtons = new ArrayList<>();
@@ -64,11 +63,14 @@ public class GuiMobMagnet extends GuiContainer {
     }
 
     @Override
-    protected void actionPerformed(GuiButton par1GuiButton) {
-        if (par1GuiButton instanceof IRadioButton) ((IRadioButton) par1GuiButton).enableFromClick();
-        else buttonList.get(0).enabled = !buttonList.get(0).enabled;
+    protected void actionPerformed(GuiButton button) {
+        if (button instanceof IRadioButton rButton) {
+            rButton.enableFromClick();
+        } else {
+            buttonList.get(0).enabled = !buttonList.get(0).enabled;
+        }
 
-        mobMagnet.adult = buttonList.get(0).enabled;
+        mobMagnet.setAdult(buttonList.get(0).enabled);
 
         ThaumicTinkerer.netHandler.sendToServer(new PacketMobMagnetButton(mobMagnet));
     }
@@ -80,7 +82,7 @@ public class GuiMobMagnet extends GuiContainer {
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
         String adult = StatCollector.translateToLocal("ttmisc.adult");
         String child = StatCollector.translateToLocal("ttmisc.child");
-        stack = mobMagnet.getStackInSlot(0);
+        ItemStack stack = mobMagnet.getStackInSlot(0);
 
         String filter;
 
