@@ -11,8 +11,6 @@
  */
 package thaumic.tinkerer.common.block.tile.kami;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -46,8 +44,7 @@ public class TileWarpGate extends TileEntity implements IInventory {
         int z = coords.posZ;
 
         TileEntity tile = player.worldObj.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileWarpGate) {
-            TileWarpGate destGate = (TileWarpGate) tile;
+        if (tile instanceof TileWarpGate destGate) {
             if (!destGate.locked) {
                 player.worldObj.playSoundAtEntity(player, "thaumcraft:wand", 1F, 1F);
 
@@ -79,12 +76,12 @@ public class TileWarpGate extends TileEntity implements IInventory {
 
     @Override
     public void updateEntity() {
-        List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(
-                EntityPlayer.class,
-                AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1));
+        final AxisAlignedBB bbox = getTeleportRange();
 
-        EntityPlayer clientPlayer = ThaumicTinkerer.proxy.getClientPlayer();
-        for (EntityPlayer player : players) if (player != null && player == clientPlayer && player.isSneaking()) {
+        EntityPlayer player = ThaumicTinkerer.proxy.getClientPlayer();
+        if (player != null && player.worldObj == this.worldObj
+                && player.isSneaking()
+                && player.boundingBox.intersectsWith(bbox)) {
             player.openGui(
                     ThaumicTinkerer.instance,
                     LibGuiIDs.GUI_ID_WARP_GATE_DESTINATIONS,
@@ -92,10 +89,13 @@ public class TileWarpGate extends TileEntity implements IInventory {
                     xCoord,
                     yCoord,
                     zCoord);
-            break;
         }
 
         teleportedThisTick = false;
+    }
+
+    public AxisAlignedBB getTeleportRange() {
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 1.5, zCoord + 1);
     }
 
     public void teleportPlayer(EntityPlayer player, int index) {
@@ -236,5 +236,11 @@ public class TileWarpGate extends TileEntity implements IInventory {
     public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet) {
         super.onDataPacket(manager, packet);
         readCustomNBT(packet.func_148857_g());
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+        this.markDirty();
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 }
