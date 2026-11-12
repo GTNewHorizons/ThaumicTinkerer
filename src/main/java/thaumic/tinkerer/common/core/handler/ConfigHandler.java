@@ -49,6 +49,8 @@ public final class ConfigHandler {
     public static int bedrockDimensionID = 19;
     public static boolean shouldKamiLegsDoLightFeature = false;
     public static boolean shouldKamiBootsDoGrass = true;
+    public static float kamiBootsSpeedBonus;
+    public static float kamiBootsJumpBonus;
 
     public static int soulHeartHeight;
 
@@ -240,6 +242,20 @@ public final class ConfigHandler {
                     "general.kami",
                     shouldKamiBootsDoGrass,
                     "Sets if Boots of the Horizontal Shield (Awakened Kami Boots) will do the effect where dirt under you turns into grass.");
+            kamiBootsSpeedBonus = config.getFloat(
+                    "Kami Boots Speed Bonus",
+                    "general.kami",
+                    0.5F,
+                    0.0F,
+                    5.0F,
+                    "Speed Modifier for Boots of the Horizontal Shield.");
+            kamiBootsJumpBonus = config.getFloat(
+                    "Kami Boots Jump Bonus",
+                    "general.kami",
+                    0.9F,
+                    0.0F,
+                    3.0F,
+                    "Jump Modifier for Boots of the Horizontal Shield.");
         }
 
         LibEnchantIDs.idAscentBoost = loadEnchant(LibEnchantNames.ASCENT_BOOST, LibEnchantIDs.idAscentBoost);
