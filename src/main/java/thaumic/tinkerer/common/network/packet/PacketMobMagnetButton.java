@@ -16,41 +16,34 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import thaumic.tinkerer.common.block.tile.TileMobMagnet;
+import thaumic.tinkerer.common.block.tile.container.ContainerMobMagnet;
 
-public class PacketMobMagnetButton extends PacketTile<TileMobMagnet>
-        implements IMessageHandler<PacketMobMagnetButton, IMessage> {
+public class PacketMobMagnetButton implements IMessage, IMessageHandler<PacketMobMagnetButton, IMessage> {
 
-    private static final long serialVersionUID = 7613980953987386713L;
     public boolean adult;
 
-    public PacketMobMagnetButton() {
-        super();
-    }
+    public PacketMobMagnetButton() {}
 
     public PacketMobMagnetButton(TileMobMagnet tile) {
-        super(tile);
-
         adult = tile.adult;
     }
 
     @Override
     public void toBytes(ByteBuf byteBuf) {
-        super.toBytes(byteBuf);
         byteBuf.writeBoolean(adult);
     }
 
     @Override
     public void fromBytes(ByteBuf byteBuf) {
-        super.fromBytes(byteBuf);
         adult = byteBuf.readBoolean();
     }
 
     @Override
     public IMessage onMessage(PacketMobMagnetButton message, MessageContext ctx) {
-        super.onMessage(message, ctx);
-        if (!ctx.side.isServer())
-            throw new IllegalStateException("received PacketTabletbutton " + message + "on client side!");
-        message.tile.adult = message.adult;
+        final var player = ctx.getServerHandler().playerEntity;
+        if (player.openContainer instanceof ContainerMobMagnet container) {
+            container.mobMagnet.setAdult(adult);
+        }
         return null;
     }
 }

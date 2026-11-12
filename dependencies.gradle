@@ -1,27 +1,27 @@
 // Add your dependencies here
 
 dependencies {
-    api('com.github.GTNewHorizons:Baubles-Expanded:2.2.21-GTNH:dev')
+    api('com.github.GTNewHorizons:Baubles-Expanded:2.2.25-GTNH:dev')
     api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev') {transitive=false}
-    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-994-GTNH:api')
-    api('com.github.GTNewHorizons:ThaumicBoots:1.5.12:dev') {transitive=false}
+    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-999-GTNH:api')
+    api('com.github.GTNewHorizons:ThaumicBoots:1.5.13:dev') {transitive=false}
 
-    compileOnly('com.github.GTNewHorizons:Botania:1.13.25-GTNH:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:EnderCore:0.5.14:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:EnderIO:2.10.31:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:EnderStorage:1.8.3:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:waila:1.19.30:api') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:TinkersConstruct:1.14.93-GTNH:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:ForgeMultipart:1.7.10:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:CodeChickenCore:1.4.16:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:OpenComputers:1.12.47-GTNH:api') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:Botania:1.13.39-GTNH:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:EnderCore:0.5.15:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:EnderIO:2.10.49:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:EnderStorage:1.8.9:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:waila:1.19.34:api') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:TinkersConstruct:1.14.120-GTNH:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:ForgeMultipart:1.7.18:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:CodeChickenCore:1.4.22:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:OpenComputers:1.12.64-GTNH:api') {transitive=false}
     compileOnly('net.industrial-craft:industrialcraft-2:2.2.828-experimental:api') {transitive=false}
-    compileOnly("com.github.GTNewHorizons:GT5-Unofficial:5.09.54.01:dev") {exclude group: 'com.github.GTNewHorizons', module: 'ThaumicTinkerer'}
+    compileOnly("com.github.GTNewHorizons:GT5-Unofficial:5.09.54.242:dev") {exclude group: 'com.github.GTNewHorizons', module: 'ThaumicTinkerer'}
     compileOnly('curse.maven:computercraft-67504:2269339')
     compileOnly('curse.maven:cofh-core-69162:2388751')
 
     // For testing purposes
-    //runtimeOnlyNonPublishable("com.github.GTNewHorizons:Electro-Magic-Tools:1.7.24:dev")
+    //runtimeOnlyNonPublishable("com.github.GTNewHorizons:Electro-Magic-Tools:1.7.25:dev")
 
-    devOnlyNonPublishable('com.github.GTNewHorizons:AspectRecipeIndex:1.1.3:dev')
+    devOnlyNonPublishable('com.github.GTNewHorizons:AspectRecipeIndex:1.1.5:dev')
 }
