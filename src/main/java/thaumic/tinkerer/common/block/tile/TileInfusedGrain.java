@@ -21,6 +21,7 @@ import thaumic.tinkerer.common.ThaumicTinkerer;
  */
 public class TileInfusedGrain extends TileEntity implements IAspectContainer {
 
+    private static final int MAX_TENDENCY_TOTAL = 50;
     private final String NBT_MAIN_ASPECT = "mainAspect";
     private final String NBT_ASPEPCT_TENDENCIES = "aspectTendencies";
     public Aspect aspect;
@@ -41,8 +42,8 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
             if (l < 7) {
                 if (worldObj.rand.nextInt(
                         (((2510 - (int) Math.pow(
-                                ((TileInfusedGrain) (worldObj.getTileEntity(xCoord, yCoord, zCoord))).primalTendencies
-                                        .getAmount(Aspect.WATER),
+                                ((TileInfusedGrain) (worldObj.getTileEntity(xCoord, yCoord, zCoord)))
+                                        .getEffectiveTendency(Aspect.WATER),
                                 2))) * 6))
                         == 0) {
                     ++l;
@@ -59,7 +60,7 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
             primalTendencies.merge(aspect, 1);
         }
         // Aspect Exchange
-        if (worldObj.rand.nextInt((2550 - ((int) Math.pow(primalTendencies.getAmount(Aspect.AIR), 2))) * 10) == 0
+        if (worldObj.rand.nextInt((2550 - ((int) Math.pow(getEffectiveTendency(Aspect.AIR), 2))) * 10) == 0
                 && !aspect.isPrimal()) {
 
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -101,7 +102,7 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
                         aspect = targetList.getAspects()[worldObj.rand.nextInt(targetList.getAspects().length)];
                         if (targetList.getAmount(aspect) >= primalTendencies.getAmount(aspect)) {
                             primalTendencies.add(aspect, 1);
-                            targetList.reduce(aspect, 1);
+                            targetList.remove(aspect, 1);
                             reduceSaturatedAspects();
                             if (worldObj.isRemote) {
                                 for (int i = 0; i < 50; i++) {
@@ -134,13 +135,17 @@ public class TileInfusedGrain extends TileEntity implements IAspectContainer {
         return !(oldBlock == newBlock);
     }
 
+    public int getEffectiveTendency(Aspect aspect) {
+        return Math.max(0, Math.min(MAX_TENDENCY_TOTAL, primalTendencies.getAmount(aspect)));
+    }
+
     public void reduceSaturatedAspects() {
         int sum = 0;
         for (Integer i : primalTendencies.aspects.values()) {
             sum += i;
         }
-        if (sum > 50) {
-            int toRemove = sum - 50;
+        if (sum > MAX_TENDENCY_TOTAL) {
+            int toRemove = sum - MAX_TENDENCY_TOTAL;
             while (toRemove > 0) {
                 Random rand = new Random();
                 Aspect target = primalTendencies.getAspects()[rand.nextInt(primalTendencies.getAspects().length)];

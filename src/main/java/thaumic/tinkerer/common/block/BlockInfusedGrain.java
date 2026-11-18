@@ -167,8 +167,7 @@ public class BlockInfusedGrain extends BlockCrops implements ITTinkererBlock {
 
     public int getPrimalTendencyCount(World world, int x, int y, int z, Aspect aspect) {
         TileEntity tileGrain = world.getTileEntity(x, y, z);
-        return tileGrain instanceof TileInfusedGrain ? ((TileInfusedGrain) tileGrain).primalTendencies.getAmount(aspect)
-                : 0;
+        return tileGrain instanceof TileInfusedGrain ? ((TileInfusedGrain) tileGrain).getEffectiveTendency(aspect) : 0;
     }
 
     private void fertilizeSoil(World world, int x, int y, int z, int metadata) {
