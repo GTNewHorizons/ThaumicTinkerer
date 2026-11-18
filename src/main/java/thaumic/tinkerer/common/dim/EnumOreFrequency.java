@@ -9,6 +9,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+
 /**
  * Created by pixlepix on 3/31/14.
  * <p/>
@@ -97,7 +99,7 @@ public enum EnumOreFrequency {
         for (EnumOreFrequency e : getValidOres()) {
             randInt -= e.freq;
             if (randInt < 0) {
-                return OreDictionary.getOres(e.name).get(0);
+                return e.getOre();
             }
         }
         return new ItemStack(Blocks.iron_ore);
@@ -105,6 +107,17 @@ public enum EnumOreFrequency {
 
     public boolean isValid() {
         return !Arrays.asList(OreClusterGenerator.blacklist).contains(name) && !OreDictionary.getOres(name).isEmpty()
-                && OreDictionary.getOres(name).get(0).getItem() instanceof ItemBlock;
+                && getOre().getItem() instanceof ItemBlock;
+    }
+
+    /// The ore block generated for this name: MaterialLib's when it registers one, since other mods' ore blocks
+    /// under the same name are copies of it, else the first block registered.
+    private ItemStack getOre() {
+        ArrayList<ItemStack> ores = OreDictionary.getOres(name);
+        for (ItemStack ore : ores) {
+            GameRegistry.UniqueIdentifier id = GameRegistry.findUniqueIdentifierFor(ore.getItem());
+            if (id != null && "materiallib".equals(id.modId) && ore.getItem() instanceof ItemBlock) return ore;
+        }
+        return ores.get(0);
     }
 }

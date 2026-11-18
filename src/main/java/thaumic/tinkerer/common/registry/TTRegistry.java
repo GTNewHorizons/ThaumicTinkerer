@@ -116,6 +116,14 @@ public class TTRegistry {
         loadSimpleItem(new thaumic.tinkerer.common.item.kami.tool.ItemIchorSword());
         loadSimpleItem(new thaumic.tinkerer.common.item.kami.tool.ItemIchorSwordAdv());
         loadSimpleItem(new thaumic.tinkerer.common.item.quartz.ItemDarkQuartz());
+
+        for (Item[] itemArrayList : itemRegistry.values()) {
+            for (Item item : itemArrayList) {
+                if (!(item instanceof ItemBlock)) {
+                    GameRegistry.registerItem(item, ((ITTinkererItem) item).getItemName());
+                }
+            }
+        }
     }
 
     public void init() {
@@ -123,13 +131,9 @@ public class TTRegistry {
             for (Item item : itemArrayList) {
                 registerRecipe((ITTinkererRegisterable) item);
 
-                if (!(item instanceof ItemBlock)) {
-                    GameRegistry.registerItem(item, ((ITTinkererItem) item).getItemName());
-
-                    if (((ITTinkererItem) item).shouldDisplayInTab()
-                            && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-                        ModCreativeTab.INSTANCE.addItem(item);
-                    }
+                if (!(item instanceof ItemBlock) && ((ITTinkererItem) item).shouldDisplayInTab()
+                        && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+                    ModCreativeTab.INSTANCE.addItem(item);
                 }
             }
         }
