@@ -24,7 +24,9 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import thaumic.tinkerer.client.core.handler.DashboardHud;
 import thaumic.tinkerer.client.lib.LibResources;
+import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 
 public final class SoulHeartClientHandler {
@@ -69,8 +71,22 @@ public final class SoulHeartClientHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onDrawScreenPre(RenderGameOverlayEvent.Pre event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (event.type == RenderGameOverlayEvent.ElementType.HEALTH) {
+        if (event.type == RenderGameOverlayEvent.ElementType.HEALTH && !LoadedMods.dashboardLoaded) {
             renderHUD(event.resolution, mc.thePlayer, null);
+        }
+    }
+
+    /**
+     * With Dashboard, the soul hearts are drawn here instead of with the health bar, so they do not move or hide with
+     * it.
+     */
+    @SubscribeEvent
+    public void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
+        if (event.type == RenderGameOverlayEvent.ElementType.ALL && LoadedMods.dashboardLoaded
+                && clientPlayerHP > 0
+                && DashboardHud.beginSoulHearts(event.resolution)) {
+            renderHUD(event.resolution, Minecraft.getMinecraft().thePlayer, null);
+            DashboardHud.endRender();
         }
     }
 
