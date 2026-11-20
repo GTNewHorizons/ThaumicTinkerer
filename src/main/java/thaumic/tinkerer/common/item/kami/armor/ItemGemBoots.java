@@ -53,7 +53,8 @@ import thaumicboots.api.IBoots;
 @Interface(iface = "thaumicboots.api.IBoots", modid = "thaumicboots")
 public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
 
-    public float speedBonus = 0.075F;
+    public float speedBonus = ConfigHandler.kamiBootsSpeedBonus;
+    public float jumpBonus = ConfigHandler.kamiBootsJumpBonus;
 
     public static List<String> playersWith1Step = new ArrayList<>();
 
@@ -73,8 +74,6 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
         player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2, 1, true));
 
         if (player.worldObj.isRemote) player.stepHeight = player.isSneaking() ? 0.5F : 1F;
-        if ((player.onGround || player.capabilities.isFlying) && player.moveForward > 0F)
-            player.moveFlying(0F, speedBonus, player.capabilities.isFlying ? 0.075F : 0.15F);
         player.jumpMovementFactor = player.isSprinting() ? 0.05F : 0.04F;
         player.fallDistance = 0F;
 
@@ -229,9 +228,7 @@ public class ItemGemBoots extends ItemIchorclothArmorAdv implements IBoots {
                 boolean hasArmor = player.getCurrentArmor(0) != null
                         && player.getCurrentArmor(0).getItem() == ItemGemBoots.this;
 
-                if (hasArmor && ThaumicTinkerer.proxy.armorStatus(player)
-                        && player.getCurrentArmor(0).getItemDamage() == 0)
-                    player.motionY += 0.3 * (float) getJumpModifier(boots);;
+                if (hasArmor) player.motionY += jumpBonus * (float) getJumpModifier(boots);
             }
         }
 
