@@ -17,8 +17,8 @@ public class GuiButtonMMRadio extends GuiButtonMM implements IRadioButton {
 
     List<IRadioButton> linkedButtons;
 
-    public GuiButtonMMRadio(int par1, int par2, int par3, boolean enabled, List<IRadioButton> linkedButtons) {
-        super(par1, par2, par3, enabled);
+    public GuiButtonMMRadio(int buttonId, int x, int y, boolean enabled, List<IRadioButton> linkedButtons) {
+        super(buttonId, x, y, enabled);
         this.linkedButtons = linkedButtons;
     }
 
