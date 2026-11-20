@@ -132,6 +132,18 @@ public class ItemInfusedSeeds extends ItemSeeds implements ITTinkererItem {
     }
 
     @Override
+    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+        Aspect aspect = getAspect(stack);
+        if (aspect == null || aspect.isPrimal()) return 0xFFFFFF;
+        return aspect.getColor();
+    }
+
+    @Override
+    public IIcon getIcon(ItemStack stack, int renderPass) {
+        return getIconIndex(stack);
+    }
+
+    @Override
     public IIcon getIconIndex(ItemStack stack) {
         return getAspect(stack) == null ? icons[0]
                 : icons[BlockInfusedGrain.getNumberFromAspectForTexture(getAspect(stack))];
