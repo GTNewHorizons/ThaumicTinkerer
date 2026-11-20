@@ -3,7 +3,7 @@
 dependencies {
     api('com.github.GTNewHorizons:Baubles-Expanded:2.2.25-GTNH:dev')
     api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev') {transitive=false}
-    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-999-GTNH:api')
+    api('com.github.GTNewHorizons:Applied-Energistics-2-NH:1.0.2:api')
     api('com.github.GTNewHorizons:ThaumicBoots:1.5.13:dev') {transitive=false}
 
     compileOnly('com.github.GTNewHorizons:Botania:1.13.39-GTNH:dev') {transitive=false}
