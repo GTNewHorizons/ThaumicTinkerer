@@ -37,7 +37,7 @@ import thaumic.tinkerer.common.network.packet.kami.PacketWarpGateTeleport;
 
 public class GuiWarpGateDestinations extends GuiScreen {
 
-    private static ResourceLocation enderField = new ResourceLocation("textures/entity/end_portal.png");
+    private static final ResourceLocation enderField = new ResourceLocation("textures/entity/end_portal.png");
     TileWarpGate warpGate;
     RenderItem render = new RenderItem();
 

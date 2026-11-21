@@ -41,7 +41,7 @@ public class GuiWarpGate extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
         ((GuiButtonWG) par1GuiButton).enabled = !((GuiButtonWG) par1GuiButton).enabled;
-        warpGate.locked = ((GuiButtonWG) par1GuiButton).enabled;
+        warpGate.setLocked(((GuiButtonWG) par1GuiButton).enabled);
 
         ThaumicTinkerer.netHandler.sendToServer(new PacketWarpGateButton(warpGate));
     }
