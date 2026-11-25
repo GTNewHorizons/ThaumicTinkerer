@@ -42,7 +42,6 @@ import thaumic.tinkerer.client.render.block.RenderInfusedCrops;
 import thaumic.tinkerer.client.render.block.RenderMagnet;
 import thaumic.tinkerer.client.render.block.RenderRepairer;
 import thaumic.tinkerer.client.render.block.kami.RenderWarpGate;
-import thaumic.tinkerer.client.render.item.RenderGenericSeeds;
 import thaumic.tinkerer.client.render.item.RenderMobDisplay;
 import thaumic.tinkerer.client.render.item.kami.RenderPlacementMirror;
 import thaumic.tinkerer.client.render.tile.RenderTileAnimationTablet;
@@ -62,7 +61,6 @@ import thaumic.tinkerer.common.compat.FumeTool;
 import thaumic.tinkerer.common.compat.LoadedMods;
 import thaumic.tinkerer.common.core.handler.ConfigHandler;
 import thaumic.tinkerer.common.core.proxy.TTCommonProxy;
-import thaumic.tinkerer.common.item.ItemInfusedSeeds;
 import thaumic.tinkerer.common.item.ItemMobDisplay;
 import thaumic.tinkerer.common.item.kami.ItemPlacementMirror;
 import thaumic.tinkerer.common.item.kami.foci.ItemFocusShadowbeam;
@@ -159,9 +157,6 @@ public final class TTClientProxy extends TTCommonProxy {
         MinecraftForgeClient.registerItemRenderer(
                 ThaumicTinkerer.registry.getFirstItemFromClass(ItemMobDisplay.class),
                 mobDisplayRenderer);
-        MinecraftForgeClient.registerItemRenderer(
-                ThaumicTinkerer.registry.getFirstItemFromClass(ItemInfusedSeeds.class),
-                new RenderGenericSeeds());
 
         if (ConfigHandler.enableKami) {
             MinecraftForgeClient.registerItemRenderer(
