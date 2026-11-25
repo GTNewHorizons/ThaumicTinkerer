@@ -12,7 +12,7 @@ dependencies {
     compileOnly('com.github.GTNewHorizons:EnderStorage:1.8.9:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:waila:1.19.34:api') {transitive=false}
     compileOnly('com.github.GTNewHorizons:TinkersConstruct:1.14.120-GTNH:dev') {transitive=false}
-    compileOnly('com.github.GTNewHorizons:ForgeMultipart:1.7.18:dev') {transitive=false}
+    compileOnly('com.github.GTNewHorizons:ForgeMultipart:2.0.0:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:CodeChickenCore:1.4.22:dev') {transitive=false}
     compileOnly('com.github.GTNewHorizons:OpenComputers:1.12.64-GTNH:api') {transitive=false}
     compileOnly('net.industrial-craft:industrialcraft-2:2.2.828-experimental:api') {transitive=false}
