@@ -194,13 +194,15 @@ public class TTRegistry {
                 blockRegistry.put(newBlock.getClass(), blockList);
                 blockList[0] = newBlock;
 
+                // Fill list before registering, ItemBlock constructors read it
                 int index = 1;
+                for (Block metaBlock : metaBlocks) {
+                    metaBlock.setBlockName(((ITTinkererBlock) metaBlock).getBlockName());
+                    blockList[index++] = metaBlock;
+                }
                 registerBlock(newBlock, ittBlock);
                 for (Block metaBlock : metaBlocks) {
-                    ITTinkererBlock metaIttBlock = (ITTinkererBlock) metaBlock;
-                    metaBlock.setBlockName(metaIttBlock.getBlockName());
-                    blockList[index++] = metaBlock;
-                    registerBlock(metaBlock, metaIttBlock);
+                    registerBlock(metaBlock, (ITTinkererBlock) metaBlock);
                 }
 
                 Class<? extends ItemBlock> itemBlock = ittBlock.getItemBlock();
